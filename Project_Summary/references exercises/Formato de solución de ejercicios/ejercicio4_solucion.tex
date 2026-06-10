@@ -1,0 +1,511 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, decorations.pathreplacing}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, headheight=25pt}
+
+\definecolor{azulul}{RGB}{0,70,127}
+\definecolor{verdeclaro}{RGB}{200,230,201}
+\definecolor{azulclaro}{RGB}{200,220,240}
+\definecolor{rojoclaro}{RGB}{255,210,210}
+\definecolor{amarilloclaro}{RGB}{255,249,196}
+\definecolor{grisclaro}{RGB}{245,245,245}
+
+\tcbuselibrary{skins, breakable}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{azulul}\textbf{Econom\'ia Financiera 1 -- Gu\'ia 4}}
+\rhead{\color{azulul}Ejercicio 4: Cia Minera del Zinc}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azulul}\leaders\hrule height \headrulewidth\hfill}}
+
+% ---- Cajas de colores ----
+\newtcolorbox{cajaenunciado}{
+  colback=azulclaro!40, colframe=azulul, fonttitle=\bfseries,
+  title=Enunciado del Ejercicio 4, breakable
+}
+\newtcolorbox{cajaintuicion}[1]{
+  colback=verdeclaro!60, colframe=green!50!black, fonttitle=\bfseries,
+  title=Intuici\'on: #1, breakable
+}
+\newtcolorbox{cajaresultado}{
+  colback=verdeclaro!80, colframe=green!40!black, fonttitle=\bfseries\large,
+  title=Resultado Final, halign title=center
+}
+\newtcolorbox{cajaformula}{
+  colback=azulclaro!20, colframe=azulul!80, fonttitle=\bfseries,
+  title=F\'ormula clave, breakable
+}
+\newtcolorbox{cajareflexion}{
+  colback=amarilloclaro, colframe=orange!70!black, fonttitle=\bfseries,
+  title=Reflexi\'on: \textquestiondown Por qu\'e el valor es casi exactamente US\$10?, breakable
+}
+
+\begin{document}
+
+% ========================
+%  PORTADA
+% ========================
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\color{azulul}\rule{\linewidth}{1.5pt}}
+\vspace{0.5cm}
+
+{\large\textbf{UNIVERSIDAD DE LIMA}\\[0.2cm]
+Facultad de Ciencias Empresariales y Econ\'omicas\\
+Carrera de Econom\'ia}
+
+\vspace{1.5cm}
+
+{\LARGE\color{azulul}\textbf{ECONOM\'IA FINANCIERA 1}}\\[0.4cm]
+{\Large Gu\'ia de Pr\'actica 4 --- Mercado de Acciones}
+
+\vspace{1.5cm}
+
+{\color{azulul}\rule{0.6\linewidth}{0.8pt}}\\[0.5cm]
+{\LARGE\textbf{Soluci\'on: Ejercicio 4}}\\[0.3cm]
+{\Large\textit{Valuaci\'on de Cia Minera del Zinc}}\\[0.3cm]
+{\Large\textit{Modelo de Descuento de Dividendos (DDM)}}\\[0.5cm]
+{\color{azulul}\rule{0.6\linewidth}{0.8pt}}
+
+\vspace{2cm}
+
+\begin{tcolorbox}[colback=azulclaro!30, colframe=azulul, width=0.75\linewidth, halign=center]
+\centering
+\textbf{Datos clave del problema}\\[0.4cm]
+\begin{tabular}{ll}
+Dividendo base ($D_0$):   & US\$ 10{,}000{,}000 \\
+Crecimiento a\~nos 1--3: & $g_1 = +8\%$         \\
+Crecimiento a\~nos 4--6: & $g_2 = -10\%$        \\
+Crecimiento a\~no 7+:    & $g_\infty = 0\%$     \\
+Tasa de descuento:        & $r = 10\%$           \\
+N\'umero de acciones:     & 10{,}000{,}000       \\
+\end{tabular}
+\end{tcolorbox}
+
+\vfill
+{\large Abril 2026}
+
+{\color{azulul}\rule{\linewidth}{1.5pt}}
+\end{titlepage}
+
+% ========================
+%  ENUNCIADO
+% ========================
+\begin{cajaenunciado}
+Usted es analista de inversiones en un inversionista institucional y su jefe le pide que estime
+el valor de \textbf{Cia Minera del Zinc}. Por estatutos sociales la empresa debe pagar
+\textbf{100\% de sus utilidades en dividendos}. La empresa \emph{acaba de pagar} un dividendo
+de \textbf{US\$10 millones}. Se espera que en los \textbf{pr\'oximos 3 a\~nos} el precio del
+zinc aumente y se generen eficiencias operativas, aumentando la utilidad disponible para los
+accionistas en \textbf{8\% cada a\~no}. A partir del \textbf{cuarto a\~no} la econom\'ia
+mundial y especialmente la econom\'ia de China se desaceleraría y por lo tanto la utilidad
+disponible para los accionistas \textbf{caer\'ia 10\% durante 3 a\~nos}, para luego
+\textbf{estabilizarse (crecimiento cero) a perpetuidad}. Suponiendo que la mina tiene reservas
+ilimitadas, \textquestiondown cu\'al es el \textbf{valor de la acci\'on} si el n\'umero de
+acciones en circulaci\'on es \textbf{10 millones}? La tasa de descuento es \textbf{10\%}.
+\end{cajaenunciado}
+
+\vspace{0.5cm}
+
+% ========================
+%  INTUICIÓN GENERAL
+% ========================
+\begin{cajaintuicion}{El Modelo DDM y por qu\'e funciona aqu\'i}
+El \textbf{Modelo de Descuento de Dividendos (DDM)} parte de un principio fundamental en
+finanzas: \textit{el valor de un activo hoy es igual al valor presente de todos los flujos
+de caja que ese activo generar\'a en el futuro}. Para una acci\'on, esos flujos son los
+\textbf{dividendos}:
+
+\[
+P_0 = \sum_{t=1}^{\infty} \frac{D_t}{(1+r)^t}
+\]
+
+Como la empresa paga el \textbf{100\% de utilidades como dividendos}, los dividendos son
+exactamente iguales a las utilidades por acci\'on. No hay retenci\'on, no hay reinversi\'on.
+Esto simplifica el problema: valuar la empresa equivale a traer a valor presente todos sus
+flujos de caja futuros.
+
+El problema tiene \textbf{tres fases con tasas de crecimiento distintas}, por lo que no
+podemos usar directamente la f\'ormula de Gordon (que supone $g$ constante para siempre).
+En su lugar, calculamos los dividendos \textbf{a\~no por a\~no} durante el horizonte
+expl\'icito (a\~nos 1--6), y usamos la f\'ormula de perpetuidad solo a partir del momento
+en que el crecimiento se estabiliza (a\~no 7 en adelante).
+\end{cajaintuicion}
+
+\vspace{0.5cm}
+
+\noindent Las tres fases son:
+
+\begin{center}
+\begin{tabular}{clcp{5.5cm}}
+\toprule
+\textbf{Fase} & \textbf{Per\'iodo} & \textbf{Tasa} & \textbf{Raz\'on econ\'omica} \\
+\midrule
+1 & A\~nos 1, 2, 3      & $g_1 = +8\%$       & Zinc sube de precio; eficiencias operativas \\
+2 & A\~nos 4, 5, 6      & $g_2 = -10\%$      & Desaceleraci\'on de China \\
+3 & A\~no 7 en adelante & $g_\infty = 0\%$   & Equilibrio de largo plazo (perpetuidad) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1cm}
+
+% ========================
+%  PASO 1
+% ========================
+\section{Paso 1: Calcular los dividendos a\~no por a\~no}
+
+\begin{cajaintuicion}{Proyecci\'on de dividendos}
+Sabemos que $D_0 = \$10\,\text{M}$ \emph{ya fue pagado}. Los dividendos futuros se obtienen
+aplicando la tasa de crecimiento de cada fase:
+\[
+D_t = D_{t-1} \times (1 + g_{\text{fase}})
+\]
+Esta es la columna vertebral del DDM: construir el \emph{flujo de dividendos proyectados} antes
+de descontarlos.
+\end{cajaintuicion}
+
+\subsection*{Fase 1: Crecimiento del 8\% --- A\~nos 1, 2 y 3}
+
+La utilidad (y por tanto el dividendo) crece al 8\% por el auge del zinc:
+
+\begin{align}
+D_1 &= D_0 \times (1 + g_1) = 10{,}000{,}000 \times 1.08
+    = \mathbf{\$10{,}800{,}000} \\[4pt]
+D_2 &= D_1 \times (1 + g_1) = 10{,}800{,}000 \times 1.08
+    = \mathbf{\$11{,}664{,}000} \\[4pt]
+D_3 &= D_2 \times (1 + g_1) = 11{,}664{,}000 \times 1.08
+    = \mathbf{\$12{,}597{,}120}
+\end{align}
+
+\noindent\textit{Comprobaci\'on directa:}
+$D_3 = D_0 \times (1.08)^3 = 10{,}000{,}000 \times 1.259712 = \$12{,}597{,}120$. \checkmark
+
+\subsection*{Fase 2: Ca\'ida del 10\% --- A\~nos 4, 5 y 6}
+
+La desaceleraci\'on china reduce las utilidades un 10\% cada a\~no a partir de $D_3$:
+
+\begin{align}
+D_4 &= D_3 \times (1 + g_2) = 12{,}597{,}120 \times 0.90
+    = \mathbf{\$11{,}337{,}408.00} \\[4pt]
+D_5 &= D_4 \times 0.90 = 11{,}337{,}408.00 \times 0.90
+    = \mathbf{\$10{,}203{,}667.20} \\[4pt]
+D_6 &= D_5 \times 0.90 = 10{,}203{,}667.20 \times 0.90
+    = \mathbf{\$9{,}183{,}300.48}
+\end{align}
+
+\subsection*{Tabla resumen de dividendos proyectados}
+
+\begin{center}
+\begin{tabular}{cccr}
+\toprule
+\textbf{A\~no} & \textbf{Fase} & \textbf{Tasa aplicada} & \textbf{Dividendo (US\$)} \\
+\midrule
+0 & Base (ya pagado) & ---    & 10{,}000{,}000.00 \\
+1 & Expansi\'on      & $+8\%$ & 10{,}800{,}000.00 \\
+2 & Expansi\'on      & $+8\%$ & 11{,}664{,}000.00 \\
+3 & Expansi\'on      & $+8\%$ & 12{,}597{,}120.00 \\
+4 & Contracci\'on    & $-10\%$& 11{,}337{,}408.00 \\
+5 & Contracci\'on    & $-10\%$& 10{,}203{,}667.20 \\
+6 & Contracci\'on    & $-10\%$&  9{,}183{,}300.48 \\
+7+ & Perpetuidad     & $0\%$  &  9{,}183{,}300.48 (constante) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1cm}
+
+% ========================
+%  PASO 2
+% ========================
+\section{Paso 2: Calcular el Precio Terminal al final del A\~no 6}
+
+\begin{cajaintuicion}{Capturar el valor de la perpetuidad}
+A partir del a\~no 7, el dividendo es \textbf{constante para siempre} ($g_\infty = 0$). Sumar
+infinitos t\'erminos uno por uno es imposible, pero existe una f\'ormula cerrada para una
+\textbf{perpetuidad con crecimiento cero}: el valor al inicio de la perpetuidad es simplemente
+el dividendo dividido entre la tasa de descuento.
+
+En vez de descontar infinitos dividendos individualmente, ``colapsamos'' toda la perpetuidad en
+un \textbf{precio terminal} $P_6$ que captura en un solo n\'umero el valor de todos los
+dividendos desde el a\~no 7 en adelante, visto desde el a\~no 6. Luego ese $P_6$ se descuenta
+como cualquier otro flujo.
+\end{cajaintuicion}
+
+\begin{cajaformula}
+Si desde el per\'iodo $T+1$ los dividendos son constantes (g = 0) y la tasa de descuento es $r$:
+\[
+P_T = \frac{D_{T+1}}{r - g_\infty} = \frac{D_{T+1}}{r}
+\]
+En nuestro caso $T = 6$, y como $g_\infty = 0$: $D_7 = D_6 \times 1 = D_6$.
+\end{cajaformula}
+
+\begin{align}
+D_7 &= D_6 \times (1 + 0) = 9{,}183{,}300.48 \\[8pt]
+P_6 &= \frac{D_7}{r} = \frac{9{,}183{,}300.48}{0.10}
+     = \mathbf{\$91{,}833{,}004.80}
+\end{align}
+
+\noindent\textbf{Interpretaci\'on:} $P_6 = \$91.83\,\text{M}$ representa el valor al final
+del a\~no 6 de \emph{todos} los dividendos futuros desde el a\~no 7 en adelante (una
+perpetuidad). Es como si al final del a\~no 6 pudi\'esemos vender la empresa a ese precio y
+capturar todo el valor futuro.
+
+\vspace{1cm}
+
+% ========================
+%  PASO 3
+% ========================
+\section{Paso 3: Calcular el Valor Presente de todos los flujos}
+
+\begin{cajaintuicion}{Descontar es traer el futuro al presente}
+El dinero en el futuro vale \textbf{menos} que el dinero hoy, porque si tuvi\'eramos ese dinero
+hoy podr\'iamos invertirlo a la tasa $r = 10\%$ y obtener m\'as en el futuro. Descontar es
+el proceso inverso: dado un flujo futuro, cuanto vale \emph{en este momento}.
+
+El factor de descuento para el a\~no $t$ es $\frac{1}{(1+r)^t}$. Cuanto m\'as lejos est\'a
+un flujo, menor es su contribuci\'on al valor presente, pues se divide entre un n\'umero m\'as
+grande.
+\end{cajaintuicion}
+
+La f\'ormula completa del valor de la empresa es:
+
+\[
+V_0 = \underbrace{\sum_{t=1}^{6} \frac{D_t}{(1.10)^t}}_{\text{VP de dividendos expl\'icitos}}
+    + \underbrace{\frac{P_6}{(1.10)^6}}_{\text{VP del valor terminal}}
+\]
+
+\subsection*{Factores de descuento $(1.10)^t$}
+
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+\textbf{A\~no} $t$ & $(1.10)^t$ \\
+\midrule
+1 & 1.100000 \\
+2 & 1.210000 \\
+3 & 1.331000 \\
+4 & 1.464100 \\
+5 & 1.610510 \\
+6 & 1.771561 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{C\'alculo detallado de cada Valor Presente}
+
+\begin{align}
+VP_1 &= \frac{10{,}800{,}000}{1.100000} = \mathbf{\$9{,}818{,}181.82} \\[6pt]
+VP_2 &= \frac{11{,}664{,}000}{1.210000} = \mathbf{\$9{,}639{,}669.42} \\[6pt]
+VP_3 &= \frac{12{,}597{,}120}{1.331000} = \mathbf{\$9{,}464{,}401.95} \\[6pt]
+VP_4 &= \frac{11{,}337{,}408.00}{1.464100} = \mathbf{\$7{,}743{,}813.87} \\[6pt]
+VP_5 &= \frac{10{,}203{,}667.20}{1.610510} = \mathbf{\$6{,}335{,}483.75} \\[6pt]
+VP_6 &= \frac{9{,}183{,}300.48}{1.771561} = \mathbf{\$5{,}184{,}214.75} \\[10pt]
+VP(P_6) &= \frac{91{,}833{,}004.80}{1.771561} = \mathbf{\$51{,}842{,}147.46}
+\end{align}
+
+\subsection*{Tabla resumen de valores presentes}
+
+\begin{center}
+\begin{tabular}{clrr}
+\toprule
+\textbf{A\~no} & \textbf{Flujo} & \textbf{Flujo (US\$)} & \textbf{Valor Presente (US\$)} \\
+\midrule
+1 & Dividendo $D_1$  & 10{,}800{,}000.00  &  9{,}818{,}181.82 \\
+2 & Dividendo $D_2$  & 11{,}664{,}000.00  &  9{,}639{,}669.42 \\
+3 & Dividendo $D_3$  & 12{,}597{,}120.00  &  9{,}464{,}401.95 \\
+4 & Dividendo $D_4$  & 11{,}337{,}408.00  &  7{,}743{,}813.87 \\
+5 & Dividendo $D_5$  & 10{,}203{,}667.20  &  6{,}335{,}483.75 \\
+6 & Dividendo $D_6$  &  9{,}183{,}300.48  &  5{,}184{,}214.75 \\
+6 & Precio terminal $P_6$ & 91{,}833{,}004.80 & 51{,}842{,}147.46 \\
+\midrule
+  & \textbf{TOTAL}  &                    & \textbf{100{,}027{,}912.02} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+\boxed{V_{\text{empresa}} \approx \text{US\$}\;100{,}028{,}000}
+\]
+
+\vspace{1cm}
+
+% ========================
+%  PASO 4
+% ========================
+\section{Paso 4: Calcular el Valor por Acci\'on}
+
+\begin{cajaintuicion}{De valor de empresa a valor por acci\'on}
+El valor total de la empresa calculado ($\approx\$100\,\text{M}$) es el valor de
+\emph{todos} los flujos de caja para \emph{todos} los accionistas. Para obtener el precio
+por acci\'on, simplemente dividimos entre el n\'umero total de acciones en circulaci\'on.
+\end{cajaintuicion}
+
+\[
+P_{\text{acci\'on}} = \frac{V_{\text{empresa}}}{N_{\text{acciones}}}
+= \frac{100{,}027{,}912}{10{,}000{,}000}
+\]
+
+\begin{tcolorbox}[colback=verdeclaro!80, colframe=green!40!black,
+                  halign=center, boxsep=8pt]
+\Large
+\[
+\boxed{P_{\text{acci\'on}} \approx \textbf{US\$ 10.00 por acci\'on}}
+\]
+\end{tcolorbox}
+
+\vspace{1cm}
+
+% ========================
+%  RESULTADO FINAL
+% ========================
+\begin{cajaresultado}
+\begin{center}
+\large
+\begin{tabular}{p{7cm}p{5.5cm}}
+\textbf{Valor total de la empresa:} & US\$ 100{,}027{,}912 $\approx$ US\$ 100 millones \\[4pt]
+\textbf{Acciones en circulaci\'on:} & 10{,}000{,}000 acciones \\[4pt]
+\textbf{Valor por acci\'on:}        & \textbf{US\$ 10.00 por acci\'on} \\
+\end{tabular}
+\end{center}
+\end{cajaresultado}
+
+\vspace{1cm}
+
+% ========================
+%  REFLEXIÓN
+% ========================
+\begin{cajareflexion}
+Observemos qu\'e ocurrir\'ia si la empresa \emph{no} tuviese las fases de expansi\'on y
+contracci\'on, sino que desde el inicio pagase dividendos constantes con $g = 0$:
+
+\[
+P_0^{*} = \frac{D_1}{r} = \frac{D_0 \times (1+0)}{r}
+= \frac{\$10{,}000{,}000}{0.10} = \$100{,}000{,}000
+\quad\Rightarrow\quad \$10 \text{ por acci\'on}
+\]
+
+El resultado es \emph{el mismo} que el que obtuvimos con las tres fases. \textquestiondown Por
+qu\'e? Porque las fases de crecimiento ($+8\%$ durante 3 a\~nos) y de contracci\'on
+($-10\%$ durante 3 a\~nos) se \textbf{compensan casi perfectamente en valor presente}.
+
+Matem\'aticamente, el dividendo estabilizado al final del a\~no 6 es:
+\begin{align*}
+D_6 &= D_0 \times (1.08)^3 \times (0.90)^3
+     = 10{,}000{,}000 \times 1.259712 \times 0.729 \\
+    &= 10{,}000{,}000 \times 0.91833
+     \approx 9{,}183{,}300
+\end{align*}
+Que es \emph{ligeramente inferior} a $D_0$, de ah\'i que el valor final sea
+\$100.03M y no exactamente \$100M. La diferencia es m\'inima
+($\approx 0.03\%$) porque $(1.08)^3 \approx 1.2597$ y $(0.90)^3 \approx 0.729$,
+cuyo producto es $0.9183 \approx 1$ pero no exactamente 1.
+
+\textbf{Lecci\'on clave del DDM:} lo que determina el valor de largo plazo de una empresa
+es el \emph{nivel estabilizado} de sus dividendos y la tasa de descuento. Las fluctuaciones
+transitorias (auges y recesiones) tienen un impacto secundario, especialmente cuando son
+relativamente sim\'etricas en magnitud y duraci\'on.
+\end{cajareflexion}
+
+\vspace{1cm}
+
+% ========================
+%  LÍNEA DE TIEMPO
+% ========================
+\newpage
+\section*{L\'inea de Tiempo del Problema}
+
+\vspace{0.5cm}
+
+\begin{center}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[scale=0.95, font=\small]
+
+% ---- Eje temporal ----
+\draw[thick, -{Stealth}] (-0.3, 0) -- (14.5, 0) node[right] {Tiempo};
+
+% ---- Marcas en el eje ----
+\foreach \x/\t in {0/0, 1.8/1, 3.6/2, 5.4/3, 7.2/4, 9.0/5, 10.8/6, 12.6/7+} {
+  \draw[thick] (\x, 0.12) -- (\x, -0.12);
+  \node[below=4pt] at (\x, 0) {$t=\t$};
+}
+
+% ---- Fases (rectángulos sombreados) ----
+\fill[green!25] (0, 0.5) rectangle (5.4, 1.6);
+\draw[green!60!black, thick] (0, 0.5) rectangle (5.4, 1.6);
+\node[align=center] at (2.7, 1.05) {\textbf{Fase 1}\\$g_1=+8\%$};
+
+\fill[red!20] (5.4, 0.5) rectangle (10.8, 1.6);
+\draw[red!60!black, thick] (5.4, 0.5) rectangle (10.8, 1.6);
+\node[align=center] at (8.1, 1.05) {\textbf{Fase 2}\\$g_2=-10\%$};
+
+\fill[blue!15] (10.8, 0.5) rectangle (14.2, 1.6);
+\draw[blue!60!black, thick] (10.8, 0.5) rectangle (14.2, 1.6);
+\node[align=center] at (12.5, 1.05) {\textbf{Fase 3}\\$g_\infty=0\%$};
+
+% ---- Flechas de dividendos hacia abajo ----
+\foreach \x/\d in {1.8/10.8M, 3.6/11.66M, 5.4/12.60M, 7.2/11.34M, 9.0/10.20M, 10.8/9.18M} {
+  \draw[blue!70!black, -{Stealth}, thick] (\x, 0) -- (\x, -1.2);
+  \node[below=2pt, blue!70!black, align=center] at (\x, -1.3) {\$\d};
+}
+
+% ---- D0 ----
+\draw[gray, -{Stealth}] (0, 0) -- (0, -1.0);
+\node[below=2pt, gray, align=center] at (0, -1.1) {\$10M\\(pagado)};
+
+% ---- P6 ----
+\draw[purple!80!black, -{Stealth}, very thick] (10.8, 0) -- (10.8, -2.3);
+\node[below=2pt, purple!80!black, align=center] at (10.8, -2.4)
+  {$P_6=\$91.83M$\\(perpetuidad)};
+
+% ---- Etiqueta a la derecha ----
+\node[right=4pt, blue!70!black] at (14.2, -0.7) {$D_{7+}=\$9.18M$};
+\node[right=4pt, blue!70!black] at (14.2, -1.1) {(constante)};
+
+% ---- Corchete "Descuentan a hoy" ----
+\draw[thick, decorate, decoration={brace, amplitude=8pt, mirror}]
+  (-0.1, -2.9) -- (10.9, -2.9);
+\node[below=10pt, align=center] at (5.4, -2.9) {Todos estos flujos se descuentan\\a $t=0$ usando el factor $(1.10)^t$};
+
+\end{tikzpicture}}
+\end{center}
+
+\vspace{0.8cm}
+
+% ========================
+%  VERIFICACIÓN NUMÉRICA
+% ========================
+\section*{Verificaci\'on num\'erica compacta}
+
+\begin{align*}
+V_0 &= \frac{10.8}{1.1^1} + \frac{11.664}{1.1^2} + \frac{12.597}{1.1^3}
+     + \frac{11.337}{1.1^4} + \frac{10.204}{1.1^5}
+     + \frac{9.183 + 91.833}{1.1^6}
+     \quad \text{(millones US\$)} \\[6pt]
+    &= 9.818 + 9.640 + 9.464 + 7.744 + 6.335 + 5.184 + 51.842
+     = \mathbf{100.027 \text{ millones}}
+\end{align*}
+
+\[
+\Rightarrow\quad P_{\text{acci\'on}} = \frac{100.027\text{ M}}{10\text{ M acciones}}
+\approx \boxed{\textbf{US\$ 10.00}}
+\]
+
+\end{document}

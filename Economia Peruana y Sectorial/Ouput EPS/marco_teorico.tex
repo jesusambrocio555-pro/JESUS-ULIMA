@@ -1,0 +1,153 @@
+\documentclass[12pt]{article}
+
+% --- Idioma ---
+\usepackage[spanish,es-nodecimaldot]{babel}
+
+% --- Fuente Times New Roman (compilar con XeLaTeX) ---
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% --- Márgenes 2.5 cm por lado ---
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+
+% --- Interlineado 1.5 ---
+\usepackage{setspace}
+\onehalfspacing
+
+% --- Espaciado posterior 6 pt, sin sangría de párrafo ---
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% --- Sangría francesa en referencias (APA) ---
+\usepackage{hanging}
+
+% --- Hipervínculos ---
+\usepackage[hidelinks]{hyperref}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+\section{Marco Teórico}
+
+\subsection{La salud como capacidad fundamental y dimensión de la pobreza multidimensional}
+
+El análisis económico del sector salud requiere partir de una distinción conceptual previa: la salud
+no es únicamente un bien de consumo ni un insumo productivo, sino una capacidad fundamental del
+ser humano. Esta distinción tiene implicancias directas sobre cómo se mide el bienestar y sobre qué
+papel le corresponde al Estado en la provisión de servicios sanitarios.
+
+Sen (1988) argumenta que la enfermedad no es simplemente un síntoma observable de pobreza,
+sino una restricción a las capacidades básicas de las personas: priva al individuo de su libertad para
+funcionar, trabajar y participar en la vida social. Este argumento es ampliado en Sen (2000), donde
+el desarrollo económico es reinterpretado no como crecimiento del producto per cápita, sino como
+expansión de las libertades reales que los individuos pueden ejercer. Bajo este enfoque, un país que
+duplica su PIB sin reducir la mortalidad infantil o aumentar la esperanza de vida no puede
+considerarse plenamente desarrollado.
+
+La operacionalización de este enfoque es realizada por Alkire y Foster (2011), quienes construyen
+el Índice de Pobreza Multidimensional (IPM) a partir de tres dimensiones: salud, educación y nivel
+de vida. La dimensión salud se mide a través de indicadores como la mortalidad infantil y la
+desnutrición crónica. Su método identifica como pobre multidimensional a quien carece del umbral
+mínimo en al menos un tercio de los indicadores ponderados, lo que permite capturar la intensidad
+de la pobreza más allá del ingreso monetario. Esta metodología es también la base del Índice de
+Desarrollo Humano (IDH) del Programa de las Naciones Unidas para el Desarrollo, que incorpora
+la esperanza de vida al nacer como \textit{proxy} de la dimensión salud. Para sintetizar indicadores
+heterogéneos en una medida única, el IDH recurre a técnicas de índices compuestos, entre ellas el
+Análisis de Componentes Principales (PCA), que permite reducir la dimensionalidad de un conjunto
+de variables correlacionadas preservando la mayor varianza posible (UNDP, 2015).
+
+La relevancia empírica de esta distinción se evidencia en el caso peruano. El INEI (2016) reporta
+que la pobreza monetaria cayó de 58.7\,\% en 2004 a 21.8\,\% en 2015, impulsada por el
+crecimiento económico sostenido. Sin embargo, como señala Tezano (2013), la reducción de la
+pobreza multidimensional fue considerablemente más lenta, en particular en las regiones de sierra y
+selva, donde las brechas en acceso a servicios de salud y saneamiento persistieron incluso durante
+los años de mayor expansión del PIB. Esta divergencia sugiere que el crecimiento es condición
+necesaria pero no suficiente para mejorar el bienestar en salud, lo que motiva el análisis de la
+relación entre gasto público y pobreza que se desarrolla en la sección de series de tiempo.
+
+\subsection{La salud como capital humano: efectos sobre la productividad y el crecimiento}
+
+La segunda línea teórica relevante aborda la salud desde la perspectiva del capital humano. La
+teoría del capital humano postula que los individuos invierten en educación y salud con el fin de
+incrementar su productividad futura (Becker, 1964). Bajo este marco, el gasto en salud no es un
+gasto corriente de consumo, sino una inversión que aumenta el stock de capital humano de la
+economía y, por tanto, su capacidad productiva de largo plazo. A nivel macroeconómico, esta idea
+se formaliza en las extensiones del modelo de Solow que incorporan capital humano como factor de
+producción: una mejora sostenida en el estado de salud de la fuerza laboral eleva la productividad
+total de los factores y desplaza hacia arriba la trayectoria de crecimiento de estado estacionario
+(De~Gregorio, 2007). Esto implica que el gasto público en salud tiene un efecto potencialmente
+positivo sobre el crecimiento del PIB, no solo a través del canal de demanda agregada de corto
+plazo, sino a través de la acumulación de capital humano en el largo plazo.
+
+La evidencia para el Perú es analizada empíricamente por Cortez (1999), quien estima el efecto de
+las condiciones de salud sobre la productividad laboral e ingresos individuales. Sus resultados
+muestran retornos significativos, con diferencias importantes por género y región geográfica: los
+efectos son más pronunciados en zonas rurales de sierra y selva, precisamente donde la cobertura de
+salud pública es más precaria y la carga de enfermedad es mayor. Valdez et al. (2013) complementan
+este diagnóstico con el perfil epidemiológico del Perú: las enfermedades no transmisibles
+---cardiovasculares, diabetes, cáncer--- y las enfermedades diarreicas agudas concentran la mayor
+carga de morbilidad y constituyen los principales factores que reducen la productividad laboral. Este
+hallazgo es consistente con la relación empírica entre acceso a agua potable segura y mortalidad
+infantil que se estima en la sección econométrica, dado que el saneamiento básico es el principal
+determinante de las enfermedades diarreicas agudas en el país.
+
+\subsection{Fallas de mercado y el rol del Estado en la provisión de salud}
+
+La justificación teórica de la intervención pública en el sector salud descansa en la presencia de
+fallas de mercado que impiden que el equilibrio privado sea eficiente. La primera y más relevante es
+la asimetría de información: el paciente no puede evaluar \textit{ex ante} la calidad del servicio
+médico ni el precio justo del medicamento, lo que genera una relación de agencia entre el médico y
+el paciente y abre espacio para comportamientos oportunistas en la cadena de comercialización
+farmacéutica. Esta falla justifica la regulación de precios de medicamentos y la fiscalización por
+parte de DIGEMID, cuya función es reducir las rentas informacionales que capturan las cadenas de
+farmacias en perjuicio del consumidor final.
+
+La segunda falla son las externalidades positivas: la vacunación y el acceso al saneamiento básico
+generan beneficios sociales que exceden ampliamente los beneficios privados, por lo que el mercado
+los subprovee en ausencia de intervención pública. La tercera falla es el carácter de bien meritorio
+de la salud: la sociedad considera que el acceso a servicios sanitarios básicos debe garantizarse con
+independencia de la capacidad de pago del individuo, lo que justifica la existencia del Seguro
+Integral de Salud (SIS) y de EsSalud como mecanismos de aseguramiento colectivo. Estas tres
+fallas ---asimetría de información, externalidades positivas y bien meritorio--- configuran el marco
+dentro del cual opera el sector salud peruano y explican las tensiones entre el sistema público y el
+privado que se analizan en las secciones de composición e institucionalidad de este trabajo.
+
+% ============================================================
+\section*{Referencias}
+% ============================================================
+
+\begin{hangparas}{1.5em}{1}
+
+Alkire, S., \& Foster, J. (2011). Counting and multidimensional poverty measurement.
+\textit{Journal of Public Economics, 95}(7), 476--487.
+
+Becker, G. (1964). \textit{Human Capital: A Theoretical and Empirical Analysis, with Special
+Reference to Education}. New York: National Bureau of Economic Research.
+
+Cortez, R. (1999). \textit{Salud y productividad en el Perú: Un análisis empírico por género y
+región} (Working Paper R-363). Washington D.C.: Inter-American Development Bank.
+
+De Gregorio, J. (2007). \textit{Macroeconomía: Teoría y Políticas}. Santiago: Pearson
+Educación.
+
+Instituto Nacional de Estadística e Informática. (2016). \textit{Evolución de la Pobreza
+Monetaria 2009-2015. Informe Técnico}. Lima: INEI.
+
+Sen, A. (1988). Property and hunger. \textit{Economics and Philosophy, 4}(1), 57--68.
+
+Sen, A. (2000). \textit{Desarrollo y Libertad}. Buenos Aires: Planeta.
+
+Tezano, S. (2013). \textit{Desarrollo humano, pobreza y desigualdades}. Santander: Universidad
+de Cantabria, Cátedra de Cooperación Internacional y con Iberoamérica.
+
+United Nations Development Programme. (2015). \textit{Human Development Report 2015:
+Technical Notes --- Calculating the Indices}. New York: UNDP. Recuperado de
+\url{http://hdr.undp.org/en/}
+
+Valdez, W., Napanga, E., Oyola, A., Mariños, J., Vílchez, A., Medina, J., \& Berto, M. (2013).
+\textit{Análisis de la Situación de Salud en el Perú}. Lima: Ministerio de Salud.
+
+\end{hangparas}
+
+\end{document}

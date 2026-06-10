@@ -1,0 +1,539 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{\textbf{Resumen: Cap\'itulo 2}\\
+\large Modelos de Series de Tiempo Estacionarias\\
+\normalsize Enders, W. \textit{Applied Econometric Time Series} (4ta ed.)}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%---------------------------------------------------------------
+\section{Modelos de Ecuaciones en Diferencias Estoc\'asticas\\
+\textit{(Stochastic Difference Equation Models)}}
+%---------------------------------------------------------------
+
+Las series de tiempo econ\'omicas se trabajan en tiempo \textbf{discreto / discrete} (no continuo). El \'indice $t$ representa per\'iodos ordenados; no necesariamente unidades f\'isicas de tiempo.
+
+Una variable discreta $y$ es \textbf{aleatoria / random} (estoc\'astica) si para todo n\'umero real $r$ existe una probabilidad $p(y \le r)$. Si $p(y = r) = 1$, la variable es determinista.
+
+Los elementos de la serie observada $\{y_0, y_1, \ldots, y_T\}$ son \textbf{realizaciones / realizations} (resultados observados) de un proceso estoc\'astico. El valor esperado condicional de $y_{t+i}$ dado el conjunto de informaci\'on en $t$ se denota $E_t y_{t+i}$.
+
+Las \textbf{ecuaciones en diferencias estoc\'asticas / stochastic difference equations} son una forma conveniente de modelar procesos econ\'omicos din\'amicos.
+
+\subsection{Proceso de Ruido Blanco \textit{(White-Noise Process)}}
+
+La secuencia $\{\varepsilon_t\}$ es un proceso de \textbf{ruido blanco / white-noise} si para todo per\'iodo $t$:
+\begin{align}
+E(\varepsilon_t) &= 0 \notag\\
+E(\varepsilon_t^2) &= \sigma^2 \notag\\
+E(\varepsilon_t\,\varepsilon_{t-s}) &= 0 \quad \text{para todo } s \ne 0
+\end{align}
+
+Es decir: media cero, varianza constante $\sigma^2$ y no correlaci\'on con sus propios rezagos.
+
+\subsection{Proceso de Promedio M\'ovil \textit{(Moving Average Process)}}
+
+Usando ruido blanco se construye la serie de \textbf{promedio m\'ovil / moving average} de orden $q$, MA($q$):
+\begin{equation}
+x_t = \sum_{i=0}^{q} \beta_i\,\varepsilon_{t-i}
+\end{equation}
+
+%---------------------------------------------------------------
+\section{Modelos ARMA \textit{(ARMA Models)}}
+%---------------------------------------------------------------
+
+Combinando una ecuaci\'on autorregresiva de orden $p$ con un MA($q$) se obtiene el modelo \textbf{ARMA($p,q$)}:
+\begin{equation}
+y_t = a_0 + \sum_{i=1}^{p} a_i\,y_{t-i} + \sum_{i=0}^{q} \beta_i\,\varepsilon_{t-i}
+\end{equation}
+
+Si $q=0$, el proceso es autorregresivo puro \textbf{AR($p$)}; si $p=0$, es \textbf{MA($q$)} puro.
+
+Usando operadores de rezago $L$ (donde $L^j y_t = y_{t-j}$):
+\begin{equation}
+\left(1 - \sum_{i=1}^{p} a_i L^i\right)y_t
+  = a_0 + \sum_{i=0}^{q} \beta_i\,\varepsilon_{t-i}
+\end{equation}
+
+La soluci\'on particular expresa $y_t$ en t\'erminos de $\{\varepsilon_t\}$ y se llama \textbf{representaci\'on de promedio m\'ovil / moving average representation}:
+\begin{equation}
+y_t = \left(a_0 + \sum_{i=0}^{q}\beta_i\,\varepsilon_{t-i}\right)
+      \Bigg/
+      \left(1 - \sum_{i=1}^{p} a_i L^i\right)
+\end{equation}
+
+Si una o m\'as ra\'ices caracter\'isticas igualan o superan la unidad, $\{y_t\}$ es un proceso \textbf{integrado / integrated} y el modelo completo se denomina \textbf{ARIMA} (AutoRegresivo Integrado de Promedio M\'ovil). La condici\'on de estabilidad ---necesaria para la estacionariedad--- exige que las ra\'ices del polinomio $(1-\sum a_i L^i)$ se ubiquen \textit{fuera} del c\'irculo unitario.
+
+%---------------------------------------------------------------
+\section{Estacionariedad \textit{(Stationarity)}}
+%---------------------------------------------------------------
+
+Cuando el econometrista solo dispone de una realizaci\'on, si $\{y_t\}$ es \textbf{estacionaria / stationary}, la media, varianza y autocovarianzas pueden aproximarse mediante \textbf{promedios temporales / time averages}.
+
+Un proceso estoc\'astico es \textbf{estacionario en covarianza / covariance stationary} (tambi\'en llamado \textbf{d\'ebilmente estacionario / weakly stationary} o estacionario en sentido amplio) si para todo $t$ y $t - s$:
+\begin{align}
+E(y_t) &= E(y_{t-s}) = \mu \label{e:mu}\\
+E\!\left[(y_t-\mu)^2\right] &= \sigma_y^2 \label{e:var}\\
+E\!\left[(y_t-\mu)(y_{t-s}-\mu)\right] &= \gamma_s \label{e:cov}
+\end{align}
+donde $\mu$, $\sigma_y^2$ y $\gamma_s$ son constantes.
+
+La \textbf{autocorrelaci\'on / autocorrelation} entre $y_t$ e $y_{t-s}$:
+\begin{equation}
+\rho_s \equiv \gamma_s / \gamma_0
+\end{equation}
+
+Un proceso \textbf{fuertemente estacionario / strongly stationary} no requiere media ni varianza finitas; el texto trabaja s\'olo con series estacionarias en covarianza.
+
+\subsection{Restricciones de Estacionariedad para AR(1)\\
+\textit{(Stationarity Restrictions for an AR(1) Process)}}
+
+Para $y_t = a_0 + a_1 y_{t-1} + \varepsilon_t$, la soluci\'on general es:
+\begin{equation}
+y_t = a_0 \sum_{i=0}^{t-1} a_1^i + a_1^t y_0 + \sum_{i=0}^{t-1} a_1^i\,\varepsilon_{t-i}
+\end{equation}
+
+Cuando $t\to\infty$ y $|a_1|<1$, la secuencia converge a:
+\begin{equation}
+\lim_{t\to\infty} y_t = \frac{a_0}{1-a_1} + \sum_{i=0}^{\infty} a_1^i\,\varepsilon_{t-i}
+\end{equation}
+
+con media $\mu = a_0/(1-a_1)$, varianza $\sigma^2/(1-a_1^2)$ y autocovarianza:
+\begin{equation}
+\gamma_s = \frac{\sigma^2\,(a_1)^s}{1-(a_1)^2}
+\end{equation}
+
+Las condiciones de estabilidad generalizables a todo ARMA($p,q$) son:
+\begin{enumerate}
+  \item La soluci\'on homog\'enea debe ser cero (el proceso comenz\'o infinitamente en el pasado, o bien la constante arbitraria $A = 0$).
+  \item La ra\'iz caracter\'istica $a_1$ debe ser menor que la unidad en valor absoluto.
+\end{enumerate}
+
+%---------------------------------------------------------------
+\section{Restricciones de Estacionariedad para ARMA($p,q$)\\
+\textit{(Stationarity Restrictions for an ARMA($p,q$) Model)}}
+%---------------------------------------------------------------
+
+Para el ARMA(2,1): $y_t = a_1 y_{t-1} + a_2 y_{t-2} + \varepsilon_t + \beta_1\varepsilon_{t-1}$, la soluci\'on particular se escribe $y_t = \sum_{i=0}^{\infty} c_i\varepsilon_{t-i}$, donde:
+\begin{align}
+c_0 &= 1 \notag\\
+c_1 &= a_1 + \beta_1 \notag\\
+c_i &= a_1 c_{i-1} + a_2 c_{i-2}, \quad i \ge 2
+\end{align}
+
+\subsection{Restricciones para Coeficientes de Promedio M\'ovil}
+
+Para cualquier MA$(\infty)$: $x_t = \sum_{i=0}^{\infty}\beta_i\varepsilon_{t-i}$, las condiciones necesarias y suficientes de estacionariedad en covarianza son que $\sum(\beta_i)^2$ y $(\beta_s + \beta_1\beta_{s+1} + \beta_2\beta_{s+2} + \cdots)$ sean finitas.
+
+\subsection{Restricciones para Coeficientes Autorregresivos\\
+\textit{(Stationarity Restrictions for the Autoregressive Coefficients)}}
+
+Para el AR($p$) puro:
+\begin{equation}
+y_t = a_0 + \sum_{i=1}^{p} a_i\,y_{t-i} + \varepsilon_t
+\end{equation}
+
+Si las ra\'ices caracter\'isticas del polinomio homog\'eneo est\'an dentro del c\'irculo unitario, la soluci\'on particular converge y la media es:
+\begin{equation}
+E y_t = \frac{a_0}{1-\sum_{i=1}^p a_i}
+\end{equation}
+
+Los coeficientes $c_i$ de la representaci\'on MA$(\infty)$ satisfacen:
+\begin{equation}
+c_i - a_1 c_{i-1} - a_2 c_{i-2} - \cdots - a_p c_{i-p} = 0
+\end{equation}
+
+Para el ARMA($p,q$) general, solo la parte autorregresiva determina la estacionariedad.
+
+%---------------------------------------------------------------
+\section{La Funci\'on de Autocorrelaci\'on \textit{(The Autocorrelation Function)}}
+%---------------------------------------------------------------
+
+La \textbf{funci\'on de autocorrelaci\'on / autocorrelation function (ACF)} o \textbf{correlograma / correlogram} grafica $\rho_s$ contra $s$. Las \textbf{ecuaciones de Yule-Walker / Yule-Walker equations} permiten derivarla a partir del modelo.
+
+\subsection{ACF de un Proceso AR(1)}
+
+Para $y_t = a_0 + a_1 y_{t-1} + \varepsilon_t$:
+\begin{align}
+\gamma_0 &= \frac{\sigma^2}{1-(a_1)^2}\\
+\gamma_s &= \frac{\sigma^2\,(a_1)^s}{1-(a_1)^2}
+\end{align}
+
+Las autocorrelaciones son $\rho_s = (a_1)^s$. Si $a_1 > 0$, la convergencia es directa; si $a_1 < 0$, el patr\'on es oscilatorio amortiguado.
+
+\subsection{ACF de un Proceso AR(2)}
+
+Para $y_t = a_1 y_{t-1} + a_2 y_{t-2} + \varepsilon_t$, las ecuaciones de Yule-Walker producen:
+\begin{align}
+\rho_1 &= \frac{a_1}{1-a_2}\\
+\rho_s &= a_1\rho_{s-1} + a_2\rho_{s-2}, \quad s \ge 2
+\end{align}
+
+La varianza es:
+\begin{equation}
+\gamma_0
+  = \frac{(1-a_2)}{(1+a_2)}\cdot
+    \frac{\sigma^2}{(a_1+a_2-1)(a_2-a_1-1)}
+\end{equation}
+
+\subsection{ACF de un Proceso MA(1)}
+
+Para $y_t = \varepsilon_t + \beta\varepsilon_{t-1}$:
+\begin{align}
+\gamma_0 &= (1+\beta^2)\sigma^2 \\
+\gamma_1 &= \beta\sigma^2 \\
+\gamma_s &= 0 \quad \forall\, s > 1
+\end{align}
+
+Por tanto $\rho_1 = \beta/(1+\beta^2)$ y $\rho_s = 0$ para $s > 1$. La ACF de un MA($q$) tiene exactamente $q$ espigas y luego se corta a cero.
+
+\subsection{ACF de un Proceso ARMA(1,1)}
+
+Para $y_t = a_1 y_{t-1} + \varepsilon_t + \beta_1\varepsilon_{t-1}$:
+\begin{equation}
+\rho_1 = \frac{(1+a_1\beta_1)(a_1+\beta_1)}{1+\beta_1^2+2a_1\beta_1}
+\end{equation}
+y $\rho_s = a_1\rho_{s-1}$ para $s \ge 2$.
+
+Para un ARMA($p,q$) estacionario, la ACF comienza a decaer despu\'es del rezago $q$, satisfaciendo la ecuaci\'on en diferencias de la parte AR.
+
+%---------------------------------------------------------------
+\section{La Funci\'on de Autocorrelaci\'on Parcial\\
+\textit{(The Partial Autocorrelation Function)}}
+%---------------------------------------------------------------
+
+La \textbf{autocorrelaci\'on parcial / partial autocorrelation} entre $y_t$ e $y_{t-s}$ elimina el efecto de los valores intermedios $y_{t-1},\ldots,y_{t-s+1}$. La \textbf{PACF (Partial Autocorrelation Function)} se calcula mediante las ecuaciones de Yule-Walker:
+\begin{align}
+\phi_{11} &= \rho_1 \\
+\phi_{22} &= \frac{\rho_2 - \rho_1^2}{1-\rho_1^2}
+\end{align}
+
+Para rezagos $s = 3, 4, 5, \ldots$:
+\begin{equation}
+\phi_{ss}
+  = \frac{\displaystyle\rho_s - \sum_{j=1}^{s-1}\phi_{s-1,j}\,\rho_{s-j}}
+         {\displaystyle 1 - \sum_{j=1}^{s-1}\phi_{s-1,j}\,\rho_j}
+\end{equation}
+
+donde $\phi_{sj} = \phi_{s-1,j} - \phi_{ss}\,\phi_{s-1,s-j}$.
+
+\textbf{Propiedades clave:}
+\begin{enumerate}
+  \item Para un AR($p$), $\phi_{ss} = 0$ para todo $s > p$: la PACF se corta abruptamente a cero despu\'es del rezago $p$.
+  \item Para un MA(1), la PACF decae geom\'etricamente (no se corta): el proceso MA(1) tiene una representaci\'on AR infinita.
+  \item Para un ARMA($p,q$) estacionario:
+    \begin{itemize}
+      \item La \textbf{ACF} comienza a decaer despu\'es del rezago $q$.
+      \item La \textbf{PACF} comienza a decaer despu\'es del rezago $p$.
+    \end{itemize}
+\end{enumerate}
+
+%---------------------------------------------------------------
+\section{Autocorrelaciones Muestrales de Series Estacionarias\\
+\textit{(Sample Autocorrelations of Stationary Series)}}
+%---------------------------------------------------------------
+
+Con $T$ observaciones, los estimadores muestrales de $\mu$, $\sigma^2$ y $\rho_s$ son:
+\begin{align}
+\bar{y}      &= \frac{1}{T}\sum_{t=1}^{T} y_t \\
+\hat{\sigma}^2 &= \frac{1}{T}\sum_{t=1}^{T}(y_t-\bar{y})^2 \\
+r_s &= \frac{\displaystyle\sum_{t=s+1}^{T}(y_t-\bar{y})(y_{t-s}-\bar{y})}
+             {\displaystyle\sum_{t=1}^{T}(y_t-\bar{y})^2}
+\end{align}
+
+La varianza muestral de $r_s$ bajo $H_0: r_s = 0$ (Box--Jenkins, 1976):
+\begin{equation}
+\text{var}(r_s)
+  = T^{-1}\!\left(1 + 2\sum_{j=1}^{s-1} r_j^2\right), \quad s > 1
+\end{equation}
+
+En muestras grandes, $r_s \sim N(0,\,\text{var}(r_s))$.
+
+\subsection{Estad\'isticos $Q$ de Box-Pierce y Ljung-Box}
+
+Para probar que un grupo de autocorrelaciones es conjuntamente igual a cero:
+
+\textbf{Estad\'istico $Q$ de Box-Pierce:}
+\begin{equation}
+Q = T\sum_{k=1}^{s} r_k^2
+\end{equation}
+
+\textbf{Estad\'istico $Q$ de Ljung-Box} (mejor desempe\~no en muestras peque\~nas):
+\begin{equation}
+Q = T(T+2)\sum_{k=1}^{s}\frac{r_k^2}{T-k}
+\end{equation}
+
+Bajo $H_0$: todos los $r_k = 0$, $Q \sim \chi^2(s)$. Aplicado a los \textbf{residuos / residuals} de un ARMA($p,q$) estimado, los grados de libertad son $s - p - q$ (o $s - p - q - 1$ si hay constante).
+
+\subsection{Criterios de Selecci\'on de Modelos \textit{(Model Selection Criteria)}}
+
+El principio de \textbf{parsimonia / parsimony} indica preferir modelos con menos par\'ametros. Los dos criterios m\'as utilizados son:
+
+\textbf{AIC (Akaike Information Criterion / Criterio de Informaci\'on de Akaike):}
+\begin{equation}
+\text{AIC} = T\ln(\text{SCR}) + 2n
+\end{equation}
+
+\textbf{SBC / BIC (Schwartz Bayesian Criterion / Criterio Bayesiano de Schwartz):}
+\begin{equation}
+\text{SBC} = T\ln(\text{SCR}) + n\ln(T)
+\end{equation}
+
+donde $n = p + q + \text{constante}$ y $T$ = n\'umero de observaciones \'utiles. Se prefiere el modelo con el AIC o SBC \textit{menor}. El SBC penaliza m\'as fuertemente los par\'ametros adicionales (es asint\'oticamente consistente); el AIC puede estar sesgado hacia modelos sobreparametrizados. Ambos criterios permiten comparar modelos \textit{no anidados}.
+
+%---------------------------------------------------------------
+\section{Selecci\'on de Modelos Box-Jenkins \textit{(Box-Jenkins Model Selection)}}
+%---------------------------------------------------------------
+
+El enfoque de \textbf{Box-Jenkins (1976)} es una estrategia de tres etapas para identificaci\'on, estimaci\'on y diagn\'ostico de una serie de tiempo univariada:
+
+\begin{enumerate}
+  \item \textbf{Etapa de identificaci\'on / identification stage:} Se grafica la trayectoria temporal de la serie y se examinan la ACF y PACF muestrales. Una ACF que decae lentamente sugiere no estacionariedad; en tal caso, se recomienda \textit{diferenciar} los datos.
+  \item \textbf{Etapa de estimaci\'on / estimation stage:} Se estiman todos los modelos tentativos; se examinan los coeficientes $a_i$ y $\beta_i$ para seleccionar un modelo estacionario, \textbf{parsimonioso / parsimonious} y con buen ajuste.
+  \item \textbf{Verificaci\'on diagn\'ostica / diagnostic checking:} Se verifica que los \textbf{residuos / residuals} del modelo estimado se comporten como ruido blanco.
+\end{enumerate}
+
+\subsection{Parsimonia \textit{(Parsimony)}}
+
+La \textbf{parsimonia / parsimony} (escasez o austeridad en par\'ametros) es un principio fundamental: los modelos parsimoniosos producen mejores pron\'osticos que los sobreparametrizados. El objetivo es aproximar el verdadero proceso generador de datos sin fijarlo exactamente.
+
+Se debe detectar el \textbf{problema del factor com\'un / common factor problem}: si los polinomios AR y MA de un ARMA($p,q$) comparten un factor com\'un $(1+cL)$, el modelo se reduce a uno m\'as parsimonioso.
+
+\subsection{Estacionariedad e Invertibilidad \textit{(Stationarity and Invertibility)}}
+
+El enfoque Box-Jenkins requiere que el modelo sea \textbf{invertible / invertible}: $\{y_t\}$ debe poder representarse mediante un AR finito o convergente. Para que un ARMA sea invertible, las ra\'ices del polinomio $(1 + \beta_1 L + \cdots + \beta_q L^q)$ deben estar \textit{fuera} del c\'irculo unitario.
+
+\subsection{Bondad de Ajuste \textit{(Goodness of Fit)}}
+
+El $R^2$ y el promedio de la suma de cuadrados residuales son medidas de \textbf{bondad de ajuste / goodness-of-fit} comunes en MCO; sin embargo, mejoran mec\'anicamente al agregar par\'ametros. El AIC y el SBC son medidas m\'as apropiadas del ajuste global porque penalizan la complejidad del modelo. Adem\'as, se debe desconfiar de estimaciones que no convergen r\'apidamente: una b\'usqueda no lineal que no converge puede indicar par\'ametros inestables que cambian apreciablemente al a\~nadir una observaci\'on.
+
+\subsection{Evaluaci\'on Postestimaci\'on \textit{(Postestimation Evaluation)}}
+
+Los residuos deben ser serialmente no correlacionados. Se construyen la ACF y PACF de los residuos y se aplican los estad\'isticos Q. Tambi\'en se puede comparar la capacidad predictiva fuera de muestra (\textbf{out-of-sample forecasts}).
+
+El \textbf{sobreajuste / overfitting} consiste en ajustar idiosincrasias muestrales que no son representativas del verdadero proceso generador de datos.
+
+%---------------------------------------------------------------
+\section{Propiedades de los Pron\'osticos \textit{(Properties of Forecasts)}}
+%---------------------------------------------------------------
+
+El uso m\'as importante de un modelo ARMA es pronosticar valores futuros. Para el AR(1) $y_t = a_0 + a_1 y_{t-1} + \varepsilon_t$, el pron\'ostico condicional un paso adelante es:
+\begin{equation}
+E_t y_{t+1} = a_0 + a_1 y_t
+\end{equation}
+
+La \textbf{funci\'on de pron\'ostico / forecast function} expresa todos los pron\'osticos $j$ pasos adelante:
+\begin{equation}
+E_t y_{t+j} = a_0\!\left(1 + a_1 + a_1^2 + \cdots + a_1^{j-1}\right) + a_1^j y_t
+\end{equation}
+
+Para cualquier ARMA estacionario, el pron\'ostico condicional converge a la media incondicional cuando $j\to\infty$.
+
+El \textbf{error de pron\'ostico / forecast error} $j$ pasos adelante:
+\begin{equation}
+e_t(j) \equiv y_{t+j} - E_t y_{t+j}
+\end{equation}
+
+Para el AR(1):
+\begin{equation}
+e_t(j) = \varepsilon_{t+j} + a_1\varepsilon_{t+j-1} + \cdots + a_1^{j-1}\varepsilon_{t+1}
+\end{equation}
+
+La varianza del error de pron\'ostico es creciente en $j$:
+\begin{equation}
+\text{var}[e_t(j)] = \sigma^2\!\left[1 + a_1^2 + a_1^4 + \cdots + a_1^{2(j-1)}\right]
+\end{equation}
+
+Al l\'imite, $\text{var}[e_t(j)] \to \sigma^2/(1-a_1^2)$, que es la varianza incondicional de $\{y_t\}$.
+
+\subsection{Modelos de Orden Superior \textit{(Higher-Order Models)}}
+
+Para el ARMA(2,1): $y_t = a_0 + a_1 y_{t-1} + a_2 y_{t-2} + \varepsilon_t + \beta_1\varepsilon_{t-1}$, el pron\'ostico un paso adelante es:
+\begin{equation}
+E_t y_{t+1} = a_0 + a_1 y_t + a_2 y_{t-1} + \beta_1\varepsilon_t
+\end{equation}
+
+Para $j \ge 2$:
+\begin{equation}
+E_t y_{t+j} = a_0 + a_1 E_t y_{t+j-1} + a_2 E_t y_{t+j-2}
+\end{equation}
+
+\subsection{Evaluaci\'on de Pron\'osticos \textit{(Forecast Evaluation)}}
+
+El \textbf{error cuadr\'atico medio de pron\'ostico (MSPE) / mean square prediction error}:
+\begin{equation}
+\text{MSPE} = \frac{1}{H}\sum_{i=1}^{H} e_{1i}^2
+\end{equation}
+
+\subsubsection{Prueba de Granger-Newbold \textit{(The Granger-Newbold Test)}}
+
+Se forman $x_i = e_{1i} + e_{2i}$ y $z_i = e_{1i} - e_{2i}$. El estad\'istico:
+\begin{equation}
+\frac{r_{xz}}{\sqrt{(1-r_{xz}^2)/(H-1)}}
+  \sim t(H-1)
+\end{equation}
+
+bajo $H_0$ de igual desempe\~no en pron\'ostico.
+
+\subsubsection{Prueba de Diebold-Mariano \textit{(The Diebold-Mariano Test)}}
+
+Permite una funci\'on de p\'erdida general $g(\cdot)$. La p\'erdida diferencial en el per\'iodo $i$ es $d_i = g(e_{1i}) - g(e_{2i})$:
+\begin{equation}
+\text{DM} = \bar{d}\,\Big/\sqrt{\frac{\gamma_0 + 2\gamma_1 + \cdots + 2\gamma_q}{H-1}}
+  \sim t(H-1)
+\end{equation}
+
+donde $\gamma_i$ son las autocovarianzas de la secuencia $\{d_i\}$.
+
+%---------------------------------------------------------------
+\section{Un Modelo del Diferencial de Tasas de Inter\'es\\
+\textit{(A Model of the Interest Rate Spread)}}
+%---------------------------------------------------------------
+
+Esta secci\'on ilustra las ambig\"uedades pr\'acticas de Box-Jenkins. El \textbf{diferencial de tasas / interest rate spread} $s_t$ es la diferencia entre la tasa de bonos a 5 a\~nos y la tasa de letras del Tesoro a 3 meses.
+
+Puntos clave de la aplicaci\'on:
+\begin{itemize}
+  \item La ACF y PACF son ambiguas; m\'ultiples modelos plausibles (AR(2), AR(6), AR(7), ARMA(1,1), ARMA(2,1)) se justifican.
+  \item El AIC y el SBC pueden recomendar modelos distintos.
+  \item El \textbf{sobreajuste / overfitting} surge al ajustar idiosincrasias muestrales no representativas del verdadero proceso.
+  \item Los pron\'osticos fuera de muestra sirven como criterio adicional de selecci\'on.
+\end{itemize}
+
+%---------------------------------------------------------------
+\section{Estacionalidad \textit{(Seasonality)}}
+%---------------------------------------------------------------
+
+Muchos procesos econ\'omicos exhiben \textbf{estacionalidad / seasonality}. Se debe ser cauteloso con datos \textbf{desestacionalizados / deseasonalized} o \textbf{ajustados estacionalmente / seasonally adjusted}, pues puede persistir un patr\'on estacional residual, especialmente si no se usa toda la muestra disponible.
+
+\subsection{Modelos de Datos Estacionales \textit{(Models of Seasonal Data)}}
+
+Dos modelos puramente estacionales para datos trimestrales (per\'iodo $s = 4$):
+\begin{align}
+y_t &= a_4\,y_{t-4} + \varepsilon_t, \quad |a_4| < 1 \label{eq:sAR}\\
+y_t &= \varepsilon_t + \beta_4\,\varepsilon_{t-4} \label{eq:sMA}
+\end{align}
+
+La \textbf{estacionalidad multiplicativa / multiplicative seasonality} permite la interacci\'on entre efectos ARMA estacionales y no estacionales:
+\begin{align}
+(1 - a_1 L)\,y_t &= (1 + \beta_1 L)(1 + \beta_4 L^4)\,\varepsilon_t \label{eq:multSMA}\\
+(1 - a_1 L)(1 - a_4 L^4)\,y_t &= (1 + \beta_1 L)\,\varepsilon_t \label{eq:multSAR}
+\end{align}
+
+\subsection{Diferenciaci\'on Estacional \textit{(Seasonal Differencing)}}
+
+Cuando hay no estacionariedad con fuerte estacionalidad, se toma la \textbf{diferencia estacional}. Para datos trimestrales: $\Delta_4 y_t = y_t - y_{t-4}$.
+
+Combinando diferenciaci\'on regular y estacional se obtiene el \textbf{ARIMA($p,d,q$)($P,D,Q$)$_s$}:
+\begin{itemize}
+  \item $p, q$: coeficientes ARMA no estacionales
+  \item $d$: n\'umero de diferencias regulares
+  \item $P, D, Q$: coeficientes AR, diferencias y MA multiplicativos estacionales
+  \item $s$: per\'iodo estacional
+\end{itemize}
+
+El modelo ARIMA(0,1,1)(0,1,1)$_s$ es el \textbf{modelo airline / airline model} (Box y Jenkins, 1976).
+
+%---------------------------------------------------------------
+\section{Inestabilidad de Par\'ametros y Cambio Estructural\\
+\textit{(Parameter Instability and Structural Change)}}
+%---------------------------------------------------------------
+
+Un supuesto clave de Box-Jenkins es que la estructura del proceso generador de datos no cambia. Si los coeficientes $a_i$ y $\beta_i$ var\'ian en el tiempo, el modelo est\'a mal especificado.
+
+\subsection{Prueba de Cambio Estructural \textit{(Testing for Structural Change)}}
+
+La \textbf{prueba de Chow / Chow test} divide la muestra en dos subper\'iodos en torno a la fecha $t_m$ y verifica si los coeficientes difieren significativamente:
+\begin{equation}
+F = \frac{(\text{SCR} - \text{SCR}_1 - \text{SCR}_2)/n}{(\text{SCR}_1 + \text{SCR}_2)/(T-2n)}
+  \sim F(n,\;T-2n)
+\end{equation}
+donde $n = p + q + 1$ y SCR$_1$, SCR$_2$ son las sumas de cuadrados residuales de cada subper\'iodo.
+
+\subsection{Quiebres End\'ogenos \textit{(Endogenous Breaks)}}
+
+Un \textbf{quiebre end\'ogeno / endogenous break} ocurre en una fecha no especificada previamente. Se busca el quiebre m\'as probable estimando la prueba de Chow para cada per\'iodo dentro de una franja de \textbf{recorte / trimming} (t\'ipicamente el 10\,\% en cada extremo). La distribuci\'on del $F$-m\'aximo no es est\'andar; se usan valores cr\'iticos de Andrews y Ploberger (1994).
+
+\subsection{Inestabilidad de Par\'ametros \textit{(Parameter Instability)}}
+
+Sin una fecha de quiebre clara, se usa \textbf{estimaci\'on recursiva}: se estima el modelo secuencialmente a\~nadiendo una observaci\'on a la vez y se grafican los coeficientes con bandas $\pm 2$ desviaciones est\'andar.
+
+La prueba \textbf{CUSUM} acumula los errores de pron\'ostico estandarizados un paso adelante:
+\begin{equation}
+\text{CUSUM}_N = \sum_{i=n}^{N}\frac{e_i(1)}{\sigma_e},
+  \quad N = n, \ldots, T-1
+\end{equation}
+
+Al nivel del 5\,\%, el CUSUM debe permanecer dentro de la banda:
+\begin{equation}
+\pm\,0.948\!\left[(T-n)^{0.5} + 2(N-n)(T-n)^{-0.5}\right]
+\end{equation}
+
+Una variante, \textbf{CUSUM(2)}, utiliza errores cuadrados y detecta cambios en la varianza.
+
+%---------------------------------------------------------------
+\section{Combinaci\'on de Pron\'osticos \textit{(Combining Forecasts)}}
+%---------------------------------------------------------------
+
+Ante varios modelos plausibles, combinar sus pron\'osticos reduce el error. El \textbf{pron\'ostico compuesto / composite forecast} con $n$ modelos:
+\begin{equation}
+f_{ct} = w_1 f_{1t} + w_2 f_{2t} + \cdots + w_n f_{nt},
+  \quad \sum_{i=1}^n w_i = 1
+\end{equation}
+
+La varianza del error compuesto (para $n = 2$):
+\begin{multline}
+\text{var}(e_{ct})
+  = w_1^2\,\text{var}(e_{1t})
+  + (1-w_1)^2\,\text{var}(e_{2t})\\
+  + 2w_1(1-w_1)\,\text{cov}(e_{1t},e_{2t})
+\end{multline}
+
+\subsection{Pesos \'Optimos \textit{(Optimal Weights)}}
+
+El peso \'optimo para el modelo~1 cuando $\text{cov}(e_{1t},e_{2t})=0$:
+\begin{equation}
+w_1^* = \frac{\text{var}(e_{2t})}{\text{var}(e_{1t})+\text{var}(e_{2t})}
+\end{equation}
+
+Para $n$ modelos (m\'etodo de Granger--Ramanathan, 1984):
+\begin{equation}
+w_n^* = \frac{[\text{var}(e_{nt})]^{-1}}
+             {\sum_{i=1}^n [\text{var}(e_{it})]^{-1}}
+\end{equation}
+
+Alternativamente, se estima la regresi\'on:
+\begin{equation}
+y_t = a_0 + \alpha_1 f_{1t} + \alpha_2 f_{2t} + \cdots + \alpha_n f_{nt} + v_t
+\end{equation}
+
+El SBC tambi\'en puede usarse como factor de ponderaci\'on:
+$\alpha_i = \exp[(\text{SBC}^* - \text{SBC}_i)/2]$,
+donde SBC$^*$ es el m\'aximo valor del SBC entre los modelos.
+
+%---------------------------------------------------------------
+\section{Resumen y Conclusiones \textit{(Summary and Conclusions)}}
+%---------------------------------------------------------------
+
+El cap\'itulo desarrolla el enfoque Box-Jenkins para la identificaci\'on, estimaci\'on, verificaci\'on diagn\'ostica y pron\'ostico de series de tiempo univariadas. Los puntos centrales son:
+
+\begin{itemize}
+  \item Un modelo ARMA es estacionario en covarianza si tiene media y varianza finitas e invariantes en el tiempo; las ra\'ices caracter\'isticas deben estar dentro del c\'irculo unitario y el proceso debe haber comenzado infinitamente en el pasado.
+  \item Una ACF que decae lentamente sugiere no estacionariedad; Box y Jenkins recomiendan diferenciar los datos. Si la varianza no es constante, se aplican transformaciones logar\'itmicas o Box-Cox.
+  \item Un modelo bien estimado cumple: (i)~es parsimonioso; (ii)~implica estacionariedad e invertibilidad; (iii)~ajusta bien los datos; (iv)~tiene residuos aproximadamente ruido blanco; (v)~tiene coeficientes estables en el tiempo; y (vi)~produce buenos pron\'osticos fuera de muestra.
+  \item La inestabilidad de coeficientes se detecta con la prueba de Chow (quiebre conocido), estimaci\'on recursiva, o la prueba CUSUM (quiebre desconocido).
+  \item En general, los \textbf{pron\'osticos combinados / combined forecasts} superan a los pron\'osticos de un solo modelo (\textit{ad hoc} o mediante pesos \'optimos).
+\end{itemize}
+
+\end{document}

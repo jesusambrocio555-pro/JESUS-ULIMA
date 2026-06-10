@@ -1,0 +1,288 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{\textbf{Resumen: Stock \& Watson, Cap\'itulo 14 (Secciones 14.3--14.8)}\\
+\large Introducci\'on a la regresi\'on de series temporales y predicci\'on}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------
+\section{Autorregresión (\textit{Autoregression})}
+%----------------------------------------------------------------------
+
+\subsection{Modelo AR(1)}
+
+El \textbf{modelo autorregresivo de orden 1 / autoregressive model of order 1 (AR(1))} expresa el valor actual de una variable como función lineal de su valor en el periodo anterior más un t\'ermino de error:
+
+\begin{equation}
+  Y_t = \beta_0 + \beta_1 Y_{t-1} + u_t,
+\end{equation}
+
+donde $u_t$ es un error con media cero condicionada al pasado. El coeficiente $\beta_1$ mide la persistencia de la serie: si $|\beta_1| < 1$, la serie es estacionaria; si $\beta_1 = 1$, la serie sigue un \textbf{paseo aleatorio / random walk}.
+
+\subsection{Modelo AR(p)}
+
+Generalizando, el \textbf{modelo AR(p)} incluye $p$ retardos de la variable dependiente:
+
+\begin{equation}
+  Y_t = \beta_0 + \beta_1 Y_{t-1} + \beta_2 Y_{t-2} + \cdots + \beta_p Y_{t-p} + u_t.
+\end{equation}
+
+Los par\'ametros se estiman por \textbf{m\'inimos cuadrados ordinarios / ordinary least squares (MCO/OLS)}. El orden $p$ se determina minimizando un \textbf{criterio de informaci\'on / information criterion} (BIC o AIC).
+
+\subsection{Predicciones y error de predicción}
+
+La \textbf{predicci\'on de un periodo adelante / one-period-ahead forecast} del modelo AR(1) es:
+
+\begin{equation}
+  \widehat{Y}_{T+1|T} = \hat{\beta}_0 + \hat{\beta}_1 Y_T.
+\end{equation}
+
+Para horizontes m\'as largos se calculan \textbf{predicciones iteradas / iterated forecasts}, sustituyendo predicciones previas como si fueran valores observados.
+
+La precisi\'on de la predicci\'on se mide con la \textbf{ra\'iz del error cuadr\'atico medio de predicci\'on / root mean squared forecast error (RECMP/RMSFE)}:
+
+\begin{equation}
+  \text{RECMP} = \sqrt{E\!\left[\left(Y_{T+1} - \widehat{Y}_{T+1|T}\right)^2\right]}.
+\end{equation}
+
+Un \textbf{intervalo de predicci\'on / forecast interval} aproximado al 95\,\% es:
+
+\begin{equation}
+  \widehat{Y}_{T+1|T} \pm 1{,}96 \times \text{RECMP}.
+\end{equation}
+
+%----------------------------------------------------------------------
+\section{Regresi\'on de Series Temporales con Predictores Adicionales y Causalidad de Granger}
+%----------------------------------------------------------------------
+
+\subsection{Modelo ARD(p,q)}
+
+El \textbf{modelo autorregresivo de retardos distribuidos / autoregressive distributed lag model (ARD/ADL)} extiende el AR(p) incorporando retardos de variables adicionales $X_t$:
+
+\begin{equation}
+  Y_t = \beta_0 + \beta_1 Y_{t-1} + \cdots + \beta_p Y_{t-p}
+        + \delta_1 X_{t-1} + \cdots + \delta_q X_{t-q} + u_t.
+\end{equation}
+
+Añadir predictores adicionales puede mejorar la predicci\'on si dichos predictores est\'an correlacionados con $Y_t$ tras controlar por sus propios retardos.
+
+\subsection{Concepto 14.5: Estacionariedad}
+
+Una serie de tiempo $Y_t$ es \textbf{estacionaria / stationary} si su distribuci\'on conjunta no cambia a lo largo del tiempo; en particular, su media y varianza son constantes y su autocovarianza entre $Y_t$ e $Y_{t-j}$ depende solo de $j$, no de $t$. La estacionariedad es necesaria para que la inferencia est\'andar con MCO sea v\'alida en series temporales.
+
+\subsection{Concepto 14.6: Regresi\'on de Series Temporales con Varios Predictores}
+
+Bajo los supuestos de MCO para series temporales (Concepto 14.6), los estimadores MCO son consistentes y asint\'oticamente normales, de modo que los estad\'isticos $t$ y $F$ pueden compararse con los valores cr\'iticos habituales en muestras grandes. Los supuestos clave son: (i) estacionariedad; (ii) ausencia de multicolinealidad perfecta; (iii) media condicional del error nula; (iv) ausencia de autocorrelaci\'on serial en los errores, y (v) los momentos necesarios son finitos.
+
+\subsection{Concepto 14.7: Causalidad de Granger}
+
+Se dice que $X_t$ \textbf{causa en el sentido de Granger / Granger-causes} a $Y_t$ si los retardos de $X_t$ tienen poder predictivo adicional sobre $Y_t$ despu\'es de controlar por los retardos de $Y_t$ y eventualmente de otras variables. Formalmente, la hip\'otesis nula de no-causalidad Granger es $\delta_1 = \delta_2 = \cdots = \delta_q = 0$ en el modelo ARD(p,q), contrastada mediante el estad\'istico $F$. La causalidad de Granger es un concepto predictivo, no causal en sentido estructural.
+
+\subsection{Incertidumbre e Intervalos de Predicci\'on}
+
+El \textbf{error cuadr\'atico medio de predicci\'on (ECMP) / mean squared forecast error (MSFE)} resume las dos fuentes de incertidumbre en la predicci\'on: la varianza del t\'ermino de error futuro y la varianza de estimaci\'on de los coeficientes. En muestras grandes, la segunda fuente es peque\~na y el ECMP se aproxima a la varianza del error:
+
+\begin{equation}
+  \text{ECMP} = \sigma_u^2 + \text{varianza de estimaci\'on} \approx \sigma_u^2.
+  \label{eq:ecmp}
+\end{equation}
+
+Los intervalos de predicci\'on se construyen usando la RECMP estimada como medida de dispersi\'on.
+
+%----------------------------------------------------------------------
+\section{Selecci\'on de la Longitud del Retardo Usando Criterios de Informaci\'on}
+%----------------------------------------------------------------------
+
+El n\'umero de retardos $p$ en un AR(p) o ARD(p,q) se elige minimizando un \textbf{criterio de informaci\'on / information criterion} que penaliza la complejidad del modelo.
+
+\subsection{Criterio de Informaci\'on Bayesiano (BIC)}
+
+El \textbf{criterio BIC / Bayesian information criterion (BIC)} para el AR(p) es:
+
+\begin{equation}
+  \text{BIC}(p) = \ln\!\left(\frac{\text{SCR}(p)}{T}\right) + (p+1)\frac{\ln T}{T},
+  \label{eq:bic}
+\end{equation}
+
+donde SCR$(p)$ es la suma de cuadrados de los residuos del modelo con $p$ retardos. El orden elegido es $\hat{p}_{\text{BIC}} = \arg\min_p \text{BIC}(p)$.
+
+\subsection{Criterio de Informaci\'on de Akaike (AIC)}
+
+El \textbf{criterio AIC / Akaike information criterion (AIC)} es:
+
+\begin{equation}
+  \text{AIC}(p) = \ln\!\left(\frac{\text{SCR}(p)}{T}\right) + (p+1)\frac{2}{T}.
+  \label{eq:aic}
+\end{equation}
+
+El AIC penaliza los par\'ametros adicionales menos que el BIC. Para muestras grandes, el BIC es consistente (selecciona el verdadero orden con probabilidad 1 cuando $T \to \infty$), mientras que el AIC tiende a sobrestimar el orden.
+
+\subsection{BIC para Modelos ARD}
+
+Para el modelo ARD con $K$ regresores en total (incluyendo retardos de $Y_t$ y de predictores adicionales), el BIC generalizado es:
+
+\begin{equation}
+  \text{BIC}(K) = \ln\!\left(\frac{\text{SCR}(K)}{T}\right) + (K+1)\frac{\ln T}{T}.
+  \label{eq:bick}
+\end{equation}
+
+La pr\'actica habitual consiste en fijar un m\'aximo de retardos $p_{\max}$ (por ejemplo, tomado como $\lfloor T^{1/3} \rfloor$) y evaluar el BIC para todos los valores $p = 1, \ldots, p_{\max}$.
+
+%----------------------------------------------------------------------
+\section{Ausencia de Estacionariedad I: Tendencias}
+%----------------------------------------------------------------------
+
+\subsection{Tendencias Determin\'isticas versus Estoc\'asticas}
+
+Una \textbf{tendencia / trend} en una serie de tiempo puede ser:
+
+\begin{itemize}
+  \item \textbf{Determin\'istica / deterministic}: el nivel medio de la serie crece de forma predecible en el tiempo; por ejemplo, $E[Y_t] = \beta_0 + \beta_1 t$.
+  \item \textbf{Estoc\'astica / stochastic}: el nivel de la serie var\'ia de forma impredecible, acumulando perturbaciones aleatorias.
+\end{itemize}
+
+\subsection{Paseo Aleatorio}
+
+El \textbf{paseo aleatorio / random walk} es el modelo de tendencia estoc\'astica m\'as simple:
+
+\begin{equation}
+  Y_t = Y_{t-1} + u_t,
+  \label{eq:rw}
+\end{equation}
+
+donde $u_t$ es ruido blanco. La varianza de $Y_t$ crece con $t$, por lo que la serie es no estacionaria. El \textbf{paseo aleatorio con deriva / random walk with drift} a\~nade un t\'ermino constante:
+
+\begin{equation}
+  Y_t = \beta_0 + Y_{t-1} + u_t,
+  \label{eq:rwd}
+\end{equation}
+
+lo que genera una tendencia lineal en la media.
+
+\subsection{Regresi\'on Espuria}
+
+Cuando dos series no estacionarias se regresan entre s\'i sin que exista una relaci\'on econ\'omica real, el estimador MCO puede arrojar coeficientes significativos y un $R^2$ elevado de manera ficticia. Este fen\'omeno se denomina \textbf{regresi\'on espuria / spurious regression} y constituye una de las principales razones para estudiar la estacionariedad antes de estimar modelos de regresi\'on con series temporales.
+
+\subsection{Contrastes de Ra\'iz Unitaria: Dickey-Fuller}
+
+El \textbf{contraste de Dickey-Fuller / Dickey-Fuller test (DF)} contrasta la hip\'otesis nula $H_0\colon \delta = 0$ (ra\'iz unitaria) frente a la alternativa $H_1\colon \delta < 0$ (estacionariedad) en la regresi\'on:
+
+\begin{equation}
+  \Delta Y_t = \beta_0 + \delta Y_{t-1} + u_t,
+  \label{eq:df}
+\end{equation}
+
+donde $\Delta Y_t = Y_t - Y_{t-1}$. El estad\'istico es el $t$ MCO para $\hat\delta$, pero su distribuci\'on bajo $H_0$ no es normal est\'andar incluso en muestras grandes, por lo que se utilizan valores cr\'iticos especiales (Tabla 14.5 del libro).
+
+\subsection{Concepto 14.8: Contraste Dickey-Fuller Aumentado (ADF)}
+
+El \textbf{contraste de Dickey-Fuller aumentado / augmented Dickey-Fuller test (ADF)} extiende el DF agregando retardos de $\Delta Y_t$ para controlar la autocorrelaci\'on serial:
+
+\begin{equation}
+  \Delta Y_t = \beta_0 + \delta Y_{t-1} + \gamma_1 \Delta Y_{t-1} + \gamma_2 \Delta Y_{t-2}
+               + \cdots + \gamma_p \Delta Y_{t-p} + u_t.
+  \label{eq:adf}
+\end{equation}
+
+Si la alternativa es estacionariedad alrededor de una tendencia temporal lineal, se a\~nade el regresor $t$ a la regresi\'on:
+
+\begin{equation}
+  \Delta Y_t = \beta_0 + \alpha t + \delta Y_{t-1} + \gamma_1 \Delta Y_{t-1}
+               + \cdots + \gamma_p \Delta Y_{t-p} + u_t.
+  \label{eq:adft}
+\end{equation}
+
+El n\'umero de retardos $p$ puede elegirse con BIC o AIC. Los valores cr\'iticos del ADF son menores (m\'as negativos) que los de la distribuci\'on normal: al 5\,\% son $-2{,}86$ (sin tendencia) y $-3{,}41$ (con tendencia).
+
+\subsection{Resoluci\'on: Primeras Diferencias}
+
+Si una serie tiene una ra\'iz unitaria, la manera m\'as com\'un de eliminar la tendencia estoc\'astica es tomar \textbf{primeras diferencias / first differences}. Si $Y_t$ sigue un paseo aleatorio con deriva, entonces $\Delta Y_t = \beta_0 + u_t$ es estacionaria.
+
+%----------------------------------------------------------------------
+\section{Ausencia de Estacionariedad II: Cambios Estructurales}
+%----------------------------------------------------------------------
+
+\subsection{Qu\'e es un Cambio Estructural}
+
+Un \textbf{cambio estructural / structural break} ocurre cuando los coeficientes de la funci\'on de regresi\'on poblacional var\'ian durante el per\'iodo muestral. Los cambios pueden ser \textbf{discretos / discrete} (en un momento espec\'ifico) o de \textbf{evoluci\'on lenta / slow-moving} (graduales a lo largo del tiempo). Si no se detectan, el modelo MCO estima una relaci\'on ``promedio'' que puede ser muy diferente de la verdadera al final de la muestra, conduciendo a predicciones sesgadas.
+
+\subsection{Contraste de Cambio Estructural con Punto de Ruptura Conocido (Contraste de Chow)}
+
+Si la fecha del cambio estructural $\tau$ es conocida, se especifica una \textbf{variable binaria de cambio estructural / structural break dummy} $D_t(\tau)$, que vale 0 para $t \leq \tau$ y 1 para $t > \tau$. En un modelo ARD(1,1) la regresi\'on ampliada es:
+
+\begin{equation}
+  Y_t = \beta_0 + \beta_1 Y_{t-1} + \delta_1 X_{t-1} + \gamma_0 D_t(\tau)
+        + \gamma_1\!\left[D_t(\tau) \times Y_{t-1}\right]
+        + \gamma_2\!\left[D_t(\tau) \times X_{t-1}\right] + u_t.
+  \label{eq:chow}
+\end{equation}
+
+La hip\'otesis nula de ausencia de cambio estructural es $\gamma_0 = \gamma_1 = \gamma_2 = 0$, contrastada con el \textbf{estad\'istico $F$ de Chow / Chow $F$-statistic}.
+
+\subsection{Concepto 14.9: El Contraste QLR (Punto de Ruptura Desconocido)}
+
+Cuando el momento del cambio es desconocido, el \textbf{estad\'istico QLR / QLR statistic} (tambi\'en llamado \textbf{estad\'istico supWald}) es el m\'aximo de los estad\'isticos $F$ de Chow calculados para todos los posibles puntos de ruptura en el rango $\tau_0 \leq \tau \leq \tau_1$:
+
+\begin{equation}
+  \text{QLR} = \max\bigl[F(\tau_0),\, F(\tau_0+1),\, \ldots,\, F(\tau_1)\bigr].
+  \label{eq:qlr}
+\end{equation}
+
+En la pr\'actica se aplica una \textbf{reducci\'on del 15\,\% / 15\,\% trimming}, de modo que $\tau_0 = 0{,}15T$ y $\tau_1 = 0{,}85T$; el estad\'istico $F$ se calcula solo en el 70\,\% central de la muestra. Los valores cr\'iticos del QLR (Tabla 14.6) son mayores que los del $F$ individual porque el QLR elige el m\'aximo entre muchos estad\'isticos $F$.
+
+Las propiedades del contraste QLR son:
+\begin{enumerate}
+  \item Puede contrastar cambios en todos o en un subconjunto de los coeficientes.
+  \item En muestras grandes, su distribuci\'on bajo $H_0$ depende de $q$ (n\'umero de restricciones) y de los extremos de reducci\'on $\tau_0/T$, $\tau_1/T$.
+  \item Detecta tanto un \'unico cambio discreto como m\'ultiples cambios o evoluci\'on lenta de los coeficientes.
+  \item Cuando existe un cambio estructural discreto, el punto de ruptura $\tau$ se estima como el periodo donde el estad\'istico $F$ es m\'aximo.
+\end{enumerate}
+
+\subsection{Predicci\'on Pseudo Fuera de la Muestra}
+
+La \textbf{predicci\'on pseudo fuera de la muestra / pseudo out-of-sample forecasting} eval\'ua el rendimiento de un modelo en condiciones similares a las del tiempo real, sin usar datos futuros en la estimaci\'on. El procedimiento (Concepto 14.10) es:
+
+\begin{enumerate}
+  \item Elegir un n\'umero de predicciones $P$ (por ejemplo, el 10--15\,\% del total de observaciones $T$); sea $s = T - P$.
+  \item Estimar el modelo con los datos $t = 1, \ldots, s$.
+  \item Calcular la predicci\'on $\widetilde{Y}_{s+1|s}$ y el error $\tilde{u}_{s+1} = Y_{s+1} - \widetilde{Y}_{s+1|s}$.
+  \item Repetir los pasos 2--3 para $s = T-P, T-P+1, \ldots, T-1$, reestimando el modelo en cada periodo.
+  \item Las predicciones pseudo fuera de la muestra son $\{\widetilde{Y}_{s+1|s}\}$ y los errores $\{\tilde{u}_{s+1}\}$.
+\end{enumerate}
+
+La desviaci\'on t\'ipica muestral de los errores de predicci\'on pseudo fuera de la muestra es un estimador de la RECMP, \'util para cuantificar la incertidumbre de predicci\'on y para comparar modelos alternativos.
+
+\subsection{Resoluci\'on de Cambios Estructurales}
+
+Si el cambio estructural es discreto y puede detectarse con el QLR, la funci\'on de regresi\'on se reestima incorporando la variable binaria de ruptura $D_t(\hat{\tau})$ con sus interacciones. Si el cambio es de evoluci\'on lenta, los m\'etodos disponibles quedan fuera del alcance introductorio de este cap\'itulo.
+
+%----------------------------------------------------------------------
+\section{Conclusi\'on}
+%----------------------------------------------------------------------
+
+El cap\'itulo 14 introduce los fundamentos de la regresi\'on de series temporales para la predicci\'on. Los puntos centrales son:
+
+\begin{enumerate}
+  \item Los modelos de predicci\'on no requieren interpretaci\'on causal; el objetivo es la precisi\'on predictiva.
+  \item Las series temporales suelen estar \textbf{serialmente correlacionadas / serially correlated}, lo que motiva el uso de modelos AR y ARD.
+  \item El orden de los retardos se determina minimizando el BIC (consistente) o el AIC.
+  \item La \textbf{estacionariedad / stationarity} es el supuesto clave para la validez de la inferencia MCO est\'andar.
+  \item Las series con \textbf{ra\'ices unitarias / unit roots} son no estacionarias; el contraste ADF permite detectarlas. La primera diferencia elimina la tendencia estoc\'astica.
+  \item Los \textbf{cambios estructurales / structural breaks} invalidan la estabilidad del modelo. El contraste QLR permite detectarlos incluso cuando la fecha es desconocida.
+  \item La predicci\'on pseudo fuera de la muestra eval\'ua el rendimiento real del modelo y estima la RECMP.
+  \item Cuando la no estacionariedad proviene de un cambio estructural discreto, el modelo puede reestimarse incorporando la ruptura identificada.
+\end{enumerate}
+
+\end{document}

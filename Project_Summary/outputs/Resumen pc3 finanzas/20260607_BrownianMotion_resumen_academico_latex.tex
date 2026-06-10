@@ -1,0 +1,407 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Movimiento Browniano y sus Aplicaciones en el Mercado de Valores}\\[4pt]
+\large \textit{Brownian Motion and Its Applications In The Stock Market}\\[4pt]
+\normalsize Angeliki Ermogenous\\
+\small \textit{Undergraduate Mathematics Day, Electronic Proceedings}, University of Dayton, 2006}
+\author{}
+\date{Junio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%---------------------------------------------------------------
+\section{Introducci\'on e Historia del Movimiento Browniano
+\textit{(Introduction and History of Brownian Motion)}}
+%---------------------------------------------------------------
+
+El \textbf{movimiento browniano (Brownian motion)} hace referencia a dos fen\'omenos relacionados:
+(1) el fen\'omeno f\'isico en el que part\'iculas min\'usculas inmersas en un fluido se desplazan aleatoriamente, y
+(2) los modelos matem\'aticos utilizados para describir dichos movimientos aleatorios.
+
+Wilfrid Kendall captura la complejidad del fen\'omeno con la siguiente observaci\'on:\\
+\textit{``Si corres el movimiento browniano en dos dimensiones por una cantidad positiva de tiempo, escribir\'a tu nombre.''}
+
+\subsection{Historia \textit{(History)}}
+
+\begin{intuicion}
+El movimiento browniano pas\'o de ser una curiosidad biol\'ogica (Brown, 1827) a una teor\'ia financiera (Bachelier, 1900) y finalmente a una explicaci\'on f\'isica rigurosa (Einstein, 1905). Cada etapa a\~nadi\'o una capa de entendimiento: primero el fen\'omeno, luego la aplicaci\'on, finalmente el mecanismo.
+\end{intuicion}
+
+\begin{itemize}
+  \item \textbf{1827} --- El bi\'ologo Robert Brown observ\'o al microscopio peque\~nas part\'iculas en granos de polen flotando en agua ejecutando un movimiento err\'atico. Al repetir el experimento con part\'iculas de polvo, concluy\'o que el movimiento no proven\'ia de que el pol\'en estuviera ``vivo'', pero el origen del fen\'omeno qued\'o inexplicado.
+
+  \item \textbf{1900} --- Louis Bachelier propuso la primera teor\'ia del movimiento browniano en su tesis doctoral \textit{La teor\'ia de la especulaci\'on}.
+
+  \item \textbf{1905} --- Albert Einstein, mediante un \textbf{modelo probabil\'istico (probabilistic model)}, explic\'o el fen\'omeno: si la energ\'ia cin\'etica de los fluidos es correcta, las mol\'eculas del agua se mueven al azar. As\'i, una part\'icula peque\~na recibe un n\'umero aleatorio de impactos de fuerza y direcci\'on aleatorias en cualquier intervalo corto de tiempo, produci\'endose exactamente el movimiento que Brown describi\'o.
+\end{itemize}
+
+%---------------------------------------------------------------
+\section{Definiciones Relevantes al Movimiento Browniano
+\textit{(Definitions of Concepts Relevant to Brownian Motion)}}
+%---------------------------------------------------------------
+
+\subsection{$\sigma$-\'Algebra \textit{($\sigma$-Algebra)}}
+
+\begin{intuicion}
+Una $\sigma$-\'algebra es la lista formal de todos los eventos sobre los que podemos asignar probabilidades. Es la estructura que garantiza que los c\'alculos probabil\'isticos sean coherentes: si un evento est\'a en la lista, su complemento y las uniones/intersecciones contables de eventos tambi\'en lo est\'an.
+\end{intuicion}
+
+\textbf{Definici\'on 2.1.} Una \textbf{$\sigma$-\'algebra ($\sigma$-algebra)} $\mathcal{F}$ sobre $\Omega$ es una familia de subconjuntos de $\Omega$ tal que:
+\begin{enumerate}
+  \item $\emptyset,\;\Omega \in \mathcal{F}$
+  \item Si $A \in \mathcal{F}$, entonces el complemento $\Omega - A \in \mathcal{F}$
+  \item Si $A_1, A_2, \ldots, A_\infty$ es una sucesi\'on de conjuntos en $\mathcal{F}$, entonces:
+  \[
+    \bigcup_{i=1}^{\infty} A_i \;\in\; \mathcal{F}, \qquad
+    \bigcap_{i=1}^{\infty} A_i \;\in\; \mathcal{F}
+  \]
+\end{enumerate}
+
+\subsection{Espacio de Probabilidad \textit{(Probability Space)}}
+
+\begin{intuicion}
+Un espacio de probabilidad es la estructura b\'asica de toda la teor\'ia probabil\'istica: un universo de resultados posibles, una colecci\'on de eventos y una funci\'on que asigna probabilidades. La aditividad contable garantiza que las probabilidades sumen correctamente.
+\end{intuicion}
+
+\textbf{Definici\'on 2.2.} Un \textbf{espacio de probabilidad (probability space)} es la tripleta $(\Omega, \mathcal{F}, P)$, donde $\Omega$ es un conjunto no vac\'io, $\mathcal{F}$ es una $\sigma$-\'algebra de subconjuntos de $\Omega$, y $P$ es una funci\'on que asigna a cada $A \in \mathcal{F}$ un n\'umero en $[0,1]$ llamado la probabilidad de $A$. Se requiere:
+\begin{itemize}
+  \item $P(\Omega) = 1$
+  \item (\textbf{Aditividad contable / Countable additivity}) Si $A_1, A_2, \ldots$ es una sucesi\'on de conjuntos disjuntos en $\mathcal{F}$:
+  \begin{equation}
+    P\!\left(\bigcup_{n=1}^{\infty} A_n\right) = \sum_{n=1}^{\infty} P(A_n)
+  \end{equation}
+\end{itemize}
+
+\begin{intuicionmat}
+La probabilidad de que ocurra al menos uno de infinitos eventos mutuamente excluyentes es simplemente la suma de sus probabilidades individuales. Esto garantiza consistencia: si divides el espacio muestral en partes disjuntas, las probabilidades suman exactamente 1.
+\end{intuicionmat}
+
+\subsection{\'Algebra de Borel \textit{(Borel Algebra)}}
+
+\begin{intuicion}
+El \'algebra de Borel es la $\sigma$-\'algebra m\'as natural sobre $\mathbb{R}^n$: la m\'as peque\~na que contiene todos los conjuntos abiertos. Es la estructura est\'andar para trabajar con variables aleatorias en espacios continuos como la recta real.
+\end{intuicion}
+
+\textbf{Definici\'on 2.3.} El \textbf{\'algebra de Borel (Borel algebra)} $\mathcal{B}$ denota la colecci\'on de subconjuntos de Borel de $\mathbb{R}^n$, es decir, la m\'as peque\~na $\sigma$-\'algebra de subconjuntos de $\mathbb{R}^n$ que contiene todos los conjuntos abiertos.
+
+\subsection{Variable Aleatoria \textit{(Random Variable)}}
+
+\begin{intuicion}
+Una variable aleatoria traduce resultados aleatorios abstractos a n\'umeros reales. La condici\'on de medibilidad garantiza que la probabilidad de que $X$ caiga en cualquier rango est\'a bien definida.
+\end{intuicion}
+
+\textbf{Definici\'on 2.4.} Sea $(\Omega, \mathcal{F}, P)$ un espacio de probabilidad. Una funci\'on
+\[
+  X : \Omega \to \mathbb{R}^n
+\]
+se llama \textbf{variable aleatoria $n$-dimensional (n-dimensional random variable)} si para cada $B \in \mathcal{B}$ se cumple que $X^{-1}(B) \in \mathcal{F}$. Equivalentemente, $X$ es \textbf{$\mathcal{F}$-medible ($\mathcal{F}$-measurable)}.
+
+\subsection{Proceso Estoc\'astico \textit{(Stochastic Process)}}
+
+\begin{intuicion}
+Un proceso estoc\'astico es una colecci\'on de variables aleatorias indexadas por el tiempo. En lugar de un solo valor aleatorio, tenemos una trayectoria completa que evoluciona aleatoriamente a lo largo del tiempo.
+\end{intuicion}
+
+\textbf{Definici\'on 2.5.} Un \textbf{proceso estoc\'astico (stochastic process)} es una colecci\'on parametrizada de variables aleatorias
+\[
+  \{X_t\}_{t \in T}
+\]
+definida sobre un espacio de probabilidad $(\Omega, \mathcal{F}, P)$ y que toma valores en $\mathbb{R}^n$.
+
+%---------------------------------------------------------------
+\section{Propiedades del Movimiento Browniano
+\textit{(Properties of Brownian Motion)}}
+%---------------------------------------------------------------
+
+El movimiento browniano es un \textbf{proceso estoc\'astico de Wiener (Wiener stochastic process)}.
+
+\subsection{Proceso de Wiener \textit{(Wiener Process)}}
+
+\begin{intuicion}
+El proceso de Wiener formaliza matem\'aticamente el movimiento browniano. Cuatro condiciones capturan su esencia: comienza en cero, sus incrementos son normales e independientes, y sus trayectorias son continuas. Estas propiedades lo convierten en el proceso estoc\'astico fundamental de la f\'isica y las finanzas.
+\end{intuicion}
+
+\textbf{Definici\'on.} Un \textbf{proceso de Wiener (Wiener process)} es un proceso estoc\'astico $W(t)$ con valores en $\mathbb{R}$ definido para $t \in [0,\infty)$ tal que:
+\begin{enumerate}
+  \item $W(0) = 0$
+  \item Si $0 < s < t$, entonces $W(t) - W(s)$ tiene distribuci\'on normal $\sim N(0,\, t-s)$ con media 0 y varianza $(t-s)$
+  \item Si $0 \leq s \leq t \leq u \leq v$ (intervalos $[s,t]$ y $[u,v]$ no solapados), entonces $W(t)-W(s)$ y $W(v)-W(u)$ son \textbf{variables aleatorias independientes (independent random variables)}. El proceso de Wiener es el \'unico proceso estoc\'astico homog\'eneo en el tiempo con incrementos independientes y trayectorias continuas.
+  \item Las \textbf{trayectorias muestrales (sample paths)} $t \mapsto W(t)$ son casi seguramente continuas.
+\end{enumerate}
+
+La \textbf{funci\'on de densidad de probabilidad (probability density function)} de $W(t)$ es:
+\begin{equation}
+  f_{W(t)}(x) = \frac{1}{\sqrt{2\pi t}}\; e^{-\frac{x^2}{2t}}
+\end{equation}
+
+\begin{intuicionmat}
+En cada instante $t$, la posici\'on del movimiento browniano sigue una distribuci\'on normal centrada en cero con varianza igual a $t$. Cuanto m\'as tiempo ha transcurrido, m\'as dispersa es la distribuci\'on: la incertidumbre sobre la posici\'on crece indefinidamente con el tiempo. La campana se aplana y ensancha a medida que $t$ aumenta.
+\end{intuicionmat}
+
+\subsection{Propiedades B\'asicas \textit{(Basic Properties)}}
+
+\begin{intuicion}
+El movimiento browniano es un proceso gaussiano: toda combinaci\'on de sus valores en distintos instantes sigue una distribuci\'on normal multivariada. Tiene incrementos estacionarios (el comportamiento futuro depende solo del lapso de tiempo, no del instante de partida) y es una martingala (el valor esperado futuro, dado el presente, es el presente mismo).
+\end{intuicion}
+
+Las propiedades fundamentales del movimiento browniano $\{B_t\}$ son:
+
+\begin{itemize}
+  \item \textbf{Proceso gaussiano (Gaussian process):} Para $0 \leq t_1 \leq t_2 \leq \ldots \leq t_k$, el vector aleatorio $\mathbb{Z} = (B_{t_1}, \ldots, B_{t_k})$ tiene \textbf{distribuci\'on multinormal (multinormal distribution)}.
+
+  \item \textbf{Incrementos estacionarios (stationary increments):} El proceso $(B_{t+h} - B_t)_{h \geq 0}$ tiene la misma distribuci\'on para todo $t$; en consecuencia:
+  \begin{align}
+    E(B_{t+h} - B_t) &= 0 \notag\\
+    \mathrm{Var}(B_{t+h} - B_t) &= h
+  \end{align}
+
+  \begin{intuicionmat}
+  El movimiento browniano no tiene deriva: en promedio no sube ni baja. Sin embargo, su varianza crece linealmente con el tiempo $h$: cuanto m\'as tiempo transcurre, m\'as puede haberse alejado la part\'icula de su posici\'on inicial. Esta propiedad hace del movimiento browniano un modelo natural para precios sin tendencia predecible.
+  \end{intuicionmat}
+
+  \item \textbf{Continuidad sin diferenciabilidad (continuous but nowhere differentiable):} $B_t$ tiene trayectorias continuas pero no es diferenciable en ning\'un punto.
+
+  \item \textbf{Martingala (martingale):} El movimiento browniano es una martingala.
+
+  \textbf{Definici\'on 3.1.} El proceso $M_t$ es una \textbf{martingala (martingale)} si:
+  \begin{itemize}
+    \item $|E(M_t)| < \infty$ para todo $t$
+    \item $M_t$ es $\mathcal{F}_t$-medible para todo $t$
+    \item La \textbf{esperanza condicional (conditional expectation)} satisface: $E(M_t \mid \mathcal{F}_s) = M_s$ c.s. si $s < t$
+  \end{itemize}
+
+  \item \textbf{Covarianza (covariance):}
+  \begin{equation}
+    \mathrm{Cov}(B_s,\; B_t) = \min(s,\; t)
+  \end{equation}
+
+  \begin{intuicionmat}
+  La covarianza entre la posici\'on en dos instantes es simplemente el menor de los dos tiempos. Esto refleja que la incertidumbre acumulada hasta el momento m\'as temprano es lo que correlaciona ambos valores. Desde ese punto en adelante, el proceso evoluciona independientemente.
+  \end{intuicionmat}
+\end{itemize}
+
+\subsection{Propiedades Distributivas \textit{(Distributional Properties)}}
+
+\begin{intuicion}
+El movimiento browniano tiene simetr\'ias notables: se comporta igual si lo trasladamos en el espacio, lo reflejamos, lo reescalamos o invertimos el tiempo. Estas invariancias son esenciales para la modelizaci\'on financiera, ya que permiten simplificar c\'alculos sin perder generalidad.
+\end{intuicion}
+
+\begin{itemize}
+  \item \textbf{Homogeneidad espacial (Spatial Homogeneity):} $B_t + x$ para cualquier $x \in \mathbb{R}$ es un movimiento browniano iniciado en $x$.
+
+  \item \textbf{Simetr\'ia (Symmetry):} $-B_t$ tambi\'en es un movimiento browniano.
+
+  \item \textbf{Escalado (Scaling):} $\sqrt{c}\, B_{t/c}$ para cualquier $c > 0$ es un movimiento browniano. El proceso es \textbf{autosimilar (self-similar)}: luce igual a cualquier escala temporal.
+
+  \item \textbf{Inversi\'on del tiempo (Time inversion):}
+  \begin{equation}
+    Z_t = \begin{cases} 0, & t = 0 \\ t\,B_{1/t}, & t > 0 \end{cases}
+    \quad \text{es un movimiento browniano.}
+  \end{equation}
+
+  \begin{intuicionmat}
+  Si tomamos el proceso browniano y ``invertimos'' el tiempo ---evaluando en $1/t$ y escalando por $t$--- obtenemos otro proceso browniano v\'alido. Esta invariancia bajo inversi\'on del tiempo revela la notable simetr\'ia del proceso respecto al eje temporal.
+  \end{intuicionmat}
+
+  \item \textbf{Reversibilidad temporal (Time reversibility):} Para un $t > 0$ dado:
+  \[
+    \{B_s : 0 \leq s \leq t\} \;\sim\; \{B_{t-s} - B_t : 0 \leq s \leq t\}
+  \]
+\end{itemize}
+
+\subsection{Continuidad y Diferenciabilidad \textit{(Continuity and Differentiability)}}
+
+\begin{intuicion}
+El movimiento browniano es continuo en todas partes pero diferenciable en ning\'un punto. Esto parece paradójico pero es posible: la trayectoria es tan irregular que ning\'un tramo es ``suave'', aunque nunca salte. Es como una l\'inea infinitamente dentada que no tiene esquinas bien definidas.
+\end{intuicion}
+
+Aunque $B_t$ es continuo en todas partes, es \textbf{no diferenciable en ning\'un punto (nowhere differentiable)}. La idea de la prueba parte de que un incremento peque\~no $B(t+\Delta t) - B(t)$ est\'a normalmente distribuido con media 0 y varianza $\Delta t$:
+\begin{equation}
+  E\!\left[|B(t+\Delta t) - B(t)|^2\right] = \Delta t
+\end{equation}
+
+\begin{intuicionmat}
+El tama\~no t\'ipico de un incremento es del orden $\sqrt{\Delta t}$. Cuando $\Delta t \to 0$, esto es mucho mayor que $\Delta t$ (el denominador de la derivada). Al calcular $\lim_{\Delta t \to 0} \frac{B(t+\Delta t)-B(t)}{\Delta t}$, el numerador es $\sim\sqrt{\Delta t}$ y el denominador es $\Delta t$, por lo que el cociente $\sim 1/\sqrt{\Delta t} \to \infty$. El l\'imite no existe.
+\end{intuicionmat}
+
+Formalmente, si intentamos tomar la derivada:
+\[
+  \frac{\partial B_t}{\partial t} = \lim_{\Delta t \to 0} \frac{B(t+\Delta t) - B(t)}{\Delta t}
+\]
+cuando $\Delta t$ es peque\~no, el numerador es de orden $\sqrt{\Delta t} \gg \Delta t$. Por tanto el l\'imite no existe y la trayectoria browniana es \textbf{no diferenciable en ninguna parte (nowhere differentiable)}.
+
+\subsection{Propiedades Locales de la Trayectoria \textit{(Local Path Properties)}}
+
+\begin{intuicion}
+Las trayectorias brownianas son extremadamente irregulares a nivel local: tienen m\'aximos y m\'inimos en cualquier intervalo por peque\~no que sea, y nunca tienen tramos donde est\'en consistentemente subiendo o bajando. Esta irregularidad es la raz\'on por la que el movimiento browniano puede modelar la imprevisibilidad de los mercados.
+\end{intuicion}
+
+\textbf{M\'aximos y m\'inimos locales (Local Maxima and Minima):} Para una funci\'on continua $f:[0,\infty)\to\mathbb{R}$, el punto $t$ es un \textbf{m\'aximo local estricto (strict local maximum)} si:
+\[
+  \exists\;\epsilon > 0 \text{ t.q. } \forall\; s \in (t-\epsilon,\,t+\epsilon),\quad f(s) \leq f(t)
+\]
+Para casi todas las trayectorias brownianas, el conjunto de m\'aximos locales es \textbf{contable (countable)} y \textbf{denso (dense)}: en cualquier intervalo, por peque\~no que sea, existe un m\'aximo o m\'inimo local.
+
+\textbf{Puntos de incremento y decremento (Points of Increase and Decrease):} El punto $t$ es un \textbf{punto de incremento (point of increase)} si:
+\[
+  \exists\;\epsilon > 0 \text{ t.q. } \forall\; s \in (0,\epsilon),\quad f(t-s) \leq f(t) \leq f(t+s)
+\]
+Para casi todas las trayectorias brownianas \textbf{no existen} puntos de incremento ni de decremento.
+
+\textbf{Caracter\'isticas \'unicas (Unique Characteristics):}
+\begin{itemize}
+  \item No diferenciable en ning\'un punto, a pesar de ser continuo en todas partes.
+  \item \textbf{Autosimilar (self-similar)}: cualquier fragmento de la trayectoria, ampliado, luce como la trayectoria completa (an\'alogo a los fractales).
+  \item Alcanzar\'a eventualmente cualquier valor real, sin importar cu\'an grande o peque\~no.
+  \item Una vez que toca 0 (o cualquier valor particular), lo volver\'a a tocar infinitamente a menudo.
+\end{itemize}
+
+%---------------------------------------------------------------
+\section{Aplicaci\'on al Mercado de Valores
+\textit{(Application to the Stock Market)}}
+%---------------------------------------------------------------
+
+Los modelos matem\'aticos del movimiento browniano son la base de todos los modelos de valoraci\'on de activos financieros y derivados. Los mercados de valores, divisas, materias primas y bonos se asumen todos como procesos brownianos: los activos cambian continuamente en intervalos de tiempo muy peque\~nos, y su posici\'on (estado) se altera por cantidades aleatorias.
+
+\subsection{Movimiento Browniano Geom\'etrico \textit{(Geometric Brownian Motion)}}
+
+\begin{intuicion}
+El movimiento browniano est\'andar puede generar valores negativos, lo cual es inapropiado para precios de acciones. El movimiento browniano geom\'etrico soluciona esto modelando los \textit{rendimientos porcentuales} (no los cambios absolutos). Al ser proporcional al precio actual, el precio nunca puede hacerse negativo y el modelo captura el inter\'es compuesto con volatilidad aleatoria.
+\end{intuicion}
+
+Un proceso estoc\'astico $S_t$ sigue un \textbf{movimiento browniano geom\'etrico (Geometric Brownian Motion)} si satisface la \textbf{ecuaci\'on diferencial estoc\'astica (stochastic differential equation)}:
+\begin{equation}
+  dS_t = S_t\!\left(\mu\,dt + \sigma\,dB_t\right)
+\end{equation}
+
+donde $\mu$ es el \textbf{porcentaje de deriva (percentage drift)} y $\sigma$ es la \textbf{volatilidad porcentual (percentage volatility)}.
+
+\begin{intuicionmat}
+El cambio infinitesimal en el precio tiene dos componentes: (1) $S_t\,\mu\,dt$, un crecimiento determinista proporcional al precio actual (como inter\'es compuesto); (2) $S_t\,\sigma\,dB_t$, una fluctuaci\'on aleatoria tambi\'en proporcional al precio. Que ambos t\'erminos sean proporcionales a $S_t$ garantiza que el precio siempre permanezca positivo.
+\end{intuicionmat}
+
+Esta ecuaci\'on tiene una \textbf{soluci\'on anal\'itica (analytic solution)}:
+\begin{equation}
+  S_t = S_0\; e^{\left(\mu - \frac{\sigma^2}{2}\right)t + \sigma\, B_t}
+\end{equation}
+
+\begin{intuicionmat}
+El precio futuro es el precio inicial $S_0$ multiplicado por un factor exponencial. El t\'ermino $\left(\mu - \frac{\sigma^2}{2}\right)t$ es la \textbf{deriva ajustada (adjusted drift)}: la correcci\'on $-\sigma^2/2$ aparece por la \textbf{f\'ormula de It\^o (It\^o's formula)}, que corrige la no-linealidad de la exponencial al aplicarla a un proceso estoc\'astico. El t\'ermino $\sigma B_t$ a\~nade la componente aleatoria gaussiana.
+\end{intuicionmat}
+
+\subsection{Opciones Financieras \textit{(Financial Options)}}
+
+\begin{intuicion}
+Una opci\'on financiera da el \textit{derecho} (no la obligaci\'on) de comprar o vender un activo a un precio pactado. Este derecho tiene valor porque prot\'ege al inversor: si el mercado se mueve a su favor, ejerce la opci\'on; si no, simplemente no la usa. Calcular cu\'anto vale ese derecho es el problema central de las finanzas cuantitativas modernas.
+\end{intuicion}
+
+\textbf{Definici\'on 4.1.} Las \textbf{opciones (options)} en el mundo financiero son contratos entre dos partes en los que una de ellas tiene el \textit{derecho, pero no la obligaci\'on}, de comprar o vender alg\'un activo subyacente.
+
+Para un \textbf{precio de ejercicio (exercise price)} $K$ y una \textbf{fecha de ejercicio (exercise date)} $T$, el tenedor de una \textbf{opci\'on de compra europea (European call option)} puede adquirir acciones al precio $K$ si el precio de mercado $S_T > K$. El \textbf{pago (payoff)} al vencimiento es:
+\begin{equation}
+  C = (S_T - K)^{+} = \max(S_T - K,\; 0)
+\end{equation}
+
+\begin{intuicionmat}
+Si al vencimiento el precio de mercado $S_T$ supera el precio pactado $K$, el inversor ejerce la opci\'on y obtiene la diferencia $S_T - K$. Si $S_T \leq K$, no ejerce la opci\'on y el pago es 0. La notaci\'on $(S_T - K)^+$ captura exactamente esta asimetr\'ia: el inversor solo participa en las ganancias, no en las p\'erdidas.
+\end{intuicionmat}
+
+\subsection{El Modelo Black \& Scholes \textit{(Black \& Scholes Model)}}
+
+\begin{intuicion}
+Black, Scholes y Merton resolvieron en 1973 el problema de calcular el precio justo de una opci\'on financiera, asumiendo que el precio del activo subyacente sigue un movimiento browniano geom\'etrico. Su f\'ormula transform\'o los mercados financieros modernos y fue reconocida con el Premio Nobel de Econom\'ia en 1997.
+\end{intuicion}
+
+Fischer Black, Myron Scholes y Robert Merton resolvieron este problema en 1973 usando an\'alisis estoc\'astico y argumentos de equilibrio, obteniendo la \textbf{f\'ormula de Black \& Scholes (Black \& Scholes formula)}.
+
+\textbf{Supuestos del modelo (Assumptions):}
+\begin{enumerate}
+  \item La acci\'on \textbf{no paga dividendos} durante la vida de la opci\'on (aunque el modelo puede ajustarse substrayendo el valor descontado de los dividendos futuros).
+  \item Se usan \textbf{t\'erminos de ejercicio europeos}: la opci\'on solo puede ejercerse en la fecha de vencimiento $T$ (no antes).
+  \item El \textbf{mercado es eficiente (efficient market)}: los precios siguen un proceso de It\^o (proceso de Markov en tiempo continuo) y nadie puede predecir consistentemente la direcci\'on del mercado.
+  \item \textbf{No se cobran comisiones} ni costos de transacci\'on.
+  \item La \textbf{tasa de inter\'es libre de riesgo (risk-free interest rate)} $r$ es constante y conocida.
+  \item Los \textbf{rendimientos} sobre las acciones subyacentes est\'an \textbf{normalmente distribuidos (normally distributed)}.
+\end{enumerate}
+
+\textbf{Teorema 4.2. F\'ormula de Black \& Scholes.} Seg\'un el modelo, el precio justo actual de la opci\'on de compra europea es:
+\begin{equation}
+  C = S_0\,\Phi(T_+) - K e^{-rT}\,\Phi(T_-)
+\end{equation}
+
+donde:
+\begin{align}
+  T_+ &= \frac{\displaystyle\log\!\left(\frac{S_0}{K}\right) + \left(r + \frac{1}{2}\sigma^2\right)T}{\sigma\sqrt{T}} \notag\\[8pt]
+  T_- &= \frac{\displaystyle\log\!\left(\frac{S_0}{K}\right) + \left(r - \frac{1}{2}\sigma^2\right)T}{\sigma\sqrt{T}} \notag
+\end{align}
+
+y $\Phi(x)$ es la \textbf{distribuci\'on normal est\'andar acumulada (cumulative standard normal distribution)} $\mathbf{P}[Z < x]$:
+\begin{equation}
+  Z \sim N(0,1), \qquad \Phi(x) = \int_{-\infty}^{x} \frac{1}{\sqrt{2\pi}}\, e^{-\frac{u^2}{2}}\, du
+\end{equation}
+
+\begin{intuicionmat}
+La f\'ormula tiene dos partes interpretables: (1) $S_0\,\Phi(T_+)$ es el beneficio esperado de adquirir la acci\'on directamente, ponderado por la probabilidad de que la opci\'on termine ``dentro del dinero'' ($S_T > K$); (2) $Ke^{-rT}\Phi(T_-)$ es el valor presente del precio de ejercicio $K$, descontado a la tasa libre de riesgo, tambi\'en ponderado por la probabilidad de ejercicio. El precio justo de la opci\'on es la diferencia entre el beneficio esperado y el costo descontado de ejercerla.
+\end{intuicionmat}
+
+Los par\'ametros son: $C$ = \textbf{prima de la opci\'on de compra (call premium)}, $S_0$ = precio actual del activo, $T$ = tiempo hasta el vencimiento, $K$ = precio de ejercicio, $r$ = tasa de inter\'es libre de riesgo, $\sigma$ = volatilidad del activo.
+
+%---------------------------------------------------------------
+\section{Resumen y Conclusiones}
+%---------------------------------------------------------------
+
+El art\'iculo de Ermogenous (2006) presenta el movimiento browniano como fen\'omeno f\'isico y objeto matem\'atico, y muestra c\'omo su formalizaci\'on conduce a una de las herramientas m\'as poderosas de las finanzas modernas. Los puntos centrales son:
+
+\begin{enumerate}
+  \item \textbf{Fundamentos hist\'oricos:} El movimiento browniano fue observado por Brown (1827), teorizado por Bachelier (1900) y explicado plenamente por Einstein (1905), quien lo vincul\'o al bombardeo t\'ermico aleatorio de mol\'eculas sobre part\'iculas en suspensi\'on.
+
+  \item \textbf{Estructura matem\'atica:} El movimiento browniano se construye sobre el espacio de probabilidad $(\Omega, \mathcal{F}, P)$ y es un caso especial de proceso estoc\'astico ---el \textbf{proceso de Wiener}--- caracterizado por $W(0)=0$, incrementos independientes y estacionarios distribuidos como $N(0, t-s)$, y trayectorias continuas.
+
+  \item \textbf{Propiedades notables:} Es gaussiano, es una martingala (el mejor pron\'ostico del futuro es el valor actual), tiene $\mathrm{Cov}(B_s, B_t) = \min(s,t)$, y es continuo en todas partes pero diferenciable en ninguna, porque los incrementos son de orden $\sqrt{\Delta t} \gg \Delta t$.
+
+  \item \textbf{Simetr\'ias:} El proceso es autosimilar (invariante bajo escalado), sim\'etrico, espacialmente homog\'eneo e invariante bajo inversi\'on del tiempo. Su trayectoria es densa en los reales y no tiene puntos de incremento ni decremento.
+
+  \item \textbf{Movimiento browniano geom\'etrico:} La EDE $dS_t = S_t(\mu\,dt + \sigma\,dB_t)$, con soluci\'on $S_t = S_0\,e^{(\mu-\sigma^2/2)t + \sigma B_t}$, modela precios de activos garantizando positividad y es la base de la valoraci\'on de derivados financieros.
+
+  \item \textbf{F\'ormula de Black-Scholes:} La ecuaci\'on $C = S_0\,\Phi(T_+) - Ke^{-rT}\Phi(T_-)$ provee el precio te\'orico justo de una opci\'on europea de compra. Representa uno de los resultados m\'as influyentes de la matem\'atica aplicada: combin\'o c\'alculo estoc\'astico, teor\'ia de martingalas y argumentos de arbitraje para resolver un problema pr\'actico de alto impacto econ\'omico.
+\end{enumerate}
+
+\end{document}

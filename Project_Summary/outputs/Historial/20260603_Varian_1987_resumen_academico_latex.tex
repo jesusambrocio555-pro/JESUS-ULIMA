@@ -1,0 +1,599 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: El Principio del Arbitraje en Econom\'ia Financiera}\\
+\large \textit{The Arbitrage Principle in Financial Economics}\\
+\normalsize Hal R.\ Varian, \textit{Economic Perspectives}, Vol.\ 1, N\'um.\ 2, Oto\~no 1987, pp.\ 55--72}
+\author{}
+\date{Junio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------
+\section{Principios Generales de Valoraci\'on de Activos}
+%----------------------------------------------------------------------
+
+\subsection{La Matriz de Pagos (Payoff Matrix)}
+
+\begin{intuicion}
+Imagina que el futuro puede desarrollarse de varias maneras posibles (``estados de la naturaleza''). Cada activo financiero paga distintas cantidades seg\'un qu\'e estado ocurra. La matriz de pagos es la tabla que resume cu\'anto paga cada activo en cada posible escenario futuro.
+\end{intuicion}
+
+Consideramos un mercado con $A$ \textbf{activos (assets)} y $S$ \textbf{estados de la naturaleza (states of nature)}. El pago del activo $a$ en el estado $s$ se denota $R_{sa}$. La \textbf{matriz de pagos (payoff matrix)} del conjunto completo de activos es la matriz $S \times A$:
+
+\begin{equation}
+  R = \begin{pmatrix} R_{11} & \cdots & R_{1A} \\ \vdots & \ddots & \vdots \\ R_{S1} & \cdots & R_{SA} \end{pmatrix}.
+\end{equation}
+
+\begin{intuicionmat}
+Cada columna de $R$ describe un activo distinto (qu\'e paga en cada estado de la naturaleza), y cada fila describe un estado en particular (cu\'anto paga cada activo si ese escenario se materializa). La matriz $R$ captura toda la informaci\'on relevante sobre las oportunidades de inversi\'on disponibles en el mercado.
+\end{intuicionmat}
+
+Los agentes \textbf{prefieren m\'as riqueza a menos (prefer more wealth to less)} en cualquier estado. Una \textbf{cartera (portfolio)} de activos se representa como un vector columna $x = (x_1, \ldots, x_A)^\top$, donde una componente positiva $x_a > 0$ indica una \textbf{posici\'on larga (long position)} y $x_a < 0$ una \textbf{posici\'on corta (short position)}.
+
+\subsection{Riqueza de la Cartera (Portfolio Wealth)}
+
+\begin{intuicion}
+Si combinas varios activos en una cartera, la riqueza que obtendr\'as en cada estado futuro es la suma ponderada de los pagos de cada activo. El portfolio te permite ``dise\~nar'' qu\'e riqueza quieres tener en cada escenario posible.
+\end{intuicion}
+
+La \textbf{riqueza en el estado $s$ (wealth in state $s$)} de quien mantiene la cartera $x$ es:
+
+\begin{equation}
+  w_s = \sum_{a=1}^{A} x_a R_{sa}.
+\end{equation}
+
+\begin{intuicionmat}
+La riqueza en el estado $s$ es la suma de lo que paga cada activo en ese estado, ponderada por la cantidad poseida de cada activo. Quien tenga m\'as del activo que paga bien en cierto escenario, ser\'a m\'as rico si ese escenario ocurre.
+\end{intuicionmat}
+
+En notaci\'on matricial compacta:
+
+\begin{equation}
+  w = Rx,
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la ecuaci\'on fundamental que conecta los medios (la cartera $x$) con los fines (la distribuci\'on de riqueza $w$ entre estados). Combinando los activos existentes, el inversor puede alcanzar distintos perfiles de riqueza. Si el n\'umero de activos independientes iguala al de estados ($A = S$, con $R$ de rango pleno), \textit{cualquier} distribuci\'on de riqueza deseada puede alcanzarse resolviendo el sistema lineal $w = Rx$.
+\end{intuicionmat}
+
+donde $w = (w_1, \ldots, w_S)^\top$ es el vector de riqueza estado por estado. El caso central es $A = S$ con $R$ de \textbf{rango pleno (full rank)}, donde el sistema tiene soluci\'on \'unica para cada $w$. Si $A > S$, varias carteras generan la misma distribuci\'on; si $A < S$, hay distribuciones de riqueza inalcanzables.
+
+\subsection{Activos Arrow-Debreu (Arrow-Debreu Securities)}
+
+\begin{intuicion}
+Los activos Arrow-Debreu son los ``\'atomos'' del mercado financiero: cada uno paga exactamente \$1 si ocurre un estado espec\'ifico y \$0 en cualquier otro. Son los bloques b\'asicos de construcci\'on de cualquier activo, de la misma manera que los vectores unitarios forman una base del espacio vectorial.
+\end{intuicion}
+
+Un \textbf{activo Arrow-Debreu (Arrow-Debreu security)} para el estado $s$ tiene el patr\'on de pagos:
+\[
+  (0, \ldots, \underbrace{1}_{s\text{-\'esima}}, \ldots, 0).
+\]
+Estos activos son \textbf{b\'asicos (basis securities)} en el sentido econ\'omico ---cualquier patr\'on de pagos puede construirse como cartera de ellos--- y en el sentido del \'algebra lineal ---forman una base del espacio lineal de todos los pagos posibles. Su importancia radica en que, conociendo sus precios, se puede valorar cualquier otro activo.
+
+%----------------------------------------------------------------------
+\section{Precios de los Activos (Asset Prices)}
+%----------------------------------------------------------------------
+
+\subsection{La Restricci\'on Presupuestaria (Budget Constraint)}
+
+\begin{intuicion}
+Al elegir una cartera, el inversor est\'a eligiendo qu\'e distribuci\'on de riqueza futura desea. El precio de la cartera es la suma del gasto en cada activo, exactamente igual que en la teor\'ia del consumidor cl\'asico, salvo que aqu\'i los ``bienes'' son instrumentos para el futuro, no fines en s\'i mismos.
+\end{intuicion}
+
+Sea $p_a$ el precio del activo $a$ y $p = (p_1, \ldots, p_A)$ el vector fila de precios de activos. El \textbf{valor de mercado de la cartera (portfolio value)} es:
+
+\begin{equation}
+  px = \sum_{a=1}^{A} p_a x_a.
+\end{equation}
+
+\begin{intuicionmat}
+El valor de una cartera es an\'alogo al gasto total en teor\'ia del consumidor: suma de precio por cantidad para cada activo. La diferencia clave es que los activos no son bienes de consumo final: son instrumentos para alcanzar una distribuci\'on de riqueza futura. Por tanto, dos carteras que generan la misma distribuci\'on de riqueza \textit{deben} tener el mismo precio en equilibrio.
+\end{intuicionmat}
+
+\subsection{Valoraci\'on mediante Activos Arrow-Debreu}
+
+\begin{intuicion}
+Si el mercado ofrece todos los activos Arrow-Debreu, cualquier otro activo puede valorarse preguntando: ``¿cu\'anto paga en cada estado?'', y sumando el valor de cada pago ponderado por el precio del activo Arrow-Debreu de ese estado. Es una generalizaci\'on del valor presente que incorpora tanto el tiempo como el riesgo.
+\end{intuicion}
+
+Sea $\pi_s$ el precio del activo Arrow-Debreu que paga \$1 si ocurre el estado $s$. El \textbf{precio de equilibrio del activo $a$ (equilibrium price of asset $a$)} es:
+
+\begin{equation}
+  p_a = \sum_{s=1}^{S} \pi_s R_{sa}.
+  \label{eq:precioadactivo}
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula dice: el precio de un activo es la suma, sobre todos los estados posibles, de su pago en ese estado ($R_{sa}$) multiplicado por el valor de recibir \$1 en ese estado ($\pi_s$). El coeficiente $\pi_s$ es el ``precio de estado'' que sintetiza tanto el descuento temporal como la prima de riesgo asociada al estado $s$.
+\end{intuicionmat}
+
+Este resultado tiene dos justificaciones: (i) una \textbf{argumental}: $\pi_s$ mide el valor de un d\'olar en el estado $s$, y sumando los pagos ponderados se obtiene el valor total; (ii) una \textbf{por arbitraje}: si el precio del activo difiriera de $\sum_s \pi_s R_{sa}$, habr\'ia una estrategia de ganancia segura vendiendo lo caro y comprando lo barato en t\'erminos de Arrow-Debreu.
+
+%----------------------------------------------------------------------
+\section{Formalizaci\'on de la Condici\'on de No Arbitraje}
+%----------------------------------------------------------------------
+
+\subsection{Definici\'on Formal}
+
+\begin{intuicion}
+El arbitraje es conseguir algo a cambio de nada: una cartera que no cuesta dinero pero paga positivo en alg\'un estado (y nunca negativo en ninguno). La condici\'on de no arbitraje dice que en un mercado eficiente esto no puede ocurrir: cualquier cartera con pagos no negativos garantizados debe costar al menos cero.
+\end{intuicion}
+
+La \textbf{condici\'on de no arbitraje (no arbitrage condition)} se enuncia formalmente como la condici\'on algebraica:
+
+\begin{equation}
+  \text{Si } Rx \geq 0, \text{ entonces } px \geq 0.
+  \label{eq:noarbitraje}
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la versi\'on algebraica del principio de que no existen ``almuerzos gratis''. Si una cartera $x$ garantiza pagos no negativos en \textit{todos} los estados ($Rx \geq 0$), su costo debe ser no negativo ($px \geq 0$). De lo contrario, un agente racional tomar\'ia posiciones arbitrariamente grandes en esa cartera, obteniendo un beneficio ilimitado sin riesgo, lo cual es incompatible con el equilibrio de mercado.
+\end{intuicionmat}
+
+\subsection{Existencia de Precios de Estado (State Prices)}
+
+\begin{intuicion}
+El resultado central del art\'iculo es que la condici\'on de no arbitraje es \textit{equivalente} a la existencia de precios de estado no negativos que valoran todos los activos. Esto conecta una propiedad de equilibrio del mercado con una estructura matem\'atica concreta y verificable.
+\end{intuicion}
+
+\textbf{Teorema Fundamental del No Arbitraje (Fundamental Theorem of No Arbitrage):} La condici\'on de no arbitraje es equivalente a la existencia de un vector de \textbf{precios de estado no negativos (nonnegative state prices)} $\pi = (\pi_1, \ldots, \pi_S) \geq 0$ tal que para todo activo $a$:
+
+\begin{equation}
+  p_a = \sum_{s=1}^{S} \pi_s R_{sa}, \quad \text{o en forma matricial:} \quad p = \pi R.
+  \label{eq:precioestado}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on $p = \pi R$ es la condici\'on necesaria y suficiente del no arbitraje. Existe un ``vector de precios sombra'' $\pi \geq 0$ tal que el precio de cada activo es su pago valorado a esos precios de estado. La equivalencia es total: no arbitraje $\Leftrightarrow$ existencia de $\pi \geq 0$ con $p = \pi R$.
+\end{intuicionmat}
+
+\subsection{Unicidad de los Precios de Estado}
+
+\begin{intuicion}
+Los precios de estado no tienen por qu\'e ser \'unicos. Si hay menos activos que estados, hay muchos vectores $\pi$ que satisfacen la condici\'on. S\'olo en un mercado ``completo'' ---con tantos activos independientes como estados--- existe un \'unico conjunto de precios de estado.
+\end{intuicion}
+
+Con $S$ estados y $A$ activos, el sistema $p = \pi R$ proporciona $A$ ecuaciones en $S$ inc\'ognitas:
+
+\begin{itemize}
+  \item $A = S$ (\textbf{mercado completo / complete market}): precios de estado \'unicos.
+  \item $A < S$ (\textbf{mercado incompleto / incomplete market}): conjunto de soluciones de dimensi\'on $S - A$.
+  \item $A > S$: activos redundantes; el sistema est\'a sobredeterminado.
+\end{itemize}
+
+%----------------------------------------------------------------------
+\section{Aditividad de Valor (Value Additivity)}
+%----------------------------------------------------------------------
+
+\subsection{El Teorema de Aditividad de Valor}
+
+\begin{intuicion}
+El teorema de aditividad dice que el precio de un activo que es combinaci\'on lineal de otros es exactamente esa misma combinaci\'on de sus precios. En equilibrio sin arbitraje, el todo vale exactamente la suma de las partes. Sorprendentemente, esto implica que la diversificaci\'on no crea valor adicional: los precios ya lo reflejan.
+\end{intuicion}
+
+\textbf{Teorema de Aditividad de Valor (Value Additivity Theorem):} Bajo la condici\'on de no arbitraje, si el activo $c$ tiene pagos $R_{sc} = AR_{sa} + BR_{sb}$ para todo estado $s$ (con $A, B$ constantes arbitrarias), entonces su precio satisface:
+
+\begin{align}
+  p_c &= \sum_{s=1}^{S} \pi_s R_{sc}
+       = \sum_{s=1}^{S} \pi_s(AR_{sa} + BR_{sb}) \notag \\
+      &= A\sum_{s=1}^{S} \pi_s R_{sa} + B\sum_{s=1}^{S} \pi_s R_{sb}
+       = Ap_a + Bp_b.
+  \label{eq:aditividad}
+\end{align}
+
+\begin{intuicionmat}
+La prueba usa directamente la linealidad de la suma y la f\'ormula de precios de estado. El resultado dice: si combinas (o separas) activos existentes, el precio total no cambia. Si valiera m\'as la combinaci\'on que la suma de las partes, los arbitrajistas comprar\'ian las partes y vender\'ian el paquete, eliminando la discrepancia. Si valiera menos, ``desempaquetan'' el paquete y venden las partes.
+\end{intuicionmat}
+
+\subsection{Aplicaci\'on: El Teorema de Modigliani-Miller}
+
+\begin{intuicion}
+El valor de una empresa no cambia si se modifica la proporci\'on de deuda y capital propio, siempre que los flujos de caja reales sean los mismos. Cambiar la ``envoltura financiera'' no altera el valor del contenido.
+\end{intuicion}
+
+El \textbf{teorema de Modigliani-Miller (Modigliani-Miller theorem)} establece que el valor de la empresa es independiente de su \textbf{estructura financiera (financial structure)} (proporci\'on deuda/capital). Las acciones y bonos son combinaciones lineales de los flujos de caja de la empresa. Si la empresa pudiera aumentar su valor cambiando dicha proporci\'on, los arbitrajistas replicar\'ian la estructura financieramente de forma privada y obtendr\'ian beneficios garantizados.
+
+\subsection{Restricciones del Teorema}
+
+El teorema de aditividad de valor tiene dos limitaciones importantes:
+
+\begin{enumerate}
+  \item S\'olo aplica a \textbf{combinaciones de activos existentes}: si una operaci\'on financiera crea activos con patrones de pago nuevos (no alcanzables como combinaci\'on lineal de los existentes), el vector de precios de estado $\pi$ cambiar\'a en general, requiriendo un modelo de equilibrio general completo.
+  \item S\'olo aplica a \textbf{operaciones lineales}: si un activo es una funci\'on no lineal del precio de otro activo, la condici\'on de no arbitraje no se aplica directamente en el marco est\'atico. Sin embargo, como se ver\'a m\'as adelante, ciertas operaciones aparentemente no lineales pueden descomponerse en lineales.
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\section{Aplicaci\'on: Acotaci\'on de Precios de Opciones}
+%----------------------------------------------------------------------
+
+\subsection{Definiciones B\'asicas de Opciones}
+
+\begin{intuicion}
+Una opci\'on de compra da el derecho ---pero no la obligaci\'on--- de comprar una acci\'on a un precio fijo. Si la acci\'on sube por encima de ese precio, ejerces la opci\'on y compras barato; si baja, no la ejerces. Al vencimiento, la opci\'on vale la diferencia entre el precio de la acci\'on y el precio de ejercicio, si es positiva, o cero en caso contrario.
+\end{intuicion}
+
+Una \textbf{opci\'on de compra (call option)} sobre el activo $a$ con \textbf{precio de ejercicio (exercise price)} $K$ y plazo $T$ otorga el derecho de adquirir el activo al precio $K$. Se distinguen:
+
+\begin{itemize}
+  \item \textbf{Opci\'on americana (American option)}: ejercitable en cualquier momento hasta el vencimiento.
+  \item \textbf{Opci\'on europea (European option)}: ejercitable \'unicamente al vencimiento.
+\end{itemize}
+
+El valor de la opci\'on al vencimiento (tiempo 0) es:
+
+\begin{equation}
+  V_{\text{vencimiento}} = \max[S_0 - K,\; 0],
+\end{equation}
+
+\begin{intuicionmat}
+Si al vencimiento la acci\'on vale $S_0 > K$, conviene ejercer: se compra a $K$ y se obtiene $S_0$, ganando $S_0 - K$. Si $S_0 \leq K$, la opci\'on se deja vencer sin ejercer (valor cero). El operador $\max$ captura exactamente esta l\'ogica de ejercicio \'optimo.
+\end{intuicionmat}
+
+El precio $t$ per\'iodos antes del vencimiento de un \textbf{bono libre de riesgo (riskless bond)} que paga \$1 al vencimiento es:
+
+\begin{equation}
+  B_t = \sum_{s=1}^{S} \pi_s.
+\end{equation}
+
+\begin{intuicionmat}
+Un bono libre de riesgo paga \$1 en todo estado de la naturaleza. Su precio es la suma de todos los precios de estado. Con tasa de inter\'es positiva, $B_t < 1$: recibir \$1 en el futuro vale menos que \$1 hoy, lo cual es consistente con el descuento temporal.
+\end{intuicionmat}
+
+\subsection{Lema 1: Cota Inferior del Precio de la Opci\'on}
+
+\begin{intuicion}
+Una opci\'on de compra europea vale siempre m\'as que la diferencia entre el precio actual de la acci\'on y el valor presente del precio de ejercicio. De lo contrario existir\'ia una estrategia de arbitraje que mezcla compra de acciones, venta de bonos y compra de la opci\'on.
+\end{intuicion}
+
+\textbf{Lema 1.} Sea $C_t$ el valor de una opci\'on europea de compra con precio de ejercicio $K$, precio actual de la acci\'on $S_t$, $t$ per\'iodos hasta el vencimiento. Entonces:
+
+\begin{equation}
+  C_t \geq \max[0,\; S_t - KB_t].
+  \label{eq:lema1}
+\end{equation}
+
+\begin{intuicionmat}
+El l\'imite inferior $S_t - KB_t$ es el costo de una cartera de arbitraje: comprar una acci\'on al precio $S_t$ y vender $K$ bonos (recibiendo $KB_t$). Al vencimiento, esta cartera vale $S_0 - K$, que siempre es menor o igual al valor de la opci\'on $\max[S_0 - K, 0]$. Como la opci\'on domina a la cartera en todos los estados, debe valer hoy al menos tanto como ella.
+\end{intuicionmat}
+
+\textit{Demostraci\'on.} Cons\'iderese la cartera: vender $K$ bonos y comprar una acci\'on. Costo neto hoy: $S_t - KB_t$. Valor al vencimiento: $S_0 - K \leq \max[S_0 - K, 0]$. Por la condici\'on de no arbitraje, $C_t \geq S_t - KB_t$. $\square$
+
+\subsection{Lema 2 y Teorema: Equivalencia Americana-Europea}
+
+\begin{intuicion}
+Una opci\'on americana nunca conviene ejercerla antes del vencimiento, porque siempre vale m\'as venderla en el mercado que ejercerla anticipadamente. Por tanto, la flexibilidad adicional de la opci\'on americana carece de valor, y ambas tienen el mismo precio.
+\end{intuicion}
+
+\textbf{Lema 2.} Una opci\'on americana de compra nunca se ejerce antes del vencimiento.
+
+\textit{Demostraci\'on.} El valor de ejercer en el tiempo $t$ es $S_t - K$. Por el Lema 1, el valor de mercado es al menos $S_t - KB_t \geq S_t - K$ (pues $B_t < 1$). Siempre es m\'as rentable vender la opci\'on que ejercerla. $\square$
+
+\textbf{Teorema.} \textit{Una opci\'on americana de compra tiene el mismo valor que una opci\'on europea de compra.}
+
+\textit{Demostraci\'on.} Por el Lema 2, la opci\'on americana nunca se ejerce antes del vencimiento. Como ambas se ejercen en la misma fecha bajo las mismas condiciones, deben tener el mismo valor. $\square$
+
+\subsection{Prueba Alternativa mediante Precios de Estado}
+
+\begin{intuicion}
+Los precios de estado permiten valorar la opci\'on sumando su pago en cada estado ponderado por el precio de ese estado. De esta expresi\'on se recupera de forma sistem\'atica la cota inferior del Lema 1.
+\end{intuicion}
+
+Bajo la condici\'on de no arbitraje, el valor de la opci\'on $t$ per\'iodos antes del vencimiento es:
+
+\begin{equation}
+  C_t = \sum_{s=1}^{S} \pi_s \max[S_{s0} - K,\; 0],
+  \label{eq:opcionestados}
+\end{equation}
+
+\begin{intuicionmat}
+La opci\'on es un activo con pagos $\max[S_{s0} - K, 0]$ en cada estado $s$. La f\'ormula de precios de estado aplica directamente: el valor es la suma de los pagos ponderados por los precios de estado. A partir de aqu\'i se recuperan todas las cotas sin necesidad de construir expl\'icitamente carteras de arbitraje.
+\end{intuicionmat}
+
+Desarrollando la cota:
+
+\begin{align}
+  C_t &= \sum_{s=1}^{S} \pi_s \max[S_{s0} - K,\; 0] \notag \\
+      &\geq \sum_{s=1}^{S} \pi_s (S_{s0} - K) \notag \\
+      &= \sum_{s=1}^{S} \pi_s S_{s0} - K\sum_{s=1}^{S} \pi_s \notag \\
+      &= S_t - KB_t \;\geq\; S_t - K,
+  \label{eq:opcioncota}
+\end{align}
+
+\begin{intuicionmat}
+La cadena usa: (1) $\max[x,0] \geq x$ para todo $x$; (2) linealidad de la suma; (3) $\sum_s \pi_s S_{s0} = S_t$ (precio actual de la acci\'on como suma ponderada de sus valores futuros) y $\sum_s \pi_s = B_t$; (4) $B_t < 1$ cuando la tasa de inter\'es es positiva. El resultado es la cota del Lema 1.
+\end{intuicionmat}
+
+%----------------------------------------------------------------------
+\section{Precios de Opciones y Precios de Estado}
+%----------------------------------------------------------------------
+
+\subsection{Construcci\'on de T\'itulos Puros a partir de Opciones}
+
+\begin{intuicion}
+Combinando opciones a distintos precios de ejercicio se puede replicar exactamente el pago de un activo Arrow-Debreu. Esto implica que un conjunto completo de opciones equivale a un conjunto completo de mercados Arrow-Debreu, permitiendo ``leer'' los precios de estado directamente de los precios de opciones observables.
+\end{intuicion}
+
+Para estados discretos $S \in \{1, 2, 3, 4\}$ y opciones $C_1, C_2, C_3$ con precios de ejercicio \$1, \$2 y \$3 respectivamente, definimos las carteras $C_{12} = C_1 - C_2$ y $C_{23} = C_2 - C_3$. La cartera $C_{12} - C_{23}$ replica exactamente el t\'itulo puro Arrow-Debreu que paga \$1 cuando $S = 2$ y \$0 en los dem\'as estados. Esto demuestra que un conjunto completo de opciones es \textbf{equivalente a un conjunto completo de mercados Arrow-Debreu (equivalent to complete Arrow-Debreu markets)}.
+
+\subsection{La Segunda Derivada como Precio de Estado (Breeden-Litzenberger)}
+
+\begin{intuicion}
+Con estados continuos (el precio de la acci\'on puede tomar cualquier valor), el precio de estado para el nivel $K$ es la segunda derivada del precio de la opci\'on respecto al precio de ejercicio evaluada en $K$. Esto permite extraer precios de estado directamente de precios de opciones observados en el mercado.
+\end{intuicion}
+
+Con estados continuos indexados por $s$ (el valor de la acci\'on al vencimiento), la funci\'on de precios de estado es $\pi(\cdot)$. El precio de la opci\'on se escribe:
+
+\begin{equation}
+  C_t = \int_K^{\infty} (s - K)\,\pi(s)\,ds.
+  \label{eq:opcioncontinua}
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la versi\'on continua de la f\'ormula de precios de estado. El pago de la opci\'on en el estado $s \geq K$ es $(s - K)$; para $s < K$ el pago es cero, de ah\'i que la integral parta de $K$. El precio de la opci\'on es el promedio continuo de sus pagos, ponderados por la densidad de precios de estado $\pi(s)$.
+\end{intuicionmat}
+
+Diferenciando con respecto a $K$ mediante el Teorema Fundamental del C\'alculo:
+
+\begin{equation}
+  \frac{dC_t}{dK} = -\int_K^{\infty} \pi(s)\,ds.
+  \label{eq:derivada1}
+\end{equation}
+
+\begin{intuicionmat}
+Al aumentar el precio de ejercicio, la opci\'on vale menos (menos estados en que conviene ejercerla), de ah\'i el signo negativo. La derivada da la probabilidad acumulada de estados en que $s > K$, ponderada por los precios de estado.
+\end{intuicionmat}
+
+Diferenciando una vez m\'as, el resultado de Breeden y Litzenberger (1978):
+
+\begin{equation}
+  \frac{d^2 C_t}{dK^2} = \pi(K).
+  \label{eq:breedenlit}
+\end{equation}
+
+\begin{intuicionmat}
+Este es el resultado m\'as notable del art\'iculo: \textit{el precio de estado para el nivel $K$ del precio de la acci\'on es exactamente la segunda derivada del precio de la opci\'on respecto al precio de ejercicio, evaluada en $K$}. Es un resultado que sigue \'unicamente de la condici\'on de no arbitraje. Observando precios de opciones a distintos precios de ejercicio en el mercado, es posible estimar la funci\'on $\pi(\cdot)$, que contiene informaci\'on sobre las distribuciones de riesgo neutral impl\'icitas en el mercado.
+\end{intuicionmat}
+
+La consistencia entre el caso discreto y el continuo se verifica tomando el l\'imite de la cartera discreta $C_{12} - C_{23}$:
+\[
+  \frac{C(K-\Delta S) - C(K)}{\Delta S} - \frac{C(K) - C(K+\Delta S)}{\Delta S} \xrightarrow{\Delta S \to 0} \frac{d^2 C}{dK^2} = \pi(K).
+\]
+
+%----------------------------------------------------------------------
+\section{Precios de T\'itulos Puros en Procesos Estoc\'asticos Din\'amicos}
+%----------------------------------------------------------------------
+
+\subsection{El Modelo Binomial de Un Per\'iodo}
+
+\begin{intuicion}
+Si la acci\'on puede subir o bajar en proporciones conocidas, con solo dos activos (la acci\'on y un bono libre de riesgo) se puede replicar exactamente el pago de cualquier activo Arrow-Debreu. Los precios de estado resultantes dependen solo de los factores de subida y bajada, y no de las probabilidades reales.
+\end{intuicion}
+
+Supongamos que la acci\'on de precio $S$ puede pasar a $Su$ con probabilidad $q$ o a $Sd$ con probabilidad $1 - q$, donde $d < r < u$ (con $r = 1 + i$ el factor de inter\'es libre de riesgo). Para replicar el \textbf{t\'itulo puro Arrow-Debreu (pure Arrow-Debreu security)} que paga \$1 en el estado ``sube'' y \$0 en ``baja'', se construye la cartera $(x^*, B^*)$ con $x^*$ acciones y $B^*$ bonos que satisface:
+
+\begin{align}
+  x^* S u + B^* r &= 1, \notag \\
+  x^* S d + B^* r &= 0.
+  \label{eq:sistbinomial}
+\end{align}
+
+\begin{intuicionmat}
+Se impone que la cartera replique exactamente los pagos del t\'itulo puro: \$1 si sube y \$0 si baja. Las dos ecuaciones (una por estado) determinan un\'ivocamente los dos inc\'ognitos $(x^*, B^*)$. La clave te\'orica es que dos activos (acci\'on y bono) son suficientes para completar el mercado con dos estados.
+\end{intuicionmat}
+
+La soluci\'on es:
+
+\begin{align}
+  x^* = \frac{1}{S(u - d)}, \qquad B^* = -\frac{d}{(u - d)r}.
+\end{align}
+
+El precio del t\'itulo Arrow-Debreu en el estado ``sube'' es:
+
+\begin{equation}
+  \pi_u = x^* S + B^* = \frac{1}{u - d} - \frac{d}{(u - d)r} = \frac{r - d}{(u - d)r}.
+  \label{eq:piu}
+\end{equation}
+
+\begin{intuicionmat}
+$\pi_u$ es el precio de recibir \$1 si la acci\'on sube. Depende solo de $u$, $d$ y $r$ ---los par\'ametros del proceso estoc\'astico--- pero \textit{no} de la probabilidad real $q$ de subida. Esto es fundamental: en un mercado sin arbitraje, la valoraci\'on de activos derivados no requiere conocer las probabilidades reales del mundo.
+\end{intuicionmat}
+
+An\'alogamente, el precio de estado para el caso ``baja'' es:
+
+\begin{equation}
+  \pi_d = \frac{u - r}{(u - d)r}.
+  \label{eq:pid}
+\end{equation}
+
+Estos mismos precios de estado se obtienen resolviendo el sistema de ecuaciones de no arbitraje:
+
+\begin{align}
+  \pi_u u + \pi_d d &= 1, \label{eq:nabaccion} \\
+  \pi_u + \pi_d     &= \frac{1}{r}. \label{eq:nabbono}
+\end{align}
+
+\begin{intuicionmat}
+La ecuaci\'on \eqref{eq:nabaccion} dice que el precio actual normalizado de la acci\'on (= 1, dividiendo por $S$) es la suma de los pagos ponderados por los precios de estado. La ecuaci\'on \eqref{eq:nabbono} dice que el bono libre de riesgo (que paga \$1 en ambos estados) vale $1/r$ hoy. Resolviendo este sistema $2 \times 2$ se obtienen los mismos $\pi_u$ y $\pi_d$.
+\end{intuicionmat}
+
+N\'otese que $\pi_u + \pi_d = 1/r$: una cartera que paga \$1 en cualquier estado vale el valor presente del \$1 seguro, consistente con el bono puro a descuento.
+
+\subsection{Extensi\'on al Modelo Binomial Multi-per\'iodo}
+
+\begin{intuicion}
+En m\'ultiples per\'iodos, el mismo argumento de replicaci\'on se aplica recursivamente per\'iodo a per\'iodo. El precio de estado para llegar a un estado terminal espec\'ifico sigue una f\'ormula binomial, y la probabilidad real de ocurrencia sigue sin aparecer en la valoraci\'on.
+\end{intuicion}
+
+Para un modelo de $n$ per\'iodos, resolviendo recursivamente hacia atr\'as:
+
+\begin{align}
+  \pi_{uu} &= \pi_u^2, \notag \\
+  \pi_{ud} &= 2\pi_u\pi_d = 2\pi_u(1-\pi_u), \notag \\
+  \pi_{dd} &= \pi_d^2.
+\end{align}
+
+El \textbf{precio del t\'itulo puro multi-per\'iodo (multi-period pure security price)} que paga \$1 si y solo si la acci\'on sube exactamente $u$ veces (y baja $n - u$ veces) en $n$ per\'iodos es:
+
+\begin{equation}
+  \pi_{u,\,n-u} = \binom{n}{u} \pi_u^u\, \pi_d^{n-u}.
+  \label{eq:binomialpure}
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula tiene estructura id\'entica a la distribuci\'on binomial de probabilidad, con $\pi_u$ y $\pi_d$ haciendo el papel de probabilidades. Sin embargo, son \textit{precios de estado}, no probabilidades reales. La probabilidad verdadera $q$ no aparece en ninguna parte: el precio del t\'itulo puro es independiente de la probabilidad de que el estado ocurra. Cualquier conjunto de agentes que coincidan en el precio actual de la acci\'on y en que sigue un proceso binomial deben coincidir en el valor de todo activo contingente.
+\end{intuicionmat}
+
+\subsection{El Precio de Opciones en el Modelo Binomial}
+
+\begin{intuicion}
+Con los precios de estado multi-per\'iodo, valorar una opci\'on es simplemente ponderar su pago en cada estado terminal por el precio de ese estado y sumar. El resultado es la f\'ormula de Cox, Ross y Rubinstein (1979), que converge a la f\'ormula de Black-Scholes cuando el n\'umero de per\'iodos tiende a infinito.
+\end{intuicion}
+
+El valor de una opci\'on de compra sobre una acci\'on que sigue un proceso binomial de $n$ per\'iodos con precio de ejercicio $K$ es:
+
+\begin{equation}
+  C_n = \sum_{u=0}^{n} \frac{n!}{u!\,(n-u)!}\,\pi_u^u\,\pi_d^{n-u}\,\max\!\bigl[0,\;u^u d^{n-u} S - K\bigr].
+  \label{eq:opcionbinomial}
+\end{equation}
+
+\begin{intuicionmat}
+La f\'ormula suma sobre todos los estados terminales posibles. El t\'ermino $\pi_u^u \pi_d^{n-u}$ es el precio del estado con $u$ subidas; el combinatorio $n!/(u!(n-u)!)$ cuenta cu\'antas trayectorias llevan a ese estado (estados recombinantes); y $\max[0, u^u d^{n-u} S - K]$ es el pago de la opci\'on en ese estado. Cuando $n \to \infty$ y el proceso binomial converge a un proceso de It\^o continuo, esta f\'ormula converge a la conocida f\'ormula de Black-Scholes.
+\end{intuicionmat}
+
+La potencia te\'orica radica en que, con solo dos activos (acci\'on y bono), el mercado binomial ``abarca'' un n\'umero arbitrariamente grande de estados terminales. Esto es posible porque los estados evolucionan de forma \textbf{recombinante (recombining)} y la estructura del proceso estoc\'astico es conocida de antemano. El mismo m\'etodo se extiende a otros procesos (normal, Poisson) mediante argumentos de l\'imite.
+
+%----------------------------------------------------------------------
+\section{Ap\'endice: Prueba del Teorema de No Arbitraje mediante Programaci\'on Lineal}
+%----------------------------------------------------------------------
+
+\subsection{Formulaci\'on del Problema Primal}
+
+\begin{intuicion}
+La prueba formal del teorema central usa dualidad en programaci\'on lineal. El problema primal busca la cartera m\'as barata con pagos no negativos. La condici\'on de no arbitraje garantiza que esa cartera m\'inima es la cartera cero. El problema dual produce exactamente los precios de estado que buscamos.
+\end{intuicion}
+
+Bajo la condici\'on de no arbitraje, el siguiente \textbf{problema primal de programaci\'on lineal (primal linear program)} tiene soluci\'on finita (con $x = 0$ como \'optimo):
+
+\begin{align}
+  \min_{x}\quad &px \notag \\
+  \text{s.a.}\quad &Rx \geq 0, \quad x \text{ irrestricto en signo.}
+  \label{eq:primal}
+\end{align}
+
+\begin{intuicionmat}
+El programa identifica la cartera m\'as barata que garantiza pagos no negativos en todos los estados. La condici\'on de no arbitraje implica que el m\'inimo es $px = 0$, alcanzado con $x = 0$ (la cartera nula). Si existiera alguna $x \neq 0$ con $Rx \geq 0$ y $px < 0$, ser\'ia arbitraje puro.
+\end{intuicionmat}
+
+\subsection{El Problema Dual y la Existencia de Precios de Estado}
+
+El \textbf{problema dual (dual linear program)} del primal anterior es:
+
+\begin{align}
+  \max_{\pi}\quad &\pi \cdot \mathbf{0} \notag \\
+  \text{s.a.}\quad &\pi R = p, \quad \pi \geq 0.
+  \label{eq:dual}
+\end{align}
+
+\begin{intuicionmat}
+Las variables duales $\pi \geq 0$ son exactamente los precios de estado. La restricci\'on $\pi R = p$ dice que los precios de los activos son iguales a sus pagos valorados a esos precios de estado: $p_a = \sum_s \pi_s R_{sa}$ para todo $a$. Como $x$ es irrestricto en signo, las restricciones duales son igualdades (no desigualdades).
+\end{intuicionmat}
+
+Por el \textbf{teorema de dualidad fuerte (strong duality theorem)} de la programaci\'on lineal: como el primal tiene soluci\'on finita, el dual tambi\'en tiene soluci\'on factible. Esto garantiza la existencia de $\pi \geq 0$ tal que:
+
+\begin{equation}
+  p = \pi R.
+  \label{eq:pigualapiR}
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la conclusi\'on central: la condici\'on de no arbitraje implica la existencia de precios de estado no negativos que valoran todos los activos. La necesidad queda probada por la dualidad; la suficiencia es directa.
+\end{intuicionmat}
+
+\subsection{Prueba de Suficiencia}
+
+\textbf{Suficiencia} ($\exists\, \pi \geq 0$ con $p = \pi R$ $\Rightarrow$ no arbitraje): Sea $x$ tal que $Rx \geq 0$. Multiplicando por $\pi \geq 0$:
+
+\begin{equation}
+  \pi R x \geq 0 \implies px \geq 0,
+  \label{eq:suficiencia}
+\end{equation}
+
+\begin{intuicionmat}
+La implicaci\'on es inmediata: $\pi \geq 0$ y $Rx \geq 0$ implican $\pi(Rx) \geq 0$. Sustituyendo $p = \pi R$, se tiene $px = (\pi R)x = \pi(Rx) \geq 0$. Toda cartera con pagos no negativos tiene costo no negativo: exactamente la condici\'on de no arbitraje. $\square$
+\end{intuicionmat}
+
+donde se usa $p = \pi R$. El no arbitraje queda probado. $\square$
+
+%----------------------------------------------------------------------
+\section{Resumen y Conclusiones}
+%----------------------------------------------------------------------
+
+El art\'iculo de Varian (1987) demuestra que el principio del arbitraje ---la ausencia de oportunidades de ganancia segura sin costo--- es el fundamento unificador de la econom\'ia financiera moderna. Los resultados principales son:
+
+\begin{enumerate}
+  \item \textbf{Estructura del mercado:} Un mercado de activos se representa por la \textbf{matriz de pagos (payoff matrix)} $R \in \mathbb{R}^{S \times A}$. La riqueza alcanzable mediante la cartera $x$ es $w = Rx$. Con $A = S$ activos independientes, cualquier distribuci\'on de riqueza puede alcanzarse.
+
+  \item \textbf{Teorema Fundamental del No Arbitraje:} La condici\'on algebraica $Rx \geq 0 \Rightarrow px \geq 0$ es equivalente a la existencia de precios de estado $\pi \geq 0$ tales que $p = \pi R$, es decir:
+  \[
+    p_a = \sum_{s=1}^{S} \pi_s R_{sa} \quad \text{para todo activo } a.
+  \]
+  La prueba usa dualidad de programaci\'on lineal.
+
+  \item \textbf{Aditividad de valor:} Bajo no arbitraje, si $R_{sc} = AR_{sa} + BR_{sb}$, entonces $p_c = Ap_a + Bp_b$. Este principio sustenta el teorema de Modigliani-Miller y excluye la creaci\'on de valor mediante mera recomposici\'on financiera.
+
+  \item \textbf{Opciones y arbitraje:} La condici\'on de no arbitraje implica la cota $C_t \geq \max[0, S_t - KB_t]$ para opciones de compra, y la equivalencia de valor entre opciones americanas y europeas de compra (dado que el ejercicio anticipado nunca es \'optimo).
+
+  \item \textbf{Precios de estado desde opciones (Breeden-Litzenberger):} Con estados continuos:
+  \[
+    \pi(K) = \frac{d^2 C_t}{dK^2},
+  \]
+  lo que permite recuperar la funci\'on completa de precios de estado a partir de precios de opciones observados en el mercado.
+
+  \item \textbf{Modelo binomial:} En un proceso binomial de $n$ per\'iodos con factores $u$, $d$ y tasa $r$:
+  \[
+    \pi_u = \frac{r - d}{(u-d)r}, \qquad \pi_d = \frac{u - r}{(u-d)r},
+  \]
+  y los precios de estado multi-per\'iodo siguen $\pi_{u,n-u} = \binom{n}{u}\pi_u^u \pi_d^{n-u}$. La probabilidad real $q$ no interviene en la valoraci\'on. Con $n \to \infty$, el modelo converge a la f\'ormula de Black-Scholes.
+
+  \item \textbf{Poder del principio:} A partir de un supuesto m\'inimo ---la ausencia de ganancias garantizadas sin costo--- se derivan relaciones de precios concretas y cuantificables sin necesidad de especificar preferencias individuales, probabilidades subjetivas ni modelos de equilibrio general completos.
+\end{enumerate}
+
+\end{document}

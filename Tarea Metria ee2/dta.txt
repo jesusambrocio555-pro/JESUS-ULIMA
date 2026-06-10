@@ -1,0 +1,806 @@
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. clear all
+
+. set more off
+
+. set scheme s2mono          // gráficos en escala de grises (para imprimir)
+
+. 
+. * ---------- Rutas globales ----------
+. global path  "C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2"
+
+. global datos "$path\Datos"
+
+. global out   "$path\Output"
+
+. 
+. capture mkdir "$out"       // crea la carpeta Output si no existe
+
+. 
+. 
+. * ============================================================
+. * SECCIÓN A — ESTADOS UNIDOS
+. * Orden Cholesky: π → Desempleo → FFR  (igual que S&W 2001)
+. * ============================================================
+. 
+. import excel "$datos\fase0_eeuu.xlsx", ///
+>     sheet("Datos") cellrange(A5) clear
+(6 vars, 264 obs)
+
+. 
+. * Las columnas llegan como A–F; renombrar a nombres limpios
+. rename (A B C D E F) (fecha_str periodo pi desempleo ffr ipc)
+
+. destring pi desempleo ffr ipc, replace force
+pi already numeric; no replace
+desempleo already numeric; no replace
+ffr already numeric; no replace
+ipc already numeric; no replace
+
+. drop if missing(pi)
+(0 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. * Fecha trimestral — los datos arrancan en 1960Q1 y están ordenados
+. gen     t = tq(1960q1) + (_n - 1)
+
+. format  t %tq
+
+. tsset   t, quarterly
+
+Time variable: t, 1960q1 to 2025q4
+        Delta: 1 quarter
+
+. 
+. label var pi        "Inflación 400·ln(P_t/P_{t-1})"
+
+. label var desempleo "Tasa de desempleo (%)"
+
+. label var ffr       "Federal Funds Rate (%)"
+
+. 
+end of do-file
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. display _newline "*** GRANGER — EE.UU. ***"
+
+*** GRANGER — EE.UU. ***
+
+. var pi desempleo ffr, lags(1/4)
+
+Vector autoregression
+
+Sample: 1961q1 thru 2025q4                      Number of obs     =        260
+Log likelihood =  -1062.215                     AIC               =   8.470888
+FPE            =   .9583971                     HQIC              =   8.685604
+Det(Sigma_ml)  =   .7098203                     SBIC              =    9.00499
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+pi                   13     1.84268   0.6389   459.9807   0.0000
+desempleo            13     .685949   0.8450   1417.434   0.0000
+ffr                  13     .799278   0.9535   5332.469   0.0000
+----------------------------------------------------------------
+
+------------------------------------------------------------------------------
+             | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+pi           |
+          pi |
+         L1. |   .5144888   .0652374     7.89   0.000     .3866259    .6423518
+         L2. |   .0187082   .0712905     0.26   0.793    -.1210185     .158435
+         L3. |    .286942   .0718811     3.99   0.000     .1460576    .4278263
+         L4. |   -.072614   .0652188    -1.11   0.266    -.2004404    .0552124
+             |
+   desempleo |
+         L1. |    .315208   .1768742     1.78   0.075    -.0314592    .6618751
+         L2. |  -.2806647   .2256108    -1.24   0.213    -.7228537    .1615243
+         L3. |   .2221709   .2267712     0.98   0.327    -.2222925    .6666343
+         L4. |  -.1621829    .171963    -0.94   0.346    -.4992243    .1748584
+             |
+         ffr |
+         L1. |   .6504932   .1511292     4.30   0.000     .3542854     .946701
+         L2. |  -.5182422   .2318868    -2.23   0.025     -.972732   -.0637523
+         L3. |   .0587563   .2333795     0.25   0.801    -.3986592    .5161718
+         L4. |  -.1306819    .151951    -0.86   0.390    -.4285004    .1671365
+             |
+       _cons |    .083292    .459453     0.18   0.856    -.8172193    .9838033
+-------------+----------------------------------------------------------------
+desempleo    |
+          pi |
+         L1. |  -.0108063   .0242851    -0.44   0.656    -.0584042    .0367916
+         L2. |   .0129079   .0265384     0.49   0.627    -.0391064    .0649221
+         L3. |   .0000706   .0267582     0.00   0.998    -.0523746    .0525157
+         L4. |   .0385804   .0242781     1.59   0.112    -.0090039    .0861647
+             |
+   desempleo |
+         L1. |   .7825326   .0658427    11.88   0.000     .6534834    .9115819
+         L2. |   .0375497   .0839852     0.45   0.655    -.1270583    .2021576
+         L3. |   .0766222   .0844172     0.91   0.364    -.0888324    .2420768
+         L4. |  -.0141239   .0640144    -0.22   0.825    -.1395899    .1113421
+             |
+         ffr |
+         L1. |  -.1358193   .0562589    -2.41   0.016    -.2460847   -.0255539
+         L2. |   .0911236   .0863215     1.06   0.291    -.0780634    .2603106
+         L3. |   .0146189   .0868772     0.17   0.866    -.1556572     .184895
+         L4. |   .0465387   .0565648     0.82   0.411    -.0643263    .1574036
+             |
+       _cons |   .4550948   .1710346     2.66   0.008     .1198732    .7903164
+-------------+----------------------------------------------------------------
+ffr          |
+          pi |
+         L1. |  -.0275117   .0282973    -0.97   0.331    -.0829734      .02795
+         L2. |   .0853844   .0309229     2.76   0.006     .0247766    .1459921
+         L3. |  -.0040791   .0311791    -0.13   0.896     -.065189    .0570307
+         L4. |   .0026159   .0282892     0.09   0.926    -.0528299    .0580618
+             |
+   desempleo |
+         L1. |  -.1294141   .0767208    -1.69   0.092    -.2797841    .0209559
+         L2. |   .0652919   .0978607     0.67   0.505    -.1265116    .2570953
+         L3. |  -.0290873   .0983641    -0.30   0.767    -.2218773    .1637027
+         L4. |   .0865019   .0745905     1.16   0.246    -.0596928    .2326966
+             |
+         ffr |
+         L1. |   1.269482   .0655537    19.37   0.000        1.141    1.397965
+         L2. |  -.5575385    .100583    -5.54   0.000    -.7546776   -.3603994
+         L3. |   .3512739   .1012305     3.47   0.001     .1528659     .549682
+         L4. |  -.1235343   .0659101    -1.87   0.061    -.2527157    .0056471
+             |
+       _cons |   .1265666   .1992919     0.64   0.525    -.2640383    .5171715
+------------------------------------------------------------------------------
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  |                pi          desempleo |  5.0339     4    0.284    |
+  |                pi                ffr |  20.921     4    0.000    |
+  |                pi                ALL |  23.538     8    0.003    |
+  |--------------------------------------+---------------------------|
+  |         desempleo                 pi |  4.9052     4    0.297    |
+  |         desempleo                ffr |   10.61     4    0.031    |
+  |         desempleo                ALL |  22.284     8    0.004    |
+  |--------------------------------------+---------------------------|
+  |               ffr                 pi |  10.967     4    0.027    |
+  |               ffr          desempleo |  4.1428     4    0.387    |
+  |               ffr                ALL |  14.706     8    0.065    |
+  +------------------------------------------------------------------+
+
+. 
+. * ------------------------------------------------------------
+. * P1.3 — IRF + FEVD
+. * El VAR estimado arriba ya usa el orden π → u → R (Cholesky)
+. * ------------------------------------------------------------
+. irf create irf_eeuu, step(12) set("$datos\irf_eeuu") replace
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\irf_eeuu.irf created)
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\irf_eeuu.irf now active)
+irfname irf_eeuu not found in C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\i
+> rf_eeuu.irf
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\irf_eeuu.irf updated)
+
+. 
+. * Tabla FEVD completa (copiar filas h=1,4,8,12 al documento)
+. display _newline "*** FEVD — EE.UU. ***"
+
+*** FEVD — EE.UU. ***
+
+. irf table fevd, irf(irf_eeuu) noci
+
+Results from irf_eeuu
+
+---------------------------------------------------------------------------------------
+         |      (1)         (2)         (3)         (4)         (5)         (6)         (7)  
+    Step |     fevd        fevd        fevd        fevd        fevd        fevd        fevd  
+---------+-----------------------------------------------------------------------------
+       0 |        0           0           0           0           0           0           0
+       1 |        1     .073492     .070904           0     .926508     .053608           0
+       2 |  .947967     .089078      .06146     .001639     .898219      .08042     .050393
+       3 |  .914176     .090367     .084582     .002735     .880578      .09736     .083089
+       4 |  .913576     .092518      .11785      .00261     .872018     .106026     .083814
+       5 |  .905826      .08661     .138178     .002447     .876448     .107671     .091727
+       6 |  .897563     .080783     .155337     .002348     .883568     .105706     .100089
+       7 |  .894488     .076502     .173129     .002411     .889678     .102571     .103102
+       8 |  .891773     .073458     .188194     .002584      .89405     .099203     .105643
+       9 |  .889198     .072171      .20117     .002713     .895472     .095632      .10809
+      10 |  .887435     .072559     .213232     .003025     .893632     .092016     .109539
+      11 |   .88599     .074757     .224093     .003427     .888459     .088619     .110584
+      12 |  .884689     .078578     .233756     .003824     .880237       .0855     .111487
+---------------------------------------------------------------------------------------
+
+--------------------------------
+         |      (8)         (9)  
+    Step |     fevd        fevd  
+---------+----------------------
+       0 |        0           0
+       1 |        0     .875488
+       2 |  .012703      .85812
+       3 |  .029056     .818058
+       4 |  .035464     .776124
+       5 |  .036942     .754151
+       6 |  .035649     .738957
+       7 |  .033821       .7243
+       8 |  .032493     .712603
+       9 |  .032357     .703198
+      10 |  .033809     .694752
+      11 |  .036785     .687288
+      12 |  .041186     .680743
+--------------------------------
+(1) irfname = irf_eeuu, impulse = pi, and response = pi.
+(2) irfname = irf_eeuu, impulse = pi, and response = desempleo.
+(3) irfname = irf_eeuu, impulse = pi, and response = ffr.
+(4) irfname = irf_eeuu, impulse = desempleo, and response = pi.
+(5) irfname = irf_eeuu, impulse = desempleo, and response = desempleo.
+(6) irfname = irf_eeuu, impulse = desempleo, and response = ffr.
+(7) irfname = irf_eeuu, impulse = ffr, and response = pi.
+(8) irfname = irf_eeuu, impulse = ffr, and response = desempleo.
+(9) irfname = irf_eeuu, impulse = ffr, and response = ffr.
+
+. 
+. * Gráfico FEVD de la tasa de interés (Panel B.iii de S&W)
+. irf graph fevd, irf(irf_eeuu) ///
+>     impulse(pi desempleo ffr) response(ffr) ///
+>     yline(0) ///
+>     title("Descomposición de Varianza — Fed Funds Rate (EE.UU.)")
+
+. graph export "$out\fevd_ffr_eeuu.png", replace width(1400)
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_ffr_eeuu.png not
+    found)
+file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_ffr_eeuu.png saved
+    as PNG format
+
+. 
+. * Gráfico FEVD completo (todas las variables — para el documento)
+. irf graph fevd, irf(irf_eeuu) yline(0) ///
+>     title("FEVD — EE.UU.")
+
+. graph export "$out\fevd_eeuu_completo.png", replace width(1800)
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_eeuu_completo.png
+    not found)
+file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_eeuu_completo.png
+    saved as PNG format
+
+. 
+end of do-file
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+.     impulse(pi desempleo ffr) response(ffr) ///
+
+end of do-file
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+.     impulse(pi desempleo ffr) response(ffr) ///
+
+end of do-file
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. irf graph fevd, irf(irf_eeuu) ///
+>     impulse(pi desempleo ffr) response(ffr) ///
+>     yline(0) ///
+>     title("Descomposición de Varianza — Fed Funds Rate (EE.UU.)")
+
+. 
+end of do-file
+
+. irf impulse(pi desempleo ffr) response(ffr)
+impulse(pi unknown subcommand
+r(198);
+
+. irf graph impulse(pi desempleo ffr) response(ffr)
+only two statistics may be included with CIs in one graph
+r(198);
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. irf table fevd, irf(irf_eeuu) noci
+
+Results from irf_eeuu
+
+---------------------------------------------------------------------------------------
+         |      (1)         (2)         (3)         (4)         (5)         (6)         (7)  
+    Step |     fevd        fevd        fevd        fevd        fevd        fevd        fevd  
+---------+-----------------------------------------------------------------------------
+       0 |        0           0           0           0           0           0           0
+       1 |        1     .073492     .070904           0     .926508     .053608           0
+       2 |  .947967     .089078      .06146     .001639     .898219      .08042     .050393
+       3 |  .914176     .090367     .084582     .002735     .880578      .09736     .083089
+       4 |  .913576     .092518      .11785      .00261     .872018     .106026     .083814
+       5 |  .905826      .08661     .138178     .002447     .876448     .107671     .091727
+       6 |  .897563     .080783     .155337     .002348     .883568     .105706     .100089
+       7 |  .894488     .076502     .173129     .002411     .889678     .102571     .103102
+       8 |  .891773     .073458     .188194     .002584      .89405     .099203     .105643
+       9 |  .889198     .072171      .20117     .002713     .895472     .095632      .10809
+      10 |  .887435     .072559     .213232     .003025     .893632     .092016     .109539
+      11 |   .88599     .074757     .224093     .003427     .888459     .088619     .110584
+      12 |  .884689     .078578     .233756     .003824     .880237       .0855     .111487
+---------------------------------------------------------------------------------------
+
+--------------------------------
+         |      (8)         (9)  
+    Step |     fevd        fevd  
+---------+----------------------
+       0 |        0           0
+       1 |        0     .875488
+       2 |  .012703      .85812
+       3 |  .029056     .818058
+       4 |  .035464     .776124
+       5 |  .036942     .754151
+       6 |  .035649     .738957
+       7 |  .033821       .7243
+       8 |  .032493     .712603
+       9 |  .032357     .703198
+      10 |  .033809     .694752
+      11 |  .036785     .687288
+      12 |  .041186     .680743
+--------------------------------
+(1) irfname = irf_eeuu, impulse = pi, and response = pi.
+(2) irfname = irf_eeuu, impulse = pi, and response = desempleo.
+(3) irfname = irf_eeuu, impulse = pi, and response = ffr.
+(4) irfname = irf_eeuu, impulse = desempleo, and response = pi.
+(5) irfname = irf_eeuu, impulse = desempleo, and response = desempleo.
+(6) irfname = irf_eeuu, impulse = desempleo, and response = ffr.
+(7) irfname = irf_eeuu, impulse = ffr, and response = pi.
+(8) irfname = irf_eeuu, impulse = ffr, and response = desempleo.
+(9) irfname = irf_eeuu, impulse = ffr, and response = ffr.
+
+. 
+end of do-file
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  |                pi          desempleo |  5.0339     4    0.284    |
+  |                pi                ffr |  20.921     4    0.000    |
+  |                pi                ALL |  23.538     8    0.003    |
+  |--------------------------------------+---------------------------|
+  |         desempleo                 pi |  4.9052     4    0.297    |
+  |         desempleo                ffr |   10.61     4    0.031    |
+  |         desempleo                ALL |  22.284     8    0.004    |
+  |--------------------------------------+---------------------------|
+  |               ffr                 pi |  10.967     4    0.027    |
+  |               ffr          desempleo |  4.1428     4    0.387    |
+  |               ffr                ALL |  14.706     8    0.065    |
+  +------------------------------------------------------------------+
+
+. 
+end of do-file
+
+. pperron pi, reg
+
+Phillips–Perron test for unit root       Number of obs   = 263
+Variable: pi                             Newey–West lags =   4
+
+H0: Random walk without drift, d = 0
+
+                                       Dickey–Fuller
+                   Test      -------- critical value ---------
+              statistic           1%           5%          10%
+--------------------------------------------------------------
+ Z(rho)         -58.959      -20.310      -14.000      -11.200
+ Z(t)            -5.883       -3.459       -2.879       -2.570
+--------------------------------------------------------------
+MacKinnon approximate p-value for Z(t) = 0.0000.
+
+Regression table
+------------------------------------------------------------------------------
+          pi | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+          pi |
+         L1. |   .7441272   .0411491    18.08   0.000     .6631007    .8251538
+             |
+       _cons |    .942824   .1940186     4.86   0.000     .5607829    1.324865
+------------------------------------------------------------------------------
+
+. pperron desempleo
+
+Phillips–Perron test for unit root       Number of obs   = 263
+Variable: desempleo                      Newey–West lags =   4
+
+H0: Random walk without drift, d = 0
+
+                                       Dickey–Fuller
+                   Test      -------- critical value ---------
+              statistic           1%           5%          10%
+--------------------------------------------------------------
+ Z(rho)         -24.144      -20.310      -14.000      -11.200
+ Z(t)            -3.518       -3.459       -2.879       -2.570
+--------------------------------------------------------------
+MacKinnon approximate p-value for Z(t) = 0.0075.
+
+. pperron ffr
+
+Phillips–Perron test for unit root       Number of obs   = 263
+Variable: ffr                            Newey–West lags =   4
+
+H0: Random walk without drift, d = 0
+
+                                       Dickey–Fuller
+                   Test      -------- critical value ---------
+              statistic           1%           5%          10%
+--------------------------------------------------------------
+ Z(rho)         -10.889      -20.310      -14.000      -11.200
+ Z(t)            -2.338       -3.459       -2.879       -2.570
+--------------------------------------------------------------
+MacKinnon approximate p-value for Z(t) = 0.1599.
+
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |    .958171               |   .958171   |
+  |   .8553913 + .03566037i  |   .856134   |
+  |   .8553913 - .03566037i  |   .856134   |
+  |   .6469753               |   .646975   |
+  |  -.2215643 +  .5546176i  |   .597236   |
+  |  -.2215643 -  .5546176i  |   .597236   |
+  |  -.0446154 +  .5301819i  |   .532056   |
+  |  -.0446154 -  .5301819i  |   .532056   |
+  |  -.2715897 +  .3737952i  |   .462043   |
+  |  -.2715897 -  .3737952i  |   .462043   |
+  |   .1630568 +   .287151i  |   .330217   |
+  |   .1630568 -   .287151i  |   .330217   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. vartable, graft
+command vartable is unrecognized
+r(199);
+
+. tsline ffr
+
+. irf graph oirf, irf(irf_eeuu) impulse(ffr) response(pi desempleo ffr) yline(0) ///
+option / not allowed
+r(198);
+
+. 
+.     title("IRF ante shock en Fed Funds Rate (EE.UU.)")
+command title is unrecognized
+r(199);
+
+. irf graph oirf, irf(irf_eeuu) impulse(ffr) response(pi desempleo ffr) yline(0) ///
+option / not allowed
+r(198);
+
+. 
+.     title("IRF ante shock en Fed Funds Rate (EE.UU.)")
+command title is unrecognized
+r(199);
+
+. irf graph oirf, irf(irf_eeuu) impulse(ffr) response(pi desempleo ffr) yline(0)
+
+. irf graph oirf, irf(irf_eeuu) impulse(ffr) response(pi) yline(0)
+
+. irf graph irf, irf(irf_eeuu) impulse(ffr) response(pi) yline(0)
+
+. irf graph irf, irf(irf_eeuu) impulse(ffr) response(desempleo) yline(0)
+
+.  irf graph irf, irf(irf_eeuu) impulse(ffr) response(pi) yline(0)
+
+.  irf graph oirf, irf(pi) impulse(ffr) response(pi) yline(0)
+irfname pi not found
+r(498);
+
+.  irf graph oirf, irf(irf_eeuu) impulse(pi) response(desempleo) yline(0)
+
+. irf graph oirf, irf(irf_eeuu) impulse(pi) response(ffr) yline(0)
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  |                pi          desempleo |  5.0339     4    0.284    |
+  |                pi                ffr |  20.921     4    0.000    |
+  |                pi                ALL |  23.538     8    0.003    |
+  |--------------------------------------+---------------------------|
+  |         desempleo                 pi |  4.9052     4    0.297    |
+  |         desempleo                ffr |   10.61     4    0.031    |
+  |         desempleo                ALL |  22.284     8    0.004    |
+  |--------------------------------------+---------------------------|
+  |               ffr                 pi |  10.967     4    0.027    |
+  |               ffr          desempleo |  4.1428     4    0.387    |
+  |               ffr                ALL |  14.706     8    0.065    |
+  +------------------------------------------------------------------+
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. * ============================================================
+. * SECCIÓN B — CHILE
+. * Orden Cholesky: π → Output Gap → TPM
+. *
+. * NOTA IMPORTANTE SOBRE SIGNOS:
+. *   Se usa Output Gap en lugar de Desempleo (informalidad laboral).
+. *   Un shock contractivo en la TPM REDUCE el output gap (signo –).
+. *   En S&W el mismo shock AUMENTA el desempleo (signo +).
+. *   Al comparar IRF con el paper, los signos de "actividad" se invierten.
+. * ============================================================
+. 
+. import excel "$datos\fase0_chile.xlsx", ///
+>     sheet("Datos") cellrange(A5) clear
+(7 vars, 104 obs)
+
+. 
+. rename (A B C D E F G) (fecha_str periodo pi tpm gap ipc imacec)
+
+. destring pi tpm gap ipc imacec, replace force
+pi already numeric; no replace
+tpm already numeric; no replace
+gap already numeric; no replace
+ipc already numeric; no replace
+imacec already numeric; no replace
+
+. drop if missing(pi)
+(0 observations deleted)
+
+. 
+. gen     t = tq(2000q1) + (_n - 1)
+
+. format  t %tq
+
+. tsset   t, quarterly
+
+Time variable: t, 2000q1 to 2025q4
+        Delta: 1 quarter
+
+. 
+. label var pi  "Inflación 400·ln(P_t/P_{t-1})"
+
+. label var gap "Output Gap — HP filter λ=1600 sobre IMACEC"
+
+. label var tpm "Tasa de Política Monetaria (%)"
+
+. 
+. * ------------------------------------------------------------
+. * P1.1 — Causalidad de Granger
+. * ------------------------------------------------------------
+. display _newline "*** GRANGER — CHILE ***"
+
+*** GRANGER — CHILE ***
+
+. var pi gap tpm, lags(1/4)
+
+Vector autoregression
+
+Sample: 2001q1 thru 2025q4                      Number of obs     =        100
+Log likelihood =  -526.6927                     AIC               =   11.31385
+FPE            =    16.5215                     HQIC              =   11.72505
+Det(Sigma_ml)  =   7.540009                     SBIC              =   12.32987
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+pi                   13       2.737   0.4577     84.397   0.0000
+gap                  13     2.84645   0.5156   106.4451   0.0000
+tpm                  13     .510525   0.9606     2439.7   0.0000
+----------------------------------------------------------------
+
+------------------------------------------------------------------------------
+             | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+pi           |
+          pi |
+         L1. |    .655208   .1101574     5.95   0.000     .4393034    .8711126
+         L2. |  -.3640779   .1322009    -2.75   0.006    -.6231868   -.1049689
+         L3. |   .2385719   .1349234     1.77   0.077    -.0258731     .503017
+         L4. |   .1033458   .1243862     0.83   0.406    -.1404466    .3471382
+             |
+         gap |
+         L1. |  -.0232835   .0820693    -0.28   0.777    -.1841364    .1375695
+         L2. |   .2842393   .0754602     3.77   0.000     .1363401    .4321386
+         L3. |  -.0865646   .0803227    -1.08   0.281    -.2439942    .0708649
+         L4. |  -.0328048   .0819446    -0.40   0.689    -.1934133    .1278037
+             |
+         tpm |
+         L1. |   .5461044   .5885669     0.93   0.353    -.6074657    1.699674
+         L2. |  -.8047514   1.065347    -0.76   0.450    -2.892792     1.28329
+         L3. |  -.1526711   1.058182    -0.14   0.885    -2.226669    1.921327
+         L4. |   .2184808   .5234162     0.42   0.676    -.8073962    1.244358
+             |
+       _cons |   2.102788   .6892591     3.05   0.002     .7518646    3.453711
+-------------+----------------------------------------------------------------
+gap          |
+          pi |
+         L1. |   .0652926   .1145627     0.57   0.569    -.1592462    .2898315
+         L2. |  -.0780313   .1374877    -0.57   0.570    -.3475023    .1914397
+         L3. |  -.0414324   .1403192    -0.30   0.768    -.3164528    .2335881
+         L4. |  -.2065351   .1293605    -1.60   0.110     -.460077    .0470068
+             |
+         gap |
+         L1. |   .0891235   .0853514     1.04   0.296    -.0781621    .2564091
+         L2. |   .1080379   .0784779     1.38   0.169     -.045776    .2618518
+         L3. |  -.3181067   .0835348    -3.81   0.000    -.4818319   -.1543814
+         L4. |   .5800211   .0852217     6.81   0.000     .4129897    .7470525
+             |
+         tpm |
+         L1. |   1.412557   .6121043     2.31   0.021     .2128547     2.61226
+         L2. |  -2.520523   1.107951    -2.27   0.023    -4.692067   -.3489788
+         L3. |   2.338259   1.100499     2.12   0.034     .1813202    4.495198
+         L4. |  -1.143232   .5443482    -2.10   0.036    -2.210134   -.0763288
+             |
+       _cons |   .5558327   .7168232     0.78   0.438     -.849115     1.96078
+-------------+----------------------------------------------------------------
+tpm          |
+          pi |
+         L1. |   .1025749   .0205474     4.99   0.000     .0623028     .142847
+         L2. |  -.0685942   .0246591    -2.78   0.005    -.1169251   -.0202633
+         L3. |   .0340699   .0251669     1.35   0.176    -.0152564    .0833961
+         L4. |   .0176483   .0232014     0.76   0.447    -.0278257    .0631223
+             |
+         gap |
+         L1. |  -.0116446   .0153082    -0.76   0.447    -.0416481    .0183589
+         L2. |   .0437456   .0140754     3.11   0.002     .0161584    .0713329
+         L3. |    .001958   .0149824     0.13   0.896    -.0274069     .031323
+         L4. |  -.0146958   .0152849    -0.96   0.336    -.0446536    .0152621
+             |
+         tpm |
+         L1. |   1.617047   .1097839    14.73   0.000     1.401874    1.832219
+         L2. |  -1.010021   .1987164    -5.08   0.000    -1.399498   -.6205442
+         L3. |   .3389011   .1973799     1.72   0.086    -.0479564    .7257586
+         L4. |  -.0886435   .0976315    -0.91   0.364    -.2799977    .1027107
+             |
+       _cons |   .2744837   .1285657     2.13   0.033     .0224995    .5264679
+------------------------------------------------------------------------------
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  |                pi                gap |  16.806     4    0.002    |
+  |                pi                tpm |   4.645     4    0.326    |
+  |                pi                ALL |  22.573     8    0.004    |
+  |--------------------------------------+---------------------------|
+  |               gap                 pi |  4.3228     4    0.364    |
+  |               gap                tpm |  9.0956     4    0.059    |
+  |               gap                ALL |   16.99     8    0.030    |
+  |--------------------------------------+---------------------------|
+  |               tpm                 pi |  30.268     4    0.000    |
+  |               tpm                gap |  10.704     4    0.030    |
+  |               tpm                ALL |   41.58     8    0.000    |
+  +------------------------------------------------------------------+
+
+. 
+. * ------------------------------------------------------------
+. * P1.3 — IRF + FEVD
+. * ------------------------------------------------------------
+. irf create irf_chile, step(12) set("$datos\irf_chile") replace
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\irf_chile.irf created)
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\irf_chile.irf now active)
+irfname irf_chile not found in C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\
+> irf_chile.irf
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Datos\irf_chile.irf updated)
+
+. 
+. display _newline "*** FEVD — CHILE ***"
+
+*** FEVD — CHILE ***
+
+. irf table fevd, irf(irf_chile) noci
+
+Results from irf_chile
+
+---------------------------------------------------------------------------------------
+         |      (1)         (2)         (3)         (4)         (5)         (6)         (7)  
+    Step |     fevd        fevd        fevd        fevd        fevd        fevd        fevd  
+---------+-----------------------------------------------------------------------------
+       0 |        0           0           0           0           0           0           0
+       1 |        1     .061917     .174285           0     .938083     .054133           0
+       2 |  .994614     .088793     .357344     4.1e-08      .86647     .033279     .005386
+       3 |  .943882     .101679     .441821     .048468     .854465     .042416     .007651
+       4 |  .934079      .10416     .473749     .058308     .843344     .069508     .007613
+       5 |  .925688     .084225     .506462     .056783     .873861     .085051     .017529
+       6 |  .912559     .083524     .544642     .063977     .867457     .084222     .023464
+       7 |  .903549     .084076     .569747     .069064     .862331     .082972     .027387
+       8 |  .900197     .087754     .579551     .070688     .860813     .086262     .029115
+       9 |  .895489     .089131     .581776     .070261     .860119     .089821      .03425
+      10 |  .886524      .09287     .581007     .077169     .855361     .090032     .036308
+      11 |  .885847     .091866     .577958     .076731     .852707     .089554     .037422
+      12 |  .886262     .093827     .575557     .076476     .852492     .088947     .037262
+---------------------------------------------------------------------------------------
+
+--------------------------------
+         |      (8)         (9)  
+    Step |     fevd        fevd  
+---------+----------------------
+       0 |        0           0
+       1 |        0     .771581
+       2 |  .044737     .609377
+       3 |  .043856     .515762
+       4 |  .052496     .456743
+       5 |  .041914     .408487
+       6 |  .049019     .371136
+       7 |  .053592     .347281
+       8 |  .051433     .334188
+       9 |   .05075     .328403
+      10 |   .05177      .32896
+      11 |  .055427     .332487
+      12 |  .053681     .335496
+--------------------------------
+(1) irfname = irf_chile, impulse = pi, and response = pi.
+(2) irfname = irf_chile, impulse = pi, and response = gap.
+(3) irfname = irf_chile, impulse = pi, and response = tpm.
+(4) irfname = irf_chile, impulse = gap, and response = pi.
+(5) irfname = irf_chile, impulse = gap, and response = gap.
+(6) irfname = irf_chile, impulse = gap, and response = tpm.
+(7) irfname = irf_chile, impulse = tpm, and response = pi.
+(8) irfname = irf_chile, impulse = tpm, and response = gap.
+(9) irfname = irf_chile, impulse = tpm, and response = tpm.
+
+. 
+. * Gráfico FEVD de la TPM
+. irf graph fevd, irf(irf_chile) ///
+>     impulse(pi gap tpm) response(tpm) ///
+>     yline(0) ///
+>     title("Descomposición de Varianza — TPM (Chile)")
+
+. graph export "$out\fevd_tpm_chile.png", replace width(1400)
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_tpm_chile.png not
+    found)
+file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_tpm_chile.png
+    saved as PNG format
+
+. 
+. * Gráfico FEVD completo
+. irf graph fevd, irf(irf_chile) yline(0) ///
+>     title("FEVD — Chile")
+
+. graph export "$out\fevd_chile_completo.png", replace width(1800)
+(file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea
+    ee2\Output\fevd_chile_completo.png not found)
+file C:\Users\51950\Documents\ULIMA\2026_1\Econometria 2\Tarea ee2\Output\fevd_chile_completo.png
+    saved as PNG format
+
+. 
+. 
+. * ============================================================
+. * COMPARACIÓN DIRECTA — IRF del shock de tasa de interés
+. * (útil para anticipar Bloque 3)
+. * ============================================================
+. 
+. * IRF recursivos de EE.UU.: respuesta de π y u a shock en FFR
+. irf graph oirf, irf(irf_eeuu) ///
+>     impulse(ffr) response(pi desempleo ffr) ///
+>     yline(0) ci ///
+>     title("IRF — Shock FFR (EE.UU.)")
+irfname irf_eeuu not found
+r(498);
+
+end of do-file
+
+r(498);
+
+. do "C:\Users\51950\AppData\Local\Temp\STD81e0_000000.tmp"
+
+. * IRF recursivos de EE.UU.: respuesta de π y u a shock en FFR
+. irf graph oirf, irf(irf_eeuu) ///
+>     impulse(ffr) response(pi desempleo ffr) ///
+>     yline(0) ci ///
+>     title("IRF — Shock FFR (EE.UU.)")
+irfname irf_eeuu not found
+r(498);
+
+end of do-file
+
+r(498);
+
+. 

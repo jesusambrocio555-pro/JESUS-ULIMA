@@ -1,0 +1,592 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Distribuci\'on de los Ingresos Corporativos\\
+entre Dividendos, Ganancias Retenidas e Impuestos}\\[4pt]
+\large \textit{Distribution of Incomes of Corporations Among Dividends,}\\
+\textit{Retained Earnings, and Taxes}\\[4pt]
+\normalsize John Lintner, \textit{The American Economic Review}, Vol.~46, N.\textdegree~2 (1956), pp.~97--113}
+\author{}
+\date{Junio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%%% =========================================================
+\section{Introducci\'on y Motivaci\'on del Estudio}
+%%% =========================================================
+
+El art\'iculo de Lintner (1956) presenta los resultados de un estudio emp\'irico sobre la
+\textbf{pol\'itica de dividendos corporativos (corporate dividend policy)}, con implicaciones
+directas para las \textbf{fluctuaciones c\'iclicas (cyclical fluctuations)} y las
+\textbf{tendencias de crecimiento de largo plazo (long-term growth trends)} de la econom\'ia.
+
+La investigaci\'on procede en dos etapas. Primero revisa los hallazgos del trabajo de campo
+(\textit{field investigations}) que son m\'as relevantes para el tema. Luego usa esos hallazgos
+para construir un \textbf{modelo te\'orico (theoretical model)} del comportamiento de dividendos
+corporativos y lo somete a pruebas estad\'isticas.
+
+Un resultado clave de partida: las ganancias retenidas en un per\'iodo son en gran medida
+\textit{subproducto} de las decisiones de dividendos, no el resultado de decisiones aut\'onomas
+de ahorro. De manera similar, el efecto de los impuestos sobre el volumen de ahorro neto
+corporativo opera principalmente a trav\'es de su impacto sobre la magnitud de las ganancias
+netas, que son el determinante primario del volumen de dividendos.
+
+\begin{intuicion}
+El punto de partida es sorprendente: la empresa no decide cu\'anto ahorrar; decide
+cu\'anto pagar como dividendo. Lo que queda es el ahorro. En consecuencia, para entender
+c\'omo las empresas distribuyen su ingreso, hay que enfocarse en c\'omo toman la decisi\'on
+de dividendos, no en la de ahorro.
+\end{intuicion}
+
+%%% =========================================================
+\section{Metodolog\'ia del Trabajo de Campo (Field Investigation)}
+%%% =========================================================
+
+\subsection{Selecci\'on de Empresas}
+
+Se revisaron m\'as de 600 empresas listadas y consolidadas, y se seleccionaron
+\textbf{28 empresas industriales} para investigaci\'on detallada, garantizando un m\'inimo
+de 3 empresas por cada combinaci\'on de caracter\'isticas relevantes. Los criterios de
+selecci\'on incluyeron:
+
+\begin{itemize}
+  \item Nivel de gasto en planta y equipo en la posguerra.
+  \item \textbf{Raz\'on de pago (pay-out ratio)}: desde empresas que pagaron m\'as del 70\,\%
+        de sus ganancias hasta aquellas que pagaron menos del 40\,\%.
+  \item Uso de financiamiento externo durante el per\'iodo.
+  \item Tama\~no de la empresa, frecuencia de cambios en las tasas, liquidez, estabilidad
+        de ganancias, capitalizaci\'on y estructura de propiedad.
+\end{itemize}
+
+Las empresas seleccionadas pertenecen al sector \textbf{industrial (industrial)}, que exhibe
+mayor diversidad en pol\'iticas de dividendos que otros sectores.
+
+\begin{intuicion}
+Las 28 empresas no son una muestra aleatoria para hacer inferencia estad\'istica cl\'asica.
+Son una muestra \textit{dise\~nada} para capturar contrastes instructivos entre empresas
+similares en algunos aspectos pero distintas en otros. Esto hace que los hallazgos sean
+cualitativamente robustos, aunque no estad\'isticamente representativos por s\'i solos.
+\end{intuicion}
+
+\subsection{Recopilaci\'on de Informaci\'on}
+
+Se realiz\'o un an\'alisis financiero completo con fuentes p\'ublicas y se realizaron
+entrevistas con 2 a 5 directivos responsables por empresa (presidentes, vicepresidentes
+financieros, tesoreros, contralores y directores). El an\'alisis cubri\'o 196
+\textbf{a\~nos-empresa (company-years)} durante el per\'iodo 1947--1953.
+
+\begin{intuicion}
+El m\'etodo combina datos duros (estados financieros) con informaci\'on cualitativa
+(entrevistas). Esto es clave porque Lintner quiere entender \textit{c\'omo piensan}
+los gerentes cuando deciden sobre dividendos, algo que los balances solos no revelan.
+\end{intuicion}
+
+%%% =========================================================
+\section{Patrones Observados en la Pol\'itica de Dividendos}
+%%% =========================================================
+
+\subsection{La Pregunta Central de las Decisiones de Dividendos}
+
+El hallazgo m\'as general y robusto es que los gerentes \textbf{no} piensan en la pol\'itica
+de dividendos como la elecci\'on del nivel \'optimo a pagar en cada per\'iodo. En los
+196 a\~nos-empresa estudiados, no se encontr\'o ninguna instancia en que la pregunta
+``\textit{?`cu\'anto pagar?}'' se considerara sin referencia a la tasa preexistente de dividendos.
+
+La pregunta que los gerentes se hacen en la pr\'actica es:
+\begin{center}
+\textit{?`Debemos cambiar la tasa actual de dividendos? Y si s\'i, ?`en cu\'anto?}
+\end{center}
+
+La \textbf{variable dependiente (dependent variable)} real en el proceso de decisi\'on
+es el \textbf{cambio en la tasa existente ($\Delta D$)}, no el nivel absoluto del nuevo pago.
+
+\begin{intuicion}
+Los modelos te\'oricos est\'aticos de la \'epoca supon\'ian que la empresa optimiza el
+dividendo de cada per\'iodo de forma independiente. Lintner muestra que en la pr\'actica
+eso no ocurre: la tasa anterior es siempre el punto de partida, y el gerente s\'olo decide
+si la cambia y cu\'anto. Esto implica \textit{inercia} estructural en los dividendos.
+\end{intuicion}
+
+\subsection{Inercia y Conservadurismo (Inertia and Conservatism)}
+
+Las empresas exhiben una fuerte preferencia por:
+\begin{itemize}
+  \item Tasas de dividendo \textbf{razonablemente estables (reasonably stable)}, o con
+        crecimiento gradual.
+  \item Evitar cambios que luego deban revertirse en el corto plazo.
+  \item El mercado premia la estabilidad o el crecimiento gradual de las tasas de dividendo.
+\end{itemize}
+
+Este conservadurismo conduce al patr\'on de \textbf{adaptaci\'on parcial (partial adaptation)}:
+en lugar de ajustar los dividendos completamente al cambio en ganancias en el mismo a\~no, las
+empresas ajustan solo una \textit{fracci\'on} del cambio indicado, y completan el ajuste a lo
+largo de los a\~nos siguientes.
+
+\begin{intuicion}
+Imagine que las ganancias de la empresa suben 30\,\%. Si la empresa sube los dividendos
+completamente ese a\~no y al siguiente las ganancias bajan, deber\'a recortar dividendos,
+lo que los accionistas detestan. Para evitar ese riesgo, la empresa sube los dividendos
+solo parcialmente y espera confirmar que el aumento en ganancias es permanente.
+\end{intuicion}
+
+\subsection{Las Ganancias como Factor Determinante Principal}
+
+Las ganancias netas corrientes (\textbf{current net earnings}) son invariablemente el punto
+de partida de la deliberaci\'on gerencial sobre si cambiar los dividendos. Otros factores
+---como restricciones de endeudamiento, posici\'on de liquidez, oportunidades de inversi\'on---
+dominaron las decisiones de dividendos en menos del 5\,\% de los a\~nos-empresa estudiados.
+
+Razones por las que las ganancias dominan:
+\begin{enumerate}
+  \item Son reportadas frecuentemente y reciben amplia publicidad financiera.
+  \item Los directivos consideran que los accionistas tienen inter\'es propietario
+        en las ganancias y esperan recibir una ``parte justa'' en dividendos.
+  \item Las razones basadas en ganancias son f\'acilmente comprensibles y persuasivas
+        para accionistas y la comunidad financiera.
+  \item Una pol\'itica basada en otras consideraciones resultar\'ia dif\'icil de explicar
+        y parecer\'ia errática (\textit{ad hoc}).
+\end{enumerate}
+
+\begin{intuicion}
+Las ganancias funcionan como la \textit{se\~nal} que activa y orienta la decisi\'on de
+dividendos. Sin un cambio significativo en ganancias, la gerencia simplemente no busca
+ni considera otros datos para decidir sobre dividendos.
+\end{intuicion}
+
+\subsection{Raz\'on Objetivo de Pago y Velocidad de Ajuste (Target Pay-out Ratio and Speed of Adjustment)}
+
+Aproximadamente dos tercios de las empresas estudiadas ten\'ian una
+\textbf{raz\'on objetivo de pago ($r$) (target pay-out ratio)} relativamente definida:
+la proporci\'on de ganancias que, como meta de largo plazo, deber\'ia distribuirse como
+dividendo. Esta raz\'on no es un l\'imite r\'igido a\~no a a\~no, sino un \textit{objetivo
+o ideal} hacia el cual la empresa tiende a moverse.
+
+Las razones objetivo observadas variaron de un 20\,\% a un 80\,\%, siendo el 50\,\% la
+cifra m\'as com\'un. La mayor\'ia de las dem\'as apuntaba al 40\,\% o al 60\,\%.
+
+Adem\'as de la raz\'on objetivo, las empresas ten\'ian est\'andares sobre la
+\textbf{velocidad de ajuste ($c$) (speed of adjustment)}: la fracci\'on de la brecha entre
+el dividendo objetivo y el dividendo del per\'iodo anterior que ajustan en el a\~no corriente.
+Dos empresas buscaban el ajuste completo en un a\~no; la mayor\'ia ajustaba solo una fracci\'on
+(entre 1/6 y 1/2 por a\~no).
+
+\begin{intuicion}
+Piense en el dividendo como un nivel de agua en un tanque. La raz\'on objetivo dice cu\'al
+es el nivel ideal. La velocidad de ajuste dice qu\'e tan r\'apido abre la v\'alvula para
+llegar a ese nivel. Una velocidad baja significa que la empresa llegar\'a al nivel ideal
+muy despacio, a lo largo de varios a\~nos.
+\end{intuicion}
+
+\subsection{Determinantes de la Raz\'on Objetivo y la Velocidad de Ajuste}
+
+Los factores que moldearon estos par\'ametros en cada empresa incluyen:
+
+\begin{itemize}
+  \item Perspectivas de crecimiento de la industria y de la empresa.
+  \item Movimiento c\'iclico promedio de las oportunidades de inversi\'on y requerimientos
+        de capital de trabajo.
+  \item Importancia relativa de las ganancias de capital (\textit{capital gains}) para
+        los accionistas frente al ingreso corriente por dividendos.
+  \item La preferencia de los accionistas entre tasas estables o fluctuantes.
+  \item El premio que el mercado asigna a la estabilidad en la tasa de dividendo.
+  \item Solidez financiera de la empresa y pol\'iticas respecto al uso de deuda y
+        nuevas emisiones de acciones.
+\end{itemize}
+
+Una vez establecidos mediante experiencia acumulada, estos est\'andares permanecieron
+pr\'acticamente \textbf{invariantes en el tiempo (invariant over time)} para la gran mayor\'ia
+de las empresas durante todo el per\'iodo de posguerra.
+
+\begin{intuicion}
+La pol\'itica de dividendos no se renegoci\'o a\~no a a\~no: se fij\'o hist\'oricamente
+y luego se aplic\'o de forma mec\'anica. Esto es clave para el modelo: si los par\'ametros
+son estables, se pueden estimar de datos hist\'oricos y usar para predecir.
+\end{intuicion}
+
+\subsection{El Papel de los Impuestos y la Liquidez}
+
+Los impuestos afectan los dividendos \textit{indirectamente}: reducen las ganancias netas
+reportadas y, como los est\'andares de dividendo se fijan en t\'erminos de ganancias netas
+(despu\'es de impuestos), una mayor carga tributaria reduce mec\'anicamente el nivel de
+dividendos que resulta de aplicar la raz\'on objetivo.
+
+La posici\'on de liquidez y las oportunidades de inversi\'on corrientes influyen en los
+est\'andares de largo plazo (raz\'on objetivo y velocidad de ajuste) pero rara vez
+intervienen directamente en las decisiones a\~no a a\~no. La gerencia planifica su
+\textbf{presupuesto de capital (capital budget)} de modo que llevar a cabo la pol\'itica de
+dividendos establecida no la deje en posiciones de iliquidez severa.
+
+\begin{intuicion}
+Los impuestos no hacen que los gerentes recorten dividendos de forma activa; simplemente
+reducen el ingreso que sirve de base para calcular el dividendo objetivo. La liquidez tampoco
+``invade'' la decisi\'on de dividendos directamente: la empresa se asegura de que su
+presupuesto de inversi\'on sea compatible con mantener el dividendo comprometido.
+\end{intuicion}
+
+%%% =========================================================
+\section{El Modelo Te\'orico de Comportamiento de Dividendos}
+%%% =========================================================
+
+\subsection{Ecuaci\'on Fundamental del Modelo (Fundamental Equation)}
+
+Los patrones de toma de decisiones observados en el trabajo de campo se pueden sintetizar en
+un modelo te\'orico simple sujeto a prueba estad\'istica. El modelo propone que el
+\textbf{cambio en dividendos ($\Delta D_{it}$)} de la empresa $i$ en el per\'iodo $t$
+obedece a:
+
+\begin{equation}
+  \Delta D_{it} \;=\; a_i + c_i\!\left(D^*_{it} - D_{i,t-1}\right) + u_{it}
+\end{equation}
+
+donde los componentes son:
+
+\begin{itemize}
+  \item $D^*_{it} = r_i P_{it}$: el \textbf{dividendo objetivo (target dividend)}, igual a la
+        raz\'on objetivo $r_i$ aplicada a las ganancias corrientes $P_{it}$.
+  \item $D_{i,t-1}$: dividendo pagado en el per\'iodo anterior.
+  \item $c_i$: \textbf{factor de velocidad de ajuste (speed-of-adjustment factor)}, la
+        fracci\'on de la brecha entre dividendo objetivo y dividendo previo que la empresa
+        intenta reflejar en el pago corriente.
+  \item $a_i$: constante que generalmente es positiva, capturando la mayor renuencia a
+        \textit{reducir} que a \textit{aumentar} dividendos, y el deseo de crecimiento gradual.
+  \item $u_{it}$: t\'ermino de error que absorbe discrepancias por preferencia de cifras
+        redondeadas y otros factores no sistem\'aticos.
+\end{itemize}
+
+\begin{intuicionmat}
+La ecuaci\'on dice: la empresa no salta directamente al dividendo ideal ($D^*_{it}$);
+en cambio, mueve su dividendo en una fracci\'on $c_i$ de la distancia entre d\'onde est\'a
+($D_{i,t-1}$) y d\'onde deber\'ia estar ($D^*_{it}$). Si $c_i = 1$, el ajuste es completo
+en un a\~no; si $c_i = 0.25$, la empresa cierra s\'olo el 25\,\% de la brecha cada a\~no.
+La constante $a_i > 0$ refleja que las empresas tienden a subir dividendos aunque sea un poco,
+incluso cuando el ``ajuste puro'' indicar\'ia no cambiarlos.
+\end{intuicionmat}
+
+\subsection{Reformulaci\'on Econom\'etrica (Econometric Reformulation)}
+
+Sustituyendo $D^*_{it} = r_i P_{it}$ en la ecuaci\'on (1) y reagrupando t\'erminos, se obtiene
+la forma de regresi\'on directamente estimable:
+
+\begin{equation}
+  D_{it} \;=\; a_{it} + b\,P_{it} + d\,D_{i,t-1} + u_{it}
+\end{equation}
+
+con los par\'ametros compuestos:
+\begin{align}
+  b &= c \cdot r \\
+  d &= (1 - c)
+\end{align}
+
+\begin{intuicionmat}
+Esta forma dice que el dividendo de hoy es una combinaci\'on lineal de las ganancias
+corrientes y el dividendo del per\'iodo anterior. El coeficiente $b$ recoge el efecto
+conjunto de la raz\'on objetivo y la velocidad de ajuste; $d$ recoge la ``memoria'' del
+sistema: cu\'anto persiste el dividendo pasado en el presente. Si $d$ es cercano a 1,
+los dividendos son muy persistentes; si $d$ es cercano a 0, el ajuste es casi inmediato.
+\end{intuicionmat}
+
+\subsection{Ajuste del Modelo a los Datos del Campo}
+
+El modelo describe con precisi\'on el comportamiento observado:
+
+\begin{itemize}
+  \item 26 de las 28 empresas ten\'ian un valor bien definido de $r_i$ (raz\'on objetivo).
+  \item 20 empresas ten\'ian valores razonablemente definidos de $c_i$; las 6 restantes
+        mostraban mayor flexibilidad.
+  \item 22 empresas ajustaban dividendos a\~no a a\~no; las otras 4 lo hac\'ian cada 2--3 a\~nos.
+  \item Aproximadamente el \textbf{85\,\% de los a\~nos-empresa} de las 26 empresas con
+        est\'andares claros se explica con solo discrepancias moderadas mediante este modelo.
+  \item El porcentaje sube a m\'as del 90\,\% si se permite una tolerancia de seis meses
+        adicional y no se contabilizan las reducciones no realizadas.
+\end{itemize}
+
+\begin{intuicion}
+El modelo con s\'olo dos par\'ametros por empresa ($r_i$ y $c_i$) captura cuatro quintas
+partes del comportamiento observado. Esto es notable dado que las decisiones de dividendos
+involucran factores cualitativos, personalidades y contextos \'unicos a cada empresa.
+\end{intuicion}
+
+%%% =========================================================
+\section{Pruebas Estad\'isticas: Predicci\'on de Dividendos de Posguerra}
+%%% =========================================================
+
+\subsection{Estrategia de Validaci\'on}
+
+Para evaluar la capacidad predictiva del modelo, Lintner procede as\'i:
+
+\begin{enumerate}
+  \item Ajusta la ecuaci\'on (2) a datos \textbf{de preguerra} del universo corporativo
+        (datos de cuentas nacionales, 1918--1941, excluyendo 1936--1937 por el impuesto
+        sobre utilidades no distribuidas).
+  \item Usa los par\'ametros estimados para \textbf{pronosticar dividendos de posguerra}
+        (1946--1954).
+  \item Compara los errores de predicci\'on con los de cuatro modelos alternativos propuestos
+        en la literatura y con un \textbf{modelo na\'ive (na\"ive model)} (que supone que el
+        dividendo de este a\~no igual al del a\~no anterior).
+\end{enumerate}
+
+\begin{intuicion}
+Ajustar el modelo \textit{fuera de muestra} es la prueba m\'as exigente: si los par\'ametros
+estimados con datos de 1918--1941 predicen bien los datos de 1946--1954 (un per\'iodo
+hist\'oricamente muy diferente), el modelo capta algo estructural y estable del comportamiento
+corporativo, no solo una regularidad casual del per\'iodo de estimaci\'on.
+\end{intuicion}
+
+\subsection{Ecuaciones Estimadas con Datos de Preguerra}
+
+Las ecuaciones ajustadas al per\'iodo 1918--1941 para el universo de corporaciones son:
+
+\medskip
+\noindent Con ajuste por valuaci\'on de inventarios (\textit{inventory valuation adjustment}):
+\begin{equation}
+  D \;=\; 352.3 + 0.15\,P_w + 0.70\,D_{-1}
+\end{equation}
+
+\noindent Sin ajuste por valuaci\'on de inventarios:
+\begin{equation}
+  D \;=\; 106.0 + 0.145\,P_n + 0.788\,D_{-1}
+\end{equation}
+
+donde $P_w$ son las ganancias con ajuste de inventarios, $P_n$ son las ganancias sin ajuste,
+y $D_{-1}$ es el dividendo rezagado un per\'iodo (en miles de millones de d\'olares).
+
+\begin{intuicionmat}
+En la primera ecuaci\'on, $b = 0.15$ y $d = 0.70$. Esto implica:
+$c = 1 - d = 0.30$ (se cierra el 30\,\% de la brecha por a\~no) y
+$r = b/c = 0.15/0.30 = 0.50$ (raz\'on objetivo del 50\,\%).
+Estos valores son \textit{exactamente} consistentes con los hallazgos del trabajo de campo:
+velocidad de ajuste moderada y raz\'on objetivo del 50\,\%.
+\end{intuicionmat}
+
+\subsection{Resultados de las Predicciones Fuera de Muestra}
+
+\begin{explicacion}
+La Tabla~1 del art\'iculo original (p.~110) compara el error de predicci\'on de posguerra del
+modelo de Lintner con el de siete especificaciones alternativas. Las variables $P_w$, $P_n$,
+$NW$ denotan ganancias con ajuste de inventarios, sin ajuste y valor neto (\textit{net worth}),
+respectivamente. $S$ representa el superavit.
+\end{explicacion}
+
+Los resultados clave son:
+
+\begin{itemize}
+  \item El modelo de Lintner con ajuste de inventarios produce un \textbf{error algebraico
+        medio (algebraic mean error)} de $-163.7$ millones de d\'olares: una
+        subestimaci\'on del 2.0\,\% de los dividendos reales y sobreestimaci\'on del 2.2\,\%
+        de las ganancias retenidas.
+  \item El \textbf{error absoluto medio (mean absolute error)} es del 6.4\,\% para
+        dividendos y 5.6\,\% para ganancias retenidas.
+  \item El \textbf{error cuadr\'atico medio (root-mean-square error)} es del 7.3\,\% para
+        dividendos.
+  \item Estos errores son de un tercio a cinco sextos \textit{menores} que los de los modelos
+        alternativos basados en ganancias corrientes y rezagadas propuestos por Tinbergen
+        y Modigliani, o con superavit, o basados en el valor neto.
+  \item El modelo es m\'as del cuadrup\'edruple mejor que el modelo na\'ive en t\'erminos
+        de error algebraico medio.
+  \item Los estad\'isticos de von Neumann (1.98 y 2.04) caen pr\'oximos a su valor esperado
+        de 2.25, confirmando la aleatoriedad de los residuos.
+\end{itemize}
+
+\begin{intuicion}
+El modelo de dos par\'ametros estimado con datos de hace m\'as de diez a\~nos supera
+consistentemente a modelos m\'as complejos estimados con m\'as variables. Esto sugiere
+que los dos par\'ametros capturan \textit{la f\'isica del sistema}, no solo el ruido del
+per\'iodo de estimaci\'on.
+\end{intuicion}
+
+\subsection{Robustez: Variables Adicionales No Significativas}
+
+Lintner verifica que a\~nadir las siguientes variables \textbf{no} mejora el modelo
+ni produce coeficientes estad\'isticamente significativos:
+
+\begin{itemize}
+  \item Gastos en planta y equipo (o desembolsos de capital netos de depreciaci\'on).
+  \item Cambio en inventarios f\'isicos.
+  \item Cambio corriente en ganancias o dividendos m\'aximos previos.
+  \item Exceso de fondos internos sobre desembolsos de capital.
+\end{itemize}
+
+Este resultado refuerza la tesis del campo: la gerencia \textit{ya incorpora} las
+consideraciones de inversi\'on y liquidez en sus est\'andares de largo plazo ($r$ y $c$);
+no las trata como shocks adicionales a\~no a a\~no.
+
+\begin{intuicion}
+El modelo no falla por omitir la inversi\'on o la liquidez. Falla en incluirlas porque
+estas variables no a\~naden informaci\'on una vez que se conocen ganancias y dividendo previo.
+La empresa ya ``previ\'o'' estas restricciones al fijar su pol\'itica.
+\end{intuicion}
+
+%%% =========================================================
+\section{Implicaciones Macroecon\'omicas: Ahorro Corporativo y Estabilizaci\'on}
+%%% =========================================================
+
+\subsection{Propensiones Marginales a Ahorrar (Marginal Propensities to Save)}
+
+A partir de las ecuaciones estimadas se derivan las \textbf{propensiones marginales a ahorrar
+corporativas (corporate marginal propensities to save, MPS)}:
+
+\medskip
+\noindent \textbf{MPS de corto plazo (short-run MPS):}
+
+Dado que $\Delta D = c(rP - D_{-1}) + a$, ante un aumento permanente en $P$, el dividendo
+sube solo en $b = cr$ en el primer a\~no. Por tanto, la fracci\'on del incremento de ganancias
+que se retiene es:
+
+\begin{equation}
+  \text{MPS}_{\text{corto plazo}} \;=\; 1 - b \;=\; 1 - cr
+\end{equation}
+
+Con los valores emp\'iricos $c \approx 0.30$ y $r \approx 0.50$, se obtiene $b \approx 0.15$,
+de modo que:
+\[
+  \text{MPS}_{\text{corto plazo}} \approx 0.85
+\]
+
+\begin{intuicionmat}
+En el a\~no en que las ganancias suben \$1, la empresa retiene \$0.85 y paga solo \$0.15
+en dividendos adicionales. Esto ocurre porque el ajuste al dividendo objetivo es gradual.
+La alta MPS de corto plazo tiene un efecto \textit{estabilizador} sobre el ciclo econ\'omico:
+ante una ca\'ida de ganancias, los dividendos tampoco caen bruscamente, sosteniendo el ingreso
+disponible de los hogares accionistas.
+\end{intuicionmat}
+
+\noindent \textbf{MPS de largo plazo (long-run MPS):}
+
+En el largo plazo (equilibrio est\'atico), $D = rP$ y la fracci\'on retenida es:
+
+\begin{equation}
+  \text{MPS}_{\text{largo plazo}} \;=\; 1 - r \;\approx\; 1 - 0.60 \;=\; 0.40
+\end{equation}
+
+donde $r \approx 0.60$ es la \textbf{raz\'on objetivo promedio ponderada (weighted average
+target pay-out ratio)} del universo corporativo.
+
+\begin{intuicionmat}
+En el largo plazo, cuando los dividendos han alcanzado su nivel objetivo, la empresa retiene
+solo el 40\,\% de sus ganancias. Esto contrasta con el 85\,\% del corto plazo: a medida que
+pasan los a\~nos despu\'es de un aumento de ganancias, los dividendos van subiendo y la
+retenci\'on va cayendo del 85\,\% al 40\,\%.
+\end{intuicionmat}
+
+\subsection{El Subsistema Dividendos--Ganancias--Ganancias Retenidas}
+
+El sistema \textbf{dividendos--ganancias--ganancias retenidas (dividends--profits--retained
+earnings subsystem)} es internamente \textbf{muy estable (highly stable)} aunque se encuentra
+en \textbf{desequilibrio continuo (continuous disequilibrium)}: los dividendos nunca llegan
+completamente al nivel objetivo porque las ganancias cambian antes de que se complete el ajuste.
+
+\begin{intuicion}
+El sistema es como un flotador en el agua: siempre trata de volver al equilibrio (raz\'on
+objetivo), pero las olas (cambios en ganancias) lo sacan del equilibrio antes de que llegue.
+El resultado es un movimiento continuo alrededor del equilibrio, nunca en \'el.
+\end{intuicion}
+
+\subsection{Pol\'itica de Posguerra: Los Dividendos no Fueron Deprimidos por Impuestos}
+
+La evidencia es consistente con el juicio de que los dividendos de posguerra \textbf{no
+fueron deprimidos} por debajo de las expectativas normales (en t\'erminos de ganancias
+netas despu\'es de impuestos y pol\'iticas hist\'oricas) por la elevada carga tributaria
+de la posguerra. Tampoco hay evidencia de que la raz\'on objetivo de largo plazo haya
+cambiado entre la preguerra y la posguerra.
+
+La explicaci\'on de los bajos \textbf{pay-out ratios} de posguerra no es una retenci\'on
+discrecional para financiar la inversi\'on, sino que los gastos en inversi\'on f\'isica
+han estado hist\'oricamente correlacionados con las ganancias corrientes y el flujo de
+fondos internos, y las empresas han incorporado esa relaci\'on en sus pol\'iticas de dividendos.
+
+\begin{intuicion}
+Las empresas de posguerra no pagaron menos dividendos porque tuvieran m\'as proyectos de
+inversi\'on: pagaron menos porque sus ganancias netas (ya despu\'es de impuestos) eran la
+base del c\'alculo, y los impuestos redujeron esa base. La inversi\'on no fue una causa
+independiente del bajo pay-out ratio.
+\end{intuicion}
+
+%%% =========================================================
+\section{Resumen y Conclusiones}
+%%% =========================================================
+
+El art\'iculo de Lintner (1956) constituye la piedra fundacional del estudio moderno de la
+pol\'itica de dividendos corporativos. Sus contribuciones centrales son:
+
+\medskip
+\noindent \textbf{1. Hallazgos del trabajo de campo:}
+\begin{itemize}
+  \item Los gerentes no optimizan el dividendo de cada per\'iodo de forma independiente;
+        parten siempre de la tasa vigente y deciden si y cu\'anto cambiarla.
+  \item Las ganancias netas corrientes son el \textit{\'unico} factor consistente y dominante
+        en las decisiones de dividendos a lo largo de empresas y a\~nos.
+  \item Las empresas tienen raz\'ones objetivo de pago ($r$) y velocidades de ajuste ($c$)
+        estables en el tiempo, que resumen sus pol\'iticas de dividendo.
+\end{itemize}
+
+\noindent \textbf{2. El modelo te\'orico:}
+\begin{equation*}
+  \Delta D_{it} = a_i + c_i\!\left(r_i P_{it} - D_{i,t-1}\right) + u_{it}
+\end{equation*}
+Dos par\'ametros por empresa capturan el 85\,\% del comportamiento observado de dividendos.
+La reformulaci\'on como $D_{it} = a + b P_{it} + d D_{i,t-1} + u_{it}$ es directamente
+estimable por m\'inimos cuadrados ordinarios.
+
+\noindent \textbf{3. Validaci\'on estad\'istica:}
+\begin{itemize}
+  \item Estimado con datos de preguerra (1918--1941), el modelo predice dividendos de
+        posguerra (1946--1954) con errores de apenas 2\,\%, superando a todos los modelos
+        alternativos de la literatura.
+  \item Las variables de inversi\'on y liquidez no mejoran el ajuste: ya est\'an
+        incorporadas en los par\'ametros de la pol\'itica de largo plazo.
+\end{itemize}
+
+\noindent \textbf{4. Implicaciones macroecon\'omicas:}
+\begin{itemize}
+  \item La \textbf{MPS de corto plazo} es $\approx 85\,\%$: los dividendos se ajustan lentamente
+        a los cambios en ganancias, lo que da al subsistema un efecto estabilizador sobre el ciclo.
+  \item La \textbf{MPS de largo plazo} es $\approx 40\,\%$: en equilibrio, las empresas
+        distribuyen alrededor del 60\,\% de sus ganancias.
+  \item Los altos impuestos de posguerra no deprimieron los dividendos de forma discrecional;
+        simplemente redujeron la base (ganancias netas) sobre la que se aplica la raz\'on objetivo.
+\end{itemize}
+
+\noindent \textbf{5. Legado:}
+El \textbf{modelo de Lintner (Lintner model)} es la referencia est\'andar para la econom\'ia
+de la pol\'itica de dividendos. Su ecuaci\'on de ajuste parcial fue la base emp\'irica sobre
+la que se construyeron posteriormente trabajos como el de Fama y Babiak (1968) y sigue siendo
+el punto de partida en la literatura de finanzas corporativas sobre distribuci\'on de ingresos.
+
+\end{document}

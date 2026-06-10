@@ -1,0 +1,751 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt, arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt, arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Modelos de Series de Tiempo Multiecuacionales}\\
+\large Cap\'itulo 5\\
+\normalsize Walter Enders, \textit{Applied Econometric Time Series}, 4ta edici\'on}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%==============================================================================
+\section{An\'alisis de Intervenci\'on (Intervention Analysis)}
+%==============================================================================
+
+\subsection{Modelo b\'asico de intervenci\'on}
+
+El \textbf{an\'alisis de intervenci\'on (intervention analysis)} permite medir el efecto de un cambio determinista sobre la media de una serie de tiempo. Si $\{y_t\}$ denota la serie de inter\'es y $z_t$ una variable dummy que toma el valor 0 antes del evento y 1 a partir de \'el, el modelo de referencia es:
+
+\begin{equation}
+y_t = a_0 + a_1 y_{t-1} + c_0 z_t + \varepsilon_t, \qquad |a_1| < 1
+\end{equation}
+
+\begin{intuicionmat}
+$y_t$ depende de su pasado inmediato ($a_1 y_{t-1}$), de un nivel base ($a_0$) y del efecto del evento ($c_0 z_t$). La condici\'on $|a_1|<1$ garantiza que la serie no explota. El par\'ametro $c_0$ captura el \textit{impacto instant\'aneo} de la intervenci\'on: si es negativo y significativo, la intervenci\'on redujo la media de $y_t$.
+\end{intuicionmat}
+
+La \textbf{media de largo plazo (long-run mean)} antes de la intervenci\'on es $a_0/(1-a_1)$. Despu\'es del evento la media salta a $(a_0 + c_0)/(1-a_1)$, por lo que el \textbf{efecto de largo plazo (long-run effect)} de la intervenci\'on es:
+
+\begin{equation}
+\text{Efecto de largo plazo} = \frac{c_0}{1-a_1}
+\end{equation}
+
+\begin{intuicionmat}
+La fracci\'on $c_0/(1-a_1)$ acumula todos los efectos din\'amicos de la intervenci\'on sobre el nivel permanente de la serie. Si $a_1 > 0$, el efecto de largo plazo es mayor en valor absoluto que el impacto instant\'aneo, porque cada per\'iodo el pasado retroalimenta el presente.
+\end{intuicionmat}
+
+Usando el operador de rezago $L$, la forma de media m\'ovil del modelo es:
+
+\begin{equation}
+y_t = \frac{a_0}{1-a_1} + c_0 \sum_{i=0}^{\infty} a_1^i z_{t-i} + \sum_{i=0}^{\infty} a_1^i \varepsilon_{t-i}
+\end{equation}
+
+\begin{intuicionmat}
+Esta representaci\'on de media m\'ovil muestra expl\'icitamente la \textbf{funci\'on de respuesta al impulso (impulse response function)} de la intervenci\'on: el efecto de $z_t$ sobre $y_{t+j}$ es $c_0[1 + a_1 + \cdots + a_1^j]$. En el l\'imite, cuando $j \to \infty$, la suma geom\'etrica converge a $c_0/(1-a_1)$.
+\end{intuicionmat}
+
+El efecto acumulado en el per\'iodo $t+j$ es:
+
+\begin{equation}
+\frac{\partial y_{t+j}}{\partial z_t} = c_0[1 + a_1 + \cdots + (a_1)^j]
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on traza el perfil temporal completo del impacto: el efecto instant\'aneo es $c_0$, y cada per\'iodo siguiente se amplifica por el factor autorregresivo $a_1$. Si $0 < a_1 < 1$, el efecto crece monotonamente hacia $c_0/(1-a_1)$. Si $-1 < a_1 < 0$, el efecto oscila alrededor del valor de largo plazo.
+\end{intuicionmat}
+
+La extensi\'on a un modelo \textbf{ARMA(p,q) con intervenci\'on (ARMA intervention model)} es:
+
+\begin{equation}
+y_t = a_0 + A(L)y_{t-1} + c_0 z_t + B(L)\varepsilon_t
+\end{equation}
+
+\begin{intuicionmat}
+$A(L)$ y $B(L)$ son polinomios en el operador de rezago que capturan la din\'amica propia de la serie. Esta forma es la m\'as general del modelo de intervenci\'on y permite que los residuos sigan un proceso ARMA.
+\end{intuicionmat}
+
+\begin{intuicion}
+El an\'alisis de intervenci\'on es equivalente a incluir una variable dummy en un modelo ARIMA. La diferencia crucial con una comparaci\'on ingenua de medias antes/despu\'es es que aqu\'i se reconoce la autocorrelaci\'on serial de los datos: el efecto de la intervenci\'on puede ``filtrarse'' desde per\'iodos previos al evento hacia per\'iodos posteriores.
+\end{intuicion}
+
+\subsection{Tipos de funciones de intervenci\'on}
+
+Las formas m\'as comunes de $\{z_t\}$ son:
+
+\begin{itemize}
+  \item \textbf{Salto puro (pure jump)}: $z_t = 0$ para $t < T^*$ y $z_t = 1$ para $t \geq T^*$. Modela un cambio permanente e inmediato.
+  \item \textbf{Funci\'on pulso (pulse function)}: $z_t = 1$ \'unicamente en $t = T^*$ y $z_t = 0$ en cualquier otro momento. Captura un impacto puramente temporal.
+  \item \textbf{Cambio gradual (gradually changing)}: $z_t$ aumenta progresivamente de 0 a 1 a lo largo de varios per\'iodos.
+  \item \textbf{Pulso prolongado (prolonged pulse)}: la intervenci\'on permanece activa algunos per\'iodos y luego decae.
+\end{itemize}
+
+\begin{intuicion}
+Cuando $\{y_t\}$ tiene una ra\'iz unitaria, los efectos de las intervenciones cambian cualitativamente: un pulso tiene efectos \textit{permanentes} sobre el nivel, y un salto puro act\'ua como t\'ermino de deriva. Solo si los valores de $\{z_t\}$ suman cero la intervenci\'on tendr\'a efecto temporal en un proceso I(1).
+\end{intuicion}
+
+\subsection{Procedimiento de estimaci\'on}
+
+\begin{description}
+  \item[Paso 1.] Usar el tramo m\'as largo (pre o post intervenci\'on) para identificar el mejor modelo ARIMA para $\{y_t\}$, verificando estacionariedad.
+  \item[Paso 2.] Estimar el modelo de intervenci\'on sobre toda la muestra, incluyendo $z_t$.
+  \item[Paso 3.] Verificar diagn\'osticos: coeficientes significativos y parsimoniosos, residuos aproximadamente ruido blanco, el modelo debe superar alternativas plausibles (AIC, SBC).
+\end{description}
+
+%==============================================================================
+\section{Modelos ADL y Funciones de Transferencia (ADLs and Transfer Functions)}
+%==============================================================================
+
+\subsection{Funci\'on de transferencia general}
+
+La extensi\'on natural del modelo de intervenci\'on cuando $\{z_t\}$ es un proceso estoc\'astico exogeno es:
+
+\begin{equation}
+y_t = a_0 + A(L)y_{t-1} + C(L)z_t + B(L)\varepsilon_t
+\end{equation}
+
+\begin{intuicionmat}
+Este es el modelo de \textbf{funci\'on de transferencia (transfer function)}. $C(L) = c_0 + c_1 L + c_2 L^2 + \cdots$ muestra c\'omo un movimiento en $z_t$ se ``transfiere'' a la trayectoria de $y_t$ a lo largo del tiempo. Los coeficientes $c_i$ se llaman \textbf{ponderaciones de la funci\'on de transferencia (transfer function weights)}.
+\end{intuicionmat}
+
+El supuesto cr\'itico es que $E z_t \varepsilon_{t-s} = 0$ para todo $s$ y $t$: los shocks de $\{y_t\}$ no afectan a $\{z_t\}$, es decir, no hay retroalimentaci\'on.
+
+\subsection{Modelo ADL}
+
+Cuando $B(L)\varepsilon_t = \varepsilon_t$ (sin t\'erminos MA), el modelo se llama \textbf{rezago distribuido autorregresivo (autoregressive distributed lag, ADL)}:
+
+\begin{equation}
+y_t = a_0 + A(L)y_{t-1} + C(L)z_t + \varepsilon_t
+\end{equation}
+
+\begin{intuicionmat}
+El ADL es la forma m\'as com\'un en pr\'actica. Contiene rezagos de la propia variable dependiente ($A(L)y_{t-1}$) y rezagos de la variable exogena ($C(L)z_t$). Si $c_0 = 0$, $z_t$ es un \textbf{indicador l\'ider (leading indicator)}: sus valores actuales predicen $y_{t+1}$ sin necesidad de pronosticar $z_{t+1}$.
+\end{intuicionmat}
+
+\begin{intuicion}
+La diferencia entre una funci\'on de transferencia general y un ADL es la presencia o ausencia de t\'erminos de media m\'ovil $B(L)$. El ADL es m\'as f\'acil de estimar por MCO y sigue siendo consistente siempre que $\{z_t\}$ sea verdaderamente exogena.
+\end{intuicion}
+
+\subsection{Funci\'on de correlaci\'on cruzada (CCF)}
+
+Para identificar la estructura de $C(L)$, se usan las \textbf{correlaciones cruzadas (cross-correlations)}:
+
+\begin{equation}
+\rho_{yz}(i) \equiv \frac{\text{cov}(y_t, z_{t-i})}{\sigma_y \sigma_z}
+\end{equation}
+
+\begin{intuicionmat}
+La CCF mide el grado de asociaci\'on lineal entre $y_t$ y los rezagos de $z_t$. Un pico en el rezago $i$ indica que $z_{t-i}$ afecta directamente a $y_t$ (un coeficiente $c_i \neq 0$). El patr\'on de decaimiento posterior refleja la din\'amica autorregresiva del proceso.
+\end{intuicionmat}
+
+Para el modelo $y_t = a_1 y_{t-1} + c_d z_{t-d} + \varepsilon_t$ con $\{z_t\}$ y $\{\varepsilon_t\}$ ruidos blancos independientes, las covarianzas cruzadas son:
+
+\begin{equation}
+E y_t z_{t-i} = \begin{cases} 0 & \text{si } i < d \\ c_d a_1^{i-d} \sigma_z^2 & \text{si } i \geq d \end{cases}
+\end{equation}
+
+\begin{intuicionmat}
+El correlogramo cruzado es cero hasta el rezago $d$ (el ``retardo'' de la respuesta), y a partir de $d$ decae a la tasa $a_1$, replicando exactamente el patr\'on autorregresivo de $\{y_t\}$. Los picos iniciales revelan los $c_i$ no nulos de $C(L)$.
+\end{intuicionmat}
+
+\subsection{Proceso de entrada de orden superior}
+
+Cuando $\{z_t\}$ sigue un proceso AR estacionario, el sistema completo es:
+
+\begin{align}
+y_t &= a_0 + A(L)y_{t-1} + C(L)z_t + \varepsilon_t \\
+z_t &= D(L)z_{t-1} + \varepsilon_{zt}
+\end{align}
+
+\begin{intuicionmat}
+Las respuestas al impulso de un shock $\varepsilon_{zt}$ sobre $\{y_t\}$ se obtienen combinando las dos ecuaciones. Los coeficientes de $C(L)[1-D(L)L]/[1-A(L)L]$ son las respuestas al impulso. Adem\'as, como $\{z_t\}$ es independiente, se pueden generar pron\'osticos multi-paso de $z_{t+j}$ usando solo la ecuaci\'on AR de $\{z_t\}$.
+\end{intuicionmat}
+
+\subsection{Procedimiento de estimaci\'on del ADL}
+
+\begin{description}
+  \item[Paso 1.] Estimar $\{z_t\}$ como proceso AR; guardar residuos $\{\hat{\varepsilon}_{zt}\}$ (innovaciones filtradas).
+  \item[Paso 2.] Construir la serie filtrada $y_{ft} = D(L)y_t$. Examinar el \textbf{correlograma cruzado filtrado (filtered cross-correlogram)} entre $y_{ft}$ y $\hat{\varepsilon}_{zt-i}$ para identificar la forma de $C(L)$.
+  \item[Paso 3.] Regresar $y_t$ sobre los $z_{t-i}$ seleccionados; la FAS de los residuos sugiere la forma de $A(L)$.
+  \item[Paso 4.] Estimar simult\'aneamente $A(L)$ y $C(L)$; verificar residuos, parsimonia y bondad de ajuste.
+\end{description}
+
+\begin{intuicion}
+El filtrado de $\{y_t\}$ es indispensable porque la correlaci\'on entre $y_t$ e innovaciones crudas $\varepsilon_{zt-i}$ \textit{no} revela el patr\'on de $C(L)$ cuando $\{z_t\}$ no es ruido blanco. Multiplicar la ecuaci\'on de transferencia por $D(L)$ ``blanquea'' ambas series simult\'aneamente, haciendo comparables los patrones de la CCF.
+\end{intuicion}
+
+\subsection{Interpretaci\'on seg\'un el tipo de diferenciaci\'on}
+
+Tres especificaciones alternativas con $|a_1| < 1$:
+
+\begin{align}
+y_t &= a_1 y_{t-1} + c_0 z_t + \varepsilon_t \label{eq:adl1}\\
+\Delta y_t &= a_1 \Delta y_{t-1} + c_0 z_t + \varepsilon_t \label{eq:adl2}\\
+y_t &= a_1 y_{t-1} + c_0 \Delta z_t + \varepsilon_t \label{eq:adl3}
+\end{align}
+
+\begin{intuicionmat}
+En \eqref{eq:adl1}, el efecto de un shock unitario en $z_t$ decae al ritmo $a_1$. En \eqref{eq:adl2}, el shock afecta al \textit{cambio} de $y_t$ y nunca desaparece del \textit{nivel}. En \eqref{eq:adl3}, solo los cambios en $z_t$ importan: un pulso en $\{z_t\}$ tiene efecto temporal sobre $\{y_t\}$.
+\end{intuicionmat}
+
+%==============================================================================
+\section{Un ADL del Terrorismo en Italia (An ADL of Terrorism in Italy)}
+%==============================================================================
+
+\subsection{Aplicaci\'on emp\'irica}
+
+Enders, Sandler y Parise (1992) modelaron el impacto del terrorismo transnacional sobre el turismo en Italia. La variable dependiente es la participaci\'on logar\'itmica desestacionalizada de los ingresos tur\'isticos de Italia ($y_t$); la variable exogena es el n\'umero de incidentes terroristas transnacionales dentro del pa\'is ($z_t$).
+
+El supuesto clave es la \textbf{ausencia de retroalimentaci\'on (no feedback)}: cambios en el turismo no inducen cambios en la actividad terrorista.
+
+La funci\'on de transferencia estimada final es:
+
+\begin{equation}
+(1 - 0.694L)(1 - 0.394L^4)y_t = -0.0030 z_{t-1} - 0.0040 z_{t-2} + \varepsilon_t
+\end{equation}
+
+\begin{intuicionmat}
+El t\'ermino $(1 - 0.694L)$ es la componente AR de primer orden. El t\'ermino $(1 - 0.394L^4)$ captura estacionalidad multiplicativa trimestral. Los coeficientes negativos sobre $z_{t-1}$ y $z_{t-2}$ confirman que un incidente terrorista reduce el turismo con uno o dos trimestres de rezago. El AIC es $-63.52$ y el SBC $-54.82$.
+\end{intuicionmat}
+
+\begin{intuicion}
+La funci\'on de respuesta al impulso muestra que, tras un incidente terrorista, el turismo en Italia cae bruscamente despu\'es de un trimestre de retardo, permanece deprimido durante aproximadamente 3 a\~nos y luego regresa a su nivel inicial con un patr\'on oscilatorio estacional. Las p\'erdidas totales no descontadas superaron 600 millones de SDR (equivalente al 6\% de los ingresos anuales de turismo de Italia en 1988).
+\end{intuicion}
+
+%==============================================================================
+\section{L\'imites de la Estimaci\'on Multivariada Estructural}
+%==============================================================================
+
+\subsection{Problemas fundamentales}
+
+Existen dos dificultades centrales al estimar funciones de transferencia:
+
+\begin{enumerate}
+  \item \textbf{Parsimonia vs.\ sobreparametrizaci\'on}: imponer restricciones de cero err\'oneas sesga los coeficientes; no imponerlas consume grados de libertad y reduce la precisi\'on de los pron\'osticos.
+  \item \textbf{Retroalimentaci\'on (feedback)}: si $\{z_t\}$ responde a $\{y_t\}$, los estimadores de $C(L)$ son sesgados e inconsistentes. El an\'alisis de intervenci\'on y las funciones de transferencia asumen exogeneidad estricta.
+\end{enumerate}
+
+\begin{intuicion}
+Sims (1980) argument\'o que las grandes restricciones de identificaci\'on impuestas en los modelos macroeconom\'etricos estructurales de la \'epoca eran ``incre\'ibles'' (por ejemplo, suponer que el gasto del gobierno es exogeno al PNB). Su respuesta fue proponer el \textbf{VAR no estructural (unrestricted VAR)}, donde todas las variables se tratan sim\'etricamente como end\'ogenas.
+\end{intuicion}
+
+%==============================================================================
+\section{Introducci\'on al An\'alisis VAR (Introduction to VAR Analysis)}
+%==============================================================================
+
+\subsection{Sistema bivariado primitivo}
+
+El \textbf{VAR de primer orden (first-order VAR)} bivariado, tambi\'en llamado \textbf{sistema primitivo (primitive system)} o \textbf{VAR estructural (structural VAR)}, es:
+
+\begin{align}
+y_t &= b_{10} - b_{12}z_t + \gamma_{11}y_{t-1} + \gamma_{12}z_{t-1} + \varepsilon_{yt} \label{eq:prim1}\\
+z_t &= b_{20} - b_{21}y_t + \gamma_{21}y_{t-1} + \gamma_{22}z_{t-1} + \varepsilon_{zt} \label{eq:prim2}
+\end{align}
+
+donde $\{\varepsilon_{yt}\}$ y $\{\varepsilon_{zt}\}$ son ruidos blancos no correlacionados entre s\'i, con desviaciones est\'andar $\sigma_y$ y $\sigma_z$.
+
+\begin{intuicionmat}
+A diferencia de una funci\'on de transferencia, aqu\'i \textit{ambas} variables son end\'ogenas: $z_t$ afecta contempor\'aneamente a $y_t$ (coeficiente $-b_{12}$) y viceversa ($-b_{21}$). Esto captura la \textbf{retroalimentaci\'on simult\'anea (simultaneous feedback)} entre variables. El sistema no puede estimarse por MCO directamente porque los regresores est\'an correlacionados con los errores.
+\end{intuicionmat}
+
+En notaci\'on matricial: $Bx_t = \Gamma_0 + \Gamma_1 x_{t-1} + \varepsilon_t$, donde:
+\[
+B = \begin{pmatrix} 1 & b_{12} \\ b_{21} & 1 \end{pmatrix}, \quad x_t = \begin{pmatrix} y_t \\ z_t \end{pmatrix}, \quad \varepsilon_t = \begin{pmatrix} \varepsilon_{yt} \\ \varepsilon_{zt} \end{pmatrix}
+\]
+
+\subsection{VAR en forma est\'andar (standard form)}
+
+Pre-multiplicando por $B^{-1}$ se obtiene el \textbf{VAR en forma est\'andar (VAR in standard form)}:
+
+\begin{equation}
+x_t = A_0 + A_1 x_{t-1} + e_t
+\end{equation}
+
+\begin{intuicionmat}
+Donde $A_0 = B^{-1}\Gamma_0$, $A_1 = B^{-1}\Gamma_1$ y $e_t = B^{-1}\varepsilon_t$. Esta forma puede estimarse ecuaci\'on a ecuaci\'on por MCO, ya que todos los regresores son predeterminados. Los errores $e_{1t}$ y $e_{2t}$ son combinaciones de los shocks estructurales: $e_{1t} = (\varepsilon_{yt} - b_{12}\varepsilon_{zt})/(1-b_{12}b_{21})$ y $e_{2t} = (\varepsilon_{zt} - b_{21}\varepsilon_{yt})/(1-b_{12}b_{21})$.
+\end{intuicionmat}
+
+En forma equivalente escalar:
+
+\begin{align}
+y_t &= a_{10} + a_{11}y_{t-1} + a_{12}z_{t-1} + e_{1t} \\
+z_t &= a_{20} + a_{21}y_{t-1} + a_{22}z_{t-1} + e_{2t}
+\end{align}
+
+La \textbf{matriz de varianzas y covarianzas (variance/covariance matrix)} de los errores es:
+
+\begin{equation}
+\Sigma = \begin{pmatrix} \sigma_1^2 & \sigma_{12} \\ \sigma_{21} & \sigma_2^2 \end{pmatrix}
+\end{equation}
+
+\begin{intuicionmat}
+$\Sigma$ es sim\'etrica y en general tiene $\sigma_{12} \neq 0$, reflejando que los errores reducidos $e_{1t}$ y $e_{2t}$ son mezclas de los shocks estructurales. Si $b_{12} = b_{21} = 0$ (no hay efectos contempor\'aneos), entonces $\sigma_{12} = 0$.
+\end{intuicionmat}
+
+\subsection{Estabilidad y estacionariedad}
+
+Iterando hacia atr\'as el VAR de primer orden, la soluci\'on particular es:
+
+\begin{equation}
+x_t = \mu + \sum_{i=0}^{\infty} A_1^i e_{t-i}
+\end{equation}
+
+\begin{intuicionmat}
+La convergencia requiere que $A_1^n \to 0$ cuando $n \to \infty$. Esto equivale a que las ra\'ices de $(1-a_{11}L)(1-a_{22}L) - a_{12}a_{21}L^2$ est\'en fuera del c\'irculo unitario. Si se cumple esta condici\'on, las medias incondicionales de $y_t$ y $z_t$ son constantes y las varianzas son finitas: el sistema es conjuntamente \textbf{estacionario en covarianza (covariance stationary)}.
+\end{intuicionmat}
+
+La media incondicional es $\mu = [\bar{y}, \bar{z}]'$ con:
+\[
+\bar{y} = \frac{a_{10}(1-a_{22}) + a_{12}a_{20}}{\Delta}, \qquad \bar{z} = \frac{a_{20}(1-a_{11}) + a_{21}a_{10}}{\Delta}
+\]
+donde $\Delta = (1-a_{11})(1-a_{22}) - a_{12}a_{21}$.
+
+\begin{intuicion}
+Las soluciones para $y_t$ y $z_t$ de un VAR bivariado comparten la misma ecuaci\'on caracter\'istica. Esto implica que ambas series exhibir\'an trayectorias temporales similares: si el proceso tiene ra\'ices reales y positivas, ambas converger\'an directamente; si tiene ra\'ices imaginarias, ambas oscilan sincr\'onicamente.
+\end{intuicion}
+
+%==============================================================================
+\section{Estimaci\'on e Identificaci\'on (Estimation and Identification)}
+%==============================================================================
+
+\subsection{VAR general de orden $p$}
+
+La generalizaci\'on multivariada del proceso autorregresivo es:
+
+\begin{equation}
+x_t = A_0 + A_1 x_{t-1} + A_2 x_{t-2} + \cdots + A_p x_{t-p} + e_t
+\end{equation}
+
+\begin{intuicionmat}
+$x_t$ es un vector $(n \times 1)$, los $A_i$ son matrices $(n \times n)$ de coeficientes y $e_t$ es el vector de errores. El sistema tiene $n + pn^2$ coeficientes totales. Cada ecuaci\'on puede estimarse por MCO (eficiente y consistente) porque todos los regresores son predeterminados. Las \textbf{regresiones aparentemente no relacionadas (SUR)} no mejoran la eficiencia si todas las ecuaciones tienen los mismos regresores.
+\end{intuicionmat}
+
+\subsection{Pron\'ostico con VAR}
+
+Con $T$ observaciones, el pron\'ostico de un paso adelante es:
+
+\begin{equation}
+E_T x_{T+1} = A_0 + A_1 x_T
+\end{equation}
+
+Y el de $n$ pasos:
+
+\begin{equation}
+E_T x_{T+n} = (I + A_1 + A_1^2 + \cdots + A_1^{n-1})A_0 + A_1^n x_T
+\end{equation}
+
+\begin{intuicionmat}
+Los errores de pron\'ostico de $n$ pasos son $e_{t+n} + A_1 e_{t+n-1} + \cdots + A_1^{n-1}e_{t+1}$. La varianza de estos errores crece con el horizonte $n$, dado que los shocks se acumulan. Un VAR sobreparametrizado genera pron\'osticos imprecisos; por eso muchos investigadores eliminan coeficientes insignificantes para obtener el \textbf{near-VAR} y lo reestiman con SUR.
+\end{intuicionmat}
+
+\subsection{El problema de identificaci\'on}
+
+El sistema primitivo (\ref{eq:prim1})--(\ref{eq:prim2}) tiene 10 par\'ametros, pero la estimaci\'on MCO del VAR est\'andar s\'olo proporciona 9 par\'ametros (6 coeficientes + 3 elementos de $\Sigma$). Por lo tanto, el sistema est\'a \textbf{subidentificado (underidentified)}.
+
+Para identificar el VAR estructural desde el reducido, se requiere imponer exactamente:
+
+\begin{equation}
+\frac{n^2 - n}{2} \text{ restricciones sobre la matriz } B
+\end{equation}
+
+\begin{intuicionmat}
+Con $n$ variables, la matriz $\Sigma$ tiene $(n^2+n)/2$ elementos independientes, mientras que $B$ (con diagonales iguales a 1) tiene $n^2 - n$ inc\'ognitas, m\'as las $n$ varianzas de los shocks estructurales: en total $n^2$ inc\'ognitas. La diferencia entre inc\'ognitas y ecuaciones es exactamente $(n^2-n)/2$, que es el n\'umero de restricciones necesarias.
+\end{intuicionmat}
+
+La soluci\'on m\'as com\'un es la \textbf{descomposici\'on de Choleski (Choleski decomposition)}: imponer $b_{21} = 0$ (en el caso bivariado), es decir, que $y_t$ no tiene efecto contempor\'aneo sobre $z_t$. Esto conduce a:
+
+\begin{align}
+e_{1t} &= \varepsilon_{yt} - b_{12}\varepsilon_{zt} \\
+e_{2t} &= \varepsilon_{zt}
+\end{align}
+
+\begin{intuicionmat}
+Con $b_{21}=0$, todos los errores observados $e_{2t}$ se atribuyen \'integramente a shocks puros de $z_t$. Esto impone una \textbf{ordenaci\'on causal (causal ordering)}: $z_t$ es ``causalmente anterior'' a $y_t$ en el sentido de que los shocks de $z_t$ afectan contempor\'aneamente a $y_t$, pero los shocks de $y_t$ solo afectan a $z_t$ con un per\'iodo de rezago.
+\end{intuicionmat}
+
+\begin{intuicion}
+La elecci\'on del orden en la descomposici\'on de Choleski es arbitraria a menos que exista una justificaci\'on econ\'omica. Si la correlaci\'on $\rho_{12}$ entre $e_{1t}$ y $e_{2t}$ es baja, el orden importa poco. Si es alta, los resultados de las funciones de respuesta al impulso y las descomposiciones de varianza pueden cambiar radicalmente seg\'un el orden elegido.
+\end{intuicion}
+
+%==============================================================================
+\section{La Funci\'on de Respuesta al Impulso (The Impulse Response Function)}
+%==============================================================================
+
+\subsection{Representaci\'on VMA}
+
+Todo VAR admite una \textbf{representaci\'on de media m\'ovil vectorial (vector moving average, VMA)}. Para el VAR bivariado de primer orden:
+
+\begin{equation}
+x_t = \mu + \sum_{i=0}^{\infty} \phi_i \varepsilon_{t-i}
+\label{eq:vma}
+\end{equation}
+
+\begin{intuicionmat}
+Los coeficientes de $\phi_i = A_1^i (1-b_{12}b_{21})^{-1}\begin{pmatrix}1 & -b_{12}\\-b_{21}&1\end{pmatrix}$ constituyen las \textbf{funciones de respuesta al impulso (impulse response functions)}. El elemento $\phi_{jk}(i)$ mide el efecto de un shock unitario en $\varepsilon_{kt}$ sobre $x_{jt+i}$ $i$ per\'iodos despu\'es. Los $\phi_{jk}(0)$ son los \textbf{multiplicadores de impacto (impact multipliers)}.
+\end{intuicionmat}
+
+El efecto acumulado de un shock de $\varepsilon_{zt}$ sobre $\{y_t\}$ durante $n$ per\'iodos es:
+
+\begin{equation}
+\sum_{i=0}^{n} \phi_{12}(i)
+\end{equation}
+
+\begin{intuicionmat}
+Si $\{y_t\}$ y $\{z_t\}$ son estacionarias, los valores de $\phi_{jk}(i)$ convergen a cero cuando $i \to \infty$ (los shocks no tienen efectos permanentes). El l\'imite $\sum_{i=0}^{\infty}\phi_{12}(i)$ es el efecto total acumulado de largo plazo.
+\end{intuicionmat}
+
+\subsection{Intervalos de confianza por bootstrap}
+
+Los coeficientes de respuesta al impulso son estimados, por lo que contienen incertidumbre. El m\'etodo de \textbf{bootstrap (bootstrap)} para construir intervalos de confianza sigue tres pasos:
+
+\begin{enumerate}
+  \item Estimar el VAR por MCO y guardar residuos $\{\hat{e}_t\}$.
+  \item Simular $T$ n\'umeros aleatorios remuestreando $\{\hat{e}_t\}$ con reemplazo; construir series simuladas $\{x_t^s\}$.
+  \item Reestimar el VAR sobre $\{x_t^s\}$, calcular la funci\'on de respuesta al impulso; repetir miles de veces.
+\end{enumerate}
+
+\begin{intuicion}
+El bootstrap no requiere suponer normalidad de los coeficientes autorregresivos. El intervalo de confianza al 95\% se construye excluyendo el 2.5\% inferior y superior de las miles de respuestas al impulso simuladas. Esta es la forma est\'andar reportada en la literatura VAR emp\'irica.
+\end{intuicion}
+
+\subsection{Descomposici\'on de varianza del error de pron\'ostico}
+
+El \textbf{error de pron\'ostico de $n$ pasos (n-step-ahead forecast error)} de $\{y_t\}$ es:
+
+\begin{equation}
+y_{t+n} - E_t y_{t+n} = \sum_{i=0}^{n-1}\left[\phi_{11}(i)\varepsilon_{yt+n-i} + \phi_{12}(i)\varepsilon_{zt+n-i}\right]
+\end{equation}
+
+La \textbf{varianza del error de pron\'ostico (forecast error variance)} a horizonte $n$ es:
+
+\begin{equation}
+\sigma_y(n)^2 = \sigma_y^2\sum_{i=0}^{n-1}\phi_{11}(i)^2 + \sigma_z^2\sum_{i=0}^{n-1}\phi_{12}(i)^2
+\end{equation}
+
+\begin{intuicionmat}
+La \textbf{descomposici\'on de varianza del error de pron\'ostico (forecast error variance decomposition)} atribuye la varianza total a cada fuente de shock. Si $\sigma_z^2\sum\phi_{12}(i)^2 / \sigma_y(n)^2 = 0$ para todo $n$, entonces $\{y_t\}$ es exogena: evoluciona independientemente de los shocks de $\{z_t\}$. Si esta proporci\'on es 1, $\{y_t\}$ es completamente end\'ogena respecto a los shocks de $\{z_t\}$.
+\end{intuicionmat}
+
+\begin{intuicion}
+Las funciones de respuesta al impulso y las descomposiciones de varianza, en conjunto llamadas \textbf{contabilidad de innovaciones (innovation accounting)}, son las herramientas centrales del an\'alisis VAR. Ambas dependen de la identificaci\'on (orden de Choleski o restricciones estructurales), por lo que es recomendable reportar los resultados bajo diferentes especificaciones para evaluar su robustez.
+\end{intuicion}
+
+%==============================================================================
+\section{Contrastes de Hip\'otesis en VAR (Testing Hypotheses)}
+%==============================================================================
+
+\subsection{Selecci\'on de rezagos}
+
+Para el VAR general de $n$ ecuaciones con $p$ rezagos, el \textbf{contraste de raz\'on de verosimilitud (likelihood ratio test)} para comparar el modelo con $p_1$ rezagos frente al de $p_2 > p_1$ es (correcci\'on de Sims):
+
+\begin{equation}
+(T - c)\left(\ln|\Sigma_{p_1}| - \ln|\Sigma_{p_2}|\right) \sim \chi^2(n^2(p_2 - p_1))
+\end{equation}
+
+\begin{intuicionmat}
+$T$ es el n\'umero de observaciones, $c$ el n\'umero de par\'ametros por ecuaci\'on en el modelo no restringido, y $|\Sigma_p|$ el determinante de la matriz de varianzas/covarianzas residuales. Si el valor calculado supera el valor cr\'itico $\chi^2$, se rechaza el modelo m\'as parsimonioso (rezagos = $p_1$). La correcci\'on por $T-c$ en lugar de $T$ mejora el comportamiento en muestras peque\~nas.
+\end{intuicionmat}
+
+Las generalizaciones multivariadas del AIC y SBC son:
+
+\begin{align}
+\text{AIC} &= T\ln|\Sigma| + 2N \\
+\text{SBC} &= T\ln|\Sigma| + N\ln(T)
+\end{align}
+
+\begin{intuicionmat}
+$N = n^2 p + n$ es el n\'umero total de par\'ametros estimados en todas las ecuaciones (para un VAR con $p$ rezagos e intercepto). Se selecciona el modelo con el menor valor. El SBC penaliza m\'as la complejidad y tiende a seleccionar modelos m\'as parsimoniosos que el AIC.
+\end{intuicionmat}
+
+\subsection{Causalidad de Granger (Granger Causality)}
+
+$\{y_t\}$ \textbf{no causa en sentido de Granger (does not Granger cause)} a $\{z_t\}$ si y solo si todos los coeficientes del polinomio $A_{21}(L)$ son iguales a cero. Formalmente, si las variables son estacionarias, se contrasta:
+
+\begin{equation}
+H_0: a_{21}(1) = a_{21}(2) = \cdots = a_{21}(p) = 0
+\end{equation}
+
+mediante una prueba $F$ est\'andar.
+
+\begin{intuicionmat}
+La causalidad de Granger mide si los valores pasados de $\{y_t\}$ mejoran el pron\'ostico de $\{z_t\}$ m\'as all\'a de lo que puede hacer el propio pasado de $\{z_t\}$. \textbf{No} implica causalidad econ\'omica en el sentido estructural: es una noci\'on de precedencia temporal y capacidad predictiva.
+\end{intuicionmat}
+
+\begin{intuicion}
+La diferencia entre causalidad de Granger y exogeneidad: una variable puede \textbf{no} causar en Granger a otra (sus rezagos no la predicen) y a\'un as\'i no ser exogena (puede tener efecto contempor\'aneo sobre ella a trav\'es de $\phi_{21}(0) \neq 0$). La exogeneidad es una condici\'on m\'as fuerte que la no causalidad de Granger.
+\end{intuicion}
+
+\subsection{Contraste de exogeneidad en bloque (Block-exogeneity test)}
+
+Para determinar si los rezagos de una variable adicional $\{w_t\}$ causan en Granger a cualquier otra variable del sistema $\{y_t, z_t\}$:
+
+\begin{equation}
+(T - c)\left(\ln|\Sigma_r| - \ln|\Sigma_u|\right) \sim \chi^2(2p)
+\end{equation}
+
+\begin{intuicionmat}
+$\Sigma_u$ es la matriz de covarianzas del VAR irrestricto (con $\{w_t\}$ incluida) y $\Sigma_r$ del VAR restringido (con $\{w_t\}$ excluida). Los grados de libertad son $2p$ porque se restringen $p$ rezagos de $\{w_t\}$ en cada una de las 2 ecuaciones. Este test es \'util para decidir si agregar una variable al sistema VAR.
+\end{intuicionmat}
+
+\subsection{Pruebas con variables no estacionarias}
+
+Siguiendo a Sims, Stock y Watson (1990): si el coeficiente de inter\'es puede escribirse como coeficiente sobre una variable estacionaria de media cero, un contraste $t$ es v\'alido. Las reglas pr\'acticas son:
+
+\begin{enumerate}
+  \item En variables estacionarias: pruebas $t$ y $F$ v\'alidas.
+  \item Para longitud de rezago de cualquier variable: pruebas $t$ y $F$ v\'alidas.
+  \item Para causalidad de Granger de variables no estacionarias: solo v\'alida si la variable causal puede aparecer \'unicamente en primeras diferencias.
+  \item Si el VAR es en primeras diferencias (variables I(1) no cointegradas): todas las pruebas $t$ y $F$ son v\'alidas.
+\end{enumerate}
+
+%==============================================================================
+\section{Ejemplo: Terrorismo Dom\'estico y Transnacional}
+%==============================================================================
+
+\subsection{Especificaci\'on del VAR}
+
+Enders, Sandler y Gaibulloev (2010) estimaron el VAR bivariado:
+
+\begin{align}
+\text{dom}_t &= a_{10} + A_{11}(L)\text{dom}_{t-1} + A_{12}(L)\text{trans}_{t-1} + e_{1t} \\
+\text{trans}_t &= a_{20} + A_{21}(L)\text{dom}_{t-1} + A_{22}(L)\text{trans}_{t-1} + e_{2t}
+\end{align}
+
+\begin{intuicion}
+Los tests de Dickey-Fuller y ERS permiten rechazar ra\'iz unitaria al 2.5\% de significancia; se procede con variables en niveles. El AIC selecciona 3 rezagos. Los resultados de causalidad de Granger son: $F_{A_{12}} = 1.86$ (p = 0.159, no significativo) y $F_{A_{21}} = 3.36$ (p = 0.015, significativo). Conclusi\'on: el terrorismo dom\'estico causa en Granger al transnacional pero no al rev\'es. Esto sugiere que los conflictos comienzan localmente y se desbordan hacia incidentes transnacionales.
+\end{intuicion}
+
+Las descomposiciones de varianza (con correlaci\'on contempor\'anea de 0.18, orden: dom$_t$ primero) muestran que a 12 trimestres, el terrorismo dom\'estico explica el 33.6\% de la varianza del transnacional, mientras que el transnacional explica solo el 2.4\% de la varianza del dom\'estico.
+
+%==============================================================================
+\section{VARs Estructurales (Structural VARs)}
+%==============================================================================
+
+\subsection{Descomposici\'on estructural de Sims-Bernanke}
+
+El objetivo es recuperar los shocks estructurales $\varepsilon_t$ desde los residuos reducidos $e_t$ mediante:
+
+\begin{equation}
+\varepsilon_t = Be_t \quad \Leftrightarrow \quad e_t = B^{-1}\varepsilon_t
+\end{equation}
+
+\begin{intuicionmat}
+La matriz $B$ recoge las relaciones contempor\'aneas entre las variables. La restricci\'on de identificaci\'on proviene de que la matriz de varianzas de los shocks estructurales es diagonal ($\text{cov}(\varepsilon_i, \varepsilon_j) = 0$ para $i \neq j$). La condici\'on $\Sigma_\varepsilon = B\Sigma B'$ con $\Sigma_\varepsilon$ diagonal debe satisfacerse elemento por elemento, proporcionando $(n^2+n)/2$ ecuaciones para las $n^2$ inc\'ognitas de $B$ y $\Sigma_\varepsilon$.
+\end{intuicionmat}
+
+La relaci\'on entre la matriz de varianzas reducida y la estructural es:
+
+\begin{equation}
+\Sigma = B^{-1}\Sigma_\varepsilon (B^{-1})^T
+\end{equation}
+
+\begin{intuicionmat}
+Dada la simetr\'ia de $\Sigma$, solo hay $(n^2+n)/2$ ecuaciones independientes para $n^2$ inc\'ognitas. Por tanto se deben imponer exactamente $(n^2-n)/2$ restricciones adicionales sobre $B$ (o equivalentemente sobre $B^{-1}$) para identificar el sistema.
+\end{intuicionmat}
+
+\subsection{Tipos de restricciones de identificaci\'on}
+
+\begin{description}
+  \item[\textbf{Restricciones de coeficientes (coefficient restrictions)}:] Las m\'as comunes son restricciones de cero (un shock no tiene efecto contempor\'aneo sobre cierta variable). La descomposici\'on de Choleski es un caso especial triangular.
+
+  \item[\textbf{Restricciones de varianza (variance restrictions)}:] Fijar $\text{var}(\varepsilon_{it}) = 1$ (normalizaci\'on) o usar rupturas de volatilidad para identificar (Rigobon y Sack, 2004).
+
+  \item[\textbf{Restricciones de simetr\'ia (symmetry restrictions)}:] $b_{12} = b_{21}$; \'utiles en modelos de econom\'ia abierta para imponer efectos iguales entre pa\'ises.
+
+  \item[\textbf{Restricciones de signo (sign restrictions)}:] Imponer que ciertos impulso-respuesta sean positivos o negativos (Mountford y Uhlig, 2008).
+\end{description}
+
+\begin{intuicion}
+Las restricciones estructurales permiten dar interpretaci\'on econ\'omica a las innovaciones del VAR, en lugar de depender de la ordenaci\'on arbitraria de Choleski. La clave es que las restricciones deben provenir de la teor\'ia econ\'omica, no de conveniencia computacional.
+\end{intuicion}
+
+%==============================================================================
+\section{Sistemas Sobreidentificados (Overidentified Systems)}
+%==============================================================================
+
+\subsection{Contraste de restricciones sobreidentificadoras}
+
+Cuando la teor\'ia econ\'omica sugiere m\'as de $(n^2-n)/2$ restricciones, el sistema est\'a sobreidentificado. El procedimiento es:
+
+\begin{description}
+  \item[Paso 1.] Estimar el VAR irrestricto; obtener $\Sigma$.
+  \item[Paso 2.] Imponer las restricciones y maximizar la funci\'on de verosimilitud respecto a los par\'ametros libres de $B$ y $\Sigma_\varepsilon$; obtener $\Sigma_R$.
+  \item[Paso 3.] Contrastar con:
+\end{description}
+
+\begin{equation}
+\chi^2 = |\Sigma_R| - |\Sigma| \sim \chi^2(R)
+\end{equation}
+
+\begin{intuicionmat}
+$R$ es el n\'umero de restricciones sobreidentificadoras (las que exceden $(n^2-n)/2$). Si el valor calculado no supera el cr\'itico, las restricciones adicionales son consistentes con los datos. Si lo supera, al menos una restricci\'on es rechazada por la evidencia. Esto permite \textit{testear} la teor\'ia econ\'omica incorporada en el VAR.
+\end{intuicionmat}
+
+\begin{intuicion}
+La belleza del VAR estructural sobreidentificado es que combina la flexibilidad del VAR (sin restricciones espurias en la din\'amica de rezagos) con el rigor de la teor\'ia econ\'omica (restricciones estructurales en los efectos contempor\'aneos). Los sistemas sobreidentificados permiten contrastar la plausibilidad del modelo econ\'omico subyacente.
+\end{intuicion}
+
+%==============================================================================
+\section{La Descomposici\'on de Blanchard-Quah (The Blanchard-Quah Decomposition)}
+%==============================================================================
+
+\subsection{Planteamiento general}
+
+Blanchard y Quah (1989) propusieron identificar un VAR estructural mediante \textbf{restricciones de largo plazo (long-run restrictions)}, en lugar de restricciones contempor\'aneas. La \textbf{representaci\'on de media m\'ovil bivariada (bivariate moving average, BMA)} es:
+
+\begin{align}
+\Delta y_t &= \sum_{k=0}^{\infty} c_{11}(k)\varepsilon_{1,t-k} + \sum_{k=0}^{\infty} c_{12}(k)\varepsilon_{2,t-k} \\
+z_t &= \sum_{k=0}^{\infty} c_{21}(k)\varepsilon_{1,t-k} + \sum_{k=0}^{\infty} c_{22}(k)\varepsilon_{2,t-k}
+\end{align}
+
+\begin{intuicionmat}
+$\{y_t\}$ es I(1) (se usa su primera diferencia), $\{z_t\}$ es I(0). Los shocks $\varepsilon_{1t}$ y $\varepsilon_{2t}$ son independientes y normalizados: $\text{var}(\varepsilon_1) = \text{var}(\varepsilon_2) = 1$. Los coeficientes $c_{ij}(k)$ son las respuestas al impulso estructurales. La identificaci\'on requiere una restricci\'on de largo plazo sobre los efectos acumulados.
+\end{intuicionmat}
+
+\subsection{Restricci\'on de largo plazo}
+
+El supuesto clave es que el shock $\varepsilon_{1t}$ (por ejemplo, de demanda agregada) no tiene efecto permanente sobre $\{y_t\}$ (por ejemplo, el PNB real). Esto requiere:
+
+\begin{equation}
+\sum_{k=0}^{\infty} c_{11}(k) = 0
+\end{equation}
+
+\begin{intuicionmat}
+Esta restricci\'on dice que los impulso-respuesta acumulados de $\varepsilon_{1t}$ sobre $\Delta y_t$ deben sumar cero, lo que equivale a que el efecto de $\varepsilon_{1t}$ sobre el \textit{nivel} de $y_t$ sea nulo en el largo plazo. Es una condici\'on de neutralidad de largo plazo: los shocks de demanda son transitorios, los de oferta son permanentes.
+\end{intuicionmat}
+
+\subsection{Sistema de cuatro ecuaciones de identificaci\'on}
+
+Los cuatro coeficientes de impacto $c_{11}(0), c_{12}(0), c_{21}(0), c_{22}(0)$ se identifican con el sistema:
+
+\begin{align}
+\text{var}(e_1) &= c_{11}(0)^2 + c_{12}(0)^2 \label{bq1}\\
+\text{var}(e_2) &= c_{21}(0)^2 + c_{22}(0)^2 \label{bq2}\\
+\text{cov}(e_1,e_2) &= c_{11}(0)c_{21}(0) + c_{12}(0)c_{22}(0) \label{bq3}\\
+0 &= c_{11}(0)\left[1 - \sum a_{22}(k)\right] + c_{21}(0)\sum a_{12}(k) \label{bq4}
+\end{align}
+
+\begin{intuicionmat}
+Las tres primeras ecuaciones provienen de la varianza/covarianza de los residuos reducidos del VAR. La cuarta ecuaci\'on \eqref{bq4} traduce la restricci\'on de largo plazo a t\'erminos de los par\'ametros estimados del VAR: usa los coeficientes $a_{12}(k)$ y $a_{22}(k)$ acumulados del modelo reducido para imponer que el efecto de $\varepsilon_{1t}$ sobre el nivel de $y_t$ sea cero en el largo plazo.
+\end{intuicionmat}
+
+\subsection{Procedimiento de estimaci\'on BQ}
+
+\begin{description}
+  \item[Paso 1.] Verificar ra\'ices unitarias y transformar las variables a formas I(0). Seleccionar la longitud de rezago del VAR.
+  \item[Paso 2.] Usar los residuos del VAR para calcular $\text{var}(e_1)$, $\text{var}(e_2)$, $\text{cov}(e_1,e_2)$ y las sumas $1-\sum a_{22}(k)$ y $\sum a_{12}(k)$. Resolver el sistema \eqref{bq1}--\eqref{bq4} para obtener los $c_{ij}(0)$.
+  \item[Paso 3.] Recuperar las series $\{\varepsilon_{1t}\}$ y $\{\varepsilon_{2t}\}$ y calcular funciones de respuesta al impulso y descomposiciones de varianza con interpretaci\'on estructural directa.
+\end{description}
+
+\begin{intuicion}
+La ventaja de Blanchard-Quah sobre Choleski es que las restricciones de largo plazo tienen una interpretaci\'on econ\'omica clara (neutralidad de largo plazo) derivada de la teor\'ia macroecon\'omica, en lugar de ser restricciones arbitrarias de contemporaneidad. Sin embargo, el m\'etodo requiere que al menos una variable sea I(1) y s\'olo puede identificar tantos tipos de shocks como variables existan en el sistema.
+\end{intuicion}
+
+\subsection{Resultados de Blanchard y Quah (1989)}
+
+Con datos trimestrales de PNB real y desempleo de EE.UU. (1950Q2--1987Q4) y 8 rezagos, imponiendo que los shocks de demanda no tienen efecto de largo plazo sobre el PNB real:
+
+\begin{itemize}
+  \item Los shocks de \textbf{demanda} tienen efectos temporales en ``joroba'' (hump-shaped): el PNB aumenta y el desempleo disminuye, alcanzando el pico a los 4 trimestres y luego revirtiendo.
+  \item Los shocks de \textbf{oferta} tienen efectos acumulativos permanentes sobre el PNB. El desempleo aumenta inicialmente pero luego cae por debajo de su nivel de largo plazo durante casi 5 a\~nos.
+  \item A horizontes cortos (1 trimestre), los shocks de demanda explican el 99\% de la varianza del error de pron\'ostico del PNB; a horizontes largos (40 trimestres), solo el 39.3\%.
+\end{itemize}
+
+%==============================================================================
+\section{Aplicaci\'on: Descomposici\'on de Tipos de Cambio Real y Nominal}
+%==============================================================================
+
+\subsection{Marco te\'orico}
+
+Enders y Lee (1997) aplicaron la metodolog\'ia BQ a las tasas de cambio real ($r_t$) y nominal ($e_t$) del d\'olar canadiense:
+
+\[
+r_t = e_t + p_t^* - p_t
+\]
+
+La teor\'ia establece que los shocks \textbf{nominales} (e.g., expansi\'on monetaria) no tienen efecto permanente sobre $r_t$, mientras que los shocks \textbf{reales} (e.g., cambios en productividad) s\'i. La restricci\'on de identificaci\'on es:
+
+\begin{equation}
+\sum_{k=0}^{\infty} c_{12}(k) = 0
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que los efectos acumulados de los shocks nominales $\varepsilon_{nt}$ sobre $\Delta r_t$ deben ser cero: en el largo plazo, el tipo de cambio real no responde a perturbaciones monetarias, lo cual es consistente con la teor\'ia de la paridad del poder adquisitivo de largo plazo.
+\end{intuicionmat}
+
+\begin{intuicion}
+Los resultados para datos 1973Q1--2013Q1 (3 rezagos, por test LR): los shocks reales explican el 83.9\% de la varianza del tipo de cambio real y el 42.2\% del nominal a 8 trimestres bajo la descomposici\'on BQ, comparado con 94.6\% y 73.1\% bajo Choleski. La diferencia refleja la importancia de la especificaci\'on de identificaci\'on para las conclusiones emp\'iricas.
+\end{intuicion}
+
+%==============================================================================
+\section{Resumen y Conclusiones}
+%==============================================================================
+
+\subsection{S\'intesis de los modelos multiecuacionales}
+
+El cap\'itulo desarrolla una progresi\'on l\'ogica desde modelos simples hacia m\'as complejos:
+
+\begin{enumerate}
+  \item \textbf{An\'alisis de intervenci\'on}: efecto de eventos deterministas sobre la media de una serie; requiere que $\{z_t\}$ sea determinista.
+
+  \item \textbf{Funciones de transferencia y ADL}: $\{z_t\}$ es un proceso estoc\'astico exogeno; permiten capturar efectos distribuidos en el tiempo. La exogeneidad estricta es el supuesto cr\'itico.
+
+  \item \textbf{VAR irrestricto}: todas las variables son end\'ogenas; no hay restricciones de identificaci\'on ``incre\'ibles''. Se estima por MCO ecuaci\'on a ecuaci\'on. Las herramientas son: pron\'ostico, respuestas al impulso (con descomposici\'on de Choleski), descomposiciones de varianza y tests de causalidad de Granger.
+
+  \item \textbf{VAR estructural (Sims-Bernanke)}: la teor\'ia econ\'omica impone restricciones contempor\'aneas sobre $B$ para identificar los shocks estructurales $\varepsilon_t = Be_t$. Permite overidentificaci\'on y testeo de las restricciones.
+
+  \item \textbf{Descomposici\'on de Blanchard-Quah}: restricciones de largo plazo basadas en neutralidad econ\'omica. Permite descomponer series I(1) en componentes temporales y permanentes.
+\end{enumerate}
+
+\subsection{Condici\'on general de identificaci\'on}
+
+Para un VAR de $n$ variables, identificar el sistema estructural desde el reducido requiere exactamente:
+
+\begin{equation}
+\frac{n^2 - n}{2} \text{ restricciones sobre } B \text{ (o equivalentemente sobre } C = B^{-1})
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la condici\'on de orden para la identificaci\'on exacta. La condici\'on de rango (condici\'on suficiente) requiere adem\'as que las restricciones sean linealmente independientes y que no existan soluciones m\'ultiples, lo cual debe verificarse caso a caso. En sistemas no lineales (como BQ), pueden existir m\'ultiples soluciones num\'ericas.
+\end{intuicionmat}
+
+\subsection{Recomendaciones pr\'acticas}
+
+\begin{itemize}
+  \item Seleccionar cuidadosamente las variables con respaldo te\'orico.
+  \item Verificar si las series son estacionarias, con tendencia determinista o con ra\'iz unitaria: esto afecta a los tests de causalidad de Granger.
+  \item Realizar an\'alisis de robustez: distintas longitudes de rezago, distintas ordenaciones de Choleski, distintas variables de control.
+  \item Los resultados VAR pueden ser sensibles a cambios aparentemente menores en la especificaci\'on: mantener escepticismo saludable frente a resultados no robustos.
+\end{itemize}
+
+\begin{intuicion}
+El VAR es una herramienta emp\'irica poderosa para el an\'alisis din\'amico multivariado. Su fortaleza es la m\'inima imposici\'on de teor\'ia en la din\'amica de rezagos. Su debilidad es que la identificaci\'on de los shocks estructurales siempre requiere supuestos adicionales; la credibilidad de las conclusiones econ\'omicas depende de la plausibilidad de esos supuestos.
+\end{intuicion}
+
+\end{document}

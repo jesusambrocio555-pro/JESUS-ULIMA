@@ -1,0 +1,350 @@
+\documentclass[12pt]{article}
+
+% --- Idioma ---
+\usepackage[spanish,es-nodecimaldot]{babel}
+
+% --- Fuente Times New Roman (compilar con XeLaTeX) ---
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% --- Márgenes 2.5 cm por lado ---
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+
+% --- Interlineado 1.5 ---
+\usepackage{setspace}
+\onehalfspacing
+
+% --- Espaciado posterior 6 pt, sin sangría de párrafo ---
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% --- Sangría francesa en referencias (APA) ---
+\usepackage{hanging}
+
+% --- Hipervínculos ---
+\usepackage[hidelinks]{hyperref}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+\section{Marco Teórico}
+
+\subsection{La salud como capacidad fundamental y dimensión de la pobreza multidimensional}
+
+El análisis económico del sector salud requiere partir de una distinción conceptual previa: la salud
+no es únicamente un bien de consumo ni un insumo productivo, sino una capacidad fundamental del
+ser humano. Esta distinción tiene implicancias directas sobre cómo se mide el bienestar y sobre qué
+papel le corresponde al Estado en la provisión de servicios sanitarios.
+
+Sen (1988) argumenta que la enfermedad no es simplemente un síntoma observable de pobreza,
+sino una restricción a las capacidades básicas de las personas: priva al individuo de su libertad para
+funcionar, trabajar y participar en la vida social. Este argumento es ampliado en Sen (2000), donde
+el desarrollo económico es reinterpretado no como crecimiento del producto per cápita, sino como
+expansión de las libertades reales que los individuos pueden ejercer. Bajo este enfoque, un país que
+duplica su PIB sin reducir la mortalidad infantil o aumentar la esperanza de vida no puede
+considerarse plenamente desarrollado. La salud, junto con la educación y las libertades políticas,
+constituye una de las capacidades centrales cuya expansión define el progreso humano genuino.
+
+Esta perspectiva tiene consecuencias metodológicas importantes. Si el bienestar no puede
+reducirse al ingreso, entonces los indicadores monetarios resultan insuficientes para evaluar el
+desarrollo. Nussbaum (2000) extiende el enfoque de capacidades de Sen e identifica un conjunto de
+capacidades centrales que todo ser humano debe poder ejercer, entre las que destacan la salud
+corporal, la integridad física y el control sobre el propio entorno. Desde esta perspectiva, un sistema
+de salud deficiente no solo genera costos económicos; compromete la dignidad humana y la
+autonomía individual, lo que justifica un tratamiento analítico que va más allá de la eficiencia
+asignativa del mercado.
+
+La operacionalización de este enfoque es realizada por Alkire y Foster (2011), quienes construyen
+el Índice de Pobreza Multidimensional (IPM) a partir de tres dimensiones: salud, educación y nivel
+de vida. La dimensión salud se mide a través de indicadores como la mortalidad infantil y la
+desnutrición crónica. Su método identifica como pobre multidimensional a quien carece del umbral
+mínimo en al menos un tercio de los indicadores ponderados, lo que permite capturar la intensidad
+de la pobreza más allá del ingreso monetario. Esta metodología es también la base del Índice de
+Desarrollo Humano (IDH) del Programa de las Naciones Unidas para el Desarrollo, que incorpora
+la esperanza de vida al nacer como \textit{proxy} de la dimensión salud. Para sintetizar indicadores
+heterogéneos en una medida única, el IDH recurre a técnicas de índices compuestos, entre ellas el
+Análisis de Componentes Principales (PCA), que permite reducir la dimensionalidad de un conjunto
+de variables correlacionadas preservando la mayor varianza posible (UNDP, 2015).
+
+La relevancia empírica de esta distinción se evidencia con claridad en el caso peruano. El INEI
+(2016) reporta que la pobreza monetaria cayó de 58.7\,\% en 2004 a 21.8\,\% en 2015, impulsada
+por el crecimiento económico sostenido derivado del boom de materias primas. Sin embargo, como
+señala Tezano (2013), la reducción de la pobreza multidimensional fue considerablemente más
+lenta, en particular en las regiones de sierra y selva, donde las brechas en acceso a servicios de
+salud y saneamiento persistieron incluso durante los años de mayor expansión del PIB. Esta
+divergencia sugiere que el crecimiento es condición necesaria pero no suficiente para mejorar el
+bienestar en salud. Las diferencias geográficas son marcadas y persistentes: mientras la mortalidad
+infantil en Lima se sitúa en niveles próximos a los de países de ingreso medio-alto, en regiones
+como Huancavelica y Loreto los indicadores de salud reflejan condiciones propias de economías
+mucho más pobres (Ministerio de Salud [MINSA], 2021). Este patrón de heterogeneidad territorial
+es uno de los rasgos estructurales más importantes del sector salud peruano y constituye el eje
+central del análisis de composición y contexto institucional desarrollado en las secciones posteriores
+de este trabajo.
+
+\subsection{La salud como capital humano: efectos sobre la productividad y el crecimiento}
+
+La segunda línea teórica relevante aborda la salud desde la perspectiva del capital humano. La
+teoría del capital humano postula que los individuos invierten en educación y salud con el fin de
+incrementar su productividad futura (Becker, 1964). Bajo este marco, el gasto en salud no es un
+gasto corriente de consumo, sino una inversión que aumenta el stock de capital humano de la
+economía y, por tanto, su capacidad productiva de largo plazo.
+
+Grossman (1972) formaliza esta idea en un modelo de demanda de salud en el que los individuos
+no demandan atención médica directamente, sino que demandan salud como un stock de capital que
+se deprecia con el tiempo y puede ser repuesto mediante inversión: en servicios de salud, nutrición,
+ejercicio o conductas preventivas. El modelo predice que la demanda de salud aumenta con el nivel
+educativo, porque la educación eleva la eficiencia con que se produce salud, y disminuye con la
+edad, porque la tasa de depreciación del capital-salud se eleva conforme el individuo envejece. Este
+marco teórico ha sido enormemente influyente en la literatura empírica sobre salud y economía, y
+proporciona una base microeconómica sólida para justificar las políticas de prevención y atención
+primaria como mecanismos de acumulación de capital humano, distintas en su lógica de las
+políticas de atención curativa.
+
+A nivel macroeconómico, esta idea se formaliza en las extensiones del modelo de Solow que
+incorporan capital humano como factor de producción: una mejora sostenida en el estado de salud
+de la fuerza laboral eleva la productividad total de los factores y desplaza hacia arriba la trayectoria
+de crecimiento de estado estacionario (De~Gregorio, 2007). Bloom, Canning y Sevilla (2004)
+estiman empíricamente que una mejora de un año en la esperanza de vida de la población adulta
+está asociada a un incremento de aproximadamente 4\,\% en el producto per cápita en el largo
+plazo, resultado que confirma el papel central de la salud en los modelos de crecimiento endógeno.
+Esto implica que el gasto público en salud tiene un efecto potencialmente positivo sobre el
+crecimiento del PIB no solo a través del canal de demanda agregada de corto plazo, sino a través de
+la acumulación de capital humano en el largo plazo, un efecto que los presupuestos públicos suelen
+subestimar al tratar la salud como gasto corriente y no como inversión.
+
+La evidencia para el Perú es analizada empíricamente por Cortez (1999), quien estima el efecto de
+las condiciones de salud sobre la productividad laboral e ingresos individuales. Sus resultados
+muestran retornos significativos, con diferencias importantes por género y región geográfica: los
+efectos son más pronunciados en zonas rurales de sierra y selva, precisamente donde la cobertura de
+salud pública es más precaria y la carga de enfermedad es mayor. Estos hallazgos son coherentes
+con la literatura internacional sobre trampas de pobreza en salud (Sachs, 2001): una población
+enferma es menos productiva, genera menos ingresos, ahorra menos y, en consecuencia, tiene menor
+capacidad de invertir en su propia salud, configurando un equilibrio de bajo nivel difícil de romper
+sin intervención pública. Este mecanismo de retroalimentación negativa explica en parte la
+persistencia de las desigualdades sanitarias regionales en el Perú a pesar del crecimiento
+macroeconómico sostenido de la primera década del siglo~XXI.
+
+Valdez et al. (2013) complementan este diagnóstico con el perfil epidemiológico del Perú: las
+enfermedades no transmisibles ---cardiovasculares, diabetes, cáncer--- y las enfermedades
+diarreicas agudas concentran la mayor carga de morbilidad y constituyen los principales factores
+que reducen la productividad laboral. Este hallazgo es consistente con la relación empírica entre
+acceso a agua potable segura y mortalidad infantil que se estima en la sección econométrica, dado
+que el saneamiento básico es el principal determinante de las enfermedades diarreicas agudas en el
+país. La transición epidemiológica incompleta del Perú ---en la que coexisten enfermedades propias
+de países pobres con enfermedades propias de países ricos--- representa un desafío específico para
+la política sanitaria: el sistema debe atender simultáneamente dos perfiles de demanda con
+estructuras de costos y tecnologías de intervención muy distintas, lo que eleva el gasto necesario
+para lograr resultados comparables a los de economías en etapas más avanzadas de la transición.
+
+\subsection{Fallas de mercado y el rol del Estado en la provisión de salud}
+
+La justificación teórica de la intervención pública en el sector salud descansa en la presencia de
+fallas de mercado que impiden que el equilibrio privado sea eficiente. La primera y más relevante es
+la asimetría de información: el paciente no puede evaluar \textit{ex ante} la calidad del servicio
+médico ni el precio justo del medicamento, lo que genera una relación de agencia entre el médico y
+el paciente y abre espacio para comportamientos oportunistas en la cadena de comercialización
+farmacéutica. Arrow (1963), en su artículo fundacional sobre la incertidumbre y la economía del
+bienestar médico, señala que esta asimetría de información es tan profunda en el mercado de salud
+que el equilibrio competitivo simplemente no puede existir en su forma canónica: el paciente no
+puede juzgar la competencia del médico antes ni después del tratamiento, y el médico tiene
+incentivos a sobre-prescribir o a recomendar tratamientos más lucrativos. Esta falla justifica la
+regulación de precios de medicamentos y la fiscalización por parte de la Dirección General de
+Medicamentos, Insumos y Drogas (DIGEMID) en el Perú, cuya función es reducir las rentas
+informacionales que capturan las cadenas de farmacias en perjuicio del consumidor final.
+
+A la asimetría de información se añade el problema del riesgo moral en los mercados de seguro de
+salud. Cuando el individuo cuenta con cobertura médica, tiende a consumir más servicios de los que
+consumiría si pagara el costo total, porque el asegurador asume parte del costo marginal de cada
+atención. Esta sobre-utilización eleva el costo promedio del seguro, lo que puede elevar las primas
+y excluir a individuos de menor riesgo del mercado. La selección adversa, a su vez, puede conducir
+al colapso del mercado de seguros privados en ausencia de intervención pública, tal como lo
+formalizan Akerlof (1970) y Rothschild y Stiglitz (1976) en sus modelos de mercados con
+información asimétrica. Este es el argumento técnico más sólido para la existencia de un seguro de
+salud público y obligatorio: el mercado privado sin regulación generará submercados segmentados
+que excluirán sistemáticamente a los más pobres y a los más enfermos, precisamente a quienes más
+necesitan cobertura.
+
+La segunda falla son las externalidades positivas: la vacunación y el acceso al saneamiento básico
+generan beneficios sociales que exceden ampliamente los beneficios privados, por lo que el mercado
+los subprovee en ausencia de intervención pública. Una persona que se vacuna contra la influenza
+no solo se protege a sí misma, sino que reduce la probabilidad de transmisión a toda la comunidad:
+un beneficio que no se internaliza en la decisión privada de vacunarse. Análogamente, la inversión
+en sistemas de agua potable y alcantarillado genera externalidades de salud cuyo valor social supera
+con creces el beneficio privado que captura el individuo que accede al servicio. Este argumento
+justifica el subsidio público tanto a los programas de inmunización como a la inversión en
+saneamiento básico, y explica la correlación negativa entre cobertura de agua potable y mortalidad
+infantil que se analiza empíricamente en la sección de series de tiempo.
+
+La tercera falla es el carácter de bien meritorio de la salud: la sociedad considera que el acceso a
+servicios sanitarios básicos debe garantizarse con independencia de la capacidad de pago del
+individuo, argumento de naturaleza normativa que complementa los anteriores de carácter positivo.
+Esta consideración justifica la existencia del Seguro Integral de Salud (SIS) y de EsSalud como
+mecanismos de aseguramiento colectivo orientados a garantizar cobertura universal. Cabe señalar
+que la fragmentación del sistema de salud peruano ---con cuatro subsistemas principales: SIS,
+EsSalud, sanidad de las Fuerzas Armadas y Policía Nacional, y el sector privado--- genera
+ineficiencias adicionales derivadas de la duplicación de infraestructura, la ausencia de economías
+de escala y la dificultad para la portabilidad de los beneficios entre regímenes (Francke, 2013).
+Estas ineficiencias estructurales constituyen, en sí mismas, una falla de coordinación que el diseño
+institucional del sector no ha logrado resolver, y que se analiza con mayor detalle en la sección de
+contexto institucional.
+
+\subsection{Los determinantes sociales de la salud y la equidad sanitaria}
+
+Un cuarto marco teórico complementario a los anteriores es el enfoque de los determinantes
+sociales de la salud, desarrollado por la Comisión sobre Determinantes Sociales de la Salud de la
+Organización Mundial de la Salud (OMS, 2008). Este enfoque postula que el estado de salud de la
+población no depende únicamente del gasto en servicios médicos ni del comportamiento individual,
+sino de un conjunto de condiciones estructurales que incluyen el ingreso, la educación, el empleo,
+la vivienda, las redes sociales y el entorno físico. La distribución de la salud en la población no es,
+por tanto, un resultado aleatorio, sino el reflejo de la distribución del poder, el ingreso y los
+recursos en la sociedad.
+
+Para el Perú, esta perspectiva resulta especialmente relevante dado el patrón de inequidad en la
+distribución de la carga de enfermedad. Las poblaciones indígenas, rurales y de menor nivel
+educativo presentan tasas de mortalidad infantil, desnutrición crónica y mortalidad materna
+significativamente más altas que el promedio nacional, diferencias que no se explican
+exclusivamente por el menor gasto en servicios médicos en esas regiones, sino también por la
+ausencia de agua potable, saneamiento, infraestructura vial y conectividad (MINSA, 2021).
+Wagstaff (2002) proporciona el marco analítico para medir estas inequidades mediante los índices
+de concentración, que permiten cuantificar en qué medida la distribución de la salud replica la
+distribución del ingreso en una sociedad. Cuando el índice de concentración de la mortalidad
+infantil es negativo y significativo ---como ocurre consistentemente en el Perú---, ello indica que
+la carga de enfermedad recae desproporcionadamente sobre los más pobres, lo que constituye una
+inequidad que el sistema de salud debería reducir como objetivo explícito de política.
+
+La teoría de los determinantes sociales permite, asimismo, evaluar la efectividad de intervenciones
+que se ubican fuera del sector salud pero que tienen efectos sanitarios de gran magnitud. Los
+programas de transferencias condicionadas como Juntos, que vinculan la asistencia económica a las
+familias con el cumplimiento de controles de salud y nutrición, operan como mecanismos de
+corrección de los determinantes sociales de la salud sin requerir necesariamente una expansión del
+gasto en servicios médicos. De manera análoga, los programas de saneamiento básico rural reducen
+la exposición a enfermedades infecciosas actuando sobre el entorno físico, no sobre la capacidad
+instalada del sistema sanitario. Esta lógica intersectorial es fundamental para comprender por qué
+la mejora de los indicadores de salud en el Perú durante las dos primeras décadas del siglo~XXI
+dependió tanto de las políticas macroeconómicas de reducción de la pobreza y del gasto en
+infraestructura como del gasto específico en el sector salud.
+
+\subsection{La curva de Preston y la transición epidemiológica peruana}
+
+Un quinto marco teórico que articula el análisis empírico de este trabajo es la curva de Preston
+(1975). Preston documentó empíricamente que existe una relación positiva pero cóncava entre el
+ingreso per cápita y la esperanza de vida en el corte transversal de países: a medida que el ingreso
+crece, la esperanza de vida aumenta, pero a tasas decrecientes. Esta relación tiene dos implicancias
+importantes para el caso peruano. En primer lugar, dado que el Perú se ubica en la parte de mayor
+pendiente de la curva ---es decir, como país de ingreso medio-bajo, cada dólar adicional de ingreso
+per cápita se traduce en una ganancia de esperanza de vida relativamente mayor que en países de
+ingreso alto---, existe un espacio considerable para obtener mejoras en los indicadores de salud
+mediante inversiones moderadas en tecnología médica y saneamiento. En segundo lugar, la curva de
+Preston muestra que su posición se ha desplazado hacia arriba con el tiempo: para un mismo nivel
+de ingreso, la esperanza de vida es hoy mayor que hace cincuenta años, lo que refleja el progreso
+tecnológico en medicina y salud pública ---vacunas, antibióticos, rehidratación oral--- que ha
+reducido la mortalidad independientemente del ingreso.
+
+Este desplazamiento tecnológico ha sido especialmente notable en el Perú: la esperanza de vida al
+nacer pasó de aproximadamente 49 años en 1965 a más de 76 años en 2019, un incremento de casi
+treinta años en cinco décadas que no puede explicarse únicamente por el crecimiento del ingreso y
+que refleja el impacto acumulado de la tecnología médica, la ampliación de la cobertura vacunal y
+las mejoras en saneamiento básico (Banco Mundial, 2025). El impacto del COVID-19 en 2020
+---que redujo la esperanza de vida en aproximadamente tres años--- ilustra dramáticamente la
+magnitud del choque que puede producir una epidemia de gran escala sobre el stock de capital
+humano de una economía, y refuerza el argumento a favor de sistemas de salud pública robustos
+con capacidad de respuesta ante emergencias sanitarias. El Perú registró una de las tasas de exceso
+de mortalidad más altas del mundo durante la pandemia, hecho que pone en evidencia las
+fragilidades estructurales de un sistema históricamente subfinanciado y fragmentado.
+
+La transición epidemiológica complementa el análisis de la curva de Preston: conforme los países
+reducen la mortalidad por enfermedades infecciosas y mejoran la nutrición, el peso relativo de las
+enfermedades crónicas no transmisibles ---cardiovasculares, cáncer, diabetes--- aumenta en la
+carga total de morbilidad y mortalidad (Omran, 1971). El Perú se encuentra en una fase intermedia
+de esta transición, con una doble carga de enfermedad que exige un sistema de salud capaz de
+atender simultáneamente enfermedades propias del subdesarrollo ---tuberculosis, enfermedades
+diarreicas, desnutrición--- y enfermedades propias del desarrollo ---hipertensión, diabetes,
+cáncer---. Esta dualidad tiene consecuencias directas sobre las necesidades de gasto y la estructura
+institucional del sistema de salud. Las enfermedades crónicas no transmisibles requieren atención
+continua y de largo plazo, con alta intensidad tecnológica y costo por episodio elevado; las
+enfermedades infecciosas y la desnutrición se abordan con mayor eficacia mediante intervenciones
+de salud pública preventivas y de bajo costo unitario. Un sistema de salud que no distingue estos
+dos perfiles de demanda ni asigna recursos en función de su carga relativa corre el riesgo de ser
+simultáneamente ineficiente en el tratamiento de las enfermedades crónicas e insuficiente en la
+prevención de las enfermedades infecciosas, resultado que describe razonablemente la situación
+actual del sector salud peruano.
+
+% ============================================================
+\section*{Referencias}
+% ============================================================
+
+\begin{hangparas}{1.5em}{1}
+
+Akerlof, G. (1970). The market for ``lemons'': Quality uncertainty and the market mechanism.
+\textit{Quarterly Journal of Economics, 84}(3), 488--500.
+
+Alkire, S., \& Foster, J. (2011). Counting and multidimensional poverty measurement.
+\textit{Journal of Public Economics, 95}(7), 476--487.
+
+Arrow, K. (1963). Uncertainty and the welfare economics of medical care.
+\textit{American Economic Review, 53}(5), 941--973.
+
+Banco Mundial. (2025). \textit{World Development Indicators}. Washington D.C.: The World Bank.
+
+Becker, G. (1964). \textit{Human Capital: A Theoretical and Empirical Analysis, with Special
+Reference to Education}. New York: National Bureau of Economic Research.
+
+Bloom, D., Canning, D., \& Sevilla, J. (2004). The effect of health on economic growth:
+A production function approach. \textit{World Development, 32}(1), 1--13.
+
+Cortez, R. (1999). \textit{Salud y productividad en el Perú: Un análisis empírico por género y
+región} (Working Paper R-363). Washington D.C.: Inter-American Development Bank.
+
+De Gregorio, J. (2007). \textit{Macroeconomía: Teoría y Políticas}. Santiago: Pearson
+Educación.
+
+Francke, P. (2013). \textit{El sistema de salud del Perú: Situación actual y estrategias para
+orientar la extensión de la cobertura contributiva}. Lima: OIT.
+
+Grossman, M. (1972). On the concept of health capital and the demand for health.
+\textit{Journal of Political Economy, 80}(2), 223--255.
+
+Instituto Nacional de Estadística e Informática. (2016). \textit{Evolución de la Pobreza
+Monetaria 2009--2015. Informe Técnico}. Lima: INEI.
+
+Ministerio de Salud. (2021). \textit{Análisis de la Situación de Salud del Perú}. Lima: MINSA.
+
+Nussbaum, M. (2000). \textit{Women and Human Development: The Capabilities Approach}.
+Cambridge: Cambridge University Press.
+
+Omran, A. (1971). The epidemiologic transition: A theory of the epidemiology of population
+change. \textit{Milbank Memorial Fund Quarterly, 49}(4), 509--538.
+
+Organización Mundial de la Salud. (2008). \textit{Closing the Gap in a Generation: Health
+Equity Through Action on the Social Determinants of Health}. Geneva: WHO.
+
+Preston, S. (1975). The changing relation between mortality and level of economic development.
+\textit{Population Studies, 29}(2), 231--248.
+
+Rothschild, M., \& Stiglitz, J. (1976). Equilibrium in competitive insurance markets: An essay
+on the economics of imperfect information. \textit{Quarterly Journal of Economics, 90}(4),
+629--649.
+
+Sachs, J. (2001). \textit{Macroeconomics and Health: Investing in Health for Economic
+Development}. Geneva: WHO Commission on Macroeconomics and Health.
+
+Sen, A. (1988). Property and hunger. \textit{Economics and Philosophy, 4}(1), 57--68.
+
+Sen, A. (2000). \textit{Desarrollo y Libertad}. Buenos Aires: Planeta.
+
+Tezano, S. (2013). \textit{Desarrollo humano, pobreza y desigualdades}. Santander: Universidad
+de Cantabria.
+
+United Nations Development Programme. (2015). \textit{Human Development Report 2015:
+Technical Notes --- Calculating the Indices}. New York: UNDP.
+
+Valdez, W., Napanga, E., Oyola, A., Mariños, J., Vílchez, A., Medina, J., \& Berto, M. (2013).
+\textit{Análisis de la Situación de Salud en el Perú}. Lima: Ministerio de Salud.
+
+Wagstaff, A. (2002). \textit{Inequalities in health in developing countries: Swimming against
+the tide?} (Policy Research Working Paper No.~2795). Washington D.C.: World Bank.
+
+\end{hangparas}
+
+\end{document}

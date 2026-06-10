@@ -1,0 +1,453 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, headheight=25pt}
+
+\definecolor{azulul}{RGB}{0,70,127}
+\definecolor{verdeclaro}{RGB}{200,230,201}
+\definecolor{azulclaro}{RGB}{200,220,240}
+\definecolor{amarilloclaro}{RGB}{255,249,196}
+
+\tcbuselibrary{skins, breakable}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{azulul}\textbf{Econom\'ia Financiera 1 -- Gu\'ia 5}}
+\rhead{\color{azulul}Ejercicio 2: Industrias LAN S.A.}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azulul}\leaders\hrule height \headrulewidth\hfill}}
+
+\newtcolorbox{cajaenunciado}{
+  colback=azulclaro!40, colframe=azulul, fonttitle=\bfseries,
+  title=Enunciado del Ejercicio 2, breakable
+}
+\newtcolorbox{cajaintuicion}[1]{
+  colback=verdeclaro!60, colframe=green!50!black, fonttitle=\bfseries,
+  title={Intuici\'on: #1}, breakable
+}
+\newtcolorbox{cajaresultado}{
+  colback=verdeclaro!80, colframe=green!40!black, fonttitle=\bfseries\large,
+  title=Resultado Final, halign title=center
+}
+\newtcolorbox{cajaformula}{
+  colback=azulclaro!20, colframe=azulul!80, fonttitle=\bfseries,
+  title=F\'ormula clave, breakable
+}
+\newtcolorbox{cajareflexion}[1]{
+  colback=amarilloclaro, colframe=orange!70!black, fonttitle=\bfseries,
+  title={Reflexi\'on: #1}, breakable
+}
+
+\begin{document}
+
+% ========================
+%  PORTADA
+% ========================
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\color{azulul}\rule{\linewidth}{1.5pt}}
+\vspace{0.5cm}
+
+{\large\textbf{UNIVERSIDAD DE LIMA}\\[0.2cm]
+Facultad de Ciencias Empresariales y Econ\'omicas\\
+Carrera de Econom\'ia}
+
+\vspace{1.5cm}
+
+{\LARGE\color{azulul}\textbf{ECONOM\'IA FINANCIERA 1}}\\[0.4cm]
+{\Large Gu\'ia de Pr\'actica 5 --- Pol\'itica de Dividendos}
+
+\vspace{1.5cm}
+
+{\color{azulul}\rule{0.6\linewidth}{0.8pt}}\\[0.5cm]
+{\LARGE\textbf{Soluci\'on: Ejercicio 2}}\\[0.3cm]
+{\Large\textit{Industrias LAN S.A.}}\\[0.3cm]
+{\Large\textit{Dividendo vs.\ Recompra de Acciones (Irrelevancia MM)}}\\[0.5cm]
+{\color{azulul}\rule{0.6\linewidth}{0.8pt}}
+
+\vspace{2cm}
+
+\begin{tcolorbox}[colback=azulclaro!30, colframe=azulul, width=0.75\linewidth, halign=center]
+\centering
+\textbf{Datos clave del problema}\\[0.4cm]
+\begin{tabular}{ll}
+Precio actual por acci\'on ($P_0$):      & \$20.00                \\
+Acciones en circulaci\'on ($N_0$):       & 1{,}000                \\
+Valor de mercado del equity ($E_0$):     & \$20{,}000             \\
+Monto a distribuir:                      & \$1{,}000              \\
+Dividendo por acci\'on (alternativa A):  & \$1.00                 \\
+Recompra total (alternativa B):          & \$1{,}000              \\
+Utilidad total anual:                    & \$2{,}000              \\
+Impuestos:                               & Ignorar                \\
+\end{tabular}
+\end{tcolorbox}
+
+\vfill
+{\large Junio 2026}
+
+{\color{azulul}\rule{\linewidth}{1.5pt}}
+\end{titlepage}
+
+% ========================
+%  ENUNCIADO
+% ========================
+\begin{cajaenunciado}
+\textbf{Industrias LAN S.A.} tiene el siguiente balance a valor de mercado.
+Las acciones actualmente se venden a \textbf{\$20 la acci\'on}, y hay
+\textbf{1{,}000 acciones en circulaci\'on}. La empresa pagar\'a un
+\textbf{dividendo por acci\'on de \$1} o \textbf{recomprar\'a acciones
+valoradas a \$1{,}000}. Ignore los impuestos.
+
+\begin{enumerate}[label=\alph*.]
+\item \textquestiondown Cu\'al ser\'a el \textbf{precio por acci\'on} bajo cada alternativa
+      (dividendo vs.\ recompra)?
+\item Si la \textbf{utilidad total de la empresa es \$2{,}000} al a\~no, encuentre la
+      \textbf{Utilidad por Acci\'on (UPA)} bajo cada alternativa.
+\end{enumerate}
+\end{cajaenunciado}
+
+\vspace{0.5cm}
+
+% ========================
+%  INTUICIÓN GENERAL
+% ========================
+\begin{cajaintuicion}{Dividendo vs.\ Recompra: dos caras de la misma moneda}
+La \textbf{Proposici\'on de Irrelevancia de Dividendos
+(Modigliani \& Miller, 1961)} establece que en mercados perfectos
+---sin impuestos, sin costos de transacci\'on e informaci\'on
+sim\'etrica--- la forma en que una empresa distribuye valor a sus
+accionistas \emph{no altera} la riqueza total de estos.
+
+En ambas alternativas, la empresa retira \textbf{\$1{,}000 de efectivo} del balance.
+La diferencia es \emph{c\'omo} se entrega ese valor:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & \textbf{Dividendo} & \textbf{Recompra} \\
+\midrule
+Mecanismo   & Efectivo al accionista & Reducir acciones en circulaci\'on \\
+Precio post & Baja en \$1 (ex-div.)  & Se mantiene en \$20 \\
+Riqueza total & \$19 + \$1 = \$20    & \$20 sin cambio \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{cajaintuicion}
+
+\vspace{1cm}
+
+% ========================
+%  SITUACIÓN INICIAL
+% ========================
+\section{Situaci\'on Inicial}
+
+Antes de cualquier distribuci\'on, el balance a valor de mercado muestra:
+
+\begin{align}
+E_0 &= P_0 \times N_0 = \$20 \times 1{,}000 = \mathbf{\$20{,}000}
+\end{align}
+
+\noindent La empresa dispone de \textbf{\$1{,}000} para distribuir a sus accionistas,
+ya sea como dividendo en efectivo (\textbf{Alternativa A}) o mediante la
+recompra de acciones propias (\textbf{Alternativa B}).
+
+\vspace{1cm}
+
+% ========================
+%  PARTE a — PRECIO
+% ========================
+\section{Parte a: Precio por Acci\'on bajo cada Alternativa}
+
+% ---------- ALTERNATIVA A ----------
+\subsection*{Alternativa A --- Pago de Dividendo (\$1 por acci\'on)}
+
+\begin{cajaintuicion}{El precio cae exactamente en el valor del dividendo}
+Al pagar el dividendo, el efectivo \textbf{sale de la empresa hacia los accionistas}.
+El valor del equity disminuye en el monto distribuido. Por eso, en la fecha
+ex-dividendo el precio baja en exactamente \$1: el accionista no gana ni pierde
+riqueza, solo cambia la forma en que la tiene (efectivo vs.\ precio de la acci\'on).
+\end{cajaintuicion}
+
+\begin{cajaformula}
+\[
+P_{\text{ex-div}} = \frac{E_0 - \text{Dividendo total}}{N_0}
+= \frac{E_0 - D \times N_0}{N_0}
+\]
+\end{cajaformula}
+
+\begin{align}
+\text{Dividendo total} &= \$1 \times 1{,}000 = \$1{,}000 \\[6pt]
+E_{\text{post}} &= \$20{,}000 - \$1{,}000 = \$19{,}000 \\[6pt]
+P_{\text{ex-div}} &= \frac{\$19{,}000}{1{,}000}
+= \mathbf{\$19.00 \text{ por acci\'on}}
+\end{align}
+
+\noindent\textbf{Verificaci\'on de riqueza del accionista:}
+\[
+\text{Riqueza} = P_{\text{ex-div}} + D = \$19 + \$1 = \$20 \quad \checkmark
+\]
+
+\vspace{0.8cm}
+
+% ---------- ALTERNATIVA B ----------
+\subsection*{Alternativa B --- Recompra de Acciones (\$1{,}000)}
+
+\begin{cajaintuicion}{La recompra reduce el n\'umero de acciones, no el precio}
+Al recomprar acciones al precio de mercado, la empresa paga \$20 por cada acci\'on
+que retira. El valor del equity baja en \$1{,}000, pero tambi\'en bajan las acciones
+en circulaci\'on. Como ambos n\'umeros se reducen \emph{en la misma proporci\'on},
+el precio por acci\'on \textbf{no cambia}. Los accionistas que no venden conservan
+exactamente la misma riqueza que antes.
+\end{cajaintuicion}
+
+\begin{cajaformula}
+\[
+\Delta N = \frac{\text{Monto de recompra}}{P_0}
+\qquad
+P_{\text{post}} = \frac{E_0 - \text{Monto recompra}}{N_0 - \Delta N}
+\]
+\end{cajaformula}
+
+\begin{align}
+\Delta N &= \frac{\$1{,}000}{\$20} = 50 \text{ acciones recompradas} \\[6pt]
+N_{\text{post}} &= 1{,}000 - 50 = 950 \text{ acciones} \\[6pt]
+E_{\text{post}} &= \$20{,}000 - \$1{,}000 = \$19{,}000 \\[6pt]
+P_{\text{post}} &= \frac{\$19{,}000}{950}
+= \mathbf{\$20.00 \text{ por acci\'on}}
+\end{align}
+
+\noindent\textbf{Verificaci\'on de riqueza del accionista (que no vendi\'o):}
+\[
+\text{Riqueza} = P_{\text{post}} = \$20.00 \quad \checkmark
+\]
+
+\vspace{0.5cm}
+
+% ---- Tabla comparativa de precios ----
+\subsection*{Tabla comparativa --- Precio por acci\'on}
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Concepto} & \textbf{Antes} & \textbf{Alt.\ A (Dividendo)} & \textbf{Alt.\ B (Recompra)} \\
+\midrule
+Valor equity           & \$20{,}000 & \$19{,}000 & \$19{,}000 \\
+Acciones en circulaci\'on & 1{,}000  & 1{,}000    & 950        \\
+\textbf{Precio por acci\'on} & \$20.00 & \$19.00  & \$20.00    \\
+Riqueza por accionista & \$20.00    & \$19+\$1=\$20.00 & \$20.00 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+\boxed{
+\text{Alt.\ A: } P_{\text{ex-div}} = \$19.00
+\qquad
+\text{Alt.\ B: } P_{\text{post-recompra}} = \$20.00
+}
+\]
+
+\vspace{1cm}
+
+% ========================
+%  PARTE b — UPA
+% ========================
+\section{Parte b: Utilidad por Acci\'on (UPA) bajo cada Alternativa}
+
+\begin{cajaintuicion}{La recompra infla la UPA, pero no crea valor}
+Tras la recompra hay \emph{menos acciones} entre las cuales repartir la misma
+utilidad total (\$2{,}000). Por eso la UPA sube. Sin embargo, el \textbf{ratio
+Precio/Utilidad (P/U)} es id\'entico en ambos casos: la mayor UPA se compensa
+exactamente con el mayor precio, dejando el valor real del accionista inalterado.
+\end{cajaintuicion}
+
+\begin{cajaformula}
+\[
+\text{UPA} = \frac{\text{Utilidad total}}{N_{\text{acciones}}}
+\qquad
+\frac{P}{U} = \frac{P_{\text{acci\'on}}}{\text{UPA}}
+\]
+\end{cajaformula}
+
+\subsection*{Alternativa A --- Dividendo}
+
+\begin{align}
+\text{UPA}_A &= \frac{\$2{,}000}{1{,}000} = \mathbf{\$2.00 \text{ por acci\'on}} \\[8pt]
+\left(\frac{P}{U}\right)_A &= \frac{\$19.00}{\$2.00} = \mathbf{9.5\times}
+\end{align}
+
+\subsection*{Alternativa B --- Recompra}
+
+\begin{align}
+\text{UPA}_B &= \frac{\$2{,}000}{950} = \mathbf{\$2.1053 \text{ por acci\'on}} \\[8pt]
+\left(\frac{P}{U}\right)_B &= \frac{\$20.00}{\$2.1053} = \mathbf{9.5\times}
+\end{align}
+
+\subsection*{Tabla comparativa --- UPA y ratio P/U}
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Concepto} & \textbf{Alt.\ A (Dividendo)} & \textbf{Alt.\ B (Recompra)} \\
+\midrule
+Utilidad total                    & \$2{,}000  & \$2{,}000  \\
+Acciones en circulaci\'on         & 1{,}000    & 950        \\
+\textbf{UPA}                      & \$2.00     & \$2.1053   \\
+Precio por acci\'on               & \$19.00    & \$20.00    \\
+\textbf{Ratio P/U}                & 9.5$\times$ & 9.5$\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1cm}
+
+% ========================
+%  RESULTADO FINAL
+% ========================
+\begin{cajaresultado}
+\begin{center}
+\large
+\begin{tabular}{p{6.5cm}p{4cm}p{4cm}}
+\textbf{Concepto}                    & \textbf{Dividendo} & \textbf{Recompra} \\[4pt]
+\hline\\[-6pt]
+Precio por acci\'on post-distribuci\'on & \$19.00        & \$20.00 \\[4pt]
+Acciones en circulaci\'on               & 1{,}000        & 950     \\[4pt]
+Utilidad por Acci\'on (UPA)             & \$2.00         & \$2.11  \\[4pt]
+Ratio Precio/Utilidad (P/U)             & 9.5$\times$    & 9.5$\times$ \\[4pt]
+\textbf{Riqueza del accionista}         & \textbf{\$20}  & \textbf{\$20} \\
+\end{tabular}
+\end{center}
+\end{cajaresultado}
+
+\vspace{1cm}
+
+% ========================
+%  REFLEXIÓN
+% ========================
+\begin{cajareflexion}{\textquestiondown Por qu\'e la UPA sube con la recompra pero el valor no cambia?}
+Es tentador concluir que la recompra es \emph{mejor} porque eleva la UPA de
+\$2.00 a \$2.11. Sin embargo, esto es una ilusi\'on contable.
+
+La UPA sube \textbf{solo porque hay menos acciones}, no porque la empresa
+genere m\'as utilidades. El ratio P/U es \emph{id\'entico} en ambos casos:
+
+\[
+\frac{P}{U} = \frac{\$19.00}{\$2.00} = \frac{\$20.00}{\$2.1053} = 9.5\times
+\]
+
+Esto es la esencia de la \textbf{Proposici\'on de Irrelevancia de Dividendos
+(Modigliani-Miller, 1961)}: en ausencia de imperfecciones de mercado, la
+pol\'itica de distribuci\'on \emph{no crea ni destruye valor}. Lo que importa
+es la capacidad de la empresa de generar utilidades, no la forma en que las
+reparte.
+
+\medskip
+\textbf{Lecci\'on clave:} Una mayor UPA derivada de una recompra de acciones
+no implica un mayor valor intr\'inseco. Los mercados descuentan esta mec\'anica
+y el precio se ajusta de modo que la riqueza total del accionista permanece
+constante (\$20 en ambas alternativas).
+\end{cajareflexion}
+
+\vspace{1cm}
+
+% ========================
+%  DIAGRAMA COMPARATIVO
+% ========================
+\newpage
+\section*{Diagrama: Efecto sobre el Balance de Mercado}
+
+\vspace{0.5cm}
+
+\begin{center}
+\resizebox{0.92\linewidth}{!}{%
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=4pt, minimum width=3.8cm,
+              minimum height=1.2cm, align=center, font=\small},
+  lbl/.style={font=\small\bfseries, align=center},
+  arr/.style={-{Stealth}, thick}
+]
+
+% ---- Estado inicial ----
+\node[box, fill=azulclaro!40, draw=azulul, minimum width=4.5cm] (ei)
+  at (0,0) {Equity: \$20{,}000\\1{,}000 acc.\ $\times$ \$20};
+\node[lbl, above=6pt] at (ei.north) {ANTES};
+
+% ---- Flecha a Alt A ----
+\node[box, fill=verdeclaro!60, draw=green!50!black, minimum width=4.5cm]
+  (ea) at (-3.5,-3.5)
+  {Equity: \$19{,}000\\1{,}000 acc.\ $\times$ \$19\\+ \$1 cash/acc.};
+\node[lbl, above=6pt] at (ea.north) {ALTERNATIVA A\\Dividendo};
+
+\draw[arr, blue!60!black] (ei.south) -- ++(0,-0.6) -| (ea.north)
+  node[midway, above, font=\scriptsize\itshape] {$-\$1{,}000$ efectivo};
+
+% ---- Flecha a Alt B ----
+\node[box, fill=verdeclaro!60, draw=green!50!black, minimum width=4.5cm]
+  (eb) at (3.5,-3.5)
+  {Equity: \$19{,}000\\950 acc.\ $\times$ \$20\\(50 acc.\ recompradas)};
+\node[lbl, above=6pt] at (eb.north) {ALTERNATIVA B\\Recompra};
+
+\draw[arr, blue!60!black] (ei.south) -- ++(0,-0.6) -| (eb.north)
+  node[midway, above, font=\scriptsize\itshape] {$-\$1{,}000$ efectivo};
+
+% ---- Riqueza igual ----
+\node[box, fill=amarilloclaro, draw=orange!70!black, minimum width=6cm,
+      minimum height=1.4cm] (riq) at (0,-6.5)
+  {\textbf{Riqueza del accionista: \$20 en ambos casos}\\
+   \small A: \$19 precio + \$1 dividendo \quad B: \$20 precio};
+\draw[arr, dashed, orange!80!black] (ea.south) -- ++(0,-0.4) -| (riq.west);
+\draw[arr, dashed, orange!80!black] (eb.south) -- ++(0,-0.4) -| (riq.east);
+
+\end{tikzpicture}}
+\end{center}
+
+\vspace{0.8cm}
+
+% ========================
+%  VERIFICACIÓN NUMÉRICA
+% ========================
+\section*{Verificaci\'on num\'erica compacta}
+
+\begin{align*}
+\textbf{Alt.\ A:}\quad
+P_{\text{ex-div}} &= \frac{20{,}000 - 1{,}000}{1{,}000} = \$19.00
+\quad;\quad
+\text{UPA} = \frac{2{,}000}{1{,}000} = \$2.00
+\quad;\quad
+P/U = 9.5\times \\[8pt]
+\textbf{Alt.\ B:}\quad
+P_{\text{post}} &= \frac{20{,}000 - 1{,}000}{1{,}000 - \frac{1{,}000}{20}}
+= \frac{19{,}000}{950} = \$20.00
+\quad;\quad
+\text{UPA} = \frac{2{,}000}{950} = \$2.11
+\quad;\quad
+P/U = 9.5\times
+\end{align*}
+
+\[
+\Rightarrow\quad
+\boxed{
+\textbf{Precio: Alt.\ A = \$19 \ | \ Alt.\ B = \$20}
+\qquad
+\textbf{P/U: id\'entico en ambas (9.5}\times\textbf{)}
+}
+\]
+
+\end{document}

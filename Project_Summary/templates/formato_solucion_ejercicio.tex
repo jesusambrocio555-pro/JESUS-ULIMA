@@ -1,0 +1,364 @@
+%% =============================================================
+%%  TEMPLATE: Solución de Ejercicio — Economía Financiera
+%%  Basado en el estilo del Ejercicio 4 (Cia Minera del Zinc)
+%%
+%%  CÓMO USAR:
+%%  Reemplaza cada <<VARIABLE>> con el valor correspondiente.
+%%  Las variables están listadas al inicio de cada bloque.
+%%
+%%  VARIABLES PRINCIPALES:
+%%    <<CURSO>>          Ej: Econom\'ia Financiera 1
+%%    <<GUIA_NUM>>       Ej: 4
+%%    <<GUIA_TEMA>>      Ej: Mercado de Acciones
+%%    <<EJ_NUM>>         Ej: 4
+%%    <<EJ_TITULO>>      Ej: Cia Minera del Zinc
+%%    <<EJ_SUBTITULO>>   Ej: Modelo de Descuento de Dividendos (DDM)
+%%    <<FACULTAD>>       Ej: Facultad de Ciencias Empresariales y Econ\'omicas
+%%    <<CARRERA>>        Ej: Carrera de Econom\'ia
+%%    <<FECHA>>          Ej: Abril 2026
+%%    <<REFLEXION_Q>>    Pregunta de la caja de reflexión
+%% =============================================================
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, decorations.pathreplacing}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm, headheight=25pt}
+
+% ---- Paleta de colores (no modificar) ----
+\definecolor{azulul}{RGB}{0,70,127}
+\definecolor{verdeclaro}{RGB}{200,230,201}
+\definecolor{azulclaro}{RGB}{200,220,240}
+\definecolor{rojoclaro}{RGB}{255,210,210}
+\definecolor{amarilloclaro}{RGB}{255,249,196}
+\definecolor{grisclaro}{RGB}{245,245,245}
+
+\tcbuselibrary{skins, breakable}
+
+% ---- Encabezado ----
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{azulul}\textbf{<<CURSO>> -- Gu\'ia <<GUIA_NUM>>}}
+\rhead{\color{azulul}Ejercicio <<EJ_NUM>>: <<EJ_TITULO>>}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azulul}\leaders\hrule height \headrulewidth\hfill}}
+
+% ---- Cajas de colores (no modificar) ----
+\newtcolorbox{cajaenunciado}{
+  colback=azulclaro!40, colframe=azulul, fonttitle=\bfseries,
+  title=Enunciado del Ejercicio <<EJ_NUM>>, breakable
+}
+\newtcolorbox{cajaintuicion}[1]{
+  colback=verdeclaro!60, colframe=green!50!black, fonttitle=\bfseries,
+  title={Intuici\'on: #1}, breakable
+}
+\newtcolorbox{cajaresultado}{
+  colback=verdeclaro!80, colframe=green!40!black, fonttitle=\bfseries\large,
+  title=Resultado Final, halign title=center
+}
+\newtcolorbox{cajaformula}{
+  colback=azulclaro!20, colframe=azulul!80, fonttitle=\bfseries,
+  title=F\'ormula clave, breakable
+}
+\newtcolorbox{cajareflexion}[1]{
+  colback=amarilloclaro, colframe=orange!70!black, fonttitle=\bfseries,
+  title={Reflexi\'on: #1}, breakable
+}
+
+\begin{document}
+
+% ========================
+%  PORTADA
+% ========================
+\begin{titlepage}
+\centering
+\vspace*{1cm}
+
+{\color{azulul}\rule{\linewidth}{1.5pt}}
+\vspace{0.5cm}
+
+{\large\textbf{UNIVERSIDAD DE LIMA}\\[0.2cm]
+<<FACULTAD>>\\
+<<CARRERA>>}
+
+\vspace{1.5cm}
+
+{\LARGE\color{azulul}\textbf{<<CURSO_MAYUS>>}}\\[0.4cm]
+{\Large Gu\'ia de Pr\'actica <<GUIA_NUM>> --- <<GUIA_TEMA>>}
+
+\vspace{1.5cm}
+
+{\color{azulul}\rule{0.6\linewidth}{0.8pt}}\\[0.5cm]
+{\LARGE\textbf{Soluci\'on: Ejercicio <<EJ_NUM>>}}\\[0.3cm]
+{\Large\textit{<<EJ_TITULO>>}}\\[0.3cm]
+{\Large\textit{<<EJ_SUBTITULO>>}}\\[0.5cm]
+{\color{azulul}\rule{0.6\linewidth}{0.8pt}}
+
+\vspace{2cm}
+
+%% Cuadro de datos clave — ajustar filas según el problema
+\begin{tcolorbox}[colback=azulclaro!30, colframe=azulul, width=0.75\linewidth, halign=center]
+\centering
+\textbf{Datos clave del problema}\\[0.4cm]
+\begin{tabular}{ll}
+%% <<DATO_1_LABEL>>: & <<DATO_1_VALOR>> \\
+%% <<DATO_2_LABEL>>: & <<DATO_2_VALOR>> \\
+%% <<DATO_3_LABEL>>: & <<DATO_3_VALOR>> \\
+%% Agregar/quitar filas según necesidad
+\end{tabular}
+\end{tcolorbox}
+
+\vfill
+{\large <<FECHA>>}
+
+{\color{azulul}\rule{\linewidth}{1.5pt}}
+\end{titlepage}
+
+% ========================
+%  ENUNCIADO
+% ========================
+\begin{cajaenunciado}
+%%  Pegar aquí el texto del enunciado tal como aparece en la guía.
+%%  Usar \textbf{} para destacar datos numéricos clave.
+<<TEXTO_ENUNCIADO>>
+\end{cajaenunciado}
+
+\vspace{0.5cm}
+
+% ========================
+%  INTUICIÓN GENERAL
+% ========================
+\begin{cajaintuicion}{<<TITULO_INTUICION_GENERAL>>}
+%%  Explicar el modelo/concepto central que se usará para resolver el ejercicio.
+%%  Incluir la ecuación general si aplica.
+\[
+<<ECUACION_GENERAL>>
+\]
+<<TEXTO_INTUICION_GENERAL>>
+\end{cajaintuicion}
+
+\vspace{0.5cm}
+
+%%  Tabla resumen de fases/etapas si aplica (opcional)
+\noindent <<INTRO_TABLA_FASES>>
+
+\begin{center}
+\begin{tabular}{clcp{5.5cm}}
+\toprule
+\textbf{Fase} & \textbf{Per\'iodo} & \textbf{Par\'ametro} & \textbf{Raz\'on econ\'omica} \\
+\midrule
+%% <<FASE_1>> & <<PERIODO_1>> & <<PARAM_1>> & <<RAZON_1>> \\
+%% <<FASE_2>> & <<PERIODO_2>> & <<PARAM_2>> & <<RAZON_2>> \\
+%% <<FASE_3>> & <<PERIODO_3>> & <<PARAM_3>> & <<RAZON_3>> \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1cm}
+
+% ========================
+%  PASO 1
+% ========================
+\section{Paso 1: <<TITULO_PASO_1>>}
+
+\begin{cajaintuicion}{<<TITULO_INTUICION_PASO_1>>}
+<<TEXTO_INTUICION_PASO_1>>
+\end{cajaintuicion}
+
+%%  Desarrollo del Paso 1
+%%  Usar \subsection*{} para sub-partes si hay varias etapas
+
+%% Ejemplo de subsección:
+%% \subsection*{<<SUBTITULO_1A>>}
+%% <<DESARROLLO_1A>>
+%% \begin{align}
+%%   <<ECUACION_1>> &= <<RESULTADO_1>> \\
+%% \end{align}
+
+\vspace{1cm}
+
+% ========================
+%  PASO 2
+% ========================
+\section{Paso 2: <<TITULO_PASO_2>>}
+
+\begin{cajaintuicion}{<<TITULO_INTUICION_PASO_2>>}
+<<TEXTO_INTUICION_PASO_2>>
+\end{cajaintuicion}
+
+\begin{cajaformula}
+%%  Escribir aquí la fórmula clave de este paso
+\[
+<<FORMULA_CLAVE_PASO_2>>
+\]
+\end{cajaformula}
+
+%%  Desarrollo del Paso 2
+\begin{align}
+%% <<VARIABLE_1>> &= <<EXPRESION_1>> = \mathbf{<<RESULTADO_1>>} \\[6pt]
+%% <<VARIABLE_2>> &= <<EXPRESION_2>> = \mathbf{<<RESULTADO_2>>}
+\end{align}
+
+\vspace{1cm}
+
+% ========================
+%  PASO 3
+% ========================
+\section{Paso 3: <<TITULO_PASO_3>>}
+
+\begin{cajaintuicion}{<<TITULO_INTUICION_PASO_3>>}
+<<TEXTO_INTUICION_PASO_3>>
+\end{cajaintuicion}
+
+%%  Fórmula completa del paso 3
+\[
+<<FORMULA_COMPLETA_PASO_3>>
+\]
+
+%%  Tabla resumen de resultados intermedios
+\begin{center}
+\begin{tabular}{clrr}
+\toprule
+\textbf{Per\'iodo} & \textbf{Flujo} & \textbf{Valor (US\$)} & \textbf{Valor Presente (US\$)} \\
+\midrule
+%% Filas del cálculo...
+\midrule
+ & \textbf{TOTAL} & & \textbf{<<TOTAL_VP>>} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+\boxed{<<RESULTADO_INTERMEDIO_PASO_3>>}
+\]
+
+\vspace{1cm}
+
+% ========================
+%  PASO 4  (agregar o quitar pasos según el ejercicio)
+% ========================
+\section{Paso 4: <<TITULO_PASO_4>>}
+
+\begin{cajaintuicion}{<<TITULO_INTUICION_PASO_4>>}
+<<TEXTO_INTUICION_PASO_4>>
+\end{cajaintuicion}
+
+\[
+<<FORMULA_PASO_4>>
+\]
+
+\begin{tcolorbox}[colback=verdeclaro!80, colframe=green!40!black,
+                  halign=center, boxsep=8pt]
+\Large
+\[
+\boxed{\textbf{<<RESULTADO_FINAL_DESTACADO>>}}
+\]
+\end{tcolorbox}
+
+\vspace{1cm}
+
+% ========================
+%  RESULTADO FINAL
+% ========================
+\begin{cajaresultado}
+\begin{center}
+\large
+\begin{tabular}{p{7cm}p{5.5cm}}
+%% <<LABEL_RESULTADO_1>>: & <<VALOR_RESULTADO_1>> \\[4pt]
+%% <<LABEL_RESULTADO_2>>: & <<VALOR_RESULTADO_2>> \\[4pt]
+%% <<LABEL_RESULTADO_3>>: & \textbf{<<VALOR_RESULTADO_3>>} \\
+\end{tabular}
+\end{center}
+\end{cajaresultado}
+
+\vspace{1cm}
+
+% ========================
+%  REFLEXIÓN
+% ========================
+\begin{cajareflexion}{<<REFLEXION_Q>>}
+%%  Análisis adicional, caso especial, o lección clave del ejercicio.
+<<TEXTO_REFLEXION>>
+
+\textbf{Lecci\'on clave:} <<LECCION_CLAVE>>
+\end{cajareflexion}
+
+\vspace{1cm}
+
+% ========================
+%  LÍNEA DE TIEMPO  (ajustar coordenadas según número de períodos)
+% ========================
+\newpage
+\section*{L\'inea de Tiempo del Problema}
+
+\vspace{0.5cm}
+
+\begin{center}
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[scale=0.95, font=\small]
+
+%% ---- Eje temporal ----
+\draw[thick, -{Stealth}] (-0.3, 0) -- (14.5, 0) node[right] {Tiempo};
+
+%% ---- Marcas en el eje (ajustar \foreach según períodos) ----
+%% Ejemplo para t=0..7+:
+%% \foreach \x/\t in {0/0, 1.8/1, 3.6/2, 5.4/3, 7.2/4, 9.0/5, 10.8/6, 12.6/7+} {
+%%   \draw[thick] (\x, 0.12) -- (\x, -0.12);
+%%   \node[below=4pt] at (\x, 0) {$t=\t$};
+%% }
+
+%% ---- Fases (rectángulos sombreados) ----
+%% \fill[green!25] (0, 0.5) rectangle (5.4, 1.6);
+%% \draw[green!60!black, thick] (0, 0.5) rectangle (5.4, 1.6);
+%% \node[align=center] at (2.7, 1.05) {\textbf{Fase 1}\\<<PARAM_FASE_1>>};
+
+%% ---- Flechas de flujos ----
+%% \foreach \x/\d in {1.8/<<F1>>, 3.6/<<F2>>, ...} {
+%%   \draw[blue!70!black, -{Stealth}, thick] (\x, 0) -- (\x, -1.2);
+%%   \node[below=2pt, blue!70!black, align=center] at (\x, -1.3) {\$\d};
+%% }
+
+%% ---- Valor terminal ----
+%% \draw[purple!80!black, -{Stealth}, very thick] (<<XT>>, 0) -- (<<XT>>, -2.3);
+%% \node[below=2pt, purple!80!black, align=center] at (<<XT>>, -2.4)
+%%   {$P_{<<T>>}=\$<<PT>>$\\(perpetuidad)};
+
+%% ---- Corchete "Descuentan a hoy" ----
+%% \draw[thick, decorate, decoration={brace, amplitude=8pt, mirror}]
+%%   (-0.1, -2.9) -- (<<XMAX>>, -2.9);
+%% \node[below=10pt, align=center] at (<<XMID>>, -2.9)
+%%   {Todos estos flujos se descuentan\\a $t=0$};
+
+\end{tikzpicture}}
+\end{center}
+
+\vspace{0.8cm}
+
+% ========================
+%  VERIFICACIÓN NUMÉRICA
+% ========================
+\section*{Verificaci\'on num\'erica compacta}
+
+\begin{align*}
+%%  Escribir la suma compacta de VP aquí
+<<VERIFICACION_SUMA>>
+\end{align*}
+
+\[
+\Rightarrow\quad \boxed{\textbf{<<RESULTADO_VERIFICACION>>}}
+\]
+
+\end{document}

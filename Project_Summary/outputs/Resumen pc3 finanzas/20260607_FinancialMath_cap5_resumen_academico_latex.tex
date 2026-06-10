@@ -1,0 +1,705 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Cap\'itulo 5 --- Paseos Aleatorios y Movimiento Browniano}\\
+\large \textit{(Random Walks and Brownian Motion)}\\
+\normalsize J.~Robert~Buchanan, \textit{An Undergraduate Introduction to Financial Mathematics}, 2nd~ed.}
+\author{}
+\date{Junio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%%% =========================================================
+\section{Idea Intuitiva del Paseo Aleatorio (Intuitive Idea of a Random Walk)}
+%%% =========================================================
+
+\subsection{Motivaci\'on y definici\'on informal}
+
+El cap\'itulo modela el comportamiento estoc\'astico de precios de acciones, opciones
+e \'indices mediante \textbf{paseos aleatorios (random walks)}.
+La idea central proviene de un experimento simple: una persona parada en el origen
+de la recta real lanza una moneda repetidamente. Si sale cara avanza una unidad
+hacia la derecha; si sale cruz retrocede una unidad hacia la izquierda.
+La trayectoria resultante es una realizaci\'on del paseo aleatorio.
+
+\begin{intuicion}
+Un paseo aleatorio es la versi\'on matem\'atica de un jugador que apuesta una moneda
+una y otra vez. Su posici\'on va cambiando de forma impredecible,
+pero existe una estructura probabil\'istica precisa que gobierna cu\'ales posiciones
+puede alcanzar y con qu\'e probabilidad.
+\end{intuicion}
+
+Generalizaciones importantes:
+\begin{itemize}
+  \item La moneda no necesita ser justa ($p \neq 1/2$).
+  \item El tama\~no del paso puede variar en cada etapa.
+  \item El desplazamiento puede provenir de una distribuci\'on normal.
+\end{itemize}
+
+%%% =========================================================
+\section{An\'alisis del Primer Paso (First Step Analysis)}
+%%% =========================================================
+
+\subsection{Representaci\'on como suma parcial}
+
+Sea $X_n$ una variable aleatoria que toma el valor $+1$ con probabilidad
+$p = 1/2$ y el valor $-1$ con probabilidad $1/2$.
+Las $X_i$ se asumen \textbf{independientes e id\'enticamente distribuidas (i.i.d.)}.
+El \textbf{$N$-\'esimo estado del paseo (N-th state of the walk)} es la suma parcial:
+
+\begin{equation}
+  S(N) = S(0) + X_1 + X_2 + \cdots + X_N, \qquad N > 0.
+  \label{eq:rw}
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que la posici\'on actual del caminante es la posici\'on
+inicial m\'as la suma acumulada de todos los pasos dados. Cada $X_k$ es
+un salto aleatorio de $\pm 1$, de modo que $S(N)$ oscila alrededor del
+punto de partida. En finanzas, $S(N)$ puede interpretarse como el precio
+de un activo en el d\'ia $N$ si el precio cambia en $\pm 1$ cada d\'ia.
+\end{intuicionmat}
+
+\begin{intuicion}
+La ecuaci\'on~\eqref{eq:rw} es la piedra angular del cap\'itulo: conecta la posici\'on
+en el tiempo $N$ con todos los pasos previos. Sin ella no se puede calcular ninguna
+probabilidad ni tiempo de parada.
+\end{intuicion}
+
+La definici\'on inductiva equivalente es $S(N) = S(N-1) + X_N$ para $N > 0$.
+Sin p\'erdida de generalidad se toma $S(0) = 0$ (translaci\'on de variable
+$T(n) = S(n) - S(0)$).
+
+Si en $n$ pasos se dan $k \geq 0$ pasos positivos y $n-k \geq 0$ negativos,
+la probabilidad de alcanzar el estado $S(n) = 2k - n$ es:
+
+\begin{equation}
+  \mathrm{P}\!\left(T(n) = 2k - n\right) = \binom{n}{k}\!\left(\frac{1}{2}\right)^{\!n}.
+  \label{eq:binom}
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la f\'ormula binomial cl\'asica con $p = 1/2$. Indica que para llegar
+a la posici\'on $2k-n$ se necesitan exactamente $k$ pasos hacia la derecha entre
+$n$ pasos totales, y hay $\binom{n}{k}$ secuencias que logran eso, cada una con
+probabilidad $(1/2)^n$.
+\end{intuicionmat}
+
+\subsection{Lema 5.1: Estados alcanzables}
+
+\begin{tcolorbox}[colback=gray!5, colframe=gray!50, title=\textbf{Lema~5.1}]
+Para el paseo aleatorio~\eqref{eq:rw} con estado inicial $S(0)=0$:
+\begin{enumerate}
+  \item $\mathrm{P}(S(n)=m)=0$ si $|m|>n$,
+  \item $\mathrm{P}(S(n)=m)=0$ si $n+m$ es impar,
+  \item $\mathrm{P}(S(n)=m)=\displaystyle\binom{n}{(n+m)/2}\!\left(\frac{1}{2}\right)^{\!n}$
+        en caso contrario.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{intuicion}
+En $n$ pasos la posici\'on s\'olo puede cambiar como m\'aximo en $n$ unidades,
+por lo que $|S(n)| \leq n$. Adem\'as, cada paso cambia la paridad de la posici\'on,
+as\'i que despu\'es de $n$ pasos s\'olo son alcanzables estados con la misma paridad
+que $n$.
+\end{intuicion}
+
+\subsection{Condici\'on de frontera absorbente (Absorbing boundary condition)}
+
+En el modelo financiero el precio de un activo sigue un paseo aleatorio.
+Si el precio cae a cero, el activo no tiene valor y el caminante \emph{queda atrapado}.
+Formalmente:
+
+\begin{itemize}
+  \item Se define $m_n = \min\{S(k) : 0 \leq k \leq n\}$, el m\'inimo hist\'orico.
+  \item Si $S(0) > 0$ y la frontera inferior es $0$, en cuanto $m_i = 0$ se
+        impone $S(k) = 0$ para todo $k \geq i$.
+\end{itemize}
+
+Las dos preguntas centrales son:
+\begin{enumerate}
+  \item ?`Cu\'al es la probabilidad de cruzar un umbral $A > 0$ sin tocar la frontera $0$?
+  \item ?`Cu\'al es el n\'umero esperado de pasos antes de cruzar $A > 0$
+        por primera vez?
+\end{enumerate}
+
+\begin{intuicion}
+La frontera absorbente en $0$ modela la quiebra: una vez que el precio de la acci\'on
+llega a cero, el inversor pierde todo y el proceso se detiene. El umbral $A$
+representa un nivel de ganancia objetivo.
+\end{intuicion}
+
+\subsection{Lema 5.2: F\'ormula de reflexi\'on}
+
+\begin{tcolorbox}[colback=gray!5, colframe=gray!50, title=\textbf{Lema~5.2}]
+Bajo las condiciones de~\eqref{eq:rw} con $X_i = \pm 1$ equidistribuidas
+y frontera absorbente en $0$, para $A, i > 0$:
+\begin{equation}
+  \mathrm{P}(S(n) = A \wedge m_n > 0 \mid S(0) = i)
+  = \left[\binom{n}{(n+A-i)/2} - \binom{n}{(n-A-i)/2}\right]
+    \!\left(\frac{1}{2}\right)^{\!n}.
+  \label{eq:reflec}
+\end{equation}
+\end{tcolorbox}
+
+\textbf{Demostraci\'on (esquema).}
+Se aplica la \textbf{propiedad de homogeneidad espacial (spatial homogeneity)}:
+trasladar el origen transforma $\mathrm{P}(S(n)=A \mid S(0)=i)$ en
+$\mathrm{P}(S(n)=A-i \mid S(0)=0)$.
+Por \textbf{simetr\'ia del paseo no restringido (symmetry of the unrestricted walk)},
+$\mathrm{P}(S(n)=j \mid S(0)=0) = \mathrm{P}(S(n)=-j \mid S(0)=0)$.
+Cualquier trayectoria que toca la frontera $0$ puede \emph{reflejarse} en el eje,
+de modo que su peso probabil\'istico es igual al de la trayectoria reflejada
+que llega a $-A$ sin restricci\'on:
+\begin{equation*}
+  \mathrm{P}(S(n) = A \wedge m_n \leq 0 \mid S(0)=i)
+  = \binom{n}{(n-A-i)/2}\!\left(\frac{1}{2}\right)^{\!n}.
+\end{equation*}
+Restando del total (sin restricci\'on) se obtiene~\eqref{eq:reflec}. \hfill $\square$
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:reflec} cuantifica la probabilidad de \emph{llegar a $A$
+sin haber tocado $0$}. El primer t\'ermino cuenta todas las trayectorias que llegan
+a $A$; el segundo substrae las que pasaron por $0$ en alg\'un momento
+(usando el truco de reflejo: esas trayectorias tienen la misma probabilidad que
+las que llegan a $-A$ sin restricci\'on).
+\end{intuicionmat}
+
+\subsection{Notaci\'on compacta y tiempo de parada}
+
+Se define la funci\'on auxiliar:
+\begin{equation}
+  f_{A,i}(n) = \left[\binom{n}{(n+A-i)/2} - \binom{n}{(n-A-i)/2}\right]
+               \!\left(\frac{1}{2}\right)^{\!n}.
+\end{equation}
+
+El \textbf{tiempo de parada (stopping time)} $\Omega_A$ es la primera vez que
+$S(n) = A$. Se puede demostrar que:
+\begin{equation}
+  \mathrm{P}(\Omega_A = n \mid S(0) = i) = \tfrac{1}{2}\,f_{1,(i-A)}(n-1).
+\end{equation}
+
+\subsection{Ecuaci\'on de Laplace discreta y probabilidades de absorci\'on}
+
+Suponga que $0 < S(0) = i < A$ con fronteras absorbentes en $0$ y en $A$.
+Sea $\mathcal{P}_A(i)$ la probabilidad de que el paseo alcance $A$ evitando $0$.
+Descomponiendo en el primer paso:
+
+\begin{equation}
+  0 = \mathcal{P}_A(i-1) - 2\mathcal{P}_A(i) + \mathcal{P}_A(i+1),
+  \label{eq:laplace}
+\end{equation}
+
+con condiciones de frontera $\mathcal{P}_A(0) = 0$ y $\mathcal{P}_A(A) = 1$.
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:laplace} es la aproximaci\'on en diferencias finitas de la
+segunda derivada igualada a cero: $\mathcal{P}_A''(i) \approx 0$. Se llama
+\textbf{ecuaci\'on de Laplace discreta (discrete Laplacian equation)}.
+Matem\'aticamente dice que la probabilidad de llegar a $A$ en el estado $i$
+es el promedio de las probabilidades en los estados vecinos $i-1$ e $i+1$,
+lo cual es exactamente lo que uno esperar\'ia si cada paso es igualmente
+probable hacia la izquierda o la derecha.
+\end{intuicionmat}
+
+En forma matricial el sistema~\eqref{eq:laplace} con sus condiciones de frontera es:
+\begin{equation*}
+  \begin{bmatrix}
+    1 & 0 & 0 & \cdots & 0 & 0 \\
+    1 & -2 & 1 & \cdots & 0 & 0 \\
+    0 & 1 & -2 & \cdots & 0 & 0 \\
+    \vdots & & & \ddots & & \vdots \\
+    0 & 0 & 0 & \cdots & -2 & 1 \\
+    0 & 0 & 0 & \cdots & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix} \mathcal{P}_A(0) \\ \mathcal{P}_A(1) \\ \mathcal{P}_A(2) \\ \vdots \\
+  \mathcal{P}_A(A-1) \\ \mathcal{P}_A(A) \end{bmatrix}
+  =
+  \begin{bmatrix} 0 \\ 0 \\ 0 \\ \vdots \\ 0 \\ 1 \end{bmatrix}.
+\end{equation*}
+
+\subsection{Teorema 5.1: Probabilidades de absorci\'on}
+
+\begin{tcolorbox}[colback=gray!5, colframe=gray!50, title=\textbf{Teorema~5.1}]
+Bajo las condiciones del Lema~5.2 con fronteras absorbentes en $0$ y en $A$,
+si $0 \leq S(0) = i \leq A$:
+\begin{enumerate}
+  \item La probabilidad de alcanzar $A$ sin tocar $0$ es $\mathcal{P}_A(i) = i/A$.
+  \item La probabilidad de alcanzar $0$ sin tocar $A$ es $\mathcal{P}_0(i) = 1 - i/A$.
+\end{enumerate}
+\end{tcolorbox}
+
+\begin{intuicion}
+El resultado es sorprendentemente elegante: la probabilidad de ganar (llegar a $A$)
+es simplemente la fracci\'on de la distancia total que ya se ha recorrido.
+Si el precio de una acci\'on comienza en $\$5$ y uno quiere ganar si llega a $\$10$
+(o perder si llega a $\$0$), la probabilidad de ganar es exactamente $5/10 = 50\%$.
+\end{intuicion}
+
+\subsection{Ecuaci\'on de Poisson y tiempo esperado de salida}
+
+Sea $B = \{0, A\}$ el conjunto de las dos fronteras absorbentes.
+Define:
+\begin{itemize}
+  \item $\omega_{p_{i \to B}}$: tiempo de salida del camino $p_{i \to B}$ que parte de $S(0) = i$.
+  \item $\Omega_B(i)$: valor esperado del tiempo de salida para $S(0) = i$.
+\end{itemize}
+
+Descomponiendo en el primer paso se obtiene la recursi\'on:
+
+\begin{equation}
+  -2 = \Omega_B(i-1) - 2\Omega_B(i) + \Omega_B(i+1),
+  \label{eq:poisson}
+\end{equation}
+
+con $\Omega_B(0) = \Omega_B(A) = 0$.
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:poisson} es la \textbf{ecuaci\'on de Poisson discreta
+(discrete Poisson equation)}: es id\'entica a la de Laplace pero con lado derecho
+$-2$ en lugar de $0$. Ese $-2$ contabiliza el costo de un paso adicional
+que toma el proceso en cada estado interior.
+\end{intuicionmat}
+
+En forma matricial:
+\begin{equation}
+  \begin{bmatrix}
+    1 & 0 & \cdots & 0 & 0 \\
+    1 & -2 & \cdots & 0 & 0 \\
+    \vdots & & \ddots & & \vdots \\
+    0 & 0 & \cdots & -2 & 1 \\
+    0 & 0 & \cdots & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix} \Omega_B(0) \\ \Omega_B(1) \\ \vdots \\ \Omega_B(A-1) \\ \Omega_B(A) \end{bmatrix}
+  =
+  \begin{bmatrix} 0 \\ -2 \\ \vdots \\ -2 \\ 0 \end{bmatrix}.
+  \label{eq:poissonmat}
+\end{equation}
+
+\subsection{Eliminaci\'on gaussiana y sustituci\'on hacia atr\'as}
+
+Las matrices de los sistemas~\eqref{eq:laplace} y~\eqref{eq:poisson}
+son \textbf{matrices tridiagonales (tridiagonal matrices)}: todos sus elementos son
+cero excepto los de la diagonal principal, la subdiagonal y la superdiagonal.
+Se resuelven mediante:
+
+\begin{enumerate}
+  \item \textbf{Eliminaci\'on gaussiana (Gaussian elimination)}: se suman
+        m\'ultiplos de filas para convertir la \textbf{matriz aumentada (augmented matrix)}
+        en forma \textbf{triangular superior (upper triangular)}.
+        Tras aplicar el procedimiento por inducci\'on (multiplicando la fila $i$
+        por $1 - 1/i$ y sum\'andola a la fila $i+1$), la matriz aumentada del
+        sistema de Poisson queda:
+        \begin{equation}
+          \left[\begin{array}{ccccccc|c}
+            1 & 0 & 0 & \cdots & 0 & 0 & 0 & 0 \\
+            0 & -2 & 1 & \cdots & 0 & 0 & 0 & -2 \\
+            0 & 0 & -\tfrac{3}{2} & \cdots & 0 & 0 & 0 & -3 \\
+            \vdots & & & \ddots & & & & \vdots \\
+            0 & 0 & 0 & \cdots & -\tfrac{A}{A-1} & 1 & 0 & -A \\
+            0 & 0 & 0 & \cdots & 0 & 0 & 1 & 0
+          \end{array}\right].
+          \label{eq:upper}
+        \end{equation}
+  \item \textbf{Sustituci\'on hacia atr\'as (backwards substitution)}: conocido $\Omega_B(j)$
+        se recupera $\Omega_B(j-1)$ mediante:
+        \begin{equation}
+          \Omega_B(j-1) = j - 1 + \frac{j-1}{j}\,\Omega_B(j).
+          \label{eq:backsub}
+        \end{equation}
+\end{enumerate}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:backsub} es la clave de la sustituci\'on hacia atr\'as:
+dado que se conoce el tiempo esperado desde $j$, se puede calcular el tiempo
+esperado desde $j-1$ sin resolver el sistema completo de nuevo.
+\end{intuicionmat}
+
+\begin{intuicion}
+La eliminaci\'on gaussiana transforma un sistema de ecuaciones complicado en otro
+equivalente pero en forma escalonada, que se resuelve f\'acilmente de abajo hacia
+arriba. Es el m\'etodo est\'andar de \'algebra lineal num\'erica.
+\end{intuicion}
+
+\subsection{Teorema 5.2: Tiempo esperado de salida incondicional}
+
+\begin{tcolorbox}[colback=gray!5, colframe=gray!50, title=\textbf{Teorema~5.2}]
+Bajo las condiciones del Lema~5.2 con fronteras absorbentes en $0$ y en $A$,
+si $0 \leq S(0) = i \leq A$, el n\'umero esperado de pasos hasta alcanzar
+cualquiera de las dos fronteras es:
+\begin{equation}
+  \Omega_B(i) = i(A - i).
+  \label{eq:eb}
+\end{equation}
+\end{tcolorbox}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:eb} es notable: el tiempo esperado es una par\'abola c\'oncava
+en $i$ con m\'aximo en $i = A/2$. Si uno comienza a la mitad del camino,
+tarda m\'as en llegar a cualquiera de las dos fronteras. En los extremos
+($i = 0$ o $i = A$) ya est\'a en la frontera, as\'i que el tiempo es $0$.
+\end{intuicionmat}
+
+\textbf{Ejemplo 5.2.} Para $A = 4$ con $B = \{0, 4\}$:
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $i$ & $0$ & $1$ & $2$ & $3$ & $4$ \\
+  \midrule
+  $\Omega_B(i)$ & $0$ & $3$ & $4$ & $3$ & $0$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Tiempo de salida condicional (Conditional exit time)}
+
+El \textbf{tiempo de salida condicional (conditional exit time)} $\Omega_A(i)$ es el
+promedio de pasos para alcanzar la frontera $A$, condicionado a \emph{no tocar $0$}:
+
+\begin{equation}
+  \Omega_A(i) = \frac{\displaystyle\sum_{p_{i\to A}} P_{p_{i\to A}}\,\omega_{p_{i\to A}}}
+                     {\displaystyle\sum_{p_{i\to A}} P_{p_{i\to A}}}
+             = \frac{\displaystyle\sum_{p_{i\to A}} P_{p_{i\to A}}\,\omega_{p_{i\to A}}}
+                    {\mathcal{P}_A(i)}.
+  \label{eq:condexitdef}
+\end{equation}
+
+Definiendo $z_i = \mathcal{P}_A(i)\,\Omega_A(i)$ y aplicando el Teorema~5.1,
+la ecuaci\'on de movimiento resulta en el sistema tridiagonal:
+
+\begin{equation}
+  \begin{bmatrix}
+    1 & 0 & \cdots & 0 \\
+    1 & -2 & \cdots & 0 \\
+    \vdots & & \ddots & \vdots \\
+    0 & \cdots & -2 & 1 \\
+    0 & \cdots & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix} z_0 \\ z_1 \\ \vdots \\ z_{A-1} \\ z_A \end{bmatrix}
+  =
+  \begin{bmatrix} 0 \\ -2/A \\ -4/A \\ \vdots \\ -2(A-1)/A \\ 0 \end{bmatrix}.
+  \label{eq:condexitsys}
+\end{equation}
+
+\subsection{Teorema 5.3: Tiempo de salida condicional}
+
+\begin{tcolorbox}[colback=gray!5, colframe=gray!50, title=\textbf{Teorema~5.3}]
+Bajo las condiciones anteriores, sea $\mathbf{z} = \langle z_0, z_1, \ldots, z_A\rangle$
+la soluci\'on de~\eqref{eq:condexitsys}. El tiempo de salida condicional es:
+\begin{equation}
+  \Omega_A(i) = \frac{i \cdot z_i}{A}, \qquad i = 1, 2, \ldots, A.
+  \label{eq:condexit}
+\end{equation}
+\end{tcolorbox}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:condexit} combina la posici\'on inicial $i$, el tama\~no
+del objetivo $A$ y el vector auxiliar $z_i$ obtenido del sistema lineal.
+Refleja que el tiempo esperado condicionado depende tanto de qu\'e tan cerca
+se est\'a del objetivo como de la geometr\'ia global del problema.
+\end{intuicionmat}
+
+\textbf{Ejemplo 5.3.} Para $A = 5$ con frontera absorbente en $0$:
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $i$ & $1$ & $2$ & $3$ & $4$ & $5$ \\
+  \midrule
+  $z_i$ & $8/5$ & $14/5$ & $16/5$ & $12/5$ & $0$ \\
+  $\Omega_5(i)$ & $8$ & $7$ & $16/3$ & $3$ & $0$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+%%% =========================================================
+\section{Idea Intuitiva de un Proceso Estoc\'astico (Intuitive Idea of a Stochastic Process)}
+%%% =========================================================
+
+\subsection{Del modelo determin\'istico al modelo estoc\'astico}
+
+El punto de partida es el \textbf{modelo determin\'istico (deterministic model)} de
+crecimiento exponencial. Si la tasa de cambio de una cantidad $P \geq 0$ es
+proporcional a $P$:
+
+\begin{equation}
+  \frac{dP}{dt} = \mu P,
+  \label{eq:det}
+\end{equation}
+
+donde $\mu$ es la constante de proporcionalidad (\textbf{tasa de crecimiento (growth rate)}
+si $\mu > 0$, \textbf{tasa de decaimiento (decay rate)} si $\mu < 0$).
+La soluci\'on es $P(t) = P(0)\,e^{\mu t}$.
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:det} dice que el crecimiento porcentual por unidad de tiempo
+es constante e igual a $\mu$. Es el modelo m\'as simple posible para el
+precio de una acci\'on sin aleatoriedad.
+\end{intuicionmat}
+
+Dividiendo por $P$:
+\begin{equation}
+  \frac{dP}{P} = \mu\,dt.
+  \label{eq:logdet}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:logdet} expresa el rendimiento logar\'itmico
+(\textbf{log-return}) en cada instante: la variaci\'on porcentual del precio
+es $\mu\,dt$, determin\'istica.
+\end{intuicionmat}
+
+Con el cambio de variable $X = \ln P$:
+\begin{equation}
+  dX = \mu\,dt.
+  \label{eq:logX}
+\end{equation}
+
+Su an\'alogo discreto es:
+\begin{equation}
+  X(t + \Delta t) - X(t) = \Delta X = \mu\,\Delta t.
+  \label{eq:disc}
+\end{equation}
+
+\begin{intuicion}
+El modelo determin\'istico en log-precio es simplemente una l\'inea recta:
+$X$ crece a tasa constante $\mu$. No hay sorpresas ni fluctuaciones.
+Para capturar la aleatoriedad de los mercados reales hay que a\~nadir un componente
+estoc\'astico.
+\end{intuicion}
+
+\subsection{Introducci\'on del componente estoc\'astico y volatilidad}
+
+Se introduce una variable aleatoria normal $dz(t)$ con media $0$ y
+desviaci\'on est\'andar $1$, independiente en distintos instantes de tiempo.
+El \textbf{modelo estoc\'astico (stochastic model)} para el incremento del log-precio es:
+
+\begin{equation}
+  \Delta X = \mu\,\Delta t + \sigma\,dz(t)\sqrt{\Delta t},
+  \label{eq:stoch}
+\end{equation}
+
+donde $\sigma > 0$ se denomina \textbf{volatilidad (volatility)}.
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:stoch} tiene dos componentes: (1) la parte determin\'istica
+$\mu\,\Delta t$, que es la tendencia promedio, y (2) la parte estoc\'astica
+$\sigma\,dz(t)\sqrt{\Delta t}$, que es el ``ruido'' aleatorio. El factor
+$\sqrt{\Delta t}$ garantiza que la varianza del ruido sea proporcional a $\Delta t$,
+lo cual es indispensable para que el proceso tenga propiedades razonables en el
+l\'imite continuo.
+\end{intuicionmat}
+
+\begin{intuicion}
+La volatilidad $\sigma$ mide cu\'anto ``ruido'' tiene el precio. Una acci\'on
+con alta volatilidad puede subir o bajar mucho cada d\'ia; una con baja volatilidad
+se mueve poco. En mercados financieros, $\sigma$ es uno de los par\'ametros
+m\'as importantes para valorar opciones.
+\end{intuicion}
+
+\subsection{Media y varianza del incremento acumulado}
+
+Considerando el cambio acumulado sobre el intervalo $[t_i, t_j]$ con
+$t_j = t_i + (j-i)\Delta t$:
+
+\begin{equation}
+  \Delta X = X(t_j) - X(t_i) = \sum_{k=i}^{j-1}\left(\mu\,\Delta t + \sigma\,dz(t_k)\sqrt{\Delta t}\right).
+  \label{eq:accum}
+\end{equation}
+
+Como los $dz(t_k)$ son independientes con media $0$:
+
+\begin{align}
+  \mathrm{E}[\Delta X] &= \sum_{k=i}^{j-1} \mu\,\Delta t
+                        = \mu(j-i)\Delta t = \mu(t_j - t_i).
+  \label{eq:mean}
+\end{align}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:mean} dice que el valor esperado del cambio en log-precio
+es la tasa de crecimiento $\mu$ multiplicada por la duraci\'on del intervalo.
+El componente estoc\'astico desaparece al tomar la esperanza porque tiene media
+cero. El resultado es igual al modelo determin\'istico.
+\end{intuicionmat}
+
+La varianza del incremento es:
+
+\begin{align}
+  \mathrm{Var}(\Delta X) &= \sigma^2\,\Delta t\,\mathrm{Var}\!\left(\sum_{k=i}^{j-1} dz(t_k)\right)
+                          = \sigma^2\,\Delta t\,(j-i)
+                          = \sigma^2(t_j - t_i).
+  \label{eq:var}
+\end{align}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:var} revela la raz\'on de incluir $\sqrt{\Delta t}$
+en~\eqref{eq:stoch}: hace que la varianza de $\Delta X$ sea \emph{lineal} en
+la duraci\'on del intervalo. Sin el factor $\sqrt{\Delta t}$, la varianza
+depender\'ia cuadr\'aticamente de $\Delta t$, lo cual es incompatible con las
+propiedades del movimiento browniano continuo.
+\end{intuicionmat}
+
+\subsection{Proceso de Wiener y paseo aleatorio geom\'etrico}
+
+Se introduce la notaci\'on $dW(t)$ para una variable normal con media $0$ y
+varianza $\Delta t$, es decir, $dW(t) = dz(t)\sqrt{\Delta t}$.
+El \textbf{proceso de Wiener (Wiener process)} o \textbf{movimiento browniano
+(Brownian motion)} es el l\'imite continuo cuando $\Delta t \to 0$.
+
+La ecuaci\'on del paseo aleatorio discreta puede reescribirse como:
+
+\begin{align}
+  X(t_{i+1}) &= X(t_i) + \mu\,\Delta t + \sigma\,dW(t_i), \notag \\
+  \ln P(t_{i+1}) &= \ln P(t_i) + \mu\,\Delta t + \sigma\,dW(t_i), \notag \\
+  P(t_{i+1}) &= P(t_i)\,e^{\mu\,\Delta t + \sigma\,dW(t_i)}.
+  \label{eq:geoRW}
+\end{align}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:geoRW} es el \textbf{paseo aleatorio geom\'etrico
+(geometric random walk)}: el precio futuro es el precio actual multiplicado por
+un factor aleatorio log-normal. Es el modelo discreto subyacente al famoso
+proceso de Black-Scholes en el l\'imite continuo.
+\end{intuicionmat}
+
+\begin{intuicion}
+El precio del activo se multiplica en cada paso por el factor
+$e^{\mu\,\Delta t + \sigma\,dW}$. Cuando $\sigma = 0$ se recupera el crecimiento
+determin\'istico $e^{\mu\Delta t}$. Con $\sigma > 0$ aparece la aleatoriedad
+log-normal que caracteriza a los modelos de precios de acciones.
+\end{intuicion}
+
+%%% =========================================================
+\section{Ejemplo del Mercado Accionario (Stock Market Example)}
+%%% =========================================================
+
+\subsection{Estimaci\'on de par\'ametros con datos reales}
+
+Se aplica el modelo~\eqref{eq:stoch} a 248 d\'ias de negociaci\'on de las acciones
+de \textit{Sony Corporation} (13~agosto~2001 -- 12~agosto~2002).
+
+\textbf{Procedimiento:}
+\begin{enumerate}
+  \item Se toman los precios de cierre $P_t$ y se calcula $X_t = \ln P_t$.
+  \item Se forman los incrementos $\Delta X_t = X_{t+1} - X_t$
+        (diferencias logar\'itmicas consecutivas). Con $\Delta t = 1$ (datos diarios):
+        \begin{equation}
+          \Delta X_t = \mu \cdot 1 + \sigma\,dz(t)\sqrt{1} = \mu + \sigma\,dz(t).
+          \label{eq:daily}
+        \end{equation}
+  \item Si el modelo es correcto, los $\Delta X_t$ deben seguir una distribuci\'on normal.
+        La media muestral estima $\mu$ y la desviaci\'on est\'andar muestral estima $\sigma$.
+\end{enumerate}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:daily} con $\Delta t = 1$ reduce el modelo a una regresi\'on
+simple: la distribuci\'on de los retornos diarios es $\mathcal{N}(\mu, \sigma^2)$.
+Estimar $\mu$ y $\sigma$ es equivalente a calcular la media y desviaci\'on est\'andar
+de la muestra $\{\Delta X_t\}$.
+\end{intuicionmat}
+
+\textbf{Resultados emp\'iricos para Sony:}
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Par\'ametro & Estimaci\'on \\
+  \midrule
+  $\mu$ (media diaria) & $\approx -0.000555\ \text{d\'ia}^{-1}$ \\
+  $\sigma$ (volatilidad diaria) & $\approx 0.028139\ \text{d\'ia}^{-1}$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{intuicion}
+El valor negativo de $\hat{\mu}$ indica que en promedio el precio de Sony cay\'o
+ligeramente cada d\'ia durante ese per\'iodo (coincide con el entorno posterior
+al 11-S). La volatilidad $\hat{\sigma} \approx 2.8\%$ diaria es t\'ipica de
+una acci\'on de gran capitalizaci\'on. A pesar de la aparente aleatoriedad, los
+datos tienen una estructura estad\'istica clara.
+\end{intuicion}
+
+%%% =========================================================
+\section{Resumen y Conclusiones}
+%%% =========================================================
+
+El cap\'itulo establece los fundamentos probabil\'isticos y estoc\'asticos necesarios
+para modelar precios de activos financieros. Los resultados principales son:
+
+\begin{itemize}
+
+  \item \textbf{Representaci\'on del paseo aleatorio:}
+        $S(N) = S(0) + \sum_{k=1}^N X_k$ con $X_k = \pm 1$ equidistribuidos e i.i.d.
+        La distribuci\'on de $S(n)$ es binomial con $p = 1/2$; en $n$ pasos s\'olo son
+        alcanzables los estados con la misma paridad que $n$ (Lema~5.1).
+
+  \item \textbf{Principio de reflexi\'on:}
+        La f\'ormula de Lema~5.2 permite calcular la probabilidad de alcanzar un umbral $A$
+        sin tocar la frontera absorbente en $0$ substrayendo el peso de los caminos
+        reflejados.
+
+  \item \textbf{Probabilidades de absorci\'on (Teorema~5.1):}
+        Con dos fronteras absorbentes en $0$ y $A$, $\mathcal{P}_A(i) = i/A$ y
+        $\mathcal{P}_0(i) = 1 - i/A$. La probabilidad de ruina es proporcional a la
+        distancia al objetivo.
+
+  \item \textbf{Tiempo esperado de salida (Teorema~5.2):}
+        $\Omega_B(i) = i(A-i)$, obtenido resolviendo la ecuaci\'on de Poisson discreta
+        mediante eliminaci\'on gaussiana y sustituci\'on hacia atr\'as.
+
+  \item \textbf{Tiempo de salida condicional (Teorema~5.3):}
+        $\Omega_A(i) = i\,z_i/A$, donde $\mathbf{z}$ resuelve un sistema tridiagonal
+        con lado derecho que incorpora las probabilidades de absorci\'on.
+
+  \item \textbf{Modelo estoc\'astico continuo:}
+        El modelo discreto $\Delta X = \mu\,\Delta t + \sigma\,dz\sqrt{\Delta t}$
+        tiene media $\mu(t_j - t_i)$ y varianza $\sigma^2(t_j - t_i)$. La inclusi\'on
+        de $\sqrt{\Delta t}$ garantiza la linearidad de la varianza. En el l\'imite
+        $\Delta t \to 0$ se obtiene el proceso de Wiener $dX = \mu\,dt + \sigma\,dW$.
+
+  \item \textbf{Aplicaci\'on emp\'irica:}
+        Los retornos logar\'itmicos diarios de Sony Corporation presentan una
+        distribuci\'on aproximadamente normal con $\hat{\mu} \approx -5.55 \times 10^{-4}$
+        d\'ia$^{-1}$ y $\hat{\sigma} \approx 2.81 \times 10^{-2}$ d\'ia$^{-1}$,
+        consistente con el modelo estoc\'astico propuesto.
+
+\end{itemize}
+
+\end{document}

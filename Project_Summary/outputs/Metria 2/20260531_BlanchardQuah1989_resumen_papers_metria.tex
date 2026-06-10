@@ -1,0 +1,396 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt, arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{hallazgo}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Hallazgo emp\'irico,
+  boxrule=0.6pt, arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: The Dynamic Effects of Aggregate Demand and Supply Disturbances}\\[6pt]
+\large Efectos din\'amicos de las perturbaciones de demanda y oferta agregadas\\[4pt]
+\normalsize Olivier Jean Blanchard y Danny Quah,
+\textit{The American Economic Review}, Vol.~79, No.~4, septiembre 1989, pp.~655--673}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%=============================================================
+\section{Motivaci\'on y Pregunta de Investigaci\'on}
+%=============================================================
+
+\subsection{El problema de la ra\'iz unitaria en el GNP}
+
+Es ampliamente aceptado que el \textbf{producto bruto nacional (Gross National Product, GNP)} se caracteriza razonablemente como un \textbf{proceso de ra\'iz unitaria (unit root process)}: una innovaci\'on positiva en el GNP lleva a revisar al alza el pron\'ostico del GNP para todos los horizontes temporales. Esta conclusi\'on fue establecida influyentemente por Nelson y Plosser (1982) y confirmada por Campbell y Mankiw (1987), Cochrane (1988) y Watson (1986), entre otros.
+
+Si hubiera un \'unico tipo de perturbaci\'on en la econom\'ia, la implicaci\'on ser\'ia directa. El problema surge cuando el GNP es afectado por \emph{m\'as de un tipo de perturbaci\'on}, como es probable. En ese caso, la \textbf{representaci\'on de media m\'ovil univariada (univariate moving average representation)} del producto es una combinaci\'on de las respuestas din\'amicas a cada perturbaci\'on, y no es posible recuperar los efectos estructurales de cada tipo de shock a partir de la serie del GNP en solitario.
+
+\begin{intuicion}
+El GNP tiene ra\'iz unitaria: sus shocks persisten. Pero si existen dos tipos de shocks ---uno permanente y uno transitorio--- la serie univariada del GNP mezcla ambos y no permite identificarlos. La soluci\'on es incorporar una segunda variable (el desempleo) que reacciona a los mismos shocks pero de forma diferente, permitiendo separarlos con una restricci\'on econ\'omica.
+\end{intuicion}
+
+\subsection{La pregunta central y la estrategia de identificaci\'on}
+
+La pregunta central es: \textbf{\textquestiondown Cu\'ales son los efectos din\'amicos de las perturbaciones de demanda y de oferta sobre el producto y el desempleo?}
+
+Blanchard y Quah proponen estudiar el \textbf{comportamiento conjunto (joint behavior)} del GNP y el desempleo, imponiendo la siguiente \textbf{restricci\'on de largo plazo (long-run restriction)} para identificar los dos tipos de perturbaciones:
+
+\begin{itemize}
+  \item \textbf{Perturbaciones de oferta (supply disturbances)}: tienen efecto permanente sobre el nivel del producto.
+  \item \textbf{Perturbaciones de demanda (demand disturbances)}: tienen efecto s\'olo transitorio sobre el nivel del producto, es decir, no tienen efecto de largo plazo sobre el nivel de $Y$.
+  \item Ninguna de las dos perturbaciones tiene efecto de largo plazo sobre el desempleo.
+  \item Ambas perturbaciones son \textbf{no correlacionadas en todos los rezagos y adelantos (uncorrelated at all leads and lags)}.
+\end{itemize}
+
+Estas restricciones son suficientes para identificar exactamente los dos tipos de perturbaciones y sus efectos din\'amicos sobre el producto y el desempleo.
+
+\begin{intuicion}
+La restricci\'on de identificaci\'on es econ\'omica y estructural: en la visi\'on keynesiana tradicional, los shocks de demanda (monetarios, fiscales) tienen efectos reales solo en el corto plazo gracias a las rigideces de precios y salarios. En el largo plazo, solo la tecnolog\'ia (oferta) puede mover el producto potencial. Esta asunci\'on ---que la demanda no mueve el producto en el largo plazo--- es suficiente para separar los dos shocks a partir del VAR bivariado.
+\end{intuicion}
+
+%=============================================================
+\section{Identificaci\'on: El Modelo SVAR con Restricci\'on de Largo Plazo}
+%=============================================================
+
+\subsection{Representaci\'on estructural de media m\'ovil}
+
+Sea $X(t) = (\Delta Y,\; U)'$, donde $Y$ es el logaritmo del GNP y $U$ es la tasa de desempleo. Los supuestos del modelo implican que $X$ sigue el proceso estacionario:
+
+\begin{equation}
+  X(t) = \sum_{j=0}^{\infty} A(j)\, e(t-j), \qquad \mathrm{Var}(e) = I
+\end{equation}
+
+donde $e = (e_d,\; e_s)'$ es el vector de perturbaciones estructurales (demanda y oferta). La normalizaci\'on $\mathrm{Var}(e) = I$ es conveniente dado que los shocks son ortogonales. La restricci\'on de largo plazo sobre la demanda se expresa como:
+\[
+  \sum_{j=0}^{\infty} a_{11}(j) = 0
+\]
+donde $a_{11}(j)$ es el elemento $(1,1)$ de $A(j)$, es decir, el efecto de $e_d$ sobre $\Delta Y$ despu\'es de $j$ per\'iodos. La suma acumulada sobre todos los rezagos mide el efecto de $e_d$ sobre el \emph{nivel} de $Y$: que sea cero significa que el shock de demanda no mueve el producto en el largo plazo.
+
+\begin{intuicion}
+La ecuaci\'on (1) expresa el producto y el desempleo como medias m\'oviles de los shocks estructurales de demanda y oferta. La restricci\'on clave es que los coeficientes de demanda sobre el crecimiento del producto sumen cero: el shock de demanda puede mover el crecimiento en el corto plazo (coeficientes individuales distintos de cero), pero su efecto acumulado sobre el \emph{nivel} del producto es cero.
+\end{intuicion}
+
+\subsection{Recuperaci\'on desde los datos}
+
+Dado que $X$ es estacionario, tiene una \textbf{representaci\'on de Wold (Wold moving average representation)}:
+\[
+  X(t) = \sum_{j=0}^{\infty} C(j)\, v(t-j), \qquad \mathrm{Var}(v) = \Omega
+\]
+Los vectores de innovaciones reducidas $v$ y las perturbaciones estructurales $e$ se relacionan mediante $v = A(0)e$, de donde $A(j) = C(j)A(0)$ para todo $j$. El procedimiento operativo para recuperar $A(0)$ es:
+
+\begin{enumerate}
+  \item Estimar un \textbf{VAR reducido (reduced-form VAR)} para $X$ con 8 rezagos e invertirlo para obtener la representaci\'on de Wold $\{C(j)\}$ y la matriz de covarianza $\Omega$.
+  \item Calcular el \textbf{factor de Choleski (Cholesky factor)} inferior $S$ de $\Omega$. Cualquier $A(0)$ tal que $A(0)A(0)' = \Omega$ es una transformaci\'on ortonormal de $S$.
+  \item La restricci\'on $\sum_{j=0}^{\infty} a_{11}(j) = 0$ equivale a que el elemento superior izquierdo de $\bigl(\sum_{j=0}^{\infty}C(j)\bigr)A(0)$ sea cero. Esta condici\'on de ortogonalidad determina \'unicamente la transformaci\'on ortonormal que convierte $S$ en $A(0)$.
+  \item Recuperar los shocks estructurales: $e_t = A(0)^{-1}v_t$, y las funciones de respuesta al impulso: $A(j) = C(j)A(0)$.
+\end{enumerate}
+
+El m\'etodo es un \textbf{VAR estructural (Structural VAR, SVAR)} identificado mediante restricciones de largo plazo, a diferencia de los SVAR con restricciones contempor\'aneas (restricciones en $A(0)$).
+
+\begin{intuicion}
+El truco t\'ecnico es elegir la \'unica rotaci\'on del factor de Choleski que impone que el shock de demanda no tenga efecto acumulado sobre el nivel del producto. A partir de esa rotaci\'on \'unica, se obtienen las funciones de respuesta al impulso estructurales. Todo el an\'alisis se puede implementar estimando primero un VAR ordinario e invirtiendo para obtener la representaci\'on de media m\'ovil.
+\end{intuicion}
+
+%=============================================================
+\section{Interpretaci\'on Econ\'omica de las Perturbaciones}
+%=============================================================
+
+\subsection{Un modelo keynesiano ilustrativo (Fischer 1977)}
+
+Para dar contenido econ\'omico a las perturbaciones, los autores presentan una variante del modelo de Fischer (1977) con cuatro ecuaciones:
+\begin{itemize}
+  \item \textbf{Demanda agregada}: el producto depende de los balances reales ($M - P$) y la productividad $\theta$ (con coeficiente $a > 0$ si la productividad afecta la inversi\'on).
+  \item \textbf{Funci\'on de producci\'on}: $Y = N + \theta$, con rendimientos constantes a escala.
+  \item \textbf{Fijaci\'on de precios}: el nivel de precios es funci\'on del salario nominal y la productividad.
+  \item \textbf{Fijaci\'on de salarios}: los salarios se fijan un per\'iodo antes con el objetivo de alcanzar el pleno empleo esperado (\textbf{rigidez nominal, nominal rigidity}).
+\end{itemize}
+
+Las perturbaciones ex\'ogenas son innovaciones a la oferta monetaria ($e_d$, demanda) y a la productividad ($e_s$, oferta), ambas siguiendo caminatas aleatorias. Resolviendo el modelo se verifica que:
+\begin{itemize}
+  \item Los shocks de demanda ($e_d$) tienen efectos reales de corto plazo (rigideces nominales), pero desaparecen en el largo plazo: cumplen la restricci\'on $\sum a_{11}(j) = 0$.
+  \item Los shocks de oferta ($e_s$, productividad) tienen efecto permanente sobre el nivel del producto.
+  \item Ninguno de los dos shocks tiene efecto de largo plazo sobre el desempleo.
+\end{itemize}
+
+\begin{intuicion}
+El modelo muestra que la restricci\'on de identificaci\'on es perfectamente consistente con la teor\'ia keynesiana est\'andar: las rigideces nominales de salarios hacen que los shocks monetarios (demanda) muevan el producto en el corto plazo, pero con el ajuste del salario el efecto desaparece. La productividad (oferta) es la \'unica fuente de crecimiento permanente del producto.
+\end{intuicion}
+
+\subsection{Limitaciones de la interpretaci\'on}
+
+Los autores reconocen tres advertencias importantes:
+
+\begin{enumerate}
+  \item \textbf{Efectos de largo plazo de la demanda (long-run effects of demand)}: cambios fiscales, en la tasa de descuento subjetiva, retornos crecientes o \textit{learning by doing} podr\'ian generar efectos permanentes de la demanda sobre el producto. Los autores prueban en el Ap\'endice T\'ecnico que la descomposici\'on es ``aproximadamente correcta'' siempre que el efecto de largo plazo de la demanda sea peque\~no relativo al de la oferta.
+
+  \item \textbf{M\'ultiples perturbaciones (multiple disturbances)}: el mundo real tiene m\'as de dos fuentes de perturbaciones. Si hay m\'ultiples shocks de oferta con din\'amicas distintas, la identificaci\'on bivariada puede ser enga\~nosa. En el Ap\'endice, los autores demuestran un \textbf{Teorema de agregaci\'on}: la identificaci\'on bivariada es v\'alida si y solo si las respuestas distribuidas en el tiempo de las distintas variables son proporcionales entre s\'i para los diferentes shocks del mismo tipo. Esto se cumple, por ejemplo, si hay un \'unico shock de oferta dominante y m\'ultiples shocks de demanda que dejan inalterada la relaci\'on din\'amica entre producto y desempleo.
+
+  \item \textbf{Ortogonalidad}: el supuesto de que los dos shocks no est\'an correlacionados no impide que la oferta afecte directamente a la demanda agregada; solo restringe la fuente ex\'ogena de variaci\'on.
+\end{enumerate}
+
+\begin{intuicion}
+La advertencia m\'as seria es la de m\'ultiples shocks de oferta: si hubiera dos shocks de oferta igualmente importantes con din\'amicas distintas (por ejemplo, uno tecnol\'ogico y otro de recursos naturales), el SVAR bivariado los mezclar\'ia de forma arbitraria y los resultados ser\'ian dif\'iciles de interpretar. La advertencia m\'as leve es la de efectos permanentes de la demanda: si son peque\~nos, el estimador sigue siendo aproximadamente correcto.
+\end{intuicion}
+
+\subsection{Comparaci\'on con otros enfoques de identificaci\'on}
+
+\begin{itemize}
+  \item \textbf{Campbell y Mankiw (1987b)}: distinguen shocks de ``tendencia'' y ``ciclo'' imponiendo que los shocks de tendencia no afectan el desempleo --- lo que los autores consideran igualmente poco atractivo que su propia restricci\'on opuesta.
+  \item \textbf{Clark (1988)}: similar a Campbell--Mankiw pero con correlaci\'on contempor\'anea entre ciclo y tendencia. Constriñe din\'amicas en formas dif\'iciles de interpretar.
+  \item \textbf{Evans (1987)}: el m\'as cercano. Distingue shocks de ``desempleo'' y ``producto'', reinterpretables como oferta y demanda. En lugar de la restricci\'on de largo plazo, asume que los shocks de oferta no tienen efecto contempor\'aneo sobre el producto --- restricci\'on de corto plazo que Blanchard y Quah encuentran menos atractiva.
+\end{itemize}
+
+\begin{intuicion}
+La innovaci\'on metodol\'ogica clave es imponer una restricci\'on de \emph{largo plazo} (qui\'en puede mover el producto permanentemente) en lugar de una de \emph{corto plazo} (qui\'en afecta a qui\'en hoy). La primera tiene mayor respaldo en la teor\'ia macroecon\'omica est\'andar y es menos arbitraria.
+\end{intuicion}
+
+%=============================================================
+\section{Estimaci\'on}
+%=============================================================
+
+\subsection{Datos y muestra}
+
+\begin{itemize}
+  \item \textbf{Variables}: crecimiento del GNP real ($\Delta Y$) y tasa de desempleo masculina (20 a\~nos y m\'as), ajustada estacionalmente (Bureau of Labor Statistics).
+  \item \textbf{Muestra}: 1950:2 -- 1987:4 (datos trimestrales; el desempleo mensual se promedia para obtener observaciones trimestrales).
+  \item \textbf{Rezagos del VAR}: 8. La estimaci\'on con 12 rezagos produce resultados pr\'acticamente id\'enticos.
+\end{itemize}
+
+\begin{intuicion}
+Se usa la tasa de desempleo masculino (20+) en lugar del desempleo civil agregado para aislar la tendencia secular atribuible a cambios demogr\'aficos. Aun as\'i, el desempleo muestra una tendencia positiva de largo plazo y el GNP muestra una desaceleraci\'on estructural desde 1973, lo que obliga a tratamientos ad hoc antes de la estimaci\'on.
+\end{intuicion}
+
+\subsection{Tratamiento de tendencias y quiebres estructurales}
+
+El GNP muestra una desaceleraci\'on: la tasa de crecimiento promedio fue de 3.62\% anual en 1948:2--1973:4 y de 2.43\% en 1974:1--1987:4. El desempleo tiene una tendencia secular al alza (coeficiente de la tendencia lineal: 0.019, implicando un incremento de 2.97 puntos porcentuales en la muestra). Los autores presentan cuatro especificaciones alternativas:
+
+\begin{itemize}
+  \item \textbf{Caso base}: quiebre en la tasa de crecimiento del GNP en 1973/1974 $+$ desempleo detrendizado linealmente (tendencia lineal removida antes del VAR).
+  \item \textbf{Caso A}: sin quiebre en crecimiento, con tendencia lineal en desempleo.
+  \item \textbf{Caso B}: con quiebre en crecimiento del GNP, sin tendencia en desempleo.
+  \item \textbf{Caso C}: sin quiebre ni tendencia en ninguna variable.
+\end{itemize}
+
+Los resultados cualitativos (funciones de respuesta al impulso, descomposiciones hist\'oricas) son similares en los cuatro casos. Las diferencias se concentran en las magnitudes de las respuestas y en las descomposiciones de varianza.
+
+\begin{intuicion}
+No existe una soluci\'on \'unica y limpia para tratar las tendencias en datos macroecon\'omicos de posguerra. La estrategia de presentar cuatro casos es transparente y permite evaluar la robustez de los resultados. El hecho de que las respuestas cualitativas sean similares en todos los casos es tranquilizador; las diferencias cuantitativas en la descomposici\'on de varianza, en cambio, son considerables.
+\end{intuicion}
+
+%=============================================================
+\section{Efectos Din\'amicos de las Perturbaciones}
+%=============================================================
+
+\subsection{Respuesta a perturbaciones de demanda (Figuras 1, 3 y 5)}
+
+La \textbf{funci\'on de respuesta al impulso (impulse response function, IRF)} ante un shock de demanda (Figuras 1 y 3 para el producto; Figuras 5 para el desempleo) presenta el siguiente patr\'on:
+
+\textbf{Respuesta del producto (Figura 1, l\'inea continua):}
+\begin{itemize}
+  \item \textbf{Forma en joroba (hump-shaped)}: el producto aumenta de forma gradual desde el impacto, alcanza su m\'aximo despu\'es de 2 a 4 trimestres, y luego decrece volviendo a cero despu\'es de aproximadamente 3 a 5 a\~nos.
+  \item El efecto inicial es positivo y significativo, con una respuesta pico de alrededor de 1.2--1.3 unidades (normalizadas por el tama\~no del shock).
+  \item La respuesta es m\'as peque\~na y se disipa m\'as r\'apido en el Caso C (sin quiebre ni tendencia).
+\end{itemize}
+
+\textbf{Respuesta del desempleo (Figura 1, l\'inea discontinua / Figura 5):}
+\begin{itemize}
+  \item \textbf{Imagen especular (mirror image)}: el desempleo responde de forma sim\'etrica e inversa al producto: cae cuando el producto sube, con exactamente la misma forma temporal.
+  \item Esta relaci\'on implica un \textbf{coeficiente de Okun (Okun's coefficient)} impl\'icito ligeramente superior a 2 en el pico de respuesta.
+  \item Las bandas de un desv\'io est\'andar (Figura 5) muestran que el signo de la respuesta es robusto, aunque la magnitud tiene considerable incertidumbre.
+\end{itemize}
+
+Estos efectos son consistentes con la \textbf{visi\'on keynesiana cl\'asica}: los shocks de demanda generan expansiones y contracciones del producto que luego se revierten al ajustarse los precios y salarios.
+
+\begin{hallazgo}
+Un shock positivo de demanda genera una respuesta en joroba del producto: crece por 2--4 trimestres y vuelve a cero en 3--5 a\~nos. El desempleo cae exactamente en imagen especular. El coeficiente de Okun impl\'icito en el pico es ligeramente mayor a 2. Este es el hallazgo m\'as preciso del paper: es cualitativamente robusto en los cuatro tratamientos de tendencias, con diferencias solo en magnitud. Sugiere que las rigideces nominales generan un ciclo econ\'omico ante shocks de demanda con una duraci\'on t\'ipica de 3--5 a\~nos.
+\end{hallazgo}
+
+\subsection{Respuesta a perturbaciones de oferta (Figuras 2, 4 y 6)}
+
+La IRF ante un shock positivo de oferta (productividad) muestra un patr\'on cualitativamente distinto al de demanda:
+
+\textbf{Respuesta del producto (Figura 2, l\'inea continua / Figura 4):}
+\begin{itemize}
+  \item \textbf{Efecto acumulativo y gradual}: el impacto sobre el nivel del producto se acumula progresivamente. En el caso base, el efecto pico es aproximadamente 8 veces el efecto inicial y se alcanza despu\'es de 8 trimestres (2 a\~nos).
+  \item El efecto luego disminuye levemente y se estabiliza en un \textbf{plateau} despu\'es de aproximadamente 5 a\~nos.
+  \item El impacto de largo plazo es \textbf{imprecisamente estimado} (bandas de error amplias en Figura 4), aunque el signo positivo es claro.
+\end{itemize}
+
+\textbf{Respuesta del desempleo (Figura 2, l\'inea discontinua / Figura 6):}
+\begin{itemize}
+  \item \textbf{Respuesta no mon\'otona}: un shock positivo de oferta \emph{inicialmente aumenta levemente el desempleo}. Esto refleja que la demanda agregada no crece inmediatamente lo suficiente para absorber el aumento de productividad.
+  \item Tras algunos trimestres el efecto se revierte: el desempleo cae por debajo de su nivel inicial y gradualmente regresa a su valor de estado estacionario.
+  \item Los efectos din\'amicos sobre el desempleo se agotan en aproximadamente 5 a\~nos.
+\end{itemize}
+
+El coeficiente de Okun impl\'icito bajo shocks de oferta supera 4 en valor absoluto, mayor que bajo demanda. Esto es consistente con que la tecnolog\'ia permite producir m\'as con menos empleo.
+
+La respuesta inicial positiva del desempleo refleja la presencia de \textbf{rigideces de salario real (real wage rigidities)}: ante un aumento de productividad, los salarios reales tardan en ajustarse al nuevo nivel m\'as alto, lo que genera desempleo transitorio antes de que los trabajadores capturen las ganancias de productividad.
+
+\begin{hallazgo}
+Un shock positivo de oferta (productividad) tiene un efecto positivo y acumulativo sobre el nivel del producto: alcanza su pico a los 2 a\~nos y se estabiliza despu\'es de 5 a\~nos. El desempleo exhibe una respuesta no mon\'otona: primero sube levemente (``shock tecnol\'ogico de desplazamiento'') y luego cae y regresa lentamente a su nivel natural. Este patr\'on sugiere que la tecnolog\'ia tiene un efecto de destrucci\'on creativa de corto plazo ---desplaza trabajadores antes de que la econom\'ia se adapte--- consistente con la presencia de rigideces salariales reales. El coeficiente de Okun impl\'icito bajo shocks de oferta (mayor a 4) supera al de demanda (mayor a 2), reflejando que la tecnolog\'ia aumenta el producto con menor expansi\'on proporcional del empleo.
+\end{hallazgo}
+
+\subsection{Okun's Law bajo los dos tipos de shocks}
+
+El \textbf{coeficiente de Okun (Okun's coefficient)} cl\'asico es aproximadamente 2.5. Bajo la interpretaci\'on de Blanchard y Quah, este coeficiente es un \textbf{coeficiente mixto (mongrel coefficient)}: combina efectos de demanda y oferta de forma que depende de la composici\'on de los shocks que afectan a la econom\'ia en cada momento.
+\begin{itemize}
+  \item Bajo shocks de demanda: el coeficiente impl\'icito en el pico es ligeramente mayor a 2 --- hay una relaci\'on estrecha y estable entre producto y desempleo.
+  \item Bajo shocks de oferta: el coeficiente impl\'icito en el pico supera 4 --- la relaci\'on es inestable porque la oferta mueve el producto y el empleo en direcciones a veces opuestas en el corto plazo.
+\end{itemize}
+
+\begin{intuicion}
+El coeficiente de Okun es una mezcla de los coeficientes bajo demanda y oferta, ponderados por la contribuci\'on de cada tipo de shock. No existe un coeficiente de Okun \'unico y estable; su valor observado en un episodio dado depende de si la recesi\'on o expansi\'on fue principalmente impulsada por demanda o por oferta.
+\end{intuicion}
+
+%=============================================================
+\section{Contribuciones Relativas de Demanda y Oferta}
+%=============================================================
+
+\subsection{Componentes hist\'oricos y cronolog\'ia NBER (Figuras 7--10)}
+
+A partir del VAR estimado se construyen dos series hist\'oricas hipot\'eticas:
+
+\textbf{Componente de oferta del producto (Figura 7)}: fijando todos los shocks de demanda a cero. La serie es \textbf{no estacionaria} y muestra crecimiento positivo secular con ralentizaciones notables a finales de los 1950s y durante la d\'ecada de 1970s. Es claramente \emph{distinta} de una tendencia determin\'istica lineal.
+
+\textbf{Componente de demanda del producto (Figura 8)}: fijando todos los shocks de oferta a cero. La serie es \textbf{estacionaria} y sus picos y valles coinciden estrechamente con las fechas del \textbf{NBER Business Cycle Chronology}. La descomposici\'on reproduce fielmente la cronolog\'ia de recesiones y expansiones de posguerra.
+
+\textbf{Componentes del desempleo (Figuras 9 y 10)}: el componente de demanda del desempleo (Figura 10) sigue de cerca al componente de demanda del GNP, consistente con la relaci\'on de imagen especular en las IRFs. El modelo atribuye fluctuaciones sustanciales del desempleo tambi\'en a shocks de oferta, especialmente en los a\~nos 1950s tard\'ios y en torno a los shocks del petr\'oleo de los 1970s.
+
+\textbf{Las dos recesiones principales} (1974--75 y 1979--80) reciben especial atenci\'on. Los autores presentan las innovaciones estructurales estimadas para estos episodios en la Tabla~\ref{tab:innovaciones}:
+
+\begin{table}[h!]
+\centering
+\caption{Innovaciones Estimadas de Demanda y Oferta --- Caso Base}
+\label{tab:innovaciones}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Trimestre} & \textbf{Demanda (\%)} & \textbf{Oferta (\%)} \\
+\midrule
+\multicolumn{3}{l}{\textit{Recesi\'on 1974--1975 (1er shock del petr\'oleo)}} \\
+\midrule
+1973-3 & $-0.8$ & $-1.9$ \\
+1973-4 & $+0.3$ & $-0.4$ \\
+1974-1 & $-0.7$ & $-0.0$ \\
+1974-2 & $+0.5$ & $-1.5$ \\
+1974-3 & $-1.8$ & $-1.0$ \\
+1974-4 & $-0.7$ & $+1.1$ \\
+1975-1 & $-1.5$ & $+2.8$ \\
+\midrule
+\multicolumn{3}{l}{\textit{Recesi\'on 1979--1980 (2do shock del petr\'oleo + pol\'itica Volcker)}} \\
+\midrule
+1979-1 & $-0.5$ & $-0.3$ \\
+1979-2 & $-0.4$ & $-1.7$ \\
+1979-3 & $+0.7$ & $+0.6$ \\
+1979-4 & $-0.8$ & $+0.2$ \\
+1980-1 & $+0.2$ & $+2.0$ \\
+1980-2 & $-3.2$ & $+1.9$ \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\small \textit{Nota}: Las desviaciones est\'andar de estas innovaciones son iguales a 1\% por construcci\'on
+(normalizaci\'on de la identificaci\'on). Un valor negativo de demanda indica un shock contractivo
+de demanda; un valor negativo de oferta indica un shock adverso de productividad.
+\end{flushleft}
+\end{table}
+
+\begin{hallazgo}
+La recesi\'on de 1974--75 se explica por una combinaci\'on de shocks negativos de oferta (especialmente 1973-3: $-1.9\%$ y 1974-2: $-1.5\%$) y shocks negativos de demanda (especialmente 1974-3: $-1.8\%$ y 1975-1: $-1.5\%$), en proporciones aproximadamente iguales. La recesi\'on de 1979--80 comienza con un gran shock negativo de oferta en 1979-2 ($-1.7\%$, el segundo shock petrolero) y se profundiza con un enorme shock negativo de demanda en 1980-2 ($-3.2\%$, consistente con la pol\'itica de restricci\'on monetaria de Volcker). Ambas recesiones requieren explicaciones mixtas de demanda y oferta; ninguna es puramente de un solo tipo.
+\end{hallazgo}
+
+\subsection{Descomposici\'on de varianza del error de pron\'ostico}
+
+La \textbf{descomposici\'on de varianza del error de pron\'ostico (Forecast Error Variance Decomposition, FEVD)} indica qu\'e porcentaje de la varianza del error de pron\'ostico a $k$ trimestres se debe a perturbaciones de demanda (el complemento es la contribuci\'on de la oferta). La Tabla~\ref{tab:vardec} presenta el caso base.
+
+\begin{table}[h!]
+\centering
+\caption{Descomposici\'on de Varianza --- Caso Base\\
+(Quiebre en crecimiento 1973/74; desempleo detrendizado)}
+\label{tab:vardec}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Horizonte} & \textbf{Producto} & \textbf{Desempleo} \\
+\textbf{(trimestres)} & \textbf{(\% varianza por demanda)} & \textbf{(\% varianza por demanda)} \\
+\midrule
+1  & 99.0 \quad (76.9,\;99.7) & 51.9 \quad (35.8,\;77.6) \\
+2  & 99.6 \quad (78.4,\;99.9) & 63.9 \quad (41.8,\;80.3) \\
+3  & 99.0 \quad (76.0,\;99.6) & 73.8 \quad (46.2,\;85.6) \\
+4  & 97.9 \quad (71.0,\;98.9) & 80.2 \quad (49.7,\;89.5) \\
+8  & 81.7 \quad (46.3,\;87.0) & 87.3 \quad (53.6,\;92.9) \\
+12 & 67.6 \quad (30.9,\;73.9) & 86.2 \quad (52.9,\;92.1) \\
+40 & 39.3 \quad \;\;(7.5,\;39.3) & 85.6 \quad (52.6,\;91.6) \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\small \textit{Nota}: Los n\'umeros entre par\'entesis son bandas de un desv\'io est\'andar (as\'imetricas),
+obtenidas mediante bootstrap con 1000 replicaciones de la distribuci\'on emp\'irica de las
+innovaciones del VAR.
+\end{flushleft}
+\end{table}
+
+\textbf{Resultados para los cuatro casos alternativos:}
+
+\begin{itemize}
+  \item En el \textbf{Caso Base}: la demanda explica el 97.9\% de la varianza del producto a 4 trimestres, cayendo al 39.3\% a 40 trimestres. La banda a 4 trimestres va de 71.0\% a 98.9\%.
+  \item En el \textbf{Caso A} (sin quiebre, con tendencia): la demanda explica el 78.9\% a 4 trimestres, banda: 53.5\%--90.0\%.
+  \item En el \textbf{Caso B} (con quiebre, sin tendencia): la demanda explica el 98.6\% a 4 trimestres, similar al caso base.
+  \item En el \textbf{Caso C} (sin quiebre ni tendencia): la demanda explica solo el 38.9\% a 4 trimestres, banda: 17.1\%--72.7\%.
+\end{itemize}
+
+Para el \textbf{desempleo}, la contribuci\'on de la demanda es robustamente alta: var\'ia entre 80\% y 96\% a 4 trimestres en los cuatro casos, con bandas amplias pero consistently por encima del 50\%.
+
+\begin{hallazgo}
+\textbf{Producto}: Los datos no permiten determinar con precisi\'on la contribuci\'on de la demanda al producto en el corto y mediano plazo. El punto estimado va del 39\% (Caso C) al 98\% (Caso Base) a 4 trimestres, y las bandas de error son muy amplias en todos los casos. Los resultados son dr\'asticamente sensibles al tratamiento del quiebre estructural en la tasa de crecimiento: cuando se permite el quiebre, la demanda parece m\'as importante; sin quiebre, la oferta resulta m\'as relevante. \\[4pt]
+\textbf{Desempleo}: La demanda es consistentemente dominante para explicar las fluctuaciones del desempleo en todos los horizontes y especificaciones (punto estimado 80--96\% a 4 trimestres), con menos variabilidad entre casos que el producto. En el caso base, el punto estimado es 80.2\% a 4 trimestres con banda (49.7\%, 89.5\%). En todos los casos, el rol de la demanda en el desempleo es grande e importante.
+\end{hallazgo}
+
+%=============================================================
+\section{Resumen y Conclusiones}
+%=============================================================
+
+Blanchard y Quah (1989) introducen el m\'etodo de \textbf{descomposici\'on Blanchard-Quah (Blanchard-Quah decomposition)}, una t\'ecnica de \textbf{VAR estructural con restricciones de largo plazo (SVAR with long-run restrictions)} que se ha convertido en herramienta est\'andar de la macroeconometr\'ia. La identificaci\'on se basa en una \'unica restricci\'on econ\'omica bien justificada: las perturbaciones de demanda no tienen efecto permanente sobre el nivel del producto.
+
+\textbf{Principales hallazgos emp\'iricos para EE.UU., 1950--1987:}
+
+\begin{enumerate}
+  \item \textbf{Perturbaciones de demanda}: efecto en joroba sobre producto y desempleo. Pico a los 2--4 trimestres, desaparece en 3--5 a\~nos. El desempleo responde como imagen especular del producto. Coeficiente de Okun impl\'icito ligeramente mayor a 2.
+
+  \item \textbf{Perturbaciones de oferta}: efecto acumulativo sobre el producto, con pico a los 2 a\~nos y plateau a los 5 a\~nos. El desempleo inicialmente sube levemente ante un shock positivo de oferta (efecto de desplazamiento), luego cae y regresa gradualmente a su valor natural. Coeficiente de Okun impl\'icito mayor a 4.
+
+  \item \textbf{Ciclos de negocios}: el componente de demanda del producto replica fielmente la cronolog\'ia NBER de picos y valles. Las dos grandes recesiones (1974--75 y 1979--80) se atribuyen en proporciones similares a shocks de demanda y oferta.
+
+  \item \textbf{Descomposici\'on de varianza}: la demanda es dominante a corto plazo para el producto (pero con amplia incertidumbre y sensibilidad al tratamiento de tendencias), y robustamente importante para el desempleo en todos los horizontes y especificaciones.
+\end{enumerate}
+
+\textbf{Limitaciones reconocidas por los autores:}
+\begin{itemize}
+  \item La demanda puede tener efectos permanentes peque\~nos sobre el producto (acumulaci\'on de capital, learning by doing); la descomposici\'on ser\'ia ``aproximadamente correcta'' pero no exacta.
+  \item M\'ultiples shocks de oferta con din\'amicas distintas pueden invalidar la identificaci\'on bivariada.
+  \item Las bandas de error de la FEVD del producto son muy amplias; no es posible cuantificar con precisi\'on la contribuci\'on de cada tipo de shock.
+  \item El tratamiento de tendencias y quiebres estructurales afecta significativamente los resultados cuantitativos de la descomposici\'on de varianza.
+\end{itemize}
+
+\textbf{Contribuci\'on metodol\'ogica}: el paper establece el SVAR con restricciones de largo plazo como metodolog\'ia de referencia para la identificaci\'on de shocks macroecon\'omicos estructurales. La ``\textbf{descomposici\'on de Blanchard-Quah}'' es ampliamente utilizada en la literatura de ciclos de negocios, pol\'itica monetaria y comercio internacional para separar perturbaciones permanentes (oferta) de transitorias (demanda) a partir de datos observables.
+
+\end{document}

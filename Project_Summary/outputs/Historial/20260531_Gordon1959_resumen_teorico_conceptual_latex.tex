@@ -1,0 +1,284 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Dividends, Earnings, and Stock Prices}\\
+\large Dividendos, Ganancias y Precios de Acciones\\
+\normalsize M.~J.~Gordon, \textit{The Review of Economics and Statistics},
+Vol.~41, No.~2 (Mayo, 1959), pp.~99--105}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on: Las Tres Hip\'otesis sobre el Valor de las Acciones}
+%% ============================================================
+
+\subsection{Pregunta central y enfoque metodol\'ogico}
+
+El art\'iculo de Gordon parte de una pregunta fundamental: ?`qu\'e est\'a comprando el inversor cuando adquiere una \textbf{acci\'on com\'un (common stock)}? Gordon identifica tres hip\'otesis posibles:
+
+\begin{enumerate}
+  \item El inversor compra \textbf{tanto los dividendos como las ganancias} (\textit{dividends and earnings}).
+  \item El inversor compra \textbf{los dividendos} (\textit{dividends}).
+  \item El inversor compra \textbf{las ganancias} (\textit{earnings}).
+\end{enumerate}
+
+Podría argumentarse que lo que el inversor compra es el \textbf{precio futuro de la acci\'on (future price)}, pero como ese precio futuro depender\'a de los dividendos y/o ganancias esperados en esa fecha, las tres hip\'otesis anteriores son suficientes para agotar el problema.
+
+El enfoque metodol\'ogico es la \textbf{regresi\'on de corte transversal (cross-section regression)}: se utilizan datos de precio, dividendo e ingreso para una muestra de corporaciones en un punto del tiempo con el fin de contrastar la relaci\'on entre variables que predice cada hip\'otesis. Gordon justifica este enfoque frente a los estudios de series de tiempo, se\~nalando que la \textbf{autocorrelaci\'on (autocorrelation)} en series de tiempo impair\'ia la significancia de los coeficientes, y que el uso de series de tiempo supone que el coeficiente de una variable es constante en el tiempo pero diferente entre acciones, supuesto exactamente opuesto al que se requiere para explicar las preferencias de inversi\'on.
+
+\begin{explicacion}
+La selecci\'on de hip\'otesis es exhaustiva: el precio futuro de una acci\'on solo puede depender de los dividendos, las ganancias, o ambos. La contribuci\'on metodol\'ogica central del art\'iculo es proponer una prueba de corte transversal rigurosa, en contraste con los estudios de analistas de valores que combinaban variables sin soporte te\'orico claro, obteniendo coeficientes econ\'omicamente sin sentido. Gordon argumenta que la raz\'on de esos fracasos previos era la \textit{inadecuaci\'on de la teor\'ia empleada}, no deficiencias en los datos.
+\end{explicacion}
+
+\begin{intuicion}
+Antes de Gordon, muchos estudios empíricos regresionaban el precio de una acci\'on sobre dividendos y ganancias simult\'aneamente, pero los resultados eran erráticos e ininterpretables. Gordon propone que el problema no era estadístico sino te\'orico: si uno no sabe \textit{qu\'e} est\'a buscando, los datos no pueden responder bien. La soluci\'on es partir de cada hip\'otesis por separado, derivar lo que predice, y testearla.
+\end{intuicion}
+
+%% ============================================================
+\section{La Muestra}
+%% ============================================================
+
+\subsection{Dise\~no del estudio emp\'irico}
+
+Para contrastar las hip\'otesis, Gordon obtiene datos de precio, dividendo e ingreso para cuatro industrias y dos a\~nos, generando ocho muestras en total. Los a\~nos son 1951 y 1954; las industrias y tama\~nos de muestra son: Qu\'imicas (32 empresas), Alimentos (52), Acero (34) y M\'aquinas herramienta (46).
+
+El uso de ocho muestras en lugar de una sola proporciona una prueba m\'as rigurosa: permite verificar si los coeficientes tienen magnitudes econ\'omicamente razonables y si su ranking entre industrias y a\~nos sigue un patr\'on predicho \textit{a priori}.
+
+\begin{explicacion}
+La estrategia de validaci\'on \textit{a priori} de Gordon es metodol\'ogicamente destacable: no se limita a verificar significancia estad\'istica, sino que establece predicciones econ\'omicas sobre el \textit{rango} y el \textit{ordenamiento relativo} de los coeficientes antes de ver los datos. Por ejemplo, si el coeficiente del dividendo representa el rec\'iproco de la \textbf{tasa de retorno requerida (required rate of profit)}, esa tasa deber\'ia estar entre 4\% y 10\% para acciones comunes de la \'epoca (equivalente a coeficientes entre 10 y 25). Adem\'as, las qu\'imicas (m\'as estables y con mayor crecimiento) deber\'ian tener coeficientes mayores que el acero o las m\'aquinas herramienta (m\'as c\'iclicas). Esta l\'ogica econ\'omica previa es la que permite evaluar si los resultados ``hacen sentido'' y no son solo artefactos estad\'isticos.
+\end{explicacion}
+
+\begin{intuicion}
+En lugar de decir simplemente ``si la regresi\'on es significativa, el modelo funciona'', Gordon pregunta: ?`son los coeficientes \textit{razonables} en t\'erminos econ\'omicos? ?`tienen el signo y la magnitud que uno esperaría de antemano? Esta exigencia adicional distingue un buen trabajo empírico de uno meramente mec\'anico.
+\end{intuicion}
+
+%% ============================================================
+\section{Modelo I: Precio sobre Dividendo e Ingreso}
+%% ============================================================
+
+\subsection{Planteamiento y debilidad conceptual}
+
+El punto de partida intuitivo es que los accionistas se interesan tanto en el dividendo como en el ingreso por acci\'on. El \textbf{Modelo I} (ecuaci\'on 1) regresiona el precio sobre ambas variables simult\'aneamente:
+\[
+P = a_0 + a_1 D + a_2 Y
+\]
+donde $P$ es el precio al cierre del a\~no, $D$ el dividendo del a\~no, e $Y$ el ingreso (ganancias) del a\~no.
+
+\begin{explicacion}
+Gordon se\~nala que este modelo es \textbf{conceptualmente d\'ebil}: una acci\'on, como cualquier activo, se adquiere por el flujo de ingresos futuros que provee. Ese ingreso puede ser el dividendo o las ganancias por acci\'on, pero \textbf{no puede ser ambos a la vez}, pues ambos no son independientes entre s\'i (las ganancias que no se distribuyen como dividendo se retienen en la empresa). Incluir ambas variables en la misma regresi\'on sin un marco te\'orico que distinga su rol lleva a coeficientes sin interpretaci\'on econ\'omica clara. Los datos confirman el problema: el coeficiente del dividendo para Qu\'imicas en 1951 es \textit{negativo}, Machine Tools tiene el coeficiente m\'as alto en 1951 y el coeficiente de Qu\'imicas salta de casi cero en 1951 a 25 en 1954. Los coeficientes del ingreso son extraordinariamente bajos como estimadores del precio que el mercado paga por las ganancias. Este modelo ilustra el costo de la \textit{ausencia de teor\'ia}.
+\end{explicacion}
+
+\begin{intuicion}
+Si incluyes dividendo y ganancias al mismo tiempo sin saber qu\'e est\'as midiendo, obtienes n\'umeros estad\'isticamente altos pero econ\'omicamente sin sentido. Es como medir el peso de una persona con altura y peso a la vez sin especificar qu\'e relaci\'on te\'orica los une.
+\end{intuicion}
+
+%% ============================================================
+\section{La Hip\'otesis del Dividendo}
+%% ============================================================
+
+\subsection{Fundamento te\'orico: dividendo presente y crecimiento}
+
+La hip\'otesis de que el inversor compra el \textbf{flujo de dividendos (dividend stream)} parece intuitivamente plausible porque el dividendo es literalmente el flujo de pagos que el accionista espera recibir. Sin embargo, el accionista no est\'a interesado solo en el dividendo actual, sino en la \textbf{secuencia infinita} de pagos futuros esperados. Para hacer la hip\'otesis operacional, Gordon representa esa secuencia con dos cantidades: el dividendo actual y una medida del \textbf{crecimiento esperado del dividendo (expected dividend growth)}.
+
+La causa m\'as importante y predecible del crecimiento del dividendo son las \textbf{ganancias retenidas (retained earnings)}. Si una corporaci\'on retiene una fracci\'on $b$ de su ingreso y gana un retorno $r$ sobre la inversi\'on, el dividendo crece a la tasa $br$. Dado que el \textbf{valor en libros por acci\'on (book value per share)} es $B$, la tasa de crecimiento del dividendo es:
+
+\begin{equation}
+br = \left(\frac{Y-D}{Y}\right)\left(\frac{Y}{B}\right) = \frac{Y-D}{B}
+\end{equation}
+
+\begin{intuicion}
+Una empresa que retiene m\'as ganancias invierte m\'as, lo que le permite crecer m\'as y pagar dividendos mayores en el futuro. El producto $br$ captura exactamente eso: cu\'anto crece el dividendo depende de cu\'anto se retiene ($b$) y cu\'anto rinde esa reinversi\'on ($r$).
+\end{intuicion}
+
+Gordon argumenta que a los inversores les importa el \textbf{crecimiento absoluto} del dividendo, no la \textit{tasa} de crecimiento, porque una tasa alta partiendo de una base baja rinde frutos en un futuro lejano muy descontado, y resulta menos atractiva que una tasa menor partiendo de una base alta. Por ello, en un modelo donde precio y dividendo son cantidades absolutas, las \textbf{ganancias retenidas por acci\'on} sin deflactar son un mejor indicador del crecimiento que la tasa $br$.
+
+\subsection{Modelo II: precio sobre dividendo y ganancias retenidas}
+
+Esto provee la justificaci\'on econ\'omica para el \textbf{Modelo II}:
+\[
+P = a_0 + a_1 D + a_2 (Y - D)
+\]
+donde $(Y-D)$ son las ganancias retenidas. El rec\'iproco del coeficiente del dividendo ($1/a_1$) es una estimaci\'on de la \textbf{tasa de retorno requerida (required rate of profit)} sobre acciones comunes sin crecimiento, y el coeficiente de ganancias retenidas ($a_2$) es lo que el mercado est\'a dispuesto a pagar por el crecimiento.
+
+\begin{explicacion}
+El Modelo II supera al Modelo I en dos dimensiones. Primero, los coeficientes del dividendo son econ\'omicamente m\'as razonables: para 1951 caen mayormente dentro del rango esperado de 10 a 25, y para 1954 var\'ian entre industrias en el orden predicho \textit{a priori}. Segundo, la interpretaci\'on es conceptualmente coherente: el precio refleja el valor de una corriente de dividendos futuros, con el dividendo actual como base y las ganancias retenidas como proxy del crecimiento. La relaci\'on entre los coeficientes de los dos modelos no es arbitraria: en el Modelo I, $a_1 = a_1^{(II)} + a_2^{(II)}$, porque un aumento del dividendo en el Modelo I implica una reducci\'on simult\'anea en ganancias retenidas, mientras que en el Modelo II las ganancias retenidas se mantienen constantes. Esta relaci\'on algebraica es una consecuencia directa de la estructura te\'orica, no un accidente estad\'istico.
+\end{explicacion}
+
+\begin{intuicion}
+El Modelo II separa dos cosas que el Modelo I confund\'ia: (1) el valor del dividendo actual como ingreso presente, y (2) el valor de las ganancias retenidas como promesa de mayor dividendo futuro. Al separarlas, los coeficientes adquieren sentido econ\'omico.
+\end{intuicion}
+
+%% ============================================================
+\section{La Hip\'otesis de las Ganancias}
+%% ============================================================
+
+\subsection{Argumento te\'orico y condici\'on de validez}
+
+La tercera hip\'otesis sostiene que el inversor compra las \textbf{ganancias por acci\'on (earnings per share)}. El fundamento es que el accionista tiene un derecho de propiedad sobre las ganancias independientemente de si se le distribuyen: recibe el dividendo en efectivo y las ganancias retenidas como una apreciaci\'on del valor de la acci\'on. Si necesita efectivo adicional, puede vender una fracci\'on de su participaci\'on. En este sentido, la entidad corporativa ser\'ia una \textbf{ficci\'on legal (legal fiction)} que no afecta sus derechos sobre el valor generado.
+
+Para que esta hip\'otesis sea v\'alida, es necesario que la \textbf{tasa de retorno requerida $k$ (required rate of profit)} sea independiente de $b$, la fracci\'on de ingresos retenida. Es decir, el mercado deber\'ia valorar un d\'olar de dividendo y un d\'olar de ganancias retenidas exactamente igual.
+
+Gordon deriva el precio te\'orico de la acci\'on bajo la hip\'otesis del dividendo, integrando la corriente infinita de dividendos esperados:
+
+\begin{equation}
+P_0 = \frac{(1-b)\,Y_0}{k - br}
+\end{equation}
+
+donde $k$ es la tasa de retorno requerida, $Y_0$ el ingreso corriente, $b$ la fracci\'on retenida, y $r$ el retorno sobre la inversi\'on. La condici\'on para que el precio sea finito es $k > br$.
+
+\begin{explicacion}
+Esta f\'ormula es el n\'ucleo te\'orico del art\'iculo y la base de lo que se conoce en la literatura posterior como el \textbf{Modelo de Gordon (Gordon Growth Model)} o \textbf{modelo de descuento de dividendos con crecimiento constante (Constant Growth DDM)}. Su importancia radica en mostrar expl\'icitamente c\'omo el precio depende simult\'aneamente del dividendo actual $(1-b)Y_0$, de la tasa de crecimiento $br$, y de la tasa de retorno requerida $k$. Si $k = r$ (el retorno sobre la inversi\'on iguala la tasa requerida), la ecuaci\'on se reduce a $P_0 = Y_0/k$, resultado que har\'ia v\'alida la hip\'otesis de ganancias. Pero Gordon argumenta que en general $k \neq r$ y, m\'as a\'un, que $k$ \textbf{no puede ser independiente de $b$}.
+\end{explicacion}
+
+\begin{intuicion}
+Esta f\'ormula dice: el precio de una acci\'on es el dividendo que paga hoy dividido por la diferencia entre lo que el mercado exige de retorno y lo que la empresa puede crecer. Si la empresa crece m\'as r\'apido (mayor $br$), el precio sube porque los dividendos futuros son mayores. Si el mercado exige m\'as retorno (mayor $k$), el precio baja porque los flujos futuros se descuentan m\'as.
+\end{intuicion}
+
+\subsection{Por qu\'e la hip\'otesis de ganancias falla: incertidumbre y distancia temporal}
+
+Gordon construye el argumento contra la hip\'otesis de ganancias a partir de dos supuestos razonables:
+\begin{enumerate}
+  \item La tasa a la que se descuenta un pago futuro \textbf{aumenta con su incertidumbre}.
+  \item La incertidumbre de un pago futuro \textbf{aumenta con el tiempo hasta recibirlo}.
+\end{enumerate}
+
+De estos supuestos se sigue que la tasa de retorno efectiva a la que se descuenta una corriente de pagos es un \textbf{promedio ponderado} de tasas, donde cada tasa se pondera por el tama\~no del pago. Cuanto mayor sea el peso de los pagos lejanos respecto a los cercanos, mayor ser\'a la tasa promedio que iguala la corriente de pagos con el precio.
+
+\begin{explicacion}
+La consecuencia es directa: una empresa que retiene m\'as (mayor $b$) paga menos dividendos hoy y m\'as en el futuro lejano. Esos pagos futuros son m\'as inciertos y deben descontarse a tasas m\'as altas. Por tanto, $k$ \textbf{crece con $b$}: la tasa de retorno requerida no es independiente de la pol\'itica de dividendos. Esto refuta la hip\'otesis de ganancias. Adem\'as, este razonamiento explica por qu\'e las tasas de inter\'es de los bonos tienden a ser mayores para vencimientos m\'as largos: los pagos m\'as distantes son m\'as inciertos y requieren mayor compensaci\'on. La \textbf{hip\'otesis del p\'ajaro en mano (bird-in-the-hand hypothesis)} es la formulaci\'on coloquial de este argumento: un dividendo cierto hoy vale m\'as que una promesa incierta de mayor dividendo en el futuro.
+\end{explicacion}
+
+\begin{intuicion}
+Imagina que te ofrecen \$100 hoy o \$110 en 10 a\~nos. El \$110 futuro suena mejor, pero es m\'as incierto: pueden ocurrir muchas cosas en una d\'ecada. Si la incertidumbre crece con el tiempo, los inversores exigen m\'as retorno por los pagos lejanos. Una empresa que retiene m\'as paga m\'as tarde, y por eso el mercado le exige m\'as retorno, lo que \textit{reduce} su precio. El dividendo actual no es equivalente a las ganancias retenidas.
+\end{intuicion}
+
+\subsection{Evidencia emp\'irica contra la hip\'otesis de ganancias}
+
+El contraste emp\'irico es directo: si el inversor es indiferente entre un d\'olar de dividendo y un d\'olar de ganancias retenidas, los coeficientes $a_1$ y $a_2$ del Modelo II deber\'ian ser iguales. Los datos muestran que, con la excepci\'on de Qu\'imicas en 1951, la diferencia entre coeficientes es \textbf{estad\'isticamente significativa} en todas las muestras. El estudio de David Durand sobre acciones bancarias arroja la misma conclusi\'on. La hip\'otesis de ganancias queda refutada.
+
+\begin{intuicion}
+El mercado \textit{s\'i} distingue entre d\'olares pagados como dividendo y d\'olares retenidos. No son lo mismo a los ojos del inversor: el dividendo hoy vale m\'as que la promesa de mayor dividendo futuro. Esto es exactamente lo que predice el argumento de la incertidumbre creciente.
+\end{intuicion}
+
+%% ============================================================
+\section{Refinamientos del Modelo}
+%% ============================================================
+
+\subsection{Limitaciones del Modelo II}
+
+Gordon identifica cuatro limitaciones importantes del Modelo II:
+
+\begin{enumerate}
+  \item \textbf{Factor de escala (scale factor)}: La variaci\'on en precio entre acciones refleja en parte diferencias en el nivel absoluto de las variables (acciones ``caras'' vs.~``baratas''). Si se multiplican precio y dividendo por constantes distintas entre empresas, se crea correlaci\'on artificial. Deflactar por el valor en libros y/o usar logaritmos puede moderar este efecto.
+
+  \item \textbf{Valores corrientes como proxy de expectativas}: El dividendo y las ganancias retenidas del a\~no corriente son relevantes solo como la informaci\'on m\'as reciente disponible para predecir dividendos futuros. Si difieren de sus promedios hist\'oricos por razones extraordinarias, los analistas los descuentan para estimar valores ``normales''. Una combinaci\'on de valores corrientes y promedios de un per\'iodo previo podr\'ia explicar mejor la variaci\'on en precios.
+
+  \item \textbf{Confianza en el flujo de dividendos (dividend stream confidence)}: El valor que el mercado asigna a una expectativa de dividendos var\'ia con la \textbf{confianza} en esa corriente. Variables como el tama\~no de la corporaci\'on, la raz\'on deuda-capital y la estabilidad hist\'orica de las ganancias capturan ese factor. Omitirlas introduce sesgo en los coeficientes del dividendo y las ganancias retenidas.
+
+  \item \textbf{Medici\'on del crecimiento}: El uso de ganancias retenidas como \textit{proxy} del crecimiento del dividendo tiene problemas emp\'iricos: la variaci\'on en pr\'acticas contables entre empresas hace cuestionable el uso del valor en libros como medida del retorno sobre inversi\'on, y la inestabilidad de las ganancias retenidas puede hacer que los valores pasados sean una predicci\'on heroica de los futuros.
+\end{enumerate}
+
+\begin{intuicion}
+El Modelo II captura la l\'ogica correcta, pero su implementaci\'on es simplificada. Gordon es explícito sobre d\'onde puede mejorar: necesita una mejor medida del crecimiento, considerar variables de riesgo y estabilidad, y resolver el problema de escala.
+\end{intuicion}
+
+\subsection{Modelo III: especificaci\'on refinada con deflaci\'on por valor en libros}
+
+El \textbf{Modelo III} intenta superar algunas de estas limitaciones. Deflacta todas las variables por el valor en libros e introduce tanto promedios de cinco a\~nos como desviaciones del valor corriente respecto al promedio:
+
+\[
+P = \beta_0 + \beta_1 \bar{d} + \beta_2 (d - \bar{d}) + \beta_3 \bar{g} + \beta_4 (g - \bar{g})
+\]
+
+donde $\bar{d}$ y $d$ son el dividendo promedio de los \'ultimos cinco a\~nos y el dividendo corriente (ambos deflactados por valor en libros), y $\bar{g}$ y $g$ son las ganancias retenidas promedio y corrientes (deflactadas).
+
+\begin{explicacion}
+La estructura de este modelo incorpora una teor\'ia sobre c\'omo los inversores procesan la informaci\'on. El coeficiente $\beta_1$ representa el valor que el mercado asigna a la trayectoria hist\'orica del dividendo, mientras que $\beta_2$ captura el ajuste por la desviaci\'on corriente respecto a esa trayectoria. Si $\beta_1 > \beta_2$, los inversores ajustan con \textbf{rezago (lag)} ante cambios en el dividendo: la \textbf{elasticidad de expectativas (elasticity of expectations)} es menor que uno, lo que significa que un aumento en el dividendo no se traslada inmediatamente al precio con pleno peso hasta que el promedio hist\'orico se actualiza al nuevo nivel. Los resultados confirman esta predicci\'on para la mayor\'ia de las industrias. Sin embargo, los coeficientes de crecimiento ($\bar{g}$ y $g-\bar{g}$) son decepcionantes: varios no son estad\'isticamente significativos y en algunos casos $\beta_4 \geq \beta_3$, lo que implicar\'ia que los inversores son indiferentes al historial de retenci\'on o incluso prefieren empresas que recientemente han \textit{aumentado} sus retenciones.
+\end{explicacion}
+
+\begin{intuicion}
+El Modelo III nos dice que los inversores no reaccionan instant\'aneamente a los cambios en dividendos: si una empresa sube su dividendo este a\~no, el mercado la premia, pero menos de lo que la premiar\'a una vez que ese nivel alto se haya mantenido varios a\~nos y se vuelva la ``norma'' esperada. Este rezago es completamente racional: un solo a\~no de alto dividendo podr\'ia ser una anomal\'ia, pero cinco a\~nos de alto dividendo indican una pol\'itica sostenida.
+\end{intuicion}
+
+\subsection{Relaciones l\'ogicas entre los modelos}
+
+Los tres modelos se relacionan de manera precisa:
+\begin{itemize}
+  \item El Modelo I y el Modelo II producen \textbf{id\'enticos coeficientes de correlaci\'on m\'ultiple} porque ambos son regresiones lineales del precio sobre las mismas variables de base (dividendo e ingreso, o dividendo y ganancias retenidas, que son transformaciones lineales entre s\'i).
+  \item El coeficiente del dividendo en el Modelo I es la \textit{suma} de los coeficientes del dividendo y las ganancias retenidas del Modelo II: $a_1^{(I)} = a_1^{(II)} + a_2^{(II)}$. Esto se deriva del hecho de que en el Modelo I, un aumento del dividendo implica una reducci\'on simult\'anea en ganancias retenidas, mientras que en el Modelo II ambos var\'ian independientemente.
+  \item El Modelo III \textbf{reduce} los coeficientes de correlaci\'on m\'ultiple respecto al Modelo II en cinco de ocho muestras, efecto atribuido a la deflaci\'on por valor en libros que, aunque elimina parte del factor de escala, introduce nuevas correlaciones espurias.
+\end{itemize}
+
+\begin{intuicion}
+La relaci\'on algebraica entre modelos no es trivial: muestra que el Modelo I confund\'ia en un solo coeficiente dos efectos distintos (el valor del dividendo como ingreso presente y el valor de las ganancias retenidas como crecimiento futuro). El Modelo II los separa correctamente.
+\end{intuicion}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+El art\'iculo de Gordon realiza tres contribuciones principales que permanecen vigentes en la literatura financiera:
+
+\begin{enumerate}
+  \item \textbf{Marco te\'orico para regresiones de corte transversal de precios de acciones}: Establece que la \textbf{hip\'otesis del dividendo} es la formulaci\'on correcta del problema de valuaci\'on. El Modelo II ($P = a_0 + a_1 D + a_2 (Y-D)$) provee una base conceptualmente coherente que sus predecesores no ten\'ian.
+
+  \item \textbf{Refutaci\'on emp\'irica y te\'orica de la hip\'otesis de ganancias}: Los datos rechazan la indiferencia entre dividendos y ganancias retenidas. El argumento te\'orico se basa en que la incertidumbre crece con el tiempo, lo que hace que $k$ aumente con $b$. Un d\'olar de dividendo hoy vale m\'as que un d\'olar de ganancias retenidas porque los pagos futuros prometidos por la retenci\'on son m\'as inciertos.
+
+  \item \textbf{El Modelo de Gordon (Gordon Growth Model)}: La ecuaci\'on $P_0 = (1-b)Y_0 / (k-br)$ se convierte en uno de los modelos de valuaci\'on de referencia en finanzas corporativas. Establece que el precio de una acci\'on depende positivamente del dividendo inicial y de la tasa de crecimiento $br$, e inversamente de la tasa de retorno requerida $k$.
+\end{enumerate}
+
+\bigskip
+\noindent\textbf{Relaciones l\'ogicas clave entre los conceptos del art\'iculo:}
+
+\begin{itemize}
+  \item La hip\'otesis de dividendos \textit{supone} que el accionista valora la corriente infinita de pagos futuros $\rightarrow$ de esto \textit{se deriva} la necesidad de incluir una medida del crecimiento esperado junto al dividendo actual.
+  \item La hip\'otesis de ganancias \textit{requiere} que $k$ sea independiente de $b$ $\rightarrow$ pero el argumento de incertidumbre creciente \textit{implica} que $k$ aumenta con $b$, lo que \textit{refuta} la hip\'otesis de ganancias.
+  \item El Modelo I \textit{contrasta con} el Modelo II: ambos son algebraicamente equivalentes (misma correlaci\'on), pero el Modelo II tiene una \textit{interpretaci\'on econ\'omica coherente} que el Modelo I no tiene.
+  \item La \textbf{elasticidad de expectativas menor que uno} \textit{se deriva del} comportamiento del Modelo III: los inversores ajustan su valoraci\'on con rezago ante cambios en dividendos, lo que \textit{contrasta con} la hip\'otesis de ajuste instant\'aneo.
+  \item Los coeficientes de crecimiento del Modelo III son d\'ebiles $\rightarrow$ Gordon concluye que los refinamientos futuros deber\'an mejorar la \textit{representaci\'on del crecimiento} y reconocer variables adicionales que afectan la \textit{confianza en el flujo de dividendos}.
+\end{itemize}
+
+\bigskip
+El art\'iculo termina con un llamado a continuar mejorando el modelo: la estructura l\'ogica est\'a establecida, pero la implementaci\'on emp\'irica requiere una mejor medici\'on del crecimiento, incorporar variables de riesgo, y resolver el problema de escala.
+
+\end{document}

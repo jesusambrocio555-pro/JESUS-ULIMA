@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/Users/51950/Documents/**)",
+      "Bash(dir \"C:/Users/51950/Documents/\")",
+      "Bash(pip install *)",
+      "Bash(python *)",
+      "Bash(where pdflatex *)",
+      "Read(//c/Users/51950/AppData/Local/Programs/MiKTeX/miktex/bin/x64/**)",
+      "Bash(pdflatex -interaction=nonstopmode 20260517_Ejemplo_resumen_academico_latex.tex)",
+      "Bash(pdflatex -interaction=nonstopmode 20260517_Peppal_Cap8_resumen_academico_latex.tex)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\51950\\\\Documents\\\\Claude_Jorge_PROYECTOS\\\\Project_Summary\\\\inputs\" | Select-Object Name, @{N='KB';E={[math]::Round\\($_.Length/1KB,0\\)}} | Format-Table -AutoSize)",
+      "Bash(\"C:\\\\Users\\\\51950\\\\AppData\\\\Local\\\\Programs\\\\MiKTeX\\\\miktex\\\\bin\\\\x64\\\\pdflatex.exe\" -interaction=nonstopmode \"20260517_KOHLSCHEEN_MURCIA_CONTRERAS_resumen_academico_latex.tex\")",
+      "Bash(\"C:\\\\Users\\\\51950\\\\AppData\\\\Local\\\\Programs\\\\MiKTeX\\\\miktex\\\\bin\\\\x64\\\\pdflatex.exe\" -interaction=nonstopmode \"20260517_MISHKIN_Cap8_resumen_academico_latex.tex\")",
+      "Bash(\"C:\\\\Users\\\\51950\\\\AppData\\\\Local\\\\Programs\\\\MiKTeX\\\\miktex\\\\bin\\\\x64\\\\pdflatex.exe\" -interaction=nonstopmode \"20260517_DEGRYSE_KIM_ONGENA_Cap6_resumen_academico_latex.tex\")",
+      "Bash(del *.aux *.log *.toc *.out)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\51950\\\\Documents\\\\Claude_Jorge_PROYECTOS\\\\Project_Summary\\\\outputs\" | Select-Object Name, @{N='KB';E={[math]::Round\\($_.Length/1KB,0\\)}} | Sort-Object Name | Format-Table -AutoSize)",
+      "Bash(\"C:\\\\Users\\\\51950\\\\AppData\\\\Local\\\\Programs\\\\MiKTeX\\\\miktex\\\\bin\\\\x64\\\\pdflatex.exe\" -interaction=nonstopmode \"20260517_BUTTON_PEZZINI_2010_resumen_academico_latex.tex\")",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\51950\\\\Documents\\\\Claude_Jorge_PROYECTOS\\\\Project_Summary\\\\inputs\\\\Modelo Cash in Advance Notas.docx\" | Select-Object Name, @{N='KB';E={[math]::Round\\($_.Length/1KB,0\\)}})",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\51950\\\\Documents\\\\Claude_Jorge_PROYECTOS\\\\Project_Summary\\\\inputs\" -Force | ForEach-Object { \"$\\($_.Name\\) — $\\([math]::Round\\($_.Length/1KB,1\\)\\) KB\" })",
+      "Bash(\"C:\\\\Users\\\\51950\\\\AppData\\\\Local\\\\Programs\\\\MiKTeX\\\\miktex\\\\bin\\\\x64\\\\pdflatex.exe\" -interaction=nonstopmode \"20260523_CashInAdvance_Notas_resumen_academico_latex.tex\")"
+    ]
+  }
+}

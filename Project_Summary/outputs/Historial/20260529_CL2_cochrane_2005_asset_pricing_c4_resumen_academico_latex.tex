@@ -1,0 +1,381 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: El Factor de Descuento}\\
+\large The Discount Factor\\
+\normalsize John H. Cochrane, \textit{Asset Pricing}, Cap\'itulo 4 (2005)}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on: El Factor de Descuento como Variable Aleatoria}
+%% ============================================================
+
+El cap\'itulo trabaja \emph{hacia atr\'as}: en lugar de derivar un factor de descuento espec\'ifico a partir de un modelo de consumo, pregunta cu\'ando existe alg\'un \textbf{factor de descuento estoc\'astico (stochastic discount factor)} $m$ tal que para cualquier activo con pago $x$ y precio $p$:
+\begin{equation}
+    p = E(mx)
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que el precio de hoy es la esperanza del pago futuro multiplicado por $m$. El factor $m$ ajusta el pago por dos cosas: el valor temporal del dinero (descontar el futuro) y el riesgo (los pagos en estados malos valen m\'as que en estados buenos). La belleza es que $m$ captura todo esto en una sola variable aleatoria.
+\end{intuicionmat}
+
+El cap\'itulo demuestra dos teoremas fundamentales:
+\begin{enumerate}
+    \item \textbf{Ley del precio \'unico (law of one price)}: existe un $m$ que satisface $p = E(mx)$ si y solo si se cumple la ley del precio \'unico.
+    \item \textbf{Ausencia de arbitraje (absence of arbitrage)}: existe un $m > 0$ (estrictamente positivo) si y solo si no existen oportunidades de arbitraje.
+\end{enumerate}
+
+La utilidad de estos teoremas es que permiten usar el formalismo $p = E(mx)$ sin asumir nada sobre funciones de utilidad, mercados completos ni agregaci\'on. Solo se necesita que los inversores no dejen sobre la mesa violaciones de la ley del precio \'unico u oportunidades de arbitraje.
+
+\begin{intuicion}
+La idea central del cap\'itulo es ``trabajar hacia atr\'as'': en lugar de partir de supuestos sobre preferencias y derivar precios, se parte de los precios observados y pregunta qu\'e condiciones m\'inimas sobre el mercado garantizan que existe una representaci\'on $p = E(mx)$. La respuesta sorprendentemente elegante: basta con la ley del precio \'unico para que exista $m$, y basta con la ausencia de arbitraje para que $m > 0$.
+\end{intuicion}
+
+%% ============================================================
+\section{Ley del Precio \'Unico y Existencia del Factor de Descuento}
+%% ============================================================
+
+\subsection{El espacio de pagos}
+
+El \textbf{espacio de pagos (payoff space)} $\underline{X}$ es el conjunto de todos los pagos que los inversores pueden adquirir. Para mercados completos con $S$ estados, $\underline{X} = \mathcal{R}^S$. En general, $\underline{X}$ es un subconjunto propio de $\mathcal{R}^S$.
+
+\textbf{Supuesto A1 (formaci\'on libre de carteras / portfolio formation):}
+\begin{equation}
+    x_1, x_2 \in \underline{X} \implies ax_1 + bx_2 \in \underline{X} \quad \text{para cualquier } a, b \in \mathbb{R}
+\end{equation}
+
+\begin{intuicionmat}
+Este supuesto dice que si puedo comprar $x_1$ y $x_2$, tambi\'en puedo comprar cualquier combinaci\'on lineal. Es lo que hace que $\underline{X}$ sea un subespacio lineal. Excluye restricciones a la venta en corto, m\'argenes, etc. Es restrictivo pero necesario para que el \'algebra funcione.
+\end{intuicionmat}
+
+Si los inversores pueden formar carteras de $N$ activos b\'asicos con pagos $x = [x_1, \ldots, x_N]'$, entonces $\underline{X} = \{c'x\}$ donde $c$ es el vector de pesos.
+
+El espacio de pagos \emph{no} es el espacio de retornos. El espacio de retornos es un subconjunto del espacio de pagos: si $R \in \underline{X}$, tambi\'en $2R$ y $-R$ pertenecen a $\underline{X}$.
+
+\begin{intuicion}
+El espacio de pagos es la ``biblioteca'' de todos los flujos de caja disponibles. No es solo las acciones individuales, sino todas las carteras que se pueden formar con ellas. Que sea un subespacio lineal significa que cualquier combinaci\'on de pagos disponibles tambi\'en est\'a disponible: libertad total para mezclar activos.
+\end{intuicion}
+
+\subsection{La ley del precio \'unico}
+
+\textbf{Supuesto A2 (ley del precio \'unico / law of one price):}
+\begin{equation}
+    p(ax_1 + bx_2) = ap(x_1) + bp(x_2)
+\end{equation}
+
+\begin{intuicionmat}
+El precio es una funci\'on lineal del pago. No importa c\'omo se construya el pago $x$: la combinaci\'on de activos que produzca el mismo flujo de caja debe tener el mismo precio. Una hamburguesa, un batido y papas fritas debe costar lo mismo que un Happy Meal (si tienen los mismos contenidos).
+\end{intuicionmat}
+
+La ley del precio \'unico es una condici\'on sobre el equilibrio del mercado: si hay alguna violaci\'on, los operadores la eliminar\'an instant\'aneamente. Es una caracterizaci\'on muy d\'ebil de las preferencias: s\'olo pide que al menos un inversor valore los activos por su contenido, no por su empaquetado.
+
+\begin{intuicion}
+La ley del precio \'unico proh\'ibe ganar dinero instant\'aneamente reempaquetando carteras. Si dos formas de obtener el mismo flujo de caja tuvieran precios distintos, se comprar\'ia la barata y vender\'ia la cara obteniendo ganancia segura sin riesgo. Es la versi\'on algebraica de la condici\'on de no-arbitraje m\'as b\'asica.
+\end{intuicion}
+
+\subsection{Teorema de existencia del factor de descuento}
+
+\textbf{Teorema:} Dados A1 (formaci\'on libre de carteras) y A2 (ley del precio \'unico), existe un \'unico pago $x^* \in \underline{X}$ tal que:
+\begin{equation}
+    p(x) = E(x^* x) \quad \forall x \in \underline{X}
+\end{equation}
+
+\begin{intuicionmat}
+$x^*$ es el factor de descuento que vive \emph{dentro} del espacio de pagos. El teorema dice que toda funci\'on de precio lineal puede representarse como un producto interno con alg\'un vector en el espacio. Es la versi\'on financiera del Teorema de Representaci\'on de Riesz: toda funci\'on lineal sobre un espacio de Hilbert puede representarse por un producto interno.
+\end{intuicionmat}
+
+\textbf{Prueba geom\'etrica:} La ley del precio \'unico implica que las curvas de iso-precio son hiperplanos paralelos que parten del origen. Se traza una l\'inea desde el origen perpendicular a esos hiperplanos. El vector $x^*$ sobre esa l\'inea con la longitud adecuada satisface $p(x) = E(x^*x)$ para todo $x$. $\square$
+
+\textbf{Prueba algebraica:} Si $\underline{X} = \{c'x\}$ con $N$ activos b\'asicos, se busca $x^* = c'x \in \underline{X}$. Para que $x^*$ preciare los activos b\'asicos:
+\begin{equation}
+    p = E(x^* x) = E(xx'c) \implies c = E(xx')^{-1}p
+\end{equation}
+
+Por lo tanto:
+\begin{equation}
+    x^* = p' E(xx')^{-1} x \label{eq:xstar}
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula construye expl\'icitamente el factor de descuento como combinaci\'on lineal de los pagos disponibles. El vector $c = E(xx')^{-1}p$ pondera los pagos de forma que $x^*$ reproduce exactamente los precios observados. A2 garantiza que $E(xx')$ es invertible (no hay activos redundantes).
+\end{intuicionmat}
+
+\subsection{Lo que el teorema dice y no dice}
+
+El teorema garantiza que existe un \'unico $x^* \in \underline{X}$, pero \emph{puede haber infinitos} factores de descuento fuera de $\underline{X}$. Si $p = E(mx)$, entonces:
+\begin{equation}
+    p = E[(m + \varepsilon)x] \quad \text{para cualquier } \varepsilon \text{ con } E(\varepsilon x) = 0
+\end{equation}
+
+\begin{intuicionmat}
+Todo factor de descuento $m$ puede escribirse como $m = x^* + \varepsilon$ donde $\varepsilon$ es ortogonal al espacio de pagos. La parte de $m$ que importa para los precios es exactamente $x^*$: la proyecci\'on de $m$ sobre $\underline{X}$. Lo que $m$ haga fuera de $\underline{X}$ es irrelevante para los precios observados.
+\end{intuicionmat}
+
+El resultado clave es:
+\begin{equation}
+    x^* = \text{proj}(m \mid \underline{X})
+\end{equation}
+
+$x^*$ es la \textbf{proyecci\'on de cualquier factor de descuento $m$ sobre el espacio de pagos $\underline{X}$}. Las implicaciones de precios de cualquier $m$ son id\'enticas a las de su proyecci\'on sobre $\underline{X}$. Este factor se conoce como la \textbf{cartera m\'imesis (mimicking portfolio)} de $m$.
+
+Algebraicamente:
+\begin{equation}
+    p = E(mx) = E[(\text{proj}(m|\underline{X}) + \varepsilon)x] = E[\text{proj}(m|\underline{X})x]
+\end{equation}
+
+\begin{intuicion}
+Aunque hay infinitos factores de descuento consistentes con los precios observados, solo uno vive en el espacio de pagos: $x^*$. Los dem\'as son $x^*$ m\'as ``ruido'' ortogonal. Para valorar activos en $\underline{X}$, cualquier factor sirve: lo \'unico que importa es su proyecci\'on. Esto justifica usar modelos simplificados de $m$ sin perder generalidad para los precios en $\underline{X}$.
+\end{intuicion}
+
+%% ============================================================
+\section{Ausencia de Arbitraje y Factores de Descuento Positivos}
+%% ============================================================
+
+\subsection{Definici\'on de ausencia de arbitraje}
+
+\textbf{Definici\'on (ausencia de arbitraje / absence of arbitrage):} El espacio de pagos $\underline{X}$ y la funci\'on de precios $p(x)$ no dejan oportunidades de arbitraje si todo pago $x$ que es siempre no negativo ($x \geq 0$ c.s.) y positivo con alguna probabilidad positiva ($x > 0$) tiene precio positivo: $p(x) > 0$.
+
+\begin{intuicion}
+No arbitraje significa que no se puede obtener ``gratis'' una cartera que \emph{podría} pagar positivamente y nunca costar\'a nada. Es una noci\'on m\'as fuerte que la ley del precio \'unico: no solo proh\'ibe beneficios instantaneos por reempaquetado, sino tambi\'en estrategias que dominan en todos los estados. En t\'erminos de dominancia estoc\'astica: si $x \geq y$ c.s. y $x > y$ con probabilidad positiva, entonces $p(x) > p(y)$.
+\end{intuicion}
+
+\subsection{$m > 0$ implica ausencia de arbitraje}
+
+La ausencia de arbitraje es consecuencia natural de un factor de descuento positivo. Del modelo de consumo:
+\begin{equation}
+    m(s) = \beta \frac{u'[c(s)]}{u'(c)} > 0
+\end{equation}
+
+\begin{intuicionmat}
+La utilidad marginal siempre es positiva: nadie desecha dinero. Por lo tanto, la tasa marginal de sustituci\'on es positiva en todos los estados. Esto implica que los precios de los activos contingentes son positivos, lo que descarta el arbitraje.
+\end{intuicionmat}
+
+\textbf{Teorema:} $p = E(mx)$ con $m(s) > 0$ implica ausencia de arbitraje.
+
+\textbf{Prueba:} Si $m > 0$, $x \geq 0$ y $x > 0$ en algunos estados con probabilidad positiva, entonces $mx > 0$ en esos estados. Por tanto $E(mx) > 0$. $\square$
+
+\begin{intuicion}
+La prueba es directa: si el factor de descuento es positivo estado por estado, un pago que es positivo en algunos estados necesariamente tiene precio positivo. No puede haber arbitraje porque cada unidad positiva de pago contribuye positivamente al precio.
+\end{intuicion}
+
+\subsection{No arbitraje implica $m > 0$: mercados completos}
+
+En mercados completos hay un \'unico factor de descuento $x^*$. Si fuera no positivo en alg\'un estado $s$, el activo contingente que paga 1 en ese estado tendr\'ia precio negativo: violaci\'on del no-arbitraje.
+
+\textbf{Teorema:} En mercados completos, no arbitraje y ley del precio \'unico implican que existe un \'unico $m > 0$ tal que $p = E(mx)$.
+
+\textbf{Prueba:} Del no-arbitraje y la ley del precio \'unico existe $x^*$ con $p = E(x^* x)$. En mercados completos $x^*$ es \'unico. Si $x^*(s) \leq 0$ en algunos estados, forme el pago $x = \mathbf{1}_{\{x^*(s)<0\}}$: es positivo pero su precio $\sum_{s: x^*(s)<0} \pi(s) x^*(s) < 0$, contradiciendo el no-arbitraje. $\square$
+
+\begin{intuicion}
+En mercados completos la l\'ogica es simple: si el \'unico factor de descuento fuera negativo en alg\'un estado, el activo contingente de ese estado tendr\'ia precio negativo. Comprar ese activo proporcionar\'ia un pago positivo y un ingreso inmediato: arbitraje perfecto.
+\end{intuicion}
+
+\subsection{No arbitraje implica $m > 0$: mercados incompletos}
+
+En mercados incompletos hay muchos factores de descuento. La dificultad es que los factores fuera de $\underline{X}$ no pueden construirse directamente desde los precios observados.
+
+\textbf{Prueba alternativa (estrategia de Ross, 1978):} Se define el conjunto:
+\begin{equation}
+    M = \{(-p(x), x) : x \in \underline{X}\}
+\end{equation}
+
+$M$ es un subespacio lineal en $\mathcal{R}^{S+1}$. No arbitraje implica que los elementos de $M$ no pueden ser todos positivos: si $x > 0$, entonces $-p(x) < 0$. As\'i, $M$ solo intersecta el ortante positivo $\mathcal{R}^{S+1}_+$ en el origen.
+
+Por el \textbf{Teorema del Hiperplano Separador (separating hyperplane theorem)}, existe una funci\'on lineal $F: \mathcal{R}^{S+1} \to \mathbb{R}$ tal que $F(-p, x) = 0$ para $(-p,x) \in M$ y $F(-p,x) > 0$ para $(-p,x) \in \mathcal{R}^{S+1}_+ \setminus \{0\}$.
+
+Como toda funci\'on lineal se representa como producto interno, existe $(1, m)$ tal que:
+\begin{equation}
+    F(-p, x) = (1, m) \cdot (-p, x) = -p + m \cdot x = -p + E(mx)
+\end{equation}
+
+Como $F(-p, x) > 0$ para $(-p, x) > 0$, se tiene que $m > 0$.
+
+\textbf{Teorema:} No arbitraje y ley del precio \'unico implican la existencia de un factor de descuento estrictamente positivo $m > 0$ tal que $p = E(mx)$ para todo $x \in \underline{X}$. $\square$
+
+\begin{intuicion}
+La prueba combina precio y pago en un solo vector de dimensi\'on $S+1$. La ausencia de arbitraje significa que ese conjunto no puede tener vectores completamente positivos (no puedes obtener pago positivo con precio negativo). El hiperplano separador que divide este conjunto del ortante positivo es exactamente el factor de descuento positivo que buscamos.
+\end{intuicion}
+
+\subsection{Lo que el teorema dice y no dice}
+
+El teorema garantiza que \emph{existe} un $m > 0$, pero:
+\begin{itemize}
+    \item $m > 0$ \emph{no es \'unico} (excepto en mercados completos). Todos los $m = x^* + \varepsilon$ en el ortante positivo son v\'alidos.
+    \item No todo factor de descuento necesita ser positivo: $x^* \in \underline{X}$ satisface $p = E(x^*x)$ pero puede no ser positivo.
+\end{itemize}
+
+El teorema tambi\'en muestra que cualquier $m > 0$ \textbf{extiende} la funci\'on de precios definida sobre $\underline{X}$ a todos los pagos de $\mathcal{R}^S$ sin introducir arbitraje. Cada elecci\'on distinta de $m > 0$ genera una extensi\'on diferente de la funci\'on de precios: hay muchas econom\'ias de activos contingentes completos consistentes con los precios observados.
+
+\begin{intuicion}
+El teorema responde una pregunta profunda: ?`pueden los precios incompletos observados ser generados por alguna econom\'ia de mercados completos? S\'i, si y solo si no hay arbitraje. La multiplicidad de factores positivos refleja la multiplicidad de econom\'ias completas consistentes con los datos. En mercados incompletos, la valoraci\'on no es \'unica: hay un rango de precios para activos no negociados que son consistentes con el no-arbitraje.
+\end{intuicion}
+
+%% ============================================================
+\section{F\'ormula Alternativa para $x^*$ y Tiempo Continuo}
+%% ============================================================
+
+\subsection{F\'ormula con matrices de covarianza}
+
+La f\'ormula $x^* = p'E(xx')^{-1}x$ usa la matriz de segundos momentos $E(xx')$. Una alternativa que usa la \textbf{matriz de covarianza (covariance matrix)} $\Sigma \equiv E([x - E(x)][x-E(x)]')$ es:
+\begin{equation}
+    x^* = E(x^*) + [p - E(x^*)E(x)]' \Sigma^{-1} [x - E(x)] \label{eq:xstar_cov}
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula descompone $x^*$ en su media m\'as una combinaci\'on lineal de las \emph{innovaciones} de los pagos. El t\'ermino $[p - E(x^*)E(x)]$ son los ``excesos de precios'' respecto a los precios esperados bajo un activo libre de riesgo de tasa $1/E(x^*)$. La matriz $\Sigma^{-1}$ invierte la estructura de correlaci\'on de los pagos para aislar las exposiciones a cada fuente de riesgo.
+\end{intuicionmat}
+
+\textbf{Derivaci\'on:} Se postula $x^* = E(x^*) + (x - E(x))'b$ (factor de descuento lineal en las innovaciones de los pagos). La condici\'on de precios $p = E(xx^*)$ da:
+\begin{equation}
+    b = \Sigma^{-1}[p - E(x^*)E(x)]
+\end{equation}
+
+Si se negocia una tasa libre de riesgo, $E(x^*) = 1/R^f$. Para el caso especial de retornos en exceso:
+\begin{equation}
+    x^* = \frac{1}{R^f} - \frac{1}{R^f} E(R^e)' \Sigma^{-1}(R^e - E(R^e)); \quad \Sigma \equiv \text{cov}(R^e)
+\end{equation}
+
+\begin{intuicionmat}
+Para retornos en exceso, $x^*$ tiene media $1/R^f$ (precio del activo libre de riesgo) y es ajustado a la baja por la exposici\'on a retornos en exceso con ponderaciones proporcionales a las primas de riesgo e inversas a la varianza. Es la proyecci\'on \'optima del factor de descuento sobre el espacio de retornos en exceso.
+\end{intuicionmat}
+
+\begin{intuicion}
+La f\'ormula de covarianza es m\'as \'util en la pr\'actica porque los datos t\'ipicamente se resumen en medias y covarianzas, no en segundos momentos. La estructura es an\'aloga a la regresi\'on: el factor de descuento es lineal en los retornos, con coeficientes que dependen de los precios de mercado del riesgo y la matriz de covarianza de los activos.
+\end{intuicion}
+
+\subsection{Factor de descuento en tiempo continuo}
+
+En tiempo continuo, el factor de descuento $\Lambda_t$ debe satisfacer:
+\begin{equation}
+    p_t \Lambda_t = E_t(\Lambda_{t+s} p_{t+s})
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la condici\'on $p = E(mx)$ en tiempo continuo: el precio de hoy multiplicado por el factor de descuento actual es la esperanza condicional del precio futuro multiplicado por el factor futuro. Es la ecuaci\'on de martingala del precio deflactado.
+\end{intuicionmat}
+
+Suponga que $N$ activos pagan dividendos $D_t dt$ y sus precios siguen:
+\begin{equation}
+    \frac{dp_t}{p_t} = \mu_t dt + \sigma_t dz_t
+\end{equation}
+
+donde $\mu_t$ y $\sigma_t$ son $N \times 1$ y $E(dz_t dz_t') = I\, dt$. El factor de descuento m\'inimo $\Lambda^*$ satisface:
+\begin{equation}
+    \frac{d\Lambda^*}{\Lambda^*} = -r^f dt - \left(\mu + \frac{D}{p} - r^f\right)' \Sigma^{-1} \sigma\, dz
+    \label{eq:lambda_ct}
+\end{equation}
+
+donde $\Sigma \equiv \sigma\sigma'$ es la matriz de covarianza de los retornos.
+
+\begin{intuicionmat}
+Esta EDE (ecuaci\'on diferencial estoc\'astica) dice que el factor de descuento tiene dos componentes: (1) una deriva determinista $-r^f dt$ que refleja el descuento por el paso del tiempo a tasa libre de riesgo, y (2) una parte estoc\'astica $-(\mu + D/p - r^f)' \Sigma^{-1} \sigma\, dz$ que compensa los retornos en exceso de cada activo ponderados por el inverso de su riesgo. Los coeficientes $(\mu + D/p - r^f)' \Sigma^{-1}$ son los precios de mercado del riesgo (market prices of risk).
+\end{intuicionmat}
+
+Este factor de descuento satisface las condiciones de precios:
+\begin{align}
+    E_t\left(\frac{dp}{p}\right) + \frac{D}{p}dt - r^f dt &= -E_t\left(\frac{d\Lambda^*}{\Lambda^*} \cdot \frac{dp}{p}\right) \\
+    E_t\left(\frac{d\Lambda^*}{\Lambda^*}\right) &= -r^f dt
+\end{align}
+
+\begin{intuicionmat}
+La primera ecuaci\'on es la versi\'on en tiempo continuo de $E(R) - R^f = -\text{cov}(m, R)/E(m)$: el retorno esperado en exceso sobre la tasa libre de riesgo es igual a la covarianza negativa entre el retorno y el factor de descuento. La segunda dice que el factor de descuento tiene deriva $-r^f$: se deprecia a la tasa libre de riesgo en esperanza.
+\end{intuicionmat}
+
+El factor de descuento en tiempo continuo \eqref{eq:lambda_ct} es exactamente el an\'alogo de la f\'ormula discreta \eqref{eq:xstar_cov}: mismo factor de descuento m\'inimo, misma estructura lineal en los shocks, mismo papel de la matriz $\Sigma^{-1}$ como inversa de riesgo. El factor no es \'unico: $\Lambda^*$ m\'as ruido ortogonal tambi\'en es un factor v\'alido.
+
+\begin{intuicion}
+La transici\'on a tiempo continuo no cambia la l\'ogica econ\'omica: la ley del precio \'unico y la ausencia de arbitraje siguen siendo las condiciones m\'inimas para la existencia de factores de descuento y positivos, respectivamente. Lo que cambia es el objeto matem\'atico: en lugar de una variable aleatoria se tiene un proceso estoc\'astico, y en lugar de productos internos se tienen integrales estoc\'asticas.
+\end{intuicion}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+\subsection{Los dos teoremas fundamentales}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Condici\'on del mercado & Tipo de $m$ & Resultado \\
+\midrule
+Ley del precio \'unico & $m$ (cualquiera) & $\exists!\, x^* \in \underline{X}$: $p = E(x^*x)$ \\
+Ausencia de arbitraje & $m > 0$ & $\exists\, m > 0$: $p = E(mx)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item \textbf{Ley del precio \'unico $\iff$ Existencia de $m$:} La ley del precio \'unico (precio es funci\'on lineal del pago) es equivalente a la existencia de un factor de descuento. El factor \'unico en $\underline{X}$ es $x^* = \text{proj}(m|\underline{X})$ para cualquier $m$ v\'alido.
+
+    \item \textbf{No arbitraje $\iff$ Existencia de $m > 0$:} La ausencia de arbitraje (pagos positivos tienen precio positivo) es equivalente a la existencia de un factor de descuento estrictamente positivo. En mercados incompletos, tal factor no es \'unico.
+\end{enumerate}
+
+\subsection{Implicaciones te\'oricas y pr\'acticas}
+
+\begin{itemize}
+    \item \textbf{Sin supuestos estructurales:} No se necesitan funciones de utilidad, mercados completos ni agregaci\'on. Solo basta con que los inversores no dejen sobre la mesa violaciones de la ley del precio \'unico u oportunidades de arbitraje.
+
+    \item \textbf{Multiplicidad de factores:} En mercados incompletos hay infinitos factores $m$ que satisfacen $p = E(mx)$: cualquier $m + \varepsilon$ con $E(\varepsilon x) = 0$. Todos tienen las mismas implicaciones de precios para activos en $\underline{X}$.
+
+    \item \textbf{Proyecci\'on y cartera m\'imesis:} El factor \'unico en $\underline{X}$ es la proyecci\'on de cualquier factor v\'alido sobre $\underline{X}$. Este $x^*$ es la \textbf{cartera m\'imesis (mimicking portfolio)}: la cartera que replica los precios de todos los activos en $\underline{X}$.
+
+    \item \textbf{Extensi\'on a mercados completos:} Cada factor positivo $m > 0$ genera una extensi\'on libre de arbitraje de la funci\'on de precios a todos los posibles pagos de $\mathcal{R}^S$, interpretable como una posible econom\'ia de activos contingentes completos consistente con los precios observados.
+
+    \item \textbf{F\'ormulas expl\'icitas:}
+    \begin{itemize}
+        \item Tiempo discreto (segundos momentos): $x^* = p'E(xx')^{-1}x$
+        \item Tiempo discreto (covarianzas): $x^* = E(x^*) + [p - E(x^*)E(x)]'\Sigma^{-1}[x - E(x)]$
+        \item Tiempo continuo: $\dfrac{d\Lambda^*}{\Lambda^*} = -r^f dt - \left(\mu + \dfrac{D}{p} - r^f\right)'\Sigma^{-1}\sigma\, dz$
+    \end{itemize}
+\end{itemize}
+
+\subsection{Jerarqu\'ia de condiciones}
+
+Las condiciones sobre el mercado y sus equivalentes en t\'erminos del factor de descuento forman una jerarqu\'ia:
+\begin{equation}
+    \text{No arbitraje} \implies \text{Ley del precio \'unico} \implies p = E(mx) \text{ con alg\'un } m
+\end{equation}
+\begin{equation}
+    m > 0 \implies \text{No arbitraje} \implies \text{Ley del precio \'unico}
+\end{equation}
+
+La equivalencia completa es:
+\begin{align}
+    \text{Ley del precio \'unico} &\iff \exists\, m : p = E(mx) \\
+    \text{Ausencia de arbitraje} &\iff \exists\, m > 0 : p = E(mx)
+\end{align}
+
+Estas equivalencias son el fundamento de toda la teor\'ia de valoraci\'on de activos moderna: permiten pasar de condiciones econ\'omicas sobre el mercado (ley del precio \'unico, no arbitraje) a condiciones matem\'aticas sobre un objeto \'unico (el factor de descuento), simplificando enormemente el an\'alisis.
+
+\end{document}

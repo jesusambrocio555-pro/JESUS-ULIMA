@@ -1,0 +1,705 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Cap\'itulo 15 --- Valoraci\'on por Arbitraje:\\
+Modelos de Estado Continuo y Tiempo Continuo}\\
+\large \textit{Arbitrage Pricing: Continuous-State, Continuous-Time Models}\\
+\normalsize Fabozzi, Focardi \& Kolm, \textit{The Mathematics of Financial Modeling and Investment Management}}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on}
+%% ============================================================
+
+El cap\'itulo~15 extiende la teor\'ia de valoraci\'on por arbitraje del marco de estados finitos al entorno de \textbf{estado continuo y tiempo continuo (continuous-state, continuous-time)}. Este salto conceptual introduce tres cambios fundamentales respecto al caso discreto:
+
+\begin{enumerate}
+  \item Cada estado del mundo tiene probabilidad cero, lo que impide usar probabilidades condicionales est\'andar y obliga a trabajar con \textbf{filtraciones (filtrations)} para describir la propagaci\'on de informaci\'on.
+  \item El \'algebra matricial es insuficiente; se requieren las herramientas del c\'alculo estoc\'astico (integrales de It\^o, lema de It\^o, teorema de Girsanov).
+  \item Las generalizaciones simples rara vez son v\'alidas; aparecen casos patol\'ogicos asociados a conjuntos infinitos.
+\end{enumerate}
+
+El cap\'itulo desarrolla la teor\'ia en pasos: desde la definici\'on de estrategias de trading hasta la f\'ormula de Black-Scholes, los deflactores de precios de estado, las medidas martingala equivalentes y sus relaciones con los mercados completos.
+
+%% ============================================================
+\section{El Principio de Arbitraje en Tiempo Continuo}
+%% ============================================================
+
+\subsection{Espacio de Probabilidad y Procesos de Precio}
+
+La econom\'ia se representa mediante un \textbf{espacio de probabilidad (probability space)} $(\Omega, \mathfrak{F}, P)$ donde $\Omega$ es el conjunto de estados posibles, $\mathfrak{F}$ es la $\sigma$-\'algebra de eventos y $P$ es una medida de probabilidad. El tiempo es una variable continua en $[0,T]$.
+
+La \textbf{filtraci\'on (filtration)} $\mathfrak{F}_t$ es una familia de $\sigma$-\'algebras tal que $\mathfrak{F}_t \subseteq \mathfrak{F}_s$ para $t < s$, y representa c\'omo crece la informaci\'on disponible con el tiempo.
+
+Cada activo $i$ se caracteriza por:
+\begin{itemize}
+  \item Un \textbf{proceso de tasa de pago (payoff-rate process)} $\delta_t^i$: la tasa instant\'anea de pago del activo $i$.
+  \item Un \textbf{proceso de precio (price process)} $S_t^i$: el precio del activo $i$ en el instante $t$ y estado $\omega$.
+\end{itemize}
+
+El \textbf{pago acumulado (cumulative payoff)} del activo $i$ hasta el instante $t$ es:
+\begin{equation}
+  D_t^i = \int_0^t \delta_s^i \, ds
+\end{equation}
+
+\begin{intuicionmat}
+Esta integral acumula todos los flujos de caja peque\~nos que el activo genera instante a instante. Es el an\'alogo continuo de sumar dividendos period\'icos: si el activo paga $\delta_s^i$ en cada instante infinitesimal $ds$, la integral los totaliza hasta $t$.
+\end{intuicionmat}
+
+Todos los procesos de tasa de pago y precios son \textbf{procesos estoc\'asticos adaptados (adapted stochastic processes)} a la filtraci\'on $\mathfrak{F}$.
+
+En el entorno de estado continuo, la \textbf{expectativa condicional (conditional expectation)} $E_t[X_s]$ se define como promedio parcial: es la variable $\mathfrak{F}_t$-medible $Y_t$ tal que
+\[
+  E[Y_t(\omega)] = E[X_s(\omega)] \quad \forall \omega \in A,\; \forall A \in \mathfrak{F}_t.
+\]
+Se mantiene la \textbf{ley de expectativas iteradas (law of iterated expectations)}: $E_t[E_u(X_s)] = E_t[X_s]$.
+
+\begin{intuicion}
+Imagina que vas revelando informaci\'on conforme pasa el tiempo, como abrir cajas una por una. La filtraci\'on $\mathfrak{F}_t$ captura exactamente qu\'e cajas ya abriste hasta el momento $t$. La expectativa condicional $E_t[X_s]$ es tu mejor predicci\'on de $X_s$ dado lo que sabes en $t$. En estado continuo, cada ``rama'' del \'arbol de escenarios tiene probabilidad cero individualmente, por eso no se puede usar la f\'ormula cl\'asica de probabilidad condicional.
+\end{intuicion}
+
+\subsection{Estrategias de Trading y Ganancias de Trading}
+
+Una \textbf{estrategia de trading (trading strategy)} es un proceso vectorial adaptado $\boldsymbol{\theta} = \{\theta^i\}$ donde $\boldsymbol{\theta}_t = \{\theta_t^i\}$ es la cartera mantenida en el instante $t$. El requisito de adaptabilidad garantiza que no hay anticipaci\'on de informaci\'on futura.
+
+En tiempo continuo, las \textbf{ganancias de trading (trading gains)} no pueden definirse con sumas de Riemann-Stieltjes ordinarias porque los procesos tienen variaci\'on total no acotada. Sin embargo, tienen variaci\'on cuadr\'atica acotada, lo que permite definir \textbf{integrales de It\^o (It\^o integrals)}.
+
+Definimos el \textbf{proceso de ganancia (gain process)} del activo $i$ como:
+\begin{equation}
+  G_t^i = S_t^i + D_t^i
+\end{equation}
+
+\begin{intuicionmat}
+El proceso de ganancia suma el precio actual del activo m\'as todo lo que ha pagado en dividendos o flujos hasta $t$. Si vendes el activo hoy y cobras todos los pagos intermedios, $G_t^i$ es exactamente lo que habr\'ias acumulado.
+\end{intuicionmat}
+
+Las ganancias de trading de una estrategia se definen mediante la integral estoc\'astica:
+\begin{equation}
+  T_t = \int_0^t \boldsymbol{\theta}_s \, dG_s = \sum_i \int_0^t \theta_s^i \, dG_s^i
+\end{equation}
+
+\begin{intuicionmat}
+Esta integral generaliza la idea de ganancia discreta ``precio de venta menos precio de compra m\'as dividendos'' al tiempo continuo. Para una estrategia que rebalancea continuamente la cartera, $T_t$ acumula infinitesimalmente las ganancias y p\'erdidas asociadas a los movimientos de precio.
+\end{intuicionmat}
+
+Una \textbf{estrategia de trading autofinanciada (self-financing trading strategy)} es una estrategia en la que no hay inyecci\'on ni retiro de fondos externos; todo cambio de cartera se financia con las ganancias acumuladas:
+\begin{equation}
+  \boldsymbol{\theta}_t \mathbf{S}_t = \sum_i \theta_t^i S_t^i = \sum_i \left(\theta_0^i S_0^i + \int_0^t \theta_t^i \, dG_t^i\right), \quad t \in [0,T]
+\end{equation}
+
+\begin{intuicionmat}
+La condici\'on de autofinanciamiento dice que el valor de tu cartera en cualquier momento es exactamente el valor inicial m\'as todo lo que has ganado o perdido operando. No entra ni sale dinero externo: es un sistema cerrado.
+\end{intuicionmat}
+
+Un \textbf{arbitraje (arbitrage)} es una estrategia autofinanciada tal que:
+\[
+  \boldsymbol{\theta}_0 \mathbf{S}_0 < 0 \text{ y } \boldsymbol{\theta}_T \mathbf{S}_T \geq 0, \quad \text{o bien} \quad \boldsymbol{\theta}_0 \mathbf{S}_0 \leq 0 \text{ y } \boldsymbol{\theta}_T \mathbf{S}_T > 0.
+\]
+Es decir, una ganancia positiva (o no negativa) a partir de una inversi\'on nula o negativa; en otras palabras, dinero gratis sin riesgo.
+
+\begin{intuicion}
+Una estrategia autofinanciada es como invertir sin meter ni sacar dinero del ``bolsillo externo'': ganas o pierdes solo por los movimientos del mercado. Una estrategia \'auto-financiada que produce beneficios sin riesgo y sin inversi\'on se llama arbitraje. La teor\'ia parte del supuesto de que tales oportunidades no existen (o desaparecen instant\'aneamente) en mercados bien funcionados.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on por Arbitraje en Estado Continuo, Tiempo Continuo}
+%% ============================================================
+
+El principio de valoraci\'on por arbitraje es el mismo en el entorno discreto y en el continuo: la valoraci\'on por arbitraje es \textbf{valoraci\'on relativa (relative pricing)}. Dados los procesos de precio y tasa de pago de los activos b\'asicos, en ausencia de arbitraje quedan determinados los precios de todos los dem\'as activos (llamados \textbf{valores redundantes, redundant securities}).
+
+En el entorno continuo, cuando todos los procesos son procesos de It\^o, existen dos herramientas equivalentes para la valoraci\'on:
+
+\begin{enumerate}
+  \item \textbf{Deflactores de precios de estado (state-price deflators)} $\pi_t$: procesos estrictamente positivos que hacen martingala a los precios deflactados.
+  \item \textbf{Medidas martingala equivalentes (equivalent martingale measures)} $Q$: medidas de probabilidad equivalentes a $P$ bajo las que los precios descontados son martingalas.
+\end{enumerate}
+
+Ambas herramientas pueden determinarse a partir de un subconjunto de activos b\'asicos; todos los dem\'as procesos son redundantes.
+
+En el entorno discreto, los precios satisfac\'ian:
+\[
+  S_t^i = \frac{1}{\pi_t} E_t\!\left[\sum_{j=t+1}^{T} \pi_j d_j^i\right] = E_t^Q\!\left[\sum_{j=t+1}^{T} \frac{d_j^i}{R_{t,j}}\right]
+\]
+donde $R_{t,j}$ es el factor de descuento acumulado. En el entorno continuo se obtienen relaciones an\'alogas con integrales en lugar de sumas.
+
+\begin{intuicion}
+El arbitraje es una especie de ``ley de un solo precio'': si dos carteras producen exactamente los mismos flujos futuros en todos los escenarios posibles, deben tener el mismo precio hoy. Si no fuera as\'i, habr\'ia una oportunidad de arbitraje (compras la m\'as barata, vendes la m\'as cara, ganancia garantizada). Este principio, aplicado sistem\'aticamente, fija los precios de todos los activos derivados en t\'erminos de los activos b\'asicos.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on de Opciones}
+%% ============================================================
+
+\subsection{El Activo Libre de Riesgo}
+
+Supongamos que la tasa libre de riesgo es una constante $r$. El valor $V_t$ de un activo libre de riesgo satisface la ecuaci\'on diferencial determinista:
+\begin{equation}
+  dV_t = r V_t \, dt
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que el activo libre de riesgo crece a una tasa proporcional a su valor: es el modelo cl\'asico de inter\'es compuesto continuo. No hay incertidumbre ($dB_t = 0$), solo crecimiento determinista.
+\end{intuicionmat}
+
+Separando variables, $dV_t / V_t = r\,dt$, cuya soluci\'on es:
+\begin{equation}
+  V_t = V_0 e^{rt}
+\end{equation}
+
+\begin{intuicionmat}
+El valor del bono libre de riesgo crece exponencialmente: si inviertes $V_0$ hoy, en el tiempo $t$ tienes $V_0 e^{rt}$. Esta f\'ormula es la base de todos los descuentos: para traer un pago futuro al presente, se divide por $e^{rt}$.
+\end{intuicionmat}
+
+\begin{intuicion}
+El activo libre de riesgo (bono, cuenta bancaria) es el ``num\'erario'' del modelo: el patr\'on contra el que se miden todos los dem\'as precios. Su trayectoria es completamente predecible; es la \'unica certeza del mercado. Todo lo dem\'as es incierto.
+\end{intuicion}
+
+\subsection{Procesos de Precio de Acciones}
+
+Consideremos el proceso $y_t = \alpha t + \sigma B_t$, llamado \textbf{movimiento browniano aritm\'etico (arithmetic Brownian motion)}, que satisface:
+\begin{equation}
+  dy_t = \alpha \, dt + \sigma \, dB_t
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on descompone el cambio infinitesimal de $y_t$ en dos partes: (1) un \textbf{drift} $\alpha\,dt$ determinista que representa la tendencia promedio, y (2) un choque aleatorio $\sigma\,dB_t$ donde $B_t$ es un movimiento browniano est\'andar. La constante $\sigma$ controla cu\'anto ruido hay.
+\end{intuicionmat}
+
+Ahora consideremos el proceso $S_t = S_0 e^{(\alpha t + \sigma B_t)}$. Aplicando el lema de It\^o, este proceso satisface la \textbf{ecuaci\'on diferencial estoc\'astica (stochastic differential equation)} del \textbf{movimiento browniano geom\'etrico (geometric Brownian motion)}:
+\begin{equation}
+  dS_t = \mu S_t \, dt + \sigma S_t \, dB_t, \quad S_0 = x
+\end{equation}
+donde $\mu = \alpha + \frac{1}{2}\sigma^2$ y $B_t$ es un movimiento browniano est\'andar.
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que el cambio \textit{porcentual} del precio tiene dos componentes: una tendencia determinista $\mu\,dt$ (retorno esperado) y un ruido proporcional al precio $\sigma\,dB_t$ (volatilidad). Que el ruido sea proporcional a $S_t$ asegura que los precios no puedan volverse negativos, lo cual es realista para acciones. El t\'ermino $\frac{1}{2}\sigma^2$ en $\mu$ es la correci\'on de It\^o que aparece al pasar de la exponencial a la forma diferencial.
+\end{intuicionmat}
+
+\begin{intuicion}
+El movimiento browniano geom\'etrico (GBM) es el modelo de precios m\'as usado en finanzas. Supone que los rendimientos log\'itmicos son normales e independientes en el tiempo. Aunque es una simplificaci\'on (los mercados reales tienen colas gruesas, volatilidad variable, saltos), es el punto de partida ineludible y produce la f\'ormula de Black-Scholes.
+\end{intuicion}
+
+\subsection{Cobertura}
+
+Consideremos un \textbf{mercado} formado por tres activos: un bono (libre de riesgo), una acci\'on y una opci\'on de compra europea. La opci\'on de compra europea da derecho a comprar la acci\'on al precio de ejercicio $K$ en la fecha de vencimiento $T$. Su pago terminal es:
+\begin{equation}
+  Y_T = \max(S_T - K, \, 0)
+\end{equation}
+
+\begin{intuicionmat}
+El pago de la opci\'on captura el beneficio m\'aximo de ejercerla: si la acci\'on vale m\'as que $K$ al vencimiento, te quedas con la diferencia $(S_T - K)$; si vale menos, simplemente no ejerces y el pago es cero. El operador $\max(\cdot, 0)$ representa esta optionalidad.
+\end{intuicionmat}
+
+\textbf{Cubrir (hedge)} la opci\'on significa construir una estrategia autofinanciada $(\theta_t^1, \theta_t^2)$ en el bono y la acci\'on tal que replique el pago de la opci\'on en cada estado:
+\begin{equation}
+  \theta_t^1 V_T + \theta_t^2 S_T = Y_T
+\end{equation}
+
+\begin{intuicionmat}
+La cobertura replica el pago de la opci\'on exactamente, estado por estado. Si tal r\'eplica existe, la ley de un solo precio fuerza que el precio de la opci\'on en cualquier instante sea igual al valor de la estrategia replicante. De lo contrario, habr\'ia arbitraje.
+\end{intuicionmat}
+
+\begin{intuicion}
+Cubrir una opci\'on es como construir una ``copia sintética'' del instrumento derivado usando los activos b\'asicos disponibles (bono y acci\'on). Si la copia perfecta existe, entonces el mercado ya ha fijado el precio de la opci\'on: cualquier otro precio crear\'ia una oportunidad de ganancia sin riesgo. Este es el coraz\'on del argumento de Black y Scholes.
+\end{intuicion}
+
+\subsection{La F\'ormula de Valoraci\'on de Opciones de Black-Scholes}
+
+Suponemos que el precio de la opci\'on es una funci\'on determinista del precio de la acci\'on y del tiempo: $Y_t = C(S_t, t)$. Aplicando el \textbf{lema de It\^o (It\^o's lemma)} a esta funci\'on:
+\begin{equation}
+  dY_t = \left[\frac{\partial C}{\partial t} + \frac{\partial C}{\partial S_t} S_t \mu + \frac{1}{2}\frac{\partial^2 C}{\partial S_t^2} S_t^2 \sigma^2\right]dt + \frac{\partial C}{\partial S_t}\sigma S_t \, dB_t
+\end{equation}
+
+\begin{intuicionmat}
+El lema de It\^o es la regla de la cadena del c\'alculo estoc\'astico. A diferencia del caso determinista, aparece el t\'ermino de segundo orden $\frac{1}{2}\frac{\partial^2 C}{\partial S_t^2} S_t^2 \sigma^2$ (la ``correcci\'on de It\^o''), que surge porque el cuadrado de los incrementos brownianos $(dB_t)^2 = dt$ no es despreciable. Este t\'ermino hace que el precio de la opci\'on tenga ``convexi\'on'' respecto al precio de la acci\'on.
+\end{intuicionmat}
+
+Por otro lado, si $Y_t = \theta_t^1 V_t + \theta_t^2 S_t$ es una estrategia autofinanciada:
+\begin{equation}
+  dY_t = (\theta_t^1 r V_t + \theta_t^2 \mu S_t)\,dt + \theta_t^2 \sigma S_t \, dB_t
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on describe c\'omo evoluciona el valor de la cartera replicante. El primer t\'ermino es la ganancia del bono (rentabilidad libre de riesgo) y la ganancia esperada de la acci\'on. El segundo es el riesgo (componente browniana). Para que la cartera replique la opci\'on, ambas expresiones de $dY_t$ deben coincidir.
+\end{intuicionmat}
+
+Igualando los coeficientes de $dt$ y $dB_t$ se obtiene la \textbf{estrategia de cobertura delta (delta hedging strategy)}:
+\begin{equation}
+  \theta_t^2 = \frac{\partial C(S_t, t)}{\partial S_t}, \qquad \theta_t^1 = \frac{1}{V_t}\left[C(S_t, t) - \frac{\partial C(S_t, t)}{\partial S_t} S_t\right]
+\end{equation}
+
+\begin{intuicionmat}
+El delta $\theta_t^2 = \partial C / \partial S_t$ es el n\'umero de acciones a mantener en la cartera replicante: mide cu\'anto cambia el precio de la opci\'on cuando sube una unidad el precio de la acci\'on. El resto de la cartera va en el bono. La estrategia se rebalancea continuamente para mantener este delta.
+\end{intuicionmat}
+
+Igualando los coeficientes de $dt$ se obtiene la \textbf{ecuaci\'on en derivadas parciales de Black-Scholes (Black-Scholes PDE)}:
+\begin{equation}
+  -rC(S_t, t) + r\frac{\partial C}{\partial S_t}S_t + \frac{\partial C}{\partial t} + \frac{1}{2}\frac{\partial^2 C}{\partial S_t^2}S_t^2\sigma^2 = 0
+\end{equation}
+con condici\'on de contorno $C(S_T, T) = \max(S_T - K, 0)$.
+
+\begin{intuicionmat}
+La EDP de Black-Scholes es la ecuaci\'on diferencial que debe satisfacer cualquier funci\'on de valoraci\'on consistente con la ausencia de arbitraje. Es el resultado de imponer que la estrategia delta-hedging no genere ganancias: el retorno de la cartera replicante debe ser exactamente $r$ (la tasa libre de riesgo). Si no, habr\'ia arbitraje.
+\end{intuicionmat}
+
+La soluci\'on en forma cerrada de esta EDP con las condiciones de contorno dadas es la \textbf{f\'ormula de valoraci\'on de Black-Scholes (Black-Scholes option pricing formula)}:
+\begin{equation}
+  C(S_t, t) = S_t\,\Phi(z) - e^{-r(T-t)} K\,\Phi\!\left(z - \sigma\sqrt{T-t}\right)
+\end{equation}
+con
+\begin{equation}
+  z = \frac{\log(S_t/K) + \left(r + \frac{1}{2}\sigma^2\right)(T-t)}{\sigma\sqrt{T-t}}
+\end{equation}
+donde $\Phi$ es la distribuci\'on normal acumulada est\'andar.
+
+\begin{intuicionmat}
+La f\'ormula de Black-Scholes descompone el precio de la opci\'on en dos t\'erminos: (1) $S_t \Phi(z)$ es el valor esperado del precio de la acci\'on en la fecha de ejercicio, ponderado por la probabilidad de que la opci\'on termine dentro del dinero; (2) $e^{-r(T-t)} K \Phi(z - \sigma\sqrt{T-t})$ es el valor presente del precio de ejercicio, ponderado por la misma probabilidad. La diferencia da el precio de la opci\'on. La f\'ormula no depende del drift $\mu$ de la acci\'on, solo de la volatilidad $\sigma$: un resultado sorprendente que refleja la neutralidad al riesgo de la valoraci\'on por arbitraje.
+\end{intuicionmat}
+
+\begin{intuicion}
+La f\'ormula de Black-Scholes (1973) es uno de los resultados m\'as influyentes de la econom\'ia moderna. Su genialidad es que el precio de la opci\'on no depende de cu\'anto esperamos que suba la acci\'on ($\mu$), sino solo de cu\'anto fluctúa ($\sigma$). Esto es consecuencia del argumento de cobertura: si rebalanceas continuamente la cartera delta, el riesgo de mercado se cancela y solo queda la tasa libre de riesgo. El Nobel de Econom\'ia 1997 fue otorgado a Merton y Scholes (Black hab\'ia fallecido) por este trabajo.
+\end{intuicion}
+
+\subsection{Generalizaci\'on de la Valoraci\'on de Opciones Europeas}
+
+La metodolog\'ia anterior se generaliza en tres direcciones:
+\begin{itemize}
+  \item El pago de la opci\'on es una variable aleatoria de varianza finita arbitraria: $Y_T = g(S_T)$.
+  \item El proceso de precio de la acci\'on es un proceso de It\^o gen\'erico:
+  \begin{equation}
+    dS_t = \mu(S_t, t)\,dt + \sigma(S_t, t)\,dB_t, \quad S_0 = x
+  \end{equation}
+  \item La tasa de inter\'es a corto plazo es estoc\'astica.
+\end{itemize}
+
+\begin{intuicionmat}
+Un proceso de It\^o gen\'erico permite que tanto el drift $\mu$ como la volatilidad $\sigma$ dependan del nivel de precio y del tiempo. El GBM con $\mu$ y $\sigma$ constantes es un caso particular. Esta generalizaci\'on abarca modelos de volatilidad local, modelos de tasa de inter\'es, etc.
+\end{intuicionmat}
+
+El proceso de precio del bono con tasa estoc\'astica $r(S_t, t)$ se define como:
+\begin{equation}
+  V_t = V_0 e^{\int_0^t r(S_u, u)\,du}, \qquad dV_t = V_t r(S_t, t)\,dt
+\end{equation}
+
+\begin{intuicionmat}
+Cuando la tasa de inter\'es es estoc\'astica, el bono ``libre de riesgo'' sigue siendo free-of-risk en el sentido de que su din\'amica no tiene componente browniana ($dB_t$), pero su nivel puede variar porque $r$ depende del estado del mundo. La integral acumulada $\int_0^t r_u\,du$ sustituye al simple $rt$ del caso determinista.
+\end{intuicionmat}
+
+La EDP generalizada resultante es:
+\begin{equation}
+  -r(x,t)C(x,t) + r(x,t)\frac{\partial C}{\partial x}x + \frac{\partial C}{\partial t} + \frac{1}{2}\frac{\partial^2 C}{\partial x^2}\sigma^2(x,t) = 0
+\end{equation}
+con condici\'on de contorno $C(S_T, T) = g(S_T)$.
+
+\begin{intuicionmat}
+Esta EDP generalizada tiene la misma estructura que la de Black-Scholes, pero con coeficientes que pueden variar con el precio y el tiempo. Su soluci\'on num\'erica (diferencias finitas, m\'etodos de elementos finitos) o anal\'itica (cuando es posible) proporciona el precio de la opci\'on.
+\end{intuicionmat}
+
+\begin{intuicion}
+La generalizaci\'on muestra que el argumento de Black-Scholes es m\'as robusto de lo que parece: funciona siempre que se pueda construir una cartera replicante autofinanciada. La estructura matem\'atica (EDP parab\'olica + condici\'on de contorno) es universal para opciones europeas sobre cualquier subyacente modelado como proceso de It\^o.
+\end{intuicion}
+
+%% ============================================================
+\section{Deflactores de Precios de Estado}
+%% ============================================================
+
+\subsection{Definici\'on y Propiedades}
+
+Extendemos el concepto de precios de estado al entorno continuo. Se trabaja sobre el espacio $(\Omega, \mathfrak{F}, P)$ con una filtraci\'on $\mathfrak{F}_t$ y un \textbf{movimiento browniano multivariado est\'andar (multivariate standard Brownian motion)} $B = (B_1, \ldots, B_D)$ en $\mathbb{R}^D$ adaptado a $\mathfrak{F}_t$.
+
+Se supone que existen $N$ procesos de precio $\mathbf{X} = (X^1, \ldots, X^N)$ formando un proceso de It\^o multivariado en $\mathbb{R}^N$. Uno de ellos, $X_t^1$, es la \textbf{cuenta bancaria (bank account)} libre de riesgo con proceso de tasa corta $r_t$:
+\begin{equation}
+  X_t^1 = e^{\int_0^t r_u\,du}, \qquad dX_t^1 = r_t X_t^1 \, dt
+\end{equation}
+
+\begin{intuicionmat}
+La cuenta bancaria libre de riesgo es el \textit{num\'erario} del modelo. Crece determin\'isticamente a la tasa corta $r_t$. Todas las dem\'as carteras se expresan en t\'erminos relativos a esta cuenta.
+\end{intuicionmat}
+
+Un \textbf{deflactor (deflator)} es cualquier proceso de It\^o estrictamente positivo $Y$. Dado un deflactor $Y$, el \textbf{proceso deflactado (deflated process)} de cualquier proceso $X$ es:
+\begin{equation}
+  X_t^Y = X_t Y_t
+\end{equation}
+
+Un \textbf{deflactor regular (regular deflator)} es un deflactor que, tras la deflaci\'on, deja invariante el conjunto de estrategias de trading admisibles.
+
+\begin{intuicion}
+Deflactar un proceso es como medir su valor en unidades de otro activo en lugar de en unidades monetarias. Por ejemplo, deflactar por la cuenta bancaria da los precios en t\'erminos de cu\'anto vale una unidad monetaria invertida a la tasa libre de riesgo. Este cambio de num\'erario simplifica enormemente los c\'alculos.
+\end{intuicion}
+
+Un \textbf{deflactor de precios de estado (state-price deflator)} es un deflactor $\pi$ tal que el proceso deflactado $X^\pi$ es una martingala. Para cada proceso de precio $X_t^i$:
+\begin{equation}
+  \pi_t X_t^i = E_t[\pi_s X_s^i], \quad s > t
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on es la condici\'on de martingala: el valor deflactado hoy es la mejor predicci\'on (esperanza condicional) del valor deflactado en el futuro. Es la generalizaci\'on continua de la condici\'on de valoraci\'on discreta $S_t^i = \frac{1}{\pi_t}E_t\!\left[\sum_j \pi_j d_j^i\right]$.
+\end{intuicionmat}
+
+\begin{intuicion}
+El deflactor de precios de estado $\pi_t$ es el factor de descuento ``ajustado al riesgo'' en el mundo real. Cuando multiplicas el precio del activo por $\pi_t$, el producto se comporta como una martingala: en promedio, no cambia. Esto refleja que la incertidumbre sobre el precio futuro queda compensada exactamente por el ajuste de riesgo del deflactor.
+\end{intuicion}
+
+\subsection{Ausencia de Arbitraje con Deflactor de Precios de Estado}
+
+\textbf{Proposici\'on:} Si existe un deflactor de precios de estado regular $\pi$, entonces no hay arbitraje.
+
+La demostraci\'on utiliza que, bajo $\pi$, toda estrategia autofinanciada es una martingala:
+\begin{equation}
+  E\!\left[\int_0^T \boldsymbol{\theta}_u \, dS_u^\pi\right] = 0
+\end{equation}
+
+\begin{intuicionmat}
+Si el proceso deflactado es martingala, su integral estoc\'astica tiene valor esperado cero. Esto significa que el valor inicial de cualquier estrategia autofinanciada en el mundo deflactado es igual al valor esperado del valor final. Por tanto, si el valor final es no negativo, el valor inicial debe ser no negativo; no puede haber arbitraje.
+\end{intuicionmat}
+
+Por consiguiente:
+\begin{equation}
+  \boldsymbol{\theta}_0 S_0^\pi = E[\boldsymbol{\theta}_T S_T^\pi]
+\end{equation}
+
+Si $\boldsymbol{\theta}_T S_T^\pi \geq 0$, entonces $\boldsymbol{\theta}_0 S_0^\pi \geq 0$, y si $\boldsymbol{\theta}_T S_T^\pi > 0$, entonces $\boldsymbol{\theta}_0 S_0^\pi > 0$. No puede haber arbitraje.
+
+\begin{intuicion}
+Este resultado es fundamental: basta encontrar \textit{un solo} deflactor de precios de estado para garantizar que el mercado est\'a libre de arbitraje. El reto es la direcci\'on inversa: ¿c\'omo saber si existe tal deflactor? Eso lo responde el Teorema Fundamental de Valoraci\'on de Activos, que en el entorno continuo requiere condiciones t\'ecnicas adicionales.
+\end{intuicion}
+
+%% ============================================================
+\section{Medidas Martingala Equivalentes}
+%% ============================================================
+
+\subsection{Definici\'on}
+
+Dos medidas de probabilidad $P$ y $Q$ son \textbf{equivalentes (equivalent)} si asignan probabilidad cero a los mismos eventos: $P(A) = 0 \Leftrightarrow Q(A) = 0$ para todo evento $A$.
+
+La medida equivalente $Q$ es una \textbf{medida martingala equivalente (equivalent martingale measure, EMM)} para el proceso $X$ si $X$ es martingala respecto a $Q$ y la \textbf{derivada de Radon-Nikodym (Radon-Nikodym derivative)}
+\begin{equation}
+  \xi = \frac{dQ}{dP}
+\end{equation}
+tiene varianza finita. La derivada de Radon-Nikodym es una variable aleatoria $\xi$ tal que $Q(A) = E^P[\xi \mathbf{1}_A]$ para todo evento $A$, donde $\mathbf{1}_A$ es la funci\'on indicadora.
+
+\begin{intuicionmat}
+La derivada de Radon-Nikodym $\xi = dQ/dP$ mide cu\'anto m\'as (o menos) probable considera $Q$ cada escenario $\omega$ respecto a $P$. Si $\xi(\omega) > 1$, $Q$ asigna m\'as probabilidad al escenario $\omega$ que $P$; si $\xi(\omega) < 1$, le asigna menos. Es la ``tasa de cambio'' entre las dos visiones del mundo.
+\end{intuicionmat}
+
+\begin{intuicion}
+Una medida martingala equivalente es una ``visi\'on del mundo alternativa'' bajo la que todos los precios descontados (divididos por la cuenta bancaria) se comportan como martingalas. En este mundo alternativo, los inversores son neutrales al riesgo: esperan exactamente la tasa libre de riesgo. El mundo real ($P$) y el mundo neutro al riesgo ($Q$) ven los mismos escenarios posibles (son equivalentes), pero les asignan probabilidades distintas.
+\end{intuicion}
+
+\subsection{La EMM Implica Ausencia de Arbitraje}
+
+Si la m\'edida $Q$ es una EMM para el proceso $\mathbf{X} = (X^1, \ldots, X^N)$, entonces no hay arbitraje. El argumento es id\'entico al de los deflactores: bajo $Q$, todo proceso de precio y toda estrategia autofinanciada son martingalas, y por tanto no puede haber ganancia sin riesgo.
+
+M\'as generalmente: si existe un deflactor regular $Y$ tal que el proceso deflactado $\mathbf{X}^Y = (Y_t X_t^1, \ldots, Y_t X_t^N)$ admite una EMM, entonces no hay arbitraje.
+
+\begin{intuicion}
+La EMM es el gran simplificador del c\'alculo de precios de derivados: en lugar de calcular flujos de caja bajo $P$ (mundo real) y ajustar por riesgo expl\'icitamente, se calcula la expectativa bajo $Q$ (mundo neutro al riesgo) y se descuenta a la tasa libre de riesgo. La f\'ormula de Black-Scholes es un caso particular de este principio general.
+\end{intuicion}
+
+%% ============================================================
+\section{Medidas Martingala Equivalentes y el Teorema de Girsanov}
+%% ============================================================
+
+\subsection{El Teorema de Girsanov}
+
+El \textbf{teorema de Girsanov (Girsanov's Theorem)} es el resultado matem\'atico central que permite construir EMMs. Sea $X$ un proceso de It\^o univariado:
+\begin{equation}
+  X_t = x + \int_0^t \mu_s \, ds + \int_0^t \sigma_s \, dB_s
+\end{equation}
+
+Dados procesos $\nu$ y $\theta$ tales que $\sigma_t \theta_t = \mu_t - \nu_t$, y suponiendo que $\theta$ satisface la \textbf{condici\'on de Novikov (Novikov condition)}:
+\begin{equation}
+  E\!\left[\exp\!\left(\frac{1}{2}\int_0^t \theta_s^2 \, ds\right)\right] < \infty
+\end{equation}
+
+\begin{intuicionmat}
+La condici\'on de Novikov es una condici\'on de integrabilidad sobre el proceso $\theta$ (la ``pendiente'' del cambio de medida). Garantiza que la derivada de Radon-Nikodym sea una variable aleatoria bien definida con varianza finita, es decir, que el cambio de medida sea matem\'aticamente v\'alido. Es una condici\'on t\'ecnica pero importante: sin ella, el nuevo proceso $\hat{B}_t$ podr\'ia no ser un movimiento browniano bajo $Q$.
+\end{intuicionmat}
+
+Entonces existe una medida de probabilidad $Q$ equivalente a $P$ tal que:
+\begin{equation}
+  \hat{B}_t = B_t + \int_0^t \theta_s \, ds
+\end{equation}
+es un movimiento browniano est\'andar en $\mathbb{R}$ sobre $(\Omega, \mathfrak{F}, Q)$ con la misma filtraci\'on de $B_t$. Bajo $Q$, el proceso $X$ se convierte en:
+\begin{equation}
+  X_t = x + \int_0^t \nu_s \, ds + \int_0^t \sigma_s \, d\hat{B}_s
+\end{equation}
+
+\begin{intuicionmat}
+El teorema de Girsanov dice que a\~nadir un drift determinista $\int_0^t \theta_s\,ds$ a un movimiento browniano produce otro movimiento browniano, pero bajo una medida de probabilidad diferente. En otras palabras: podemos cambiar el drift de cualquier proceso de It\^o simplemente cambiando la medida de probabilidad. La estructura estoc\'astica (la volatilidad $\sigma_s$) queda inalterada.
+\end{intuicionmat}
+
+En m\'ultiples dimensiones, $X$ es un proceso de It\^o $N$-dimensional, $\mu_s$ es un vector $N$-dimensional y $\sigma_s$ es una matriz $N \times D$. Si $\sigma_t \theta_t = \mu_t - \nu_t$ y $\theta$ satisface la condici\'on de Novikov multivariada:
+\begin{equation}
+  E\!\left[\exp\!\left(\frac{1}{2}\int_0^t \boldsymbol{\theta}_s \cdot \boldsymbol{\theta}_s \, ds\right)\right] < \infty
+\end{equation}
+entonces existe $Q$ bajo la que $\hat{\mathbf{B}}_t = \mathbf{B}_t + \int_0^t \boldsymbol{\theta}_s \, ds$ es un movimiento browniano est\'andar en $\mathbb{R}^D$.
+
+\begin{intuicion}
+El teorema de Girsanov es la herramienta que hace posible todo el arsenal de la valoraci\'on neutral al riesgo. Dice: si un proceso tiene un drift ``no deseado'' (por ejemplo, el retorno esperado de la acci\'on en el mundo real), puedes eliminarlo o transformarlo simplemente cambiando la medida de probabilidad. Lo que no cambia es la volatilidad. Esta es la esencia de pasar del mundo real $P$ al mundo neutro al riesgo $Q$.
+\end{intuicion}
+
+\subsection{El Principio de Invarianza de la Difusi\'on}
+
+Si $X$ es un proceso de It\^o que es martingala bajo una medida equivalente $Q$, el \textbf{principio de invarianza de la difusi\'on (diffusion invariance principle)} establece que existe un movimiento browniano est\'andar $\hat{B}_t$ en $\mathbb{R}^D$ bajo $Q$ tal que:
+\begin{equation}
+  dX_t = \sigma_t \, d\hat{B}_t
+\end{equation}
+
+\begin{intuicionmat}
+Si el proceso es martingala bajo $Q$, su drift bajo $Q$ debe ser cero (porque las martingalas no tienen tendencia), as\'i que solo queda la parte de difusi\'on $\sigma_t\,d\hat{B}_t$. La volatilidad $\sigma_t$ no cambia al cambiar de medida: solo cambia el drift. Esto es el principio de invarianza de la difusi\'on.
+\end{intuicionmat}
+
+Aplicando este principio al proceso de precio $S = (V, S^1, \ldots, S^{N-1})$ donde $dS_t = \mu_t\,dt + \sigma_t\,dB_t$ y $dV_t = r_t V_t\,dt$, consideremos el proceso deflactado $Z_t = S_t V_t^{-1}$. Por el lema de It\^o:
+\begin{equation}
+  dZ_t = \left(-r_t Z_t + \frac{\mu_t}{V_t}\right)dt + \frac{\sigma_t}{V_t}\,dB_t
+\end{equation}
+
+Bajo la EMM $Q$, $Z_t = S_t V_t^{-1}$ es martingala y por el principio de invarianza: $dZ_t = \frac{\sigma_t}{V_t}\,d\hat{B}_t$. Aplicando el lema de It\^o a $Z_t V_t = S_t$, se obtiene el \textbf{resultado fundamental}:
+\begin{equation}
+  dS_t = r_t \, dt + \sigma_t \, d\hat{B}_t
+\end{equation}
+
+\begin{intuicionmat}
+Este es el resultado central: bajo la medida martingala equivalente $Q$, todos los procesos de precio tienen el mismo drift: la tasa libre de riesgo $r_t$. El drift espec\'ifico de cada activo ($\mu_t$ bajo $P$) desaparece y es reemplazado por $r_t$. La volatilidad $\sigma_t$ no cambia. Esto es la neutralidad al riesgo: en el mundo $Q$, todos los activos rinden lo mismo en expectativa (la tasa libre de riesgo).
+\end{intuicionmat}
+
+\begin{intuicion}
+Este resultado explica por qu\'e la f\'ormula de Black-Scholes no depende del drift de la acci\'on $\mu$: al cambiar al mundo neutro al riesgo, $\mu$ es reemplazado por $r$. Solo la volatilidad importa porque no cambia al cambiar de medida. Es una de las ideas m\'as profundas de la teor\'ia financiera moderna.
+\end{intuicion}
+
+\subsection{Aplicaci\'on del Teorema de Girsanov a la F\'ormula de Black-Scholes}
+
+En el contexto de Black-Scholes ($N = 3$, $d = 1$, $r_t = r$ constante, $\sigma_t = \sigma S_t$), bajo la EMM $Q$ se tiene $C_t V_t^{-1}$ martingala, y por tanto:
+\begin{equation}
+  C_t = V_t E_t^Q\!\left[\frac{C_T}{V_T}\right] = E_t^Q\!\left[e^{-r(T-t)} \max(S_T - K, 0)\right]
+\end{equation}
+
+\begin{intuicionmat}
+El precio de la opci\'on bajo la medida martingala equivalente es simplemente el valor presente esperado del pago terminal, usando la tasa libre de riesgo para descontar y la probabilidad $Q$ para calcular la esperanza. No hay ``prima de riesgo'' expl\'icita porque ya est\'a incorporada en $Q$. Se puede demostrar por c\'alculo directo que esta f\'ormula coincide con la soluci\'on de la EDP de Black-Scholes.
+\end{intuicionmat}
+
+\begin{intuicion}
+La belleza del enfoque de la medida martingala equivalente es que convierte el problema de valoraci\'on de derivados en un simple c\'alculo de expectativa: precio = valor presente del pago esperado bajo $Q$. No hay que resolver EDPs ni construir estrategias de cobertura expl\'icitamente. Ambos enfoques (EDP vs. EMM) son equivalentes, pero el enfoque de EMM es m\'as general y elegant.
+\end{intuicion}
+
+%% ============================================================
+\section{Mercados Completos y Medidas Martingala Equivalentes}
+%% ============================================================
+
+En el entorno continuo, un \textbf{mercado completo (complete market)} es aquel en que cualquier variable aleatoria de varianza finita $Y$ puede obtenerse como el valor terminal de una estrategia autofinanciada: $Y = \boldsymbol{\theta}_T \mathbf{X}_T$.
+
+El \textbf{Teorema Fundamental de Valoraci\'on de Activos} para este entorno establece:
+
+\textbf{Teorema:} En ausencia de arbitraje, el mercado es completo si y solo si existe una \'unica medida martingala equivalente.
+
+Para procesos de precio $\mathbf{X} = (V, S^1, \ldots, S^{N-1})$ con $dS_t = \mu_t\,dt + \sigma_t\,dB_t$ y $B$ un movimiento browniano $D$-dimensional:
+\begin{equation}
+  \text{El mercado es completo} \iff \text{rank}(\sigma_t) = D \quad \text{casi en todas partes}
+\end{equation}
+
+\begin{intuicionmat}
+La condici\'on de rango completo $\text{rank}(\sigma) = D$ significa que hay tantos activos con shocks independientes como fuentes de incertidumbre ($D$ brownianos). Es decir, los activos ``cubren'' todas las dimensiones de riesgo. Si falta un activo, hay riesgos que no se pueden cubrir y el mercado es incompleto (hay m\'ultiples EMMs).
+\end{intuicionmat}
+
+Esta condici\'on es el an\'alogo continuo de la condici\'on discreta: el mercado es completo si y solo si el n\'umero de procesos de precio linealmente independientes es igual al n\'umero de ramas en cada nodo del \'arbol.
+
+\begin{intuicion}
+La completitud del mercado es la propiedad m\'as deseable: si el mercado es completo, todos los derivados pueden valorarse de forma \'unica y copiarse perfectamente con los activos b\'asicos. Si es incompleto, hay una familia de precios posibles y la cobertura perfecta no existe. El modelo de Black-Scholes con un solo activo y un solo browniano es el ejemplo can\'onico de mercado completo.
+\end{intuicion}
+
+%% ============================================================
+\section{Medidas Martingala Equivalentes y Precios de Estado}
+%% ============================================================
+
+\subsection{Relaci\'on entre EMM y Deflactores de Estado}
+
+Las medidas martingala equivalentes y los deflactores de precios de estado son el mismo concepto expresado de dos formas diferentes. Sea $Q$ una EMM para el proceso deflactado por $V_t^{-1} = e^{-\int_0^t r_u\,du}$.
+
+El \textbf{proceso de densidad (density process)} $\xi_t$ para $Q$ se define como:
+\begin{equation}
+  \xi_t = E_r\!\left[\frac{dQ}{dP}\right], \quad t \in [0,T]
+\end{equation}
+
+En el caso de un espacio de probabilidad sobre la recta real, la derivada de Radon-Nikodym $\xi = \xi(x)$ satisface:
+\begin{equation}
+  Q(A) = \int_A \xi \, dP \quad \Leftrightarrow \quad E^Q[X] = \int_{\mathbb{R}} x\,\xi(x)f(x)\,dx
+\end{equation}
+
+\begin{intuicionmat}
+La derivada de Radon-Nikodym $\xi$ es la funci\'on que ``repesa'' la densidad de $P$ para obtener la densidad de $Q$. Si $\xi(\omega) > 1$, el escenario $\omega$ es m\'as probable bajo $Q$ que bajo $P$ (el mercado le da m\'as importancia en la valoraci\'on). Matem\'aticamente, $\xi$ multiplica la densidad $f$ punto a punto para producir $q = \xi f$.
+\end{intuicionmat}
+
+El resultado clave de equivalencia es:
+
+\begin{itemize}
+  \item Dado un proceso de densidad $\xi_t$ para $Q$, un deflactor de precios de estado es:
+  \begin{equation}
+    \pi_t = \xi_t \, e^{-\int_0^t r_u \, du}
+  \end{equation}
+  \item Rec\'iprocamente, dado un deflactor $\pi_t$, el proceso de densidad para $Q$ es:
+  \begin{equation}
+    \xi_t = e^{\int_0^t r_u \, du} \cdot \frac{\pi_t}{\pi_0}
+  \end{equation}
+\end{itemize}
+
+\begin{intuicionmat}
+La primera ecuaci\'on dice: el deflactor de precios de estado es la derivada de Radon-Nikodym (que cambia el mundo real al neutro al riesgo) multiplicada por el factor de descuento (que trae los flujos al valor presente). Separar estos dos roles clarifica la estructura: $\xi_t$ ajusta el riesgo, $e^{-\int r_u du}$ descuenta el tiempo.
+\end{intuicionmat}
+
+\begin{intuicion}
+Este resultado unifica los dos grandes enfoques de la teor\'ia de precios: el de los precios de Arrow-Debreu (deflactores de estado) y el de las medidas neutras al riesgo (EMMs). Son dos caras de la misma moneda. Saber uno implica saber el otro. En la pr\'actica, se trabaja con el que sea m\'as conveniente para el problema espec\'ifico.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on por Arbitraje con Tasa de Pago}
+%% ============================================================
+
+\subsection{Extensi\'on al Caso con Pagos Intermedios}
+
+Hasta ahora se hab\'ia supuesto que no hay pagos intermedios. Introduzcamos un \textbf{proceso de tasa de pago (payoff-rate process)} $\delta_t^i$ para cada activo $i$. El pago acumulado es:
+\[
+  D_t^i = \int_0^t \delta_s^i \, ds, \qquad G_t^i = S_t^i + D_t^i
+\]
+
+Con pagos intermedios, la condici\'on de autofinanciamiento se escribe con el proceso de ganancia $G$ en lugar del precio $S$:
+\[
+  \boldsymbol{\theta}_t \mathbf{S}_t = \sum_i \theta_t^i S_t^i = \sum_i \!\left(\theta_t^i S_t^i + \int_0^t \theta_t^i \, dG_t^i\right), \quad t \in [0,T]
+\]
+
+Una EMM para el par $(D, S)$ es una medida $Q$ equivalente a $P$ con derivada de Radon-Nikodym de varianza finita tal que el proceso ganancia $G = S + D$ es martingala. Bajo estas condiciones:
+\begin{equation}
+  S_t = E_t^Q\!\left[e^{-\int_t^T r_u\,du} S_T + \int_t^T e^{-\int_t^s r_u\,du} \, dD_s\right]
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula generaliza la relaci\'on de valoraci\'on al caso con dividendos o cupones. El precio actual del activo es igual al valor presente del precio terminal m\'as el valor presente de todos los pagos intermedios, todo calculado bajo la medida neutra al riesgo $Q$. En el caso de bonos con cupones, $dD_s$ representa el cupón pagado en el instante $s$.
+\end{intuicionmat}
+
+\begin{intuicion}
+La inclusi\'on de pagos intermedios es crucial para activos reales: acciones con dividendos, bonos con cupones, swaps de tasas de inter\'es. La f\'ormula muestra que el precio es la suma descontada de todos los flujos futuros, donde ``descontar'' significa usar la tasa libre de riesgo bajo $Q$. Este es el principio del valor presente aplicado a mercados con arbitraje.
+\end{intuicion}
+
+%% ============================================================
+\section{Implicaciones de la Ausencia de Arbitraje}
+%% ============================================================
+
+\subsection{Equivalencias en el Marco Continuo}
+
+En el entorno discreto, hab\'ia equivalencia completa entre:
+\begin{enumerate}
+  \item Existencia de deflactores de precios de estado.
+  \item Existencia de medidas martingala equivalentes.
+  \item Ausencia de arbitraje.
+\end{enumerate}
+
+En el entorno continuo esta equivalencia es m\'as delicada. La existencia de EMMs o deflactores de estado \textit{implica} ausencia de arbitraje. Pero la implicaci\'on rec\'iproca (ausencia de arbitraje $\Rightarrow$ existencia de EMM) requiere condiciones t\'ecnicas restrictivas.
+
+Para recuperar la equivalencia completa, es necesario reemplazar la condici\'on de ausencia de arbitraje por la condici\'on m\'as d\'ebil de \textbf{ausencia de ganancia libre con riesgo desvaneciente} (\textbf{No Free Lunch with Vanishing Risk, NFLVR}), seg\'un el teorema de Delbaen y Schachermayer (1994, 1999).
+
+\begin{intuicion}
+El resultado de Delbaen y Schachermayer es el teorema m\'as general del Teorema Fundamental de Valoraci\'on de Activos en tiempo continuo. Muestra que la condici\'on correcta para garantizar la existencia de una EMM no es exactamente ``ausencia de arbitraje cl\'asico'' sino la condici\'on ligeramente m\'as fuerte NFLVR, que proh\'ibe tambi\'en secuencias de estrategias cuyos riesgos se desvanecen. En la pr\'actica, para modelos de It\^o bien comportados, la diferencia es irrelevante.
+\end{intuicion}
+
+%% ============================================================
+\section{Trabajando con Medidas Martingala Equivalentes}
+%% ============================================================
+
+\subsection{Uso Pr\'actico en la Valoraci\'on de Derivados}
+
+El resultado clave de la teor\'ia de valoraci\'on por arbitraje es que, bajo la EMM $Q$:
+\begin{itemize}
+  \item Todos los procesos de precio descontados son martingalas.
+  \item Todos los procesos de precio tienen el mismo drift $r_t$ (la tasa libre de riesgo).
+  \item Los precios de derivados se calculan como esperanzas bajo $Q$.
+\end{itemize}
+
+Este entorno permite simplificaciones computacionales importantes. Por ejemplo:
+\begin{itemize}
+  \item El problema de valoraci\'on de opciones se reduce a calcular el valor presente de procesos m\'as simples.
+  \item La valoraci\'on de bonos, swaps y derivados de cr\'edito se estructura de forma an\'aloga.
+\end{itemize}
+
+Al final del ejercicio de valoraci\'on hay un \textbf{problema de calibraci\'on (calibration problem)}: las probabilidades neutras al riesgo $Q$ deben estimarse a partir de las probabilidades reales $P$ (datos de mercado).
+
+\begin{intuicion}
+En la pr\'actica, calcular bajo $Q$ es m\'as sencillo que bajo $P$ porque todos los activos tienen el mismo drift $r_t$ y el c\'alculo de precios se reduce a integrar una distribuci\'on conocida. La calibraci\'on (ajustar los par\'ametros del modelo para que coincidan con los precios de mercado observados) es el paso que conecta la teor\'ia con la realidad.
+\end{intuicion}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+El cap\'itulo~15 desarrolla la teor\'ia completa de valoraci\'on por arbitraje en el entorno de estado continuo y tiempo continuo. Los puntos centrales son:
+
+\begin{enumerate}
+  \item \textbf{Marco fundamental:} La econom\'ia se modela sobre $(\Omega, \mathfrak{F}, P)$ con filtraci\'on $\mathfrak{F}_t$. Precios y tasas de pago son procesos adaptados. Las estrategias de trading son procesos adaptados; las ganancias se definen como integrales estoc\'asticas de It\^o.
+
+  \item \textbf{Autofinanciamiento y arbitraje:} Una estrategia autofinanciada no requiere inyecci\'on de fondos externos. Un arbitraje es una estrategia autofinanciada que produce ganancia sin riesgo a partir de inversi\'on nula o negativa.
+
+  \item \textbf{Movimiento browniano geom\'etrico:} El modelo can\'onico de precio de acciones es $dS_t = \mu S_t\,dt + \sigma S_t\,dB_t$, que garantiza precios positivos y rendimientos log-normales.
+
+  \item \textbf{F\'ormula de Black-Scholes:} Se obtiene igualando dos expresiones para el diferencial del precio de la opci\'on (lema de It\^o vs.\ estrategia replicante autofinanciada). Resulta la EDP de Black-Scholes, cuya soluci\'on es:
+  \[
+    C(S_t, t) = S_t\,\Phi(z) - e^{-r(T-t)} K\,\Phi\!\left(z - \sigma\sqrt{T-t}\right)
+  \]
+  El precio no depende del drift $\mu$, solo de la volatilidad $\sigma$.
+
+  \item \textbf{Deflactores de precios de estado:} Un deflactor $\pi_t$ estrictamente positivo que hace martingala a los precios deflactados garantiza ausencia de arbitraje: $\pi_t X_t^i = E_t[\pi_s X_s^i]$.
+
+  \item \textbf{Medidas martingala equivalentes:} Una EMM $Q$ es una medida equivalente a $P$ bajo la que los precios descontados son martingalas. Su existencia implica ausencia de arbitraje. La derivada de Radon-Nikodym $\xi = dQ/dP$ conecta ambas medidas.
+
+  \item \textbf{Teorema de Girsanov:} Permite cambiar el drift de cualquier proceso de It\^o cambiando la medida de probabilidad, dejando invariante la volatilidad. Es la herramienta que construye la EMM. La condici\'on de Novikov garantiza la regularidad del cambio de medida.
+
+  \item \textbf{Principio de invarianza de la difusi\'on:} Bajo la EMM, todos los procesos de precio tienen el mismo drift $r_t$; la volatilidad $\sigma_t$ no cambia. Resultado: $dS_t = r_t\,dt + \sigma_t\,d\hat{B}_t$ bajo $Q$.
+
+  \item \textbf{Mercados completos:} El mercado es completo si y solo si existe una \'unica EMM, equivalentemente, si $\text{rank}(\sigma_t) = D$ casi en todas partes ($D$ = dimensi\'on del browniano).
+
+  \item \textbf{Equivalencia EMM--deflactores:} Dado un proceso de densidad $\xi_t$ para $Q$, el deflactor es $\pi_t = \xi_t e^{-\int_0^t r_u\,du}$. Los dos enfoques son matem\'aticamente equivalentes.
+
+  \item \textbf{Valoraci\'on con pagos intermedios:} La f\'ormula de valoraci\'on con tasa de pago es:
+  \[
+    S_t = E_t^Q\!\left[e^{-\int_t^T r_u\,du} S_T + \int_t^T e^{-\int_t^s r_u\,du}\,dD_s\right]
+  \]
+
+  \item \textbf{NFLVR (Delbaen--Schachermayer):} En el entorno continuo, la equivalencia completa entre ausencia de arbitraje y existencia de EMM requiere reemplazar el arbitraje cl\'asico por la condici\'on NFLVR (No Free Lunch with Vanishing Risk).
+
+  \item \textbf{Aplicaci\'on pr\'actica:} Trabajar bajo $Q$ simplifica enormemente la valoraci\'on: todos los precios tienen el mismo drift y los derivados se valoran como expectativas descontadas. La calibraci\'on ajusta $Q$ a los precios de mercado.
+\end{enumerate}
+
+\begin{intuicion}
+El mensaje central del cap\'itulo es que la valoraci\'on por arbitraje en tiempo continuo es una herramienta poderosa y elegante: en lugar de modelar las preferencias de los inversores, basta con identificar la medida martingala equivalente (o el deflactor de estado) que elimina el arbitraje. Una vez bajo $Q$, todos los c\'alculos de precio se reducen a esperanzas descontadas, sin importar la complejidad del derivado. La teor\'ia une el an\'alisis estoc\'astico (movimiento browniano, lema de It\^o, Girsanov) con la econom\'ia (arbitraje, equilibrio, precios de riesgo) de manera matem\'aticamente rigurosa.
+\end{intuicion}
+
+\end{document}

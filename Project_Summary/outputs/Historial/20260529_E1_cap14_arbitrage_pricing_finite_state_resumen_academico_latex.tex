@@ -1,0 +1,672 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Valoraci\'on por Arbitraje: Modelos de Estados Finitos}\\
+\large Arbitrage Pricing: Finite-State Models\\
+\normalsize Fabozzi, Focardi \& Kolm, \textit{The Mathematics of Financial Modeling and Investment Management}, Cap\'itulo 14}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{El Principio de Arbitraje}
+%% ============================================================
+
+El \textbf{principio de ausencia de arbitraje (principle of absence of arbitrage)} es el fundamento m\'as importante de la teor\'ia financiera. En presencia de oportunidades de arbitraje no existe compensaci\'on entre riesgo y retorno, pues es posible obtener ganancias ilimitadas sin riesgo.
+
+El \textbf{arbitraje (arbitrage)} en su forma simple es la compra y venta simult\'anea de un activo a dos precios diferentes en dos mercados distintos. El arbitrajista obtiene ganancias sin riesgo comprando barato en un mercado y vendiendo m\'as caro en el otro. Tales oportunidades son ef\'imeras: un solo arbitrajista con capacidad ilimitada de venta en corto puede eliminar la discrepancia.
+
+Una forma menos obvia de arbitraje surge cuando una \textbf{cartera de activos (package of assets)} puede producir el mismo pago que un activo individual pero con un precio diferente. Esto viola la \textbf{ley del precio \'unico (law of one price)}: un activo dado debe tener el mismo precio independientemente de c\'omo se cree.
+
+\subsection{Ejemplo ilustrativo}
+
+Considere tres activos A, B y C con los siguientes precios y pagos en dos estados del mundo:
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Activo & Precio & Pago Estado 1 & Pago Estado 2 \\
+\midrule
+A & \$70 & \$50 & \$100 \\
+B & \$60 & \$30 & \$120 \\
+C & \$80 & \$38 & \$112 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Se construye una cartera con $w_A = 0.4$ en A y $w_B = 0.6$ en B que replica exactamente los pagos de C:
+\begin{align}
+\text{Estado 1:} &\quad 50(0.4) + 30(0.6) = 38 \\
+\text{Estado 2:} &\quad 100(0.4) + 120(0.6) = 112
+\end{align}
+
+\begin{intuicionmat}
+Estas ecuaciones muestran que la cartera A+B reproduce exactamente lo que paga C en ambos estados. El costo de la cartera es $(0.4)(70) + (0.6)(60) = \$64$, mientras que C cuesta \$80. La diferencia de \$16 es la ganancia de arbitraje: vender C en corto y comprar la cartera A+B sin invertir capital propio.
+\end{intuicionmat}
+
+La estrategia de arbitraje consiste en vender C en corto (\$1 mill\'on) y usar los fondos para comprar A y B en las proporciones dadas, generando una ganancia positiva en ambos estados sin inversi\'on inicial.
+
+\begin{intuicion}
+La idea central es que dos formas de obtener el mismo flujo de caja futuro deben tener el mismo precio hoy. Si no es as\'i, existe un arbitraje: vender lo caro, comprar lo barato, obtener ganancia garantizada. Este principio, aunque simple, es el pilar sobre el que se construye toda la teor\'ia de valoraci\'on de activos.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on por Arbitraje en un Modelo de Un Per\'iodo}
+%% ============================================================
+
+\subsection{Estructura del mercado}
+
+Se trabaja en un modelo de un per\'iodo con $M$ estados del mundo y $N$ activos. La incertidumbre se representa por los $M$ posibles estados, aunque gran parte de la teor\'ia puede desarrollarse sin referencia a probabilidades.
+
+Los $N$ activos se representan mediante una \textbf{matriz de pagos (payoff matrix)} $\mathbf{D} = \{d_{ij}\}$ de dimensi\'on $N \times M$, donde $d_{ij}$ es el pago del activo $i$ en el estado $j$. El vector de precios es $\mathbf{S}$ de dimensi\'on $N$.
+
+Una \textbf{cartera (portfolio)} $\boldsymbol{\theta}$ es un $N$-vector de pesos. Su \textbf{valor de mercado (market value)} en $t=0$ es:
+\begin{equation}
+    S_{\boldsymbol{\theta}} = \mathbf{S}\boldsymbol{\theta} = \sum_{i=1}^{N} S_i \theta_i
+\end{equation}
+
+\begin{intuicionmat}
+Esta es simplemente la suma ponderada del valor de cada activo en la cartera: cu\'antas unidades $\theta_i$ tengo de cada activo $i$ multiplicado por su precio $S_i$. El resultado es el costo total de armar esa cartera hoy.
+\end{intuicionmat}
+
+Su \textbf{pago (payoff)} en $t=1$ es el $M$-vector:
+\begin{equation}
+    \mathbf{d}_{\boldsymbol{\theta}} = \mathbf{D}'\boldsymbol{\theta}
+\end{equation}
+
+\begin{intuicionmat}
+El pago de la cartera en cada estado es la suma ponderada de los pagos de cada activo en ese estado. Si tengo $\theta_i$ unidades del activo $i$ que paga $d_{ij}$ en el estado $j$, el pago total en el estado $j$ es $\sum_i \theta_i d_{ij}$.
+\end{intuicionmat}
+
+Un \textbf{arbitraje (arbitrage)} es una cartera $\boldsymbol{\theta}$ tal que:
+\begin{itemize}
+    \item $S_{\boldsymbol{\theta}} < 0$ y $\mathbf{D}'\boldsymbol{\theta} \geq 0$, o bien
+    \item $S_{\boldsymbol{\theta}} \leq 0$ y $\mathbf{D}'\boldsymbol{\theta} > 0$
+\end{itemize}
+
+\begin{intuicion}
+Un arbitraje es una cartera que cuesta cero o menos hoy (o incluso genera efectivo) pero nunca pierde y a veces gana en el futuro. Es ``dinero gratis'': sin riesgo, sin inversi\'on, con ganancia posible. La teor\'ia de valoraci\'on descansa en que tales oportunidades no existen en mercados competitivos.
+\end{intuicion}
+
+\subsection{Precios de estado}
+
+Un \textbf{vector de precios de estado (state-price vector)} es un $M$-vector estrictamente positivo $\boldsymbol{\psi}$ tal que los precios de los activos satisfacen:
+\begin{equation}
+    \mathbf{S} = \mathbf{D}\boldsymbol{\psi}
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que el precio de cada activo es una combinaci\'on lineal de sus pagos en cada estado, donde los coeficientes son los precios de estado $\psi_j$. El precio de estado $\psi_j$ representa cu\'anto vale hoy recibir una unidad monetaria si y s\'olo si ocurre el estado $j$.
+\end{intuicionmat}
+
+El precio de cualquier cartera $\boldsymbol{\theta}$ es entonces:
+\begin{equation}
+    S_{\boldsymbol{\theta}} = \mathbf{d}_{\boldsymbol{\theta}} \boldsymbol{\psi}
+\end{equation}
+
+\textbf{Teorema fundamental}: No existe arbitraje si y solo si existe un vector de precios de estado. La demostraci\'on usa el \textbf{Teorema del Hiperplano Separador (Separating Hyperplane Theorem)}: dados dos conjuntos convexos disjuntos en $\mathbb{R}^M$, existe un hiperplano que los separa.
+
+\begin{intuicion}
+Los precios de estado son los bloques b\'asicos de la valoraci\'on: si se conocen, el precio de cualquier activo o cartera queda \'unicamente determinado como promedio ponderado de sus pagos. La existencia de precios de estado es equivalente a la ausencia de arbitraje, lo que convierte este concepto en el eje central de la teor\'ia.
+\end{intuicion}
+
+\subsection{Probabilidades neutrales al riesgo}
+
+Dado un vector de precios de estado $\boldsymbol{\psi}$, defina $\psi_0 = \sum_{j=1}^{M} \psi_j$. El vector normalizado:
+\begin{equation}
+    \hat{\boldsymbol{\psi}} = \left\{\hat{\psi}_j\right\} = \left\{\frac{\psi_j}{\psi_0}\right\}
+\end{equation}
+
+es un conjunto de n\'umeros positivos que suman 1 y se interpretan como \textbf{probabilidades (probabilities)}. Se llaman \textbf{probabilidades neutrales al riesgo (risk-neutral probabilities)}.
+
+\begin{intuicionmat}
+La normalizaci\'on divide cada precio de estado por su suma, convirtiendo los precios de estado en probabilidades. Aunque no son las probabilidades reales del mundo, tienen la propiedad de que el precio descontado de cada activo es su valor esperado bajo estas probabilidades artificiales.
+\end{intuicionmat}
+
+Con estas probabilidades, los precios satisfacen:
+\begin{equation}
+    \bar{S}_i = \frac{S_i}{\psi_0} = E[d_i]
+\end{equation}
+
+donde la esperanza se toma bajo las probabilidades neutrales al riesgo. Aqu\'i $\psi_0$ es el factor de descuento del activo libre de riesgo.
+
+Existe adem\'as la relaci\'on con el \textbf{deflactor de precios de estado (state-price deflator)} $\boldsymbol{\pi}$: si $\pi_i = \psi_i / p_i$ donde $p_i$ son las probabilidades reales, entonces:
+\begin{equation}
+    S_i = \sum_{j=1}^{M} d_{ij}\psi_j = \sum_{j=1}^{M} p_j d_{ij} \frac{\psi_j}{p_j} = \sum_{j=1}^{M} p_j d_{ij} \pi_j = E[\mathbf{D}\boldsymbol{\pi}]
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on conecta precios de estado, probabilidades reales y deflactor: el precio de un activo es la esperanza (bajo probabilidades reales) de sus pagos multiplicados por el deflactor $\pi_j$. El deflactor ajusta por el valor diferencial del dinero en cada estado del mundo.
+\end{intuicionmat}
+
+\begin{intuicion}
+Las probabilidades neutrales al riesgo no reflejan la realidad del mundo sino un mundo hipot\'etico donde todos los inversores son indiferentes al riesgo. En este mundo artificial, el precio de todo activo es simplemente su valor esperado descontado. Su utilidad pr\'actica es enorme: permiten valorar derivados sin necesidad de conocer las preferencias de riesgo de los agentes.
+\end{intuicion}
+
+\subsection{Mercados completos}
+
+El \textbf{espacio generado (span)} por los pagos es:
+\begin{equation}
+    \text{span}(D) \equiv \{\mathbf{D}'\boldsymbol{\theta} : \boldsymbol{\theta} \in \mathbb{R}^M\}
+\end{equation}
+
+Un mercado es \textbf{completo (complete)} si $\text{span}(D) = \mathbb{R}^M$, es decir, si cualquier pago arbitrario puede replicarse con una cartera. En el modelo de un per\'iodo con estados finitos, esto equivale a que el rango de $\mathbf{D}$ sea $M$: hay tantos activos linealmente independientes como estados del mundo.
+
+\begin{intuicion}
+Un mercado completo permite asegurar cualquier riesgo futuro: cualquier perfil de pagos deseado puede construirse combinando los activos disponibles. Es una propiedad ideal: en mercados incompletos hay riesgos que no se pueden cubrir ni valorar de forma \'unica.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on por Arbitraje Multiperi\'odo con Estados Finitos}
+%% ============================================================
+
+\subsection{Propagaci\'on de la informaci\'on}
+
+La econom\'ia se representa mediante un \textbf{espacio de probabilidad (probability space)} $(\Omega, \mathfrak{F}, P)$ donde $\Omega$ es el conjunto de estados, $\mathfrak{F}$ es el \'algebra de eventos y $P$ es la funci\'on de probabilidad. Hay fechas discretas de $0$ a $T$.
+
+La propagaci\'on de la informaci\'on se representa mediante una \textbf{estructura de informaci\'on (information structure)} $I_t$, organizaci\'on jer\'arquica de particiones con las propiedades:
+\begin{equation}
+    I_k \equiv (\{A_{ik}\}); \quad 1 = M_1 \leq \cdots \leq M_k \leq \cdots \leq M_T = M
+\end{equation}
+
+Las particiones se refinan con el tiempo: $A_{ik} \cap A_{jk} = \emptyset$ si $i \neq j$ y $\bigcup_{i=1}^{M_k} A_{ik} = \Omega$. Para cualesquiera $A_{ik}$, $A_{jh}$ con $h > k$, o bien $A_{ik} \cap A_{jh} = \emptyset$ o bien $A_{ik} \supseteq A_{jh}$.
+
+\begin{intuicion}
+La estructura de informaci\'on modela c\'omo se va revelando el futuro con el tiempo. Al inicio, nada es conocido (una sola partici\'on). Con el tiempo, los estados se van discriminando m\'as finamente, como si un \'arbol de posibilidades se fuera podando. En $t = T$ cada estado queda identificado individualmente.
+\end{intuicion}
+
+\subsection{Estrategias de trading}
+
+Una \textbf{estrategia de trading (trading strategy)} es una secuencia de carteras $\boldsymbol{\theta}$ tal que $\boldsymbol{\theta}_t$ es la cartera mantenida en el tiempo $t$ despu\'es de operar. Para evitar anticipaci\'on de informaci\'on, $\boldsymbol{\theta}$ debe ser un \textbf{proceso adaptado (adapted process)}.
+
+El pago generado por una estrategia de trading es:
+\begin{equation}
+    d_t^{\boldsymbol{\theta}} = \boldsymbol{\theta}_{t-1}(S_t + d_t) - \boldsymbol{\theta}_t S_t
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula dice: el pago neto en el per\'iodo $t$ es lo que recibes de la cartera del per\'iodo anterior (precio m\'as dividendo en $t$) menos el costo de la nueva cartera que formas en $t$. Captura tanto los dividendos intermedios como las ganancias/p\'erdidas de capital al rebalancear.
+\end{intuicionmat}
+
+Un \textbf{arbitraje (arbitrage)} en el contexto multiperi\'odo es una estrategia de trading cuyo proceso de pagos es no negativo y no siempre cero.
+
+Un \textbf{proceso de consumo (consumption process)} es cualquier proceso adaptado no negativo. Los mercados son \textbf{completos (complete)} si cualquier proceso de consumo puede obtenerse como el proceso de pagos de alguna estrategia de trading.
+
+\begin{intuicion}
+En el contexto multiperi\'odo, una estrategia de trading es una secuencia de decisiones de portfolio que evolucionan con la informaci\'on disponible. La condici\'on de adaptabilidad es crucial: no se puede tomar decisiones bas\'andose en informaci\'on futura. El arbitraje ahora se define sobre toda la trayectoria temporal, no solo al final.
+\end{intuicion}
+
+\subsection{Deflactor de precios de estado multiperi\'odo}
+
+Un \textbf{deflactor de precios de estado (state-price deflator)} es un proceso adaptado estrictamente positivo $\pi_t$ tal que:
+\begin{equation}
+    S_t^i = \frac{1}{\pi_t} E_t\left[\sum_{j=t+1}^{T} \pi_j d_j^i\right]
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la ecuaci\'on fundamental de valoraci\'on: el precio de un activo hoy es la esperanza condicional (dada la informaci\'on actual) de todos sus pagos futuros descontados por el deflactor. El deflactor $\pi_t$ hace las veces de factor de descuento estoc\'astico que ajusta tanto el valor temporal del dinero como el riesgo.
+\end{intuicionmat}
+
+El deflactor generaliza los precios de estado del modelo de un per\'iodo: se puede demostrar que el par pago-precio $(d_t^i, S_t^i)$ no admite arbitraje si y solo si existe un deflactor de precios de estado.
+
+Las probabilidades condicionales en un espacio finito son:
+\begin{equation}
+    P(\{\omega\} | A_{kt}) = \frac{P(\{\omega\} \cap A_{kt})}{P(A_{kt})} = \frac{p_\omega}{\sum_{\omega \in A_{kt}} p_\omega}, \quad \omega \in A_{kt}
+\end{equation}
+
+\begin{intuicionmat}
+Las probabilidades condicionales simplemente normalizan las probabilidades de los estados pertenecientes al evento condicionante. Dado que estamos en $A_{kt}$, s\'olo importan los estados dentro de ese conjunto, y sus probabilidades se renormalizan para que sumen 1.
+\end{intuicionmat}
+
+Con esto, la relaci\'on de precios se puede escribir expl\'icitamente:
+\begin{equation}
+    S^i_{A_{kt}} = \frac{1}{\pi_{A_{kt}}} \sum_{\omega \in A_{kt}} \left(\frac{p_\omega}{\sum_{\omega' \in A_{kt}} p_{\omega'}}\right) \left(\sum_{j=t+1}^{T} \pi_j(\omega) d_j^i(\omega)\right)
+\end{equation}
+
+\begin{intuicion}
+El deflactor de precios de estado en el contexto multiperi\'odo cumple la misma funci\'on que en el caso de un per\'iodo, pero ahora el descuento es estoc\'astico y se actualiza con la informaci\'on disponible en cada momento. Su existencia garantiza la ausencia de arbitraje a lo largo de toda la trayectoria temporal.
+\end{intuicion}
+
+\subsection{C\'alculo del deflactor: ejemplo num\'erico}
+
+Se ilustra con 3 activos, 3 fechas (0,1,2) y 4 estados $\Omega = \{1,2,3,4\}$. La estructura de informaci\'on tiene:
+\begin{itemize}
+    \item $t=0$: un \'unico evento $\{1+2+3+4\}$
+    \item $t=1$: dos eventos $\{1+2\}$ y $\{3+4\}$
+    \item $t=2$: cuatro estados individuales $\{1\},\{2\},\{3\},\{4\}$
+\end{itemize}
+
+Con probabilidades iguales $p_\omega = 0.25$ y el deflactor dado:
+\begin{equation}
+    \{\pi_t(\omega)\} \equiv \begin{pmatrix} 1 & 0.8 & 0.7 \\ 1 & 0.8 & 0.75 \\ 1 & 0.9 & 0.75 \\ 1 & 0.9 & 0.8 \end{pmatrix}
+\end{equation}
+
+\begin{intuicionmat}
+El deflactor es una matriz donde cada fila es un camino de estados y cada columna es una fecha. El valor 1 en $t=0$ es la normalizaci\'on. Los valores menores a 1 en $t>0$ reflejan el descuento temporal y la compensaci\'on por riesgo: los estados con deflactores m\'as bajos son estados ``peores'' (mayor incertidumbre o menor valor marginal del consumo).
+\end{intuicionmat}
+
+Por ejemplo, el precio del activo 1 en el nodo $A_{1,1} = \{1+2\}$ es:
+\begin{equation}
+    S^1_{A_{1,1}} = \frac{1}{0.8}(0.5 \times 0.7 \times 50 + 0.5 \times 0.75 \times 100) = 68.75
+\end{equation}
+
+\begin{intuicion}
+El ejemplo muestra el procedimiento pr\'actico: dado el deflactor, los precios se calculan como esperanzas condicionales ponderadas. El procedimiento inverso (dado precios y pagos, encontrar el deflactor) consiste en resolver un sistema lineal homog\'eneo. La consistencia del sistema confirma la ausencia de arbitraje.
+\end{intuicion}
+
+\subsection{Medidas martingala equivalentes multiperi\'odo}
+
+Bajo el concepto de \textbf{medida martingala equivalente (equivalent martingale measure)} $Q$, los precios descontados son martingalas:
+\begin{equation}
+    S_t^i = E_t^Q\left[\sum_{j=t+1}^{T} \frac{d_j^i}{R_{t,j}}\right]
+\end{equation}
+
+\begin{intuicionmat}
+El precio de un activo hoy es la esperanza (bajo la medida $Q$) de todos sus pagos futuros descontados por el factor de acumulaci\'on del activo libre de riesgo $R_{t,j}$. Bajo $Q$, los precios descontados son justos en promedio: no hay deriva sistem\'atica hacia arriba ni hacia abajo.
+\end{intuicionmat}
+
+Esto implica que el proceso precio+pago descontado es una martingala:
+\begin{equation}
+    S_t^i = E_t^Q\left[\frac{d_{t+1}^i + S_{t+1}^i}{R_{t,t+1}}\right]
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on de recurrencia dice que el precio hoy es la esperanza descontada del precio m\'as el pago en el siguiente per\'iodo. Es la condici\'on de no-arbitraje en forma operativa: si esta relaci\'on se violara para alg\'un activo, existir\'ia una estrategia que generar\'ia ganancias sin riesgo.
+\end{intuicionmat}
+
+La medida $Q$ es equivalente a $P$ (asignan probabilidad cero a los mismos eventos). La conexi\'on con el deflactor de precios de estado se establece mediante el \textbf{proceso de densidad (density process)} $\xi_t$:
+\begin{equation}
+    \xi_t = E_t[\xi_T] = \frac{\pi_t R_{0,t}}{\pi_0}
+\end{equation}
+
+\begin{intuicionmat}
+El proceso de densidad es la ``raz\'on de cambio'' entre las probabilidades reales $P$ y las neutrales al riesgo $Q$. Permite transformar esperanzas bajo $Q$ en esperanzas bajo $P$ y viceversa. Su relaci\'on con el deflactor muestra que ambos conceptos son equivalentes: dos formas de expresar la misma informaci\'on sobre precios de no arbitraje.
+\end{intuicionmat}
+
+El resultado central es:
+\begin{equation}
+    E_t^Q[x_j] = E_t^P\left[\frac{1}{\xi_t}\xi_j x_j\right]
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula de cambio de medida permite calcular esperanzas bajo $Q$ usando probabilidades reales $P$: se multiplica la variable por el cociente de densidades $\xi_j/\xi_t$ y se toma esperanza bajo $P$. Es el puente pr\'actico entre el mundo real y el mundo neutral al riesgo.
+\end{intuicionmat}
+
+\textbf{Resultado fundamental}: No hay arbitraje si y solo si existe una medida martingala equivalente. Adem\'as, si no hay arbitraje, los mercados son completos si y solo si existe una \'unica medida martingala equivalente.
+
+\begin{intuicion}
+La equivalencia entre ausencia de arbitraje, existencia de deflactor de precios de estado y existencia de medida martingala equivalente es el teorema m\'as profundo de la teor\'ia de valoraci\'on. La unicidad de la medida martingala equivalente captura la completitud del mercado: cuando la medida es \'unica, cada activo contingente tiene un precio bien definido.
+\end{intuicion}
+
+%% ============================================================
+\section{Dependencia del Camino y Modelos de Markov}
+%% ============================================================
+
+\subsection{Opciones lookback y dependencia del camino}
+
+El valor de un instrumento derivado puede depender del camino seguido por sus valores pasados. Una \textbf{opci\'on lookback (lookback option)} sobre una acci\'on tiene pago al tiempo $t$:
+\begin{equation}
+    V_t = \max_{0 \leq k < t}(S_k - K)^+
+\end{equation}
+
+donde $(S_k - K)^+ = \max(S_k - K, 0)$. Como su valor depende de toda la trayectoria del subyacente, es un \textbf{activo dependiente del camino (path-dependent security)}.
+
+\begin{intuicionmat}
+Esta opci\'on paga la m\'axima ganancia que se pudo haber obtenido comprando la acci\'on en cualquier momento pasado y vendiendola hoy. Su valor requiere conocer no solo el precio actual sino toda la historia de precios: de ah\'i la dependencia del camino.
+\end{intuicionmat}
+
+\subsection{Proceso de Markov}
+
+Un proceso adaptado $X_t$ es un \textbf{proceso de Markov (Markov process)} si su distribuci\'on condicional en el tiempo $t$ depende \'unicamente del valor del proceso en $t-1$:
+\begin{equation}
+    P(X_t | X_{t-1}) = P(X_t | X_{t-1}, X_{t-2}, \ldots, X_0)
+\end{equation}
+
+\begin{intuicionmat}
+La propiedad de Markov dice que el pasado solo importa a trav\'es del valor m\'as reciente: todo lo que se necesita saber para predecir el futuro est\'a resumido en el estado actual. El pasado m\'as remoto es irrelevante. Los precios de acciones se modelan frecuentemente como procesos de Markov.
+\end{intuicionmat}
+
+\begin{intuicion}
+La propiedad de Markov simplifica enormemente el an\'alisis: en lugar de rastrear toda la historia del proceso, basta con el valor actual. Los modelos binomiales son Markovianos. Los activos con dependencia de camino (como opciones lookback o asi\'aticas) requieren extender el espacio de estados para ``recordar'' la historia relevante.
+\end{intuicion}
+
+%% ============================================================
+\section{El Modelo Binomial}
+%% ============================================================
+
+\subsection{Estructura del modelo}
+
+El \textbf{modelo binomial (binomial model)} asume que existen dos n\'umeros positivos $d$ y $u$ con $0 < d < u$ tal que en cada paso temporal el precio $S_t$ del activo riesgoso cambia a $dS_t$ (movimiento hacia abajo) o $uS_t$ (movimiento hacia arriba). Frecuentemente se asume $0 < d < 1 < u$ y:
+\begin{equation}
+    d = \frac{1}{u}
+\end{equation}
+
+\begin{intuicionmat}
+La condici\'on $d = 1/u$ garantiza que un movimiento hacia arriba seguido de uno hacia abajo devuelve el precio a su nivel original. Es una condici\'on de simetr\'ia: las fluctuaciones hacia arriba y hacia abajo tienen la misma magnitud multiplicativa.
+\end{intuicionmat}
+
+Los retornos son:
+\begin{align}
+    R_t(\text{up}) &= u - 1 \\
+    R_t(\text{down}) &= d - 1
+\end{align}
+
+El modelo binomial es un modelo de Markov. Un modelo binomial de $T$ pasos produce $2^T$ trayectorias y el mismo n\'umero de estados. Sin embargo, el n\'umero de precios finales distintos $S_T = u^k d^{T-k} S_0$ es s\'olo $T+1$.
+
+La distribuci\'on de probabilidad de los precios finales bajo las probabilidades reales es una \textbf{distribuci\'on binomial (binomial distribution)}:
+\begin{equation}
+    P(S_T = u^k d^{T-k} S_0) = \binom{T}{k} p^k (1-p)^{T-k}
+\end{equation}
+
+\begin{intuicionmat}
+La probabilidad de que el precio termine en $u^k d^{T-k} S_0$ (con exactamente $k$ movimientos hacia arriba de $T$ totales) es la probabilidad binomial. El coeficiente $\binom{T}{k}$ cuenta el n\'umero de trayectorias que producen ese precio final.
+\end{intuicionmat}
+
+Para evitar arbitraje con el activo libre de riesgo de tasa $r$, es necesario que:
+\begin{equation}
+    d < 1 + r < u
+\end{equation}
+
+\begin{intuicionmat}
+Si $r \geq u-1$, convendr\'ia siempre invertir en el activo libre de riesgo (dominancia estoc\'astica). Si $r \leq d-1$, convendr\'ia siempre invertir en la acci\'on. En ambos casos existir\'ia arbitraje. La condici\'on $d < 1+r < u$ garantiza que el activo riesgoso y el libre de riesgo son genuinamente diferentes.
+\end{intuicionmat}
+
+\begin{intuicion}
+El modelo binomial es el modelo m\'as simple posible de precios de activos con incertidumbre: en cada per\'iodo s\'olo pueden ocurrir dos cosas. A pesar de su simpleza, captura la esencia de la din\'amica de precios y, en el l\'imite de pasos de tiempo infinitamente peque\~nos, converge al movimiento browniano geom\'etrico.
+\end{intuicion}
+
+\subsection{Probabilidades neutrales al riesgo para el modelo binomial}
+
+Las \textbf{probabilidades neutrales al riesgo (risk-neutral probabilities)} se obtienen imponiendo la condici\'on de martingala $S_t = E_t^Q[S_{t+1}]/(1+r)$:
+\begin{equation}
+    S_t = \frac{q \cdot uS_t + (1-q) \cdot dS_t}{1+r}
+\end{equation}
+
+Resolviendo para $q$:
+\begin{align}
+    q &= \frac{1 + r - d}{u - d} \\
+    1 - q &= \frac{u - 1 - r}{u - d}
+\end{align}
+
+\begin{intuicionmat}
+Las probabilidades neutrales al riesgo son \'unicas en el modelo binomial (ya que hay un solo activo riesgoso y dos estados). La condici\'on $d < 1+r < u$ garantiza $0 < q < 1$: son probabilidades genuinas. Estas probabilidades no reflejan la probabilidad real de subida o bajada, sino las probabilidades que hacen que el precio descontado sea una martingala.
+\end{intuicionmat}
+
+Como $0 < d < 1+r < u$ garantiza $0 < q < 1$, el \textbf{modelo binomial es completo y libre de arbitraje (complete and arbitrage-free)}.
+
+\begin{intuicion}
+Las probabilidades neutrales al riesgo del modelo binomial tienen una f\'ormula cerrada muy elegante que solo depende de $u$, $d$ y $r$, sin necesidad de conocer las probabilidades reales. Esto ilustra el principio general: la valoraci\'on por arbitraje es independiente de las probabilidades reales del mundo.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on de Derivados Europeos Simples}
+%% ============================================================
+
+\subsection{Opciones europeas en el modelo binomial}
+
+Una \textbf{opci\'on de compra europea (European call option)} con fecha de vencimiento $\tau$ y precio de ejercicio $K > 0$ tiene pago:
+\begin{equation}
+    C_\tau^\tau = \max(S_\tau - K, 0)
+\end{equation}
+
+\begin{intuicionmat}
+La opci\'on solo vale ejercerla si el precio de la acci\'on supera $K$: en ese caso la ganancia es $S_\tau - K$. Si el precio est\'a por debajo de $K$, no se ejerce y la opci\'on vale cero. La notaci\'on $\max(\cdot, 0)$ captura este pago asim\'etrico.
+\end{intuicionmat}
+
+El valor de la opci\'on en $t < \tau$ se calcula como el valor presente descontado bajo las probabilidades neutrales al riesgo:
+\begin{equation}
+    C_t^\tau = E_t^Q\left[\frac{C_\tau^\tau}{(1+r)^{\tau-t}}\right]
+\end{equation}
+
+Expl\'icitamente, usando la distribuci\'on binomial:
+\begin{equation}
+    C_t^\tau = \frac{1}{(1+r)^{\tau-t}} \sum_{k=0}^{\tau-t} (u^k d^{\tau-t-k} S_0 - K)^+ \binom{\tau-t}{k} q^k (1-q)^{\tau-t-k}
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula suma sobre todos los posibles precios finales el pago de la opci\'on en ese escenario, ponderado por su probabilidad neutral al riesgo, y descuenta al presente. Es la versi\'on discreta de la f\'ormula de Black-Scholes.
+\end{intuicionmat}
+
+\subsection{Derivados europeos generales}
+
+Un \textbf{derivado europeo simple (simple European derivative)} con vencimiento $\tau$ es un instrumento financiero cuyo pago es cero para $0 \leq t < \tau$ y una variable aleatoria $\mathfrak{F}_\tau$-medible $V_\tau$ en $t = \tau$.
+
+Su valor en $t$ se calcula:
+\begin{equation}
+    V_t = E_t^Q\left[\frac{V_\tau}{(1+r)^{\tau-t}}\right]
+\end{equation}
+
+Con el modelo binomial:
+\begin{equation}
+    V_t = \frac{1}{(1+r)^{\tau-t}} \sum_{k=0}^{\tau-t} V_\tau \binom{\tau-t}{k} q^k (1-q)^{\tau-t-k}
+\end{equation}
+
+\begin{intuicionmat}
+La f\'ormula de valoraci\'on es completamente general: cualquier derivado europeo (call, put, digital, barrera, etc.) se valora de la misma manera: esperanza descontada del pago final bajo las probabilidades neutrales al riesgo. La especificidad del derivado entra \'unicamente a trav\'es de la funci\'on de pago $V_\tau$.
+\end{intuicionmat}
+
+\begin{intuicion}
+La valoraci\'on de derivados europeos en el modelo binomial es un algoritmo de retroinducci\'on: se parte del pago conocido en la fecha de vencimiento y se retrocede en el tiempo calculando esperanzas descontadas. Este principio es el mismo en todos los modelos de tiempo discreto, independientemente de la complejidad del subyacente.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on de Opciones Americanas}
+%% ============================================================
+
+\subsection{Tiempos de parada}
+
+Para definir opciones americanas se necesita el concepto de \textbf{tiempo de parada (stopping time)}: una variable aleatoria $s$ tal que:
+\begin{equation}
+    \{\omega \in \Omega : s(\omega) = k\} \in \mathfrak{F}_k
+\end{equation}
+
+\begin{intuicionmat}
+Un tiempo de parada es un momento de decisi\'on que depende \'unicamente de la informaci\'on disponible hasta ese momento: la decisi\'on de parar en el instante $k$ puede basarse en lo que ha ocurrido hasta $k$, pero no en informaci\'on futura. La condici\'on $\in \mathfrak{F}_k$ formaliza esta restricci\'on.
+\end{intuicionmat}
+
+Dado un proceso adaptado $X_t$ y un tiempo de parada $s$, la f\'ormula de valoraci\'on es:
+\begin{equation}
+    V_t^s = E_t^Q\left[\frac{X_s}{(1+r)^{s-t}}\right]
+\end{equation}
+
+\begin{intuicionmat}
+El valor de la opci\'on americana es la esperanza descontada del pago en el momento de ejercicio $s$. La clave es que $s$ es una variable aleatoria (no una fecha fija), lo que permite modelar la elecci\'on \'optima de cu\'ando ejercer: el inversor elige $s$ para maximizar este valor.
+\end{intuicionmat}
+
+\begin{intuicion}
+Las opciones americanas son m\'as valiosas que las europeas porque dan la libertad de elegir cu\'ando ejercer. El tiempo de parada \'optimo es la pol\'itica de ejercicio que maximiza el valor de la opci\'on. En \'arboles binomiales, se calcula mediante retroinducci\'on comparando en cada nodo el valor de ejercer inmediatamente con el valor de continuar.
+\end{intuicion}
+
+%% ============================================================
+\section{Valoraci\'on por Arbitraje en Tiempo Discreto, Estados Continuos}
+%% ============================================================
+
+\subsection{Estructura del mercado con estados continuos}
+
+En el contexto de \textbf{tiempo discreto, estados continuos (discrete-time, continuous-state)}, la econom\'ia se representa por $(\Omega, \mathfrak{F}, P)$ donde $\Omega$ contiene un n\'umero no numerable de estados. La probabilidad de cada estado individual es cero; solo los eventos tienen probabilidad finita. Hay un n\'umero finito de fechas.
+
+Las probabilidades neutrales al riesgo se determinan resolviendo:
+\begin{equation}
+    \sum_{\omega \in A_{k,t}} q_\omega \left[\sum_{j=t+1}^{T} \frac{d_j^i(\omega)}{R_{t,j}} - S^i_{A_{kt}}\right] = 0, \qquad \sum_{\omega=1}^{S} q_\omega = 1
+\end{equation}
+
+\begin{intuicionmat}
+En cada nodo del \'arbol, las probabilidades neutrales al riesgo deben satisfacer las condiciones de martingala para cada activo: la esperanza descontada de los pagos futuros debe igualar el precio actual. Con $M$ estados y $N$ activos, si $M \gg N$ el sistema es sobredeterminado y habr\'a infinitas soluciones (mercado incompleto).
+\end{intuicionmat}
+
+\subsection{Mercados inherentemente incompletos}
+
+Bajo el supuesto $M \gg N \times \sum_{t=0}^{T-1} M_t$ (muchos m\'as estados que ecuaciones), el sistema de probabilidades neutrales al riesgo ser\'a indeterminado y habr\'a infinitas medidas martingala equivalentes: el \textbf{mercado de tiempo discreto con estados continuos es inherentemente incompleto (inherently incomplete)}.
+
+Solo existe arbitraje si el pago de un activo es combinaci\'on lineal de los pagos de otros activos, pero su precio no satisface esa misma relaci\'on.
+
+\begin{intuicion}
+La incompletitud del mercado de tiempo discreto con estados continuos refleja una realidad econ\'omica: con un n\'umero finito de activos y una infinitud de posibles estados del mundo, no es posible cubrir todos los riesgos. La valoraci\'on deja de ser \'unica: hay un rango de precios consistentes con la ausencia de arbitraje.
+\end{intuicion}
+
+\subsection{Mercados completos con m\'ultiples activos binomiales}
+
+Cuando hay $N$ activos binomiales y $M \leq N+1$ estados, el sistema de condiciones martingala puede tener soluci\'on \'unica. Con $M = 2^K \leq N+1$, se pueden elegir $K$ activos cuyos procesos de precios independientes identifican todos los estados. Los dem\'as activos son combinaciones lineales de los $K$ \textbf{factores (factors)} b\'asicos.
+
+Las probabilidades neutrales al riesgo para $N$ activos binomiales con $2^N$ estados se construyen secuencialmente:
+\begin{equation}
+    q_t^1 q_t^2, \quad q_t^1(1-q_t^2), \quad (1-q_t^1)q_t^2, \quad (1-q_t^1)(1-q_t^2)
+\end{equation}
+
+\begin{intuicionmat}
+Cuando los movimientos de los activos son independientes, las probabilidades neutrales al riesgo de cada estado son el producto de las probabilidades individuales de cada activo. Esto permite construir expl\'icitamente una medida martingala equivalente, demostrando que el mercado es libre de arbitraje.
+\end{intuicionmat}
+
+\begin{intuicion}
+La conclusi\'on principal es que un mercado con $N$ activos binomiales m\'as un activo libre de riesgo es libre de arbitraje pero incompleto (hay m\'as estados que activos). Para completarlo, el n\'umero de activos independientes debe ser igual al n\'umero de estados en cada nodo. En tiempo continuo, el trading continuo puede completar el mercado.
+\end{intuicion}
+
+%% ============================================================
+\section{Modelos APT (Arbitrage Pricing Theory)}
+%% ============================================================
+
+\subsection{Formulaci\'on de la teor\'ia APT}
+
+En 1976, Stephen Ross public\'o el modelo de \textbf{teor\'ia de precios por arbitraje (Arbitrage Pricing Theory, APT)}, que propone que los retornos de las acciones pueden representarse como regresi\'on lineal sobre un peque\~no conjunto de factores comunes:
+\begin{equation}
+    \mathbf{r} = \mathbf{a} + \mathbf{B}\mathbf{f} + \boldsymbol{\varepsilon}
+\end{equation}
+
+donde:
+\begin{itemize}
+    \item $\mathbf{r}$: vector $n$-dimensional de retornos
+    \item $\mathbf{f}$: vector $k$-dimensional de \textbf{factores comunes (common factors)}, con $k \ll n$
+    \item $\mathbf{a}$: vector $n$-dimensional de constantes
+    \item $\mathbf{B}$: matriz $n \times k$ de \textbf{sensibilidades (factor loadings)}
+    \item $\boldsymbol{\varepsilon}$: vector $n$-dimensional de perturbaciones con $E[\boldsymbol{\varepsilon}|\mathbf{f}] = 0$ y $E[\boldsymbol{\varepsilon}\boldsymbol{\varepsilon}'|\mathbf{f}] = \boldsymbol{\Sigma}$
+\end{itemize}
+
+\begin{intuicionmat}
+El modelo descompone el retorno de cada activo en tres partes: (1) una constante $a_i$, (2) la exposici\'on a factores comunes $B_i \mathbf{f}$ que afectan a todos los activos, y (3) un ruido idiosincrático $\varepsilon_i$ que es independiente de los factores y se diversifica en carteras grandes.
+\end{intuicionmat}
+
+El APT establece que, si no hay arbitraje en una econom\'ia grande, el retorno esperado de cada activo satisface:
+\begin{equation}
+    E[\mathbf{r}] = \lambda_0 \boldsymbol{\iota} + \mathbf{B}\boldsymbol{\lambda}
+\end{equation}
+
+donde $\boldsymbol{\lambda}$ son \textbf{primas de riesgo (risk premia)} y $\lambda_0$ es la tasa libre de riesgo.
+
+\begin{intuicionmat}
+Esta ecuaci\'on dice que el retorno esperado de cada activo es la tasa libre de riesgo m\'as una combinaci\'on lineal de las primas de riesgo de cada factor ponderadas por las sensibilidades del activo a esos factores. Activos m\'as expuestos a factores de riesgo deben ofrecer mayor retorno esperado.
+\end{intuicionmat}
+
+\begin{intuicion}
+APT es m\'as general que el CAPM: en lugar de un \'unico factor (el mercado), permite m\'ultiples fuentes de riesgo sistem\'atico. Su derivaci\'on solo requiere ausencia de arbitraje y la existencia de carteras bien diversificadas. La teor\'ia es aproximada: cualquier n\'umero finito de activos puede violar la relaci\'on, la cual es exacta solo en el l\'imite de una econom\'ia infinita.
+\end{intuicion}
+
+\subsection{Contraste del APT cuando los factores son carteras}
+
+Si los factores son carteras dadas y existe un activo libre de riesgo, el modelo en retornos en exceso es:
+\begin{equation}
+    \mathbf{z}_t = \mathbf{a} + \mathbf{B}\mathbf{f}_t + \boldsymbol{\varepsilon}_t
+\end{equation}
+
+El APT requiere $\mathbf{a} = \mathbf{0}$. Los estimadores OLS son:
+\begin{align}
+    \hat{\mathbf{a}} &= \hat{\boldsymbol{\mu}} - \hat{\mathbf{B}}\hat{\boldsymbol{\mu}}_K \\
+    \hat{\mathbf{B}} &= \frac{\sum_{t=1}^{T}(\mathbf{z}_t - \hat{\boldsymbol{\mu}})(\mathbf{z}_{Kt} - \hat{\boldsymbol{\mu}}_K)'}{\sum_{t=1}^{T}(\mathbf{z}_{Kt} - \hat{\boldsymbol{\mu}}_K)(\mathbf{z}_{Kt} - \hat{\boldsymbol{\mu}}_K)'}
+\end{align}
+
+\begin{intuicionmat}
+El estimador $\hat{\mathbf{B}}$ es el cociente de la covarianza entre retornos de activos y factores sobre la varianza de los factores: la regla est\'andar de m\'inimos cuadrados. $\hat{\mathbf{a}}$ es el intercepto: mide cu\'anto del retorno promedio no es explicado por los factores. APT predice $\mathbf{a} = \mathbf{0}$.
+\end{intuicionmat}
+
+La restricci\'on del APT se contrasta con m\'etodos de \textbf{raz\'on de verosimilitud (likelihood ratio methods)} comparando la verosimilitud del modelo restringido ($\mathbf{a} = \mathbf{0}$) con el no restringido.
+
+\subsection{Contraste del APT cuando los factores no son carteras}
+
+Si los factores son procesos ex\'ogenos dados (no carteras), el modelo es una regresi\'on multivariante. Los estimadores OLS en retornos reales son:
+\begin{align}
+    \hat{\mathbf{a}} &= \hat{\boldsymbol{\mu}} - \hat{\mathbf{B}}\hat{\boldsymbol{\mu}}_K \\
+    \hat{\mathbf{B}} &= \frac{\sum_{t=1}^{T}(r_t - \hat{\boldsymbol{\mu}})(f_{Kt} - \hat{\boldsymbol{\mu}}_K)'}{\sum_{t=1}^{T}(f_{Kt} - \hat{\boldsymbol{\mu}}_K)(f_{Kt} - \hat{\boldsymbol{\mu}}_K)'}
+\end{align}
+
+\begin{intuicionmat}
+Cuando los factores son variables macroecon\'omicas externas (no carteras), la estimaci\'on es una regresi\'on directa. La diferencia clave con el caso de factores-cartera es que aqu\'i los factores son fijos: no dependen de los par\'ametros del modelo, por lo que solo se estima un modelo (en lugar de los dos del caso anterior).
+\end{intuicionmat}
+
+\begin{intuicion}
+La contrastaci\'on del APT es metodol\'ogicamente delicada por su naturaleza aproximada: en econom\'ias finitas, la violaci\'on de la relaci\'on no constituye necesariamente un arbitraje. Las t\'ecnicas de contraste basadas en m\'axima verosimilitud permiten evaluar si los interceptos son estad\'isticamente distintos de cero, pero la interpretaci\'on econ\'omica requiere cautela.
+\end{intuicion}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+\subsection{Conceptos fundamentales}
+
+\begin{enumerate}
+    \item \textbf{Ley del precio \'unico (law of one price)}: un activo debe tener el mismo precio independientemente de c\'omo se construya.
+    \item \textbf{Arbitraje (arbitrage)}: compra y venta simult\'anea a precios distintos; o estrategia con valor inicial nulo y pago final positivo.
+    \item \textbf{Mercado de estados finitos}: representado por un vector de precios $\mathbf{S}$ y una matriz de pagos $\mathbf{D}$.
+    \item \textbf{No hay arbitraje si y solo si existe un vector de precios de estado estrictamente positivo.}
+    \item \textbf{Mercado completo}: el rango de $\mathbf{D}$ es $M$ (tantos activos independientes como estados).
+\end{enumerate}
+
+\subsection{Modelo multiperi\'odo}
+
+\begin{enumerate}
+    \item Una econom\'ia multiperi\'odo de estados finitos se representa por un espacio de probabilidad m\'as una estructura de informaci\'on.
+    \item Cada activo se representa por un proceso de pagos y un proceso de precios.
+    \item Un arbitraje es una estrategia de trading cuyo proceso de pagos es no negativo y no siempre cero.
+    \item El \textbf{deflactor de precios de estado (state-price deflator)} $\pi_t$ es un proceso adaptado estrictamente positivo tal que $S_t^i = \frac{1}{\pi_t} E_t\left[\sum_{j=t+1}^T \pi_j d_j^i\right]$.
+    \item Una \textbf{martingala (martingale)} es un proceso tal que $X_t = E_t[X_s]$ para $s > t$.
+    \item En ausencia de arbitraje, existe una medida de probabilidad artificial $Q$ bajo la cual todos los procesos de precios descontados son martingalas.
+    \item La medida $Q$ es \'unica si y solo si el mercado es completo.
+\end{enumerate}
+
+\subsection{Modelo binomial y derivados}
+
+\begin{enumerate}
+    \item El modelo binomial asume $S_{t+1} \in \{uS_t, dS_t\}$ con $0 < d < 1 + r < u$.
+    \item Las probabilidades neutrales al riesgo son $q = (1+r-d)/(u-d)$.
+    \item El modelo binomial es completo y libre de arbitraje.
+    \item Los derivados europeos se valoran como esperanza descontada del pago bajo $Q$.
+    \item Las opciones americanas se valoran usando tiempos de parada \'optimos.
+\end{enumerate}
+
+\subsection{APT y mercados de estados continuos}
+
+\begin{enumerate}
+    \item Un mercado de tiempo discreto con estados continuos y un n\'umero finito de activos es inherentemente incompleto.
+    \item El APT establece $E[\mathbf{r}] = \lambda_0\boldsymbol{\iota} + \mathbf{B}\boldsymbol{\lambda}$: el retorno esperado es la tasa libre de riesgo m\'as primas de riesgo ponderadas por las sensibilidades a los factores.
+    \item La relaci\'on APT es aproximada y se satisface exactamente solo en el l\'imite de una econom\'ia infinita.
+    \item El APT se puede contrastar con m\'etodos de m\'axima verosimilitud verificando si los interceptos son estad\'isticamente distintos de cero.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,179 @@
+==============================================================
+ PLAN DE TRABAJO — Réplica Stock & Watson (2001)
+ EE.UU. (1960Q1-2025Q4) | Chile (2000Q1-2025Q4)
+ VAR 3 variables: Inflación (π), Actividad (u/gap), Tasa (R)
+==============================================================
+ ESTADO: [✓] = completado | [→] = en curso | [ ] = pendiente
+==============================================================
+
+--------------------------------------------------------------
+[✓] FASE 0 — Datos
+--------------------------------------------------------------
+ Archivos listos en carpeta Datos\:
+   - fase0_eeuu.xlsx  → 264 obs, 1960Q1-2025Q4
+                         variables: pi, desempleo, ffr, ipc
+   - fase0_chile.xlsx → 104 obs, 2000Q1-2025Q4
+                         variables: pi, tpm, gap, ipc, imacec
+
+ Transformaciones ya aplicadas:
+   - Inflación: πt = 400·ln(IPCt/IPCt-1)  [fórmula de S&W]
+   - Output Gap Chile: HP-filter λ=1600 sobre IMACEC
+   - TPM/FFR: promedios trimestrales de series mensuales
+
+ ALERTA DE SIGNOS (Chile):
+   Output Gap reemplaza al desempleo por informalidad laboral.
+   Shock contractivo de tasa → REDUCE gap (signo –).
+   En S&W el mismo shock → AUMENTA desempleo (signo +).
+   Mencionar esto explícitamente al comparar resultados.
+
+--------------------------------------------------------------
+[✓] BLOQUE 1 — VAR Reducido y Recursivo
+--------------------------------------------------------------
+ Do-file: bloque1_var.do
+ IRF guardados en: Datos\irf_eeuu.irf | Datos\irf_chile.irf
+ Gráficos exportados a: Output\
+
+ Resultados obtenidos y hallazgos clave:
+
+ P1.1 — Causalidad de Granger:
+
+   EE.UU. (vs. S&W que usó muestra hasta 2000Q4):
+     - ffr → π:    p=0.000  [S&W: p=0.27 — DIFIERE por muestra extendida]
+     - u  → π:     p=0.284  [S&W: p=0.02 — curva de Phillips se aplanó post-2000]
+     - π  → ffr:   p=0.027  [S&W: p=0.00 — similar ✓]
+     - u  → ffr:   p=0.387  [S&W: p=0.00 — ZLB rompió la reacción Fed al desempleo]
+     - ffr → u:    p=0.031  [S&W: p=0.01 — similar ✓]
+     RAZÓN DIFERENCIAS: muestra extendida incluye ZLB (2009-15, 2020-21) y COVID.
+
+   Chile:
+     - gap → π:    p=0.002  [curva de Phillips funciona en Chile ✓]
+     - tpm → π:    p=0.326  [transmisión monetaria con rezago > 4 trimestres]
+     - π  → tpm:   p=0.000  [BCCh reacciona fuertemente a inflación — Taylor ✓]
+     - gap → tpm:  p=0.030  [BCCh reacciona al output gap — Taylor ✓]
+     - tpm → gap:  p=0.059  [política monetaria afecta marginalmente la actividad]
+
+ P1.3 — FEVD de la tasa de interés a h=12:
+
+   EE.UU.:  π→R = 23.4% | u→R =  8.6% | R→R = 68.1%
+   S&W:     π→R = 16%   | u→R = 59%   | R→R = 25%
+   [u explica mucho menos en muestra extendida — consistente con Granger]
+
+   Chile:   π→TPM = 57.6% | gap→TPM = 8.9% | TPM→TPM = 33.5%
+   [π domina la variación de TPM → BCCh con mandato único de inflación ✓]
+   [Contraste con EE.UU. donde u dominaba → mandato dual de la Fed]
+
+ BUG CONOCIDO al graficar IRF de EE.UU. después de cargar Chile:
+   Error: "irfname irf_eeuu not found"
+   Fix: agregar  irf use "$datos\irf_eeuu"  antes del irf graph.
+
+--------------------------------------------------------------
+[ ] BLOQUE 2 — Forecasting Pseudo Out-of-Sample
+--------------------------------------------------------------
+ Do-file a crear: bloque2_forecast.do
+
+ Lógica:
+   - Out-of-sample: últimos 16 trimestres (4 años) de cada muestra
+   - Loop recursivo: reestimar VAR trimestre a trimestre
+   - Proyecciones a h = 2, 4, 8 trimestres adelante
+   - Comparar RMSE de 3 modelos: Random Walk | AR(4) | VAR(4)
+   - Replicar formato de Tabla 2 del paper
+
+ Estructura del loop en Stata:
+   tsset t, quarterly
+   local Tfull = _N
+   local Teval = 16
+   local Tini  = `Tfull' - `Teval' + 1
+
+   forvalues s = `Tini'/`Tfull' {
+       quietly var pi activ tasa if _n <= `s', lags(1/4)
+       fcast compute f`s'_, step(8) replace
+   }
+
+ Modelos benchmark:
+   Random Walk:  forecast_t+h = valor_t  (sin modelo)
+   AR(4):        reg pi L1.pi L2.pi L3.pi L4.pi; predict pihat
+
+ Resultado esperado según S&W:
+   VAR no mejora consistentemente sobre AR univariado.
+   Puede haber ventaja en horizontes cortos para la tasa de interés.
+
+--------------------------------------------------------------
+[ ] BLOQUE 3 — Inferencia Estructural (SVAR + IRFs)
+--------------------------------------------------------------
+ Do-file a crear: bloque3_svar.do
+
+ 3.1 Regla de Taylor Backward-Looking:
+   BC reacciona al PROMEDIO de π y u de los últimos 4 trimestres.
+   Ecuación de identificación:
+     Rt = r* + 1.5·π̄t - 1.25·ūt + rezagos de R,π,u + εt
+   donde π̄t = (L1.pi + L2.pi + L3.pi + L4.pi)/4
+
+   En Stata:
+     gen pi_bar = (L1.pi + L2.pi + L3.pi + L4.pi)/4
+     gen u_bar  = (L1.u  + L2.u  + L3.u  + L4.u) /4
+     * shock = residuo de la regresión de Taylor
+     reg tasa pi_bar u_bar L(1/4).(pi activ tasa)
+     predict shock_bl, resid
+
+ 3.2 Regla de Taylor Forward-Looking:
+   BC reacciona a los PRONÓSTICOS del VAR a 4 trimestres.
+   Paso 1: Estimar VAR reducido → generar forecasts h=4
+   Paso 2: Usar E_t[π_{t+4}] y E_t[u_{t+4}] en la ecuación de R
+
+   En Stata:
+     var pi activ tasa, lags(1/4)
+     fcast compute fcast_, step(4)
+     reg tasa fcast_pi4 fcast_u4 L(1/4).(pi activ tasa)
+     predict shock_fl, resid
+
+ 3.3 Comparación:
+   Graficar IRF de ambas especificaciones lado a lado.
+   Discutir si las conclusiones de política son sensibles a la identificación.
+   Para Chile: ¿el shock genera efecto recesivo más rápido bajo una regla u otra?
+
+--------------------------------------------------------------
+[ ] BLOQUE 4 — Análisis de Política y Crítica (solo texto)
+--------------------------------------------------------------
+ 4.1 Price Puzzle:
+   Fenómeno: tras alza de R, la inflación sube inicialmente (IRF positivo).
+   Causa: VAR de 3 variables no captura que el BC anticipó inflación futura.
+   Problema estadístico: variable omitida (expectativas inflacionarias).
+   Solución de S&W / Sims (1992): añadir precio de commodities como 4ª variable.
+     → Actúa como proxy de las expectativas del BC.
+     → Typical fix: commodity price index o precio del petróleo.
+
+ 4.2 Crítica de Lucas:
+   Supuesto: BCCh cambia meta de inflación de 2% a 4%.
+   Por qué los coeficientes del VAR dejan de ser útiles:
+     - Los agentes privados cambiarían sus expectativas y comportamientos.
+     - Los coeficientes del VAR son forma reducida: mezclan la regla del BC
+       con el comportamiento del sector privado.
+     - Al cambiar el régimen, AMBAS partes cambian simultáneamente.
+     - Los canales de transmisión estimados bajo el régimen anterior ya no son válidos.
+   Esto es la esencia de la Crítica de Lucas: los parámetros de forma reducida
+   no son invariantes a cambios en la regla de política.
+
+--------------------------------------------------------------
+ CHECKLIST ANTES DE ENTREGAR
+--------------------------------------------------------------
+ [ ] Unidades inflación: πt = 400·ln(Pt/Pt-1), NO variación % anual del IPC
+ [ ] Signos IRF Chile: mencionar inversión respecto a S&W por uso de output gap
+ [ ] FEVD: verificar que cada fila sume ~100%
+ [ ] Gráficas IRF: incluir bandas de confianza 95% (opción ci en irf graph)
+ [ ] Discutir diferencias EE.UU. vs S&W: ZLB + COVID rompen relaciones históricas
+ [ ] Do-file limpio y comentado para entregar en anexo
+ [ ] Impreso en fecha del Examen 2
+
+--------------------------------------------------------------
+ ARCHIVOS DEL PROYECTO
+--------------------------------------------------------------
+ Datos\fase0_eeuu.xlsx      → datos EE.UU. listos
+ Datos\fase0_chile.xlsx     → datos Chile listos
+ Datos\irf_eeuu.irf         → IRF guardados Bloque 1
+ Datos\irf_chile.irf        → IRF guardados Bloque 1
+ Output\                    → gráficos exportados
+ bloque1_var.do             → [✓] COMPLETO
+ bloque2_forecast.do        → [ ] pendiente
+ bloque3_svar.do            → [ ] pendiente
+ paper\Stock y Watson (2001).pdf
+==============================================================

@@ -1,0 +1,608 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Cap\'itulo 4 --- El Teorema de Arbitraje}\\[4pt]
+\large \textit{An Undergraduate Introduction to Financial Mathematics}\\
+\normalsize J.~R.~Buchanan}
+\author{}
+\date{Junio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%%% =========================================================
+\section{Introducci\'on: El Concepto de Arbitraje (The Concept of Arbitrage)}
+%%% =========================================================
+
+El \textbf{arbitraje (arbitrage)} es la situaci\'on que surge cuando dos
+instrumentos financieros est\'an incorrectamente valuados entre s\'i, haciendo
+posible obtener una ganancia financiera sin riesgo. Por ejemplo, si el banco A
+ofrece pr\'estamos al 5\,\% y el banco B ofrece dep\'ositos al 6\,\%, es posible
+tomar un pr\'estamo del banco A, depositarlo en el banco B y obtener el 1\,\%
+de diferencia como beneficio puro.
+
+Los mercados financieros eficientes impiden que estas oportunidades sean
+frecuentes: cuando surge el arbitraje, los inversores acuden masivamente a
+los instrumentos con precio incorrecto y el mercado corrige los precios.
+El \textbf{Teorema de Arbitraje (Arbitrage Theorem)} establece que o bien
+las probabilidades de los resultados son tales que todas las apuestas son
+justas, o bien existe un esquema de apuestas que produce una ganancia positiva
+independiente del resultado. Este resultado es la base de la derivaci\'on de
+la ecuaci\'on de Black--Scholes que se estudia en el Cap\'itulo~6.
+
+%%% =========================================================
+\section{Momios y Probabilidades (Odds and Probabilities)}
+%%% =========================================================
+
+\subsection{Relaci\'on entre Momios y Probabilidades}
+
+Para simplificar el c\'alculo de pagos se utilizan \textbf{momios (odds)}
+en lugar de probabilidades directas. Si los momios en contra de un resultado
+son $n:1$, la probabilidad de ese resultado es:
+
+\begin{equation}
+  P = \frac{1}{n+1}
+\end{equation}
+
+\begin{intuicionmat}
+Si los momios son ``2 a 1 en contra'', de cada 3 escenarios posibles el
+resultado ocurre 1 vez, de modo que su probabilidad es $1/3$. La f\'ormula
+simplemente cuenta cu\'antas veces aparece el resultado favorable sobre el
+total de escenarios impl\'icitos en los momios.
+\end{intuicionmat}
+
+De forma m\'as general, si los momios son $n:m$ (el evento no ocurre $n$
+veces y ocurre $m$ veces), la probabilidad del evento es:
+
+\begin{equation}
+  P = \frac{m}{n+m}
+\end{equation}
+
+\begin{intuicionmat}
+Los momios $n:m$ son equivalentes a los momios $\frac{n}{m}:1$. La
+probabilidad es la fracci\'on de veces que ocurre el evento sobre el total
+de resultados impl\'icitos. Esta generalizaci\'on permite trabajar con
+cualquier par de enteros naturales $n$ y $m$.
+\end{intuicionmat}
+
+El mecanismo de pago es el siguiente: si los momios en contra de un resultado
+son $n:1$ y se realiza una apuesta unitaria, se ganan $n$ unidades cuando el
+resultado ocurre y se pierde la unidad apostada en caso contrario. Los pagos
+escalan multiplicativamente para apuestas no unitarias.
+
+\begin{intuicion}
+Los momios son simplemente una forma pr\'actica de expresar la rareza de un
+evento: cuanto mayores son los momios en contra, m\'as improbable es el
+resultado y mayor es la ganancia potencial al apostar por \'el. Si las
+probabilidades impl\'icitas en los momios de todos los resultados no suman
+exactamente 1, las tasas est\'an en desequilibrio y existe una oportunidad
+de arbitraje --- una estrategia que gana sin importar qu\'e resultado ocurra.
+\end{intuicion}
+
+\subsection{Ejemplo: Partida de Tenis y Arbitraje}
+
+Suponga que los momios en contra de que el jugador A derrote al jugador B
+son $\frac{3}{2}:1$ y los momios en contra de que B derrote a A son
+$\frac{3}{7}:1$. Convirtiendo a probabilidades:
+
+\begin{align}
+  P(A \text{ gana}) &= \frac{1}{\frac{3}{2}+1} = 0{,}4 \\[4pt]
+  P(B \text{ gana}) &= \frac{1}{\frac{3}{7}+1} = 0{,}7
+\end{align}
+
+\begin{intuicionmat}
+Las dos probabilidades suman $0{,}4 + 0{,}7 = 1{,}1 \neq 1$, lo cual es
+incoherente: las probabilidades de todos los resultados de un experimento
+deben sumar exactamente 1. Esta inconsistencia es la se\~nal de que existen
+momios incorrectos y por lo tanto existe arbitraje.
+\end{intuicionmat}
+
+Apostando $-1$ al jugador~A (es decir, apostando $1$ en contra de A) y
+$-2$ al jugador~B, se obtiene:
+\begin{itemize}
+  \item Si gana A: se pierde $3/2$ en la primera apuesta y se gana 2 en la
+        segunda, para una ganancia neta de $1/2$.
+  \item Si gana B: se gana 1 en la primera apuesta y se pierde $6/7$ en la
+        segunda, para una ganancia neta de $1/7$.
+\end{itemize}
+
+En ambos casos la ganancia es positiva, lo que confirma la existencia de
+arbitraje.
+
+\begin{intuicion}
+Este ejemplo ilustra el Teorema de Arbitraje en su forma m\'as concreta:
+cuando las probabilidades impl\'icitas en los momios no son coherentes, siempre
+existe una combinaci\'on de apuestas que garantiza ganancia. Encontrar esa
+combinaci\'on en situaciones complejas requiere las herramientas de
+programaci\'on lineal desarrolladas en la siguiente secci\'on.
+\end{intuicion}
+
+%%% =========================================================
+\section{Teorema de Dualidad de la Programaci\'on Lineal\\
+         (Duality Theorem of Linear Programming)}
+%%% =========================================================
+
+\subsection{Formulaci\'on del Problema de Programaci\'on Lineal}
+
+Un \textbf{problema cl\'asico de programaci\'on lineal (classic linear
+programming problem)} consiste en minimizar una funci\'on de costo lineal
+sujeta a que la soluci\'on sea \textbf{factible (feasible)}.
+
+El vector columna $\mathbf{x} \in \mathbb{R}^{n \times 1}$ es factible si
+$x_i \geq 0$ para $i = 1, 2, \ldots, n$ y satisface las ecuaciones de
+restricci\'on $A\mathbf{x} = \mathbf{b}$, donde $A$ es una matriz $m \times n$
+y $\mathbf{b} \in \mathbb{R}^{m \times 1}$. El vector fila
+$\mathbf{c} \in \mathbb{R}^{1 \times n}$ define la \textbf{funci\'on de costo
+(cost function)}:
+
+\begin{equation}
+  \mathbf{c} \cdot \mathbf{x} = c_1 x_1 + c_2 x_2 + \cdots + c_n x_n
+\end{equation}
+
+\begin{intuicionmat}
+Este producto punto es el ``costo total'' de una combinaci\'on de recursos:
+$c_i$ es el costo unitario del recurso $i$ y $x_i$ es la cantidad usada.
+La programaci\'on lineal busca la combinaci\'on de cantidades m\'as barata
+que cumpla simult\'aneamente todas las restricciones.
+\end{intuicionmat}
+
+Las \textbf{restricciones de desigualdad (inequality constraints)} se pueden
+convertir en restricciones de igualdad introduciendo \textbf{variables de
+holgura (slack variables)}. Por ejemplo:
+
+\begin{equation}
+  x_1 + x_2 + x_3 \leq 1
+  \quad \xrightarrow{\text{variable de holgura } x_4 \geq 0} \quad
+  x_1 + x_2 + x_3 + x_4 = 1
+\end{equation}
+
+\begin{intuicionmat}
+La variable de holgura $x_4 \geq 0$ absorbe la diferencia entre el lado
+izquierdo y el derecho de la desigualdad, convirtiendo el problema en uno
+de igualdad sin alterar el conjunto de soluciones factibles. No es necesario
+modificar la funci\'on de costo (el coeficiente de $x_4$ es cero).
+\end{intuicionmat}
+
+El conjunto de puntos factibles siempre forma un \textbf{conjunto convexo
+(convex set)}: un conjunto donde el segmento de l\'inea que une cualquier
+par de puntos del conjunto tambi\'en pertenece al conjunto. La soluci\'on
+\'optima se encuentra en un v\'ertice (esquina) de este conjunto convexo.
+
+\begin{intuicion}
+La programaci\'on lineal busca el punto m\'as barato dentro de una regi\'on
+geom\'etrica definida por las restricciones. Como la funci\'on de costo es
+lineal y el conjunto factible es convexo, la soluci\'on \'optima siempre
+est\'a en un v\'ertice --- nunca en el interior. Esto hace que el problema
+sea tratable incluso con miles de variables, pues basta examinar los v\'ertices.
+\end{intuicion}
+
+\subsection{El Par Primal--Dual (The Primal--Dual Pair)}
+
+Para cada \textbf{problema primal (primal problem)} de programaci\'on lineal
+existe un \textbf{problema dual (dual problem)} asociado:
+
+\medskip
+\noindent\textbf{Primal:} Minimizar $\mathbf{c} \cdot \mathbf{x}$ sujeto a
+$A\mathbf{x} = \mathbf{b}$ y $\mathbf{x} \geq 0$.\\
+\textbf{Dual:} Maximizar $\mathbf{y} \cdot \mathbf{b}$ sujeto a
+$\mathbf{y}A \leq \mathbf{c}$.
+\medskip
+
+Las relaciones estructurales entre ambos problemas son:
+\begin{enumerate}
+  \item El desconocido del dual es el vector fila $\mathbf{y} \in \mathbb{R}^{1 \times n}$.
+  \item El vector $\mathbf{b}$ pasa de la restricci\'on del primal a la
+        funci\'on objetivo del dual.
+  \item El vector $\mathbf{c}$ pasa de la funci\'on de costo del primal a
+        la restricci\'on del dual.
+  \item Las restricciones del dual son desigualdades; hay $n$ de ellas.
+  \item No existe restricci\'on de no negatividad ($\mathbf{y} \geq 0$) en el
+        dual est\'andar.
+\end{enumerate}
+
+\begin{intuicion}
+El dual es un ``espejo'' del primal. En econom\'ia, las variables duales tienen
+interpretaci\'on como \textbf{precios sombra (shadow prices)}: el valor marginal
+de relajar cada restricci\'on del primal en una unidad. Resolver el dual suele
+ser computacionalmente m\'as eficiente cuando tiene menos restricciones que el
+primal. La simetr\'ia profunda entre ambos problemas es lo que hace posible
+el Teorema de Arbitraje.
+\end{intuicion}
+
+\subsection{Teorema de Dualidad D\'ebil (Weak Duality Theorem)}
+
+\textbf{Teorema 4.1 (Dualidad D\'ebil / Weak Duality Theorem):} Si $\mathbf{x}$
+e $\mathbf{y}$ son los desconocidos del primal y del dual respectivamente,
+entonces:
+
+\begin{equation}
+  \mathbf{y} \cdot \mathbf{b} \leq \mathbf{c} \cdot \mathbf{x}
+\end{equation}
+
+Si $\mathbf{y} \cdot \mathbf{b} = \mathbf{c} \cdot \mathbf{x}$, entonces
+estos vectores son \'optimos para sus respectivos problemas.
+
+\begin{intuicionmat}
+El valor objetivo del dual es siempre una \textbf{cota inferior (lower bound)}
+del valor objetivo del primal. Esto significa que cualquier soluci\'on factible
+del dual nos da un l\'imite garantizado para el m\'inimo del primal. Cuando
+la cota alcanza el valor del primal --- es decir, cuando hay igualdad ---
+hemos encontrado el \'optimo global de ambos problemas simult\'aneamente.
+\end{intuicionmat}
+
+\textit{Demostraci\'on.} Las soluciones deben satisfacer $A\mathbf{x} = \mathbf{b}$,
+$x_i \geq 0$ y $\mathbf{y}A \leq \mathbf{c}$. Multiplicando la restricci\'on
+del primal por $\mathbf{y}$ y la del dual por $\mathbf{x}$:
+
+\begin{equation}
+  \mathbf{y}A\mathbf{x} = \mathbf{y} \cdot \mathbf{b}
+  \qquad \text{y} \qquad
+  \mathbf{y}A\mathbf{x} \leq \mathbf{c} \cdot \mathbf{x}
+\end{equation}
+
+\begin{intuicionmat}
+La expresi\'on $\mathbf{y}A\mathbf{x}$ es el v\'inculo entre primal y dual:
+es simult\'aneamente igual a $\mathbf{y} \cdot \mathbf{b}$ (por la restricci\'on
+del primal) y menor o igual que $\mathbf{c} \cdot \mathbf{x}$ (por la restricci\'on
+del dual y la no negatividad de $\mathbf{x}$). Encadenar estas dos relaciones
+da $\mathbf{y} \cdot \mathbf{b} \leq \mathbf{c} \cdot \mathbf{x}$.
+\end{intuicionmat}
+
+Concatenando: $\mathbf{y} \cdot \mathbf{b} = \mathbf{y}A\mathbf{x} \leq \mathbf{c} \cdot \mathbf{x}$.
+Si $\mathbf{y} \cdot \mathbf{b} = \mathbf{c} \cdot \mathbf{x}$, ning\'un
+$\mathbf{y}$ puede hacer $\mathbf{y} \cdot \mathbf{b}$ mayor ni ning\'un
+$\mathbf{x}$ puede hacer $\mathbf{c} \cdot \mathbf{x}$ menor, por lo que
+ambos son \'optimos. $\square$
+
+\begin{intuicion}
+La elegancia de esta demostraci\'on reside en que un \'unico t\'ermino
+$\mathbf{y}A\mathbf{x}$ conecta los dos problemas. La no negatividad de
+$\mathbf{x}$ es esencial: sin ella, la desigualdad $\mathbf{y}A \leq \mathbf{c}$
+al multiplicar por $\mathbf{x}$ no preservar\'ia el sentido. Esta hip\'otesis
+es lo que distingue el primal est\'andar del dual, que no exige $\mathbf{y} \geq 0$.
+\end{intuicion}
+
+\subsection{Condici\'on de Optimalidad y Holgura Complementaria\\
+            (Optimality Condition and Complementary Slackness)}
+
+Como consecuencia del Teorema de Dualidad D\'ebil, cuando $\mathbf{x}$ e
+$\mathbf{y}$ son \'optimos se cumple:
+
+\begin{align}
+  \mathbf{y} \cdot \mathbf{b} &= \mathbf{y}A\mathbf{x} = \mathbf{c} \cdot \mathbf{x} \nonumber \\
+  \Rightarrow\quad (\mathbf{c} - \mathbf{y}A) \cdot \mathbf{x} &= 0
+  \label{eq:holgura}
+\end{align}
+
+\begin{intuicionmat}
+El vector $\mathbf{c} - \mathbf{y}A$ mide la ``holgura de costo'': cu\'anto
+falta para que la restricci\'on dual sea activa en cada componente. La
+ecuaci\'on dice que el producto punto de esta holgura con la soluci\'on
+$\mathbf{x}$ es exactamente cero. Como ambos vectores son no negativos,
+esto s\'olo puede ocurrir si, para cada componente $j$, al menos uno de
+los dos factores es cero.
+\end{intuicionmat}
+
+\textbf{Teorema 4.2 (Condici\'on de Optimalidad / Optimality Condition):}
+La optimalidad en los problemas primal y dual requiere que para cada
+$j = 1, \ldots, n$:
+
+\begin{equation}
+  x_j = 0 \qquad \text{o} \qquad (\mathbf{y}A)_j = c_j
+\end{equation}
+
+\begin{intuicionmat}
+Este es el teorema de \textbf{holgura complementaria (complementary slackness)}:
+o bien la variable de decisi\'on $x_j$ es cero (no se usa ese recurso), o
+bien la restricci\'on dual $j$-\'esima es activa (el costo marginal iguala el
+precio). Una variable positiva con restricci\'on dual inactiva es imposible
+en el \'optimo, y esto permite reducir dr\'asticamente el primal una vez
+conocida la soluci\'on dual.
+\end{intuicionmat}
+
+\begin{intuicion}
+Este teorema es una herramienta pr\'actica poderosa. En el Ejemplo~4.2 del
+texto, conocer el \'optimo del dual $(y_1, y_2) = (2,3)$ revela que las
+restricciones 1 y 3 del dual son estrictamente inactivas. Por la condici\'on
+de optimalidad, $x_1 = x_3 = 0$ en el primal. El problema de 4 variables se
+reduce a uno de 2 variables, resoluble por inspecci\'on: $(x_1, x_2, x_3, x_4)
+= (0, 5, 0, 3)$ con valor \'optimo 19.
+\end{intuicion}
+
+\subsection{Teorema de Dualidad (Duality Theorem)}
+
+\textbf{Teorema 4.3 (Dualidad / Duality Theorem) [Gale \textit{et al.}, 1951]:}
+Si existe un $\mathbf{x}$ \'optimo en el primal, entonces existe un $\mathbf{y}$
+\'optimo en el dual y:
+
+\begin{equation}
+  \min\,(\mathbf{c} \cdot \mathbf{x}) = \max\,(\mathbf{y} \cdot \mathbf{b})
+\end{equation}
+
+\begin{intuicionmat}
+Esta es la versi\'on fuerte de la dualidad: el m\'inimo del primal coincide
+exactamente con el m\'aximo del dual. No es una cota aproximada --- es igualdad
+exacta. Esta propiedad de ``brecha cero'' entre primal y dual (\textit{strong
+duality}) es lo que hace posible la demostraci\'on del Teorema de Arbitraje:
+la factibilidad del primal equivale a la existencia de probabilidades justas,
+y la ausencia de factibilidad equivale a la existencia de arbitraje.
+\end{intuicionmat}
+
+El teorema admite una formulaci\'on sim\'etrica: si cualquiera de los dos
+problemas tiene soluci\'on \'optima, el otro tambi\'en la tiene y sus valores
+\'optimos son iguales ($\mathbf{c} \cdot \mathbf{x} = \mathbf{y} \cdot \mathbf{b}$).
+Cuando el primal tiene \textbf{restricciones de desigualdad (inequality
+constraints)} $A\mathbf{x} \geq \mathbf{b}$, introducir variables de holgura
+produce la \textbf{forma sim\'etrica (symmetric form)}:
+
+\medskip
+\noindent\textbf{Primal sim\'etrico:} Minimizar $\mathbf{c} \cdot \mathbf{x}$
+s.a. $A\mathbf{x} \geq \mathbf{b}$, $\mathbf{x} \geq 0$.\\
+\textbf{Dual sim\'etrico:} Maximizar $\mathbf{y} \cdot \mathbf{b}$ s.a.
+$\mathbf{y}A \leq \mathbf{c}$, $\mathbf{y} \geq 0$.
+\medskip
+
+\begin{intuicion}
+En la forma sim\'etrica ambos problemas tienen restricciones de desigualdad
+y no negatividad de sus variables. Esta presentaci\'on hace evidente que el
+dual del dual es el primal --- el par es completamente reversible. Adem\'as,
+en la forma sim\'etrica la condici\'on $\mathbf{y} \geq 0$ permite interpretar
+$\mathbf{y}$ directamente como un vector de probabilidades, lo que es la clave
+de la conexi\'on con el Teorema de Arbitraje.
+\end{intuicion}
+
+%%% =========================================================
+\section{El Teorema Fundamental de las Finanzas\\
+         (The Fundamental Theorem of Finance)}
+%%% =========================================================
+
+\subsection{Configuraci\'on del Experimento de Apuestas}
+
+Considere un experimento con $m$ posibles resultados numerados del $1$ al $m$.
+Se pueden realizar $n$ apuestas (numeradas del $1$ al $n$) sobre los resultados.
+Sea $r_{ij}$ el retorno por una apuesta unitaria en la apuesta $i$ cuando el
+resultado del experimento es $j$.
+
+El vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$ se denomina
+\textbf{estrategia de apuesta (betting strategy)}: $x_i$ es el monto apostado
+en la apuesta $i$. El retorno compuesto bajo el resultado $j$ es:
+
+\begin{equation}
+  R_j = \sum_{i=1}^{n} x_i r_{ij}
+\end{equation}
+
+\begin{intuicionmat}
+Esta ecuaci\'on calcula la ganancia total bajo el resultado $j$ como la
+suma ponderada de los retornos individuales. Es una combinaci\'on lineal:
+si apostamos $x_i$ unidades en la apuesta $i$ y esa apuesta paga $r_{ij}$
+por unidad cuando ocurre el resultado $j$, la ganancia total es la suma de
+todos esos pagos. La estrategia de arbitraje busca que $R_j > 0$ para
+todo $j$ simult\'aneamente.
+\end{intuicionmat}
+
+\begin{intuicion}
+Una estrategia de apuesta es an\'aloga a un portafolio financiero: $x_i$
+es la posici\'on en el activo $i$ y $r_{ij}$ es su retorno bajo el escenario $j$.
+El Teorema de Arbitraje clasifica todos los sistemas posibles de precios en
+dos categor\'ias mutuamente excluyentes: los que admiten una medida de
+probabilidad ``justa'' y los que permiten una ganancia garantizada sin riesgo.
+Esta dicotom\'ia es el fundamento de toda la teor\'ia moderna de valoraci\'on
+de activos.
+\end{intuicion}
+
+\subsection{El Teorema de Arbitraje (The Arbitrage Theorem)}
+
+\textbf{Teorema 4.4 (Teorema de Arbitraje / Arbitrage Theorem):} Exactamente
+una de las dos afirmaciones siguientes es verdadera:
+
+\begin{enumerate}
+  \item Existe un vector de probabilidades $\mathbf{y} = (y_1, y_2, \ldots, y_m)$
+        con $y_j \geq 0$ y $\sum_{j=1}^{m} y_j = 1$, tal que para toda apuesta
+        $i = 1, 2, \ldots, n$:
+        \begin{equation}
+          \sum_{j=1}^{m} y_j \, r_{ij} = 0
+          \label{eq:prob_justas}
+        \end{equation}
+
+  \item Existe una estrategia de apuesta $\mathbf{x} = (x_1, x_2, \ldots, x_n)$
+        tal que para todo resultado $j = 1, 2, \ldots, m$:
+        \begin{equation}
+          \sum_{i=1}^{n} x_i \, r_{ij} > 0
+          \label{eq:arbitraje}
+        \end{equation}
+\end{enumerate}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:prob_justas} dice que existe una distribuci\'on de
+probabilidad sobre los resultados tal que el valor esperado de cada apuesta
+es exactamente cero: todos los precios son ``justos'' bajo esa medida. La
+ecuaci\'on~\eqref{eq:arbitraje} dice que existe una combinaci\'on de apuestas
+con ganancia positiva garantizada bajo cualquier resultado posible. El teorema
+establece que estos dos casos se excluyen mutuamente y son exhaustivos: no
+puede haber precios justos y arbitraje simult\'aneamente, ni puede ocurrir
+que no exista ninguno de los dos.
+\end{intuicionmat}
+
+\begin{intuicion}
+El Teorema de Arbitraje es la versi\'on financiera del Teorema de Dualidad.
+La existencia de probabilidades justas corresponde a la factibilidad del
+primal con valor cero; la existencia de una estrategia de arbitraje corresponde
+a que el primal no es factible y el dual puede alcanzar cualquier valor positivo.
+En las finanzas modernas, la condici\'on~\eqref{eq:prob_justas} define la
+\textbf{medida de probabilidad neutral al riesgo (risk-neutral probability
+measure)}, que es la herramienta central de la valoraci\'on de derivados.
+\end{intuicion}
+
+\subsection{Demostraci\'on del Teorema de Arbitraje}
+
+La demostraci\'on reduce el Teorema de Arbitraje al Teorema de Dualidad
+(Teorema~4.3). Se augmenta el vector de estrategia con un elemento $x_{n+1}$
+que representa la ganancia positiva m\'inima garantizada a maximizar, sujeto a:
+
+\begin{equation}
+  \sum_{i=1}^{n} x_i r_{ij} \geq x_{n+1}, \qquad j = 1, 2, \ldots, m
+\end{equation}
+
+\begin{intuicionmat}
+Al introducir $x_{n+1}$ como la ganancia m\'inima garantizada, el problema
+de encontrar una estrategia de arbitraje (ganancia positiva para todo resultado)
+se convierte en maximizar $x_{n+1}$. Si el m\'aximo es positivo, hay arbitraje;
+si el m\'aximo es cero, no lo hay. Esta reformulaci\'on permite aplicar
+directamente el Teorema de Dualidad.
+\end{intuicionmat}
+
+La maximizaci\'on de $x_{n+1}$ se escribe como: Maximizar $\mathbf{x} \cdot \mathbf{b}$
+sujeto a $\mathbf{x}A \leq \mathbf{c}$, donde $\mathbf{c} = (0,\ldots,0)$,
+$\mathbf{b} = (0,\ldots,0,1)$ y la matriz $A$ tiene la forma:
+
+\begin{equation}
+  A = \begin{bmatrix}
+    -r_{11} & -r_{12} & \cdots & -r_{1m} \\
+    -r_{21} & -r_{22} & \cdots & -r_{2m} \\
+    \vdots  & \vdots  &        & \vdots  \\
+    -r_{n1} & -r_{n2} & \cdots & -r_{nm} \\
+    1       & 1       & \cdots & 1
+  \end{bmatrix}
+  \label{eq:matrizA}
+\end{equation}
+
+\begin{intuicionmat}
+Las primeras $n$ filas de $A$ codifican los retornos negativados de cada
+apuesta bajo cada resultado. La \'ultima fila de unos implementa la restricci\'on
+$\sum_j x_{n+1} \leq m$ (una unidad por cada resultado), que con $\mathbf{c} = \mathbf{0}$
+es la \'unica restricci\'on no trivial sobre $x_{n+1}$. La estructura en
+bloques refleja la dualidad entre apuestas (filas) y resultados (columnas).
+\end{intuicionmat}
+
+Este es el dual del problema primal: Minimizar $\mathbf{c} \cdot \mathbf{y} = 0$
+sujeto a $A\mathbf{y} = \mathbf{b}$ y $\mathbf{y} \geq 0$, que en forma
+matricial es:
+
+\begin{equation}
+  \begin{bmatrix}
+    -r_{11} & \cdots & -r_{n1} & 1 \\
+    -r_{12} & \cdots & -r_{n2} & 1 \\
+    \vdots  &        & \vdots  & \vdots \\
+    -r_{1m} & \cdots & -r_{nm} & 1
+  \end{bmatrix}
+  \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_{m-1} \\ y_m \end{bmatrix}
+  =
+  \begin{bmatrix} 0 \\ 0 \\ \vdots \\ 0 \\ 1 \end{bmatrix}
+\end{equation}
+
+\begin{intuicionmat}
+Este sistema de ecuaciones es exactamente la condici\'on de que $\mathbf{y}$
+sea un vector de probabilidades ($y_j \geq 0$, $\sum_j y_j = 1$) con valor
+esperado cero para todas las apuestas. Las primeras $m$ ecuaciones dicen
+$\sum_{i} y_i (-r_{ji}) = 0$, es decir $\sum_i y_i r_{ji} = 0$; la \'ultima
+ecuaci\'on dice $\sum_i y_i = 1$.
+\end{intuicionmat}
+
+El primal es factible con valor m\'inimo cero si y solo si $\mathbf{y}$ es un
+vector de probabilidades que hace justo el valor esperado de todas las apuestas
+(condici\'on~1 del teorema). Por el Teorema de Dualidad, si el primal es
+factible, el m\'aximo del dual es tambi\'en cero: no es posible una ganancia
+garantizada. Si el primal no es factible, el dual no tiene soluci\'on \'optima
+finita y la ganancia puede superar cualquier valor positivo
+(condici\'on~2 del teorema). $\square$
+
+\begin{intuicion}
+La belleza de esta demostraci\'on es que traduce una afirmaci\'on financiera
+--- ``existe o no existe arbitraje'' --- en una afirmaci\'on matem\'atica
+--- ``el primal es o no es factible''. La dualidad de la programaci\'on lineal
+hace el resto. La prueba tambi\'en aclara que las condiciones~1 y 2 del teorema
+no son simplemente ``distintas'' sino que una es la negaci\'on exacta de la
+otra, en el sentido del \'algebra lineal.
+\end{intuicion}
+
+%%% =========================================================
+\section{Resumen y Conclusiones}
+%%% =========================================================
+
+El cap\'itulo establece el \textbf{Teorema de Arbitraje (Arbitrage Theorem)}
+como fundamento matem\'atico de la valoraci\'on libre de arbitraje de
+instrumentos financieros. Los puntos centrales son:
+
+\begin{itemize}
+  \item El \textbf{arbitraje (arbitrage)} existe cuando los precios de dos
+        instrumentos son inconsistentes entre s\'i, permitiendo una ganancia
+        sin riesgo. Los mercados eficientes eliminan estas oportunidades al
+        atraer inversores hacia los activos con precio incorrecto.
+
+  \item Los \textbf{momios (odds)} $n:m$ se relacionan con probabilidades
+        mediante $P = m/(n+m)$. Si las probabilidades impl\'icitas en los
+        momios de todos los resultados no suman 1, existe arbitraje. Esta
+        incoherencia es detectable algebraicamente a trav\'es de la
+        programaci\'on lineal.
+
+  \item La \textbf{programaci\'on lineal (linear programming)} minimiza
+        $\mathbf{c} \cdot \mathbf{x}$ sujeto a $A\mathbf{x} = \mathbf{b}$,
+        $\mathbf{x} \geq 0$. El conjunto factible es siempre convexo y la
+        soluci\'on \'optima se halla en un v\'ertice.
+
+  \item El \textbf{Teorema de Dualidad D\'ebil (Weak Duality Theorem)}
+        establece $\mathbf{y} \cdot \mathbf{b} \leq \mathbf{c} \cdot \mathbf{x}$
+        para cualquier par de soluciones factibles del primal y el dual.
+        La igualdad caracteriza la optimalidad simult\'anea de ambos.
+
+  \item La \textbf{holgura complementaria (complementary slackness)} exige
+        que para cada $j$, bien $x_j = 0$ o bien $(\mathbf{y}A)_j = c_j$.
+        Esta condici\'on permite determinar las variables nulas del primal
+        a partir del \'optimo dual, reduciendo el problema significativamente.
+
+  \item El \textbf{Teorema de Dualidad (Duality Theorem)} garantiza que si
+        el primal tiene soluci\'on \'optima entonces el dual tambi\'en la
+        tiene, y $\min(\mathbf{c} \cdot \mathbf{x}) = \max(\mathbf{y} \cdot \mathbf{b})$
+        --- hay ``brecha cero'' entre ambos problemas.
+
+  \item El \textbf{Teorema de Arbitraje (Arbitrage Theorem)} establece que
+        exactamente uno de dos escenarios es posible: (i)~existe un vector de
+        probabilidades $\mathbf{y}$ con $\sum_j y_j = 1$ que hace $\sum_j y_j r_{ij} = 0$
+        para toda apuesta $i$ --- todos los precios son justos; o (ii)~existe
+        una estrategia $\mathbf{x}$ tal que $\sum_i x_i r_{ij} > 0$ para todo
+        resultado $j$ --- hay ganancia garantizada.
+
+  \item La condici\'on (i) define la \textbf{medida de probabilidad neutral
+        al riesgo (risk-neutral probability measure)}, herramienta central
+        de la valoraci\'on de derivados. La ausencia de esta medida implica
+        arbitraje. Este principio es la base de la ecuaci\'on de
+        \textbf{Black--Scholes} derivada en el Cap\'itulo~6.
+\end{itemize}
+
+\end{document}

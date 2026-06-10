@@ -1,0 +1,331 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: A Note on Dividend Irrelevance\\
+and the Gordon Valuation Model}\\
+\large Una nota sobre la irrelevancia del dividendo\\
+y el modelo de valuaci\'on de Gordon\\
+\normalsize Michael Brennan, \textit{The Journal of Finance}, 1971}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on: El Debate Irresoluto entre Gordon y M-M}
+%% ============================================================
+
+\subsection{Dos visiones opuestas sobre la pol\'itica de dividendos}
+
+Nueve a\~nos despu\'es de la publicaci\'on del art\'iculo de Modigliani y Miller (M-M) sobre pol\'itica de dividendos (\textit{``Dividend Policy, Growth, and the Valuation of Shares''}, 1961), coexisten entre los te\'oricos financieros dos visiones irreconciliadas:
+
+\begin{itemize}
+  \item \textbf{Visi\'on de Gordon (relevancia del dividendo)}: Incluso en \textbf{mercados de capital perfectos (perfect capital markets)}, la existencia de incertidumbre sobre el futuro hace que el precio de una acci\'on dependa de la pol\'itica de dividendos seguida. En particular, una pol\'itica de dividendos m\'as generosa produce un precio de acci\'on m\'as alto.
+
+  \item \textbf{Visi\'on de M-M (irrelevancia del dividendo)}: Una vez fijada la \textbf{pol\'itica de inversi\'on (investment policy)} de la empresa, el precio de sus acciones es invariante respecto al tama\~no del dividendo pagado.
+\end{itemize}
+
+Brennan se\~nala que esta disputa no puede resolverse apelando a la evidencia emp\'irica, porque ambas hip\'otesis se refieren a efectos en mercados perfectos, mientras que los mercados reales est\'an afectados por imperfecciones (costos de transacci\'on, tratamiento fiscal diferenciado de dividendos y ganancias de capital).
+
+\begin{explicacion}
+La distinci\'on entre mercados perfectos e imperfectos es central para entender por qu\'e el debate es puramente te\'orico. En los mercados reales, los impuestos y los costos de transacci\'on crean preferencias reales entre dividendos y ganancias de capital, lo que hace que la pol\'itica de dividendos sea relevante por razones ``mundanas''. El debate de fondo es si existe relevancia incluso \textit{antes} de esas fricciones, es decir, en el plano te\'orico puro. Gordon dice s\'i; M-M dicen no.
+\end{explicacion}
+
+\begin{intuicion}
+Ambos autores parten de supuestos razonables y llegan a conclusiones opuestas. Eso es exactamente lo que motiva a Brennan: si dos teor\'ias plausibles son contradictorias, al menos una debe contener un error l\'ogico. El objetivo del art\'iculo es identificar d\'onde est\'a ese error.
+\end{intuicion}
+
+\subsection{Objetivo y contribuciones del art\'iculo}
+
+Brennan no pretende abrir nuevos horizontes, sino clarificar los puntos centrales en disputa mediante dos demostraciones:
+\begin{enumerate}
+  \item El argumento de Gordon en favor de la relevancia del dividendo \textbf{descansa sobre una confusi\'on entre los efectos de la pol\'itica de dividendos y los de la pol\'itica de inversi\'on}.
+  \item El teorema de irrelevancia de M-M puede derivarse de un \textbf{supuesto m\'as d\'ebil} que el de racionalidad sim\'etrica del mercado que M-M utilizan originalmente.
+\end{enumerate}
+
+\begin{intuicion}
+El aporte de Brennan es fundamentalmente clarificador, no original. Resuelve una confusi\'on que llevaba nueve a\~nos en la literatura sin explicaci\'on satisfactoria en los libros de texto.
+\end{intuicion}
+
+%% ============================================================
+\section{El Modelo de Valuaci\'on de Gordon}
+%% ============================================================
+
+\subsection{F\'ormula b\'asica y sus supuestos}
+
+El modelo de Gordon afirma que el precio de una acci\'on es igual al \textbf{valor descontado de los dividendos futuros esperados (discounted value of expected future dividends)}. Si los dividendos crecen a la tasa constante $g$ a perpetuidad y la tasa de descuento es $k$, esto conduce a la f\'ormula de valuaci\'on:
+
+\begin{equation}
+P = \frac{D}{k - g}
+\end{equation}
+
+donde $P$ es el precio actual de la acci\'on y $D$ el dividendo actual por acci\'on.
+
+Si la empresa retiene una fracci\'on constante $b$ de sus ganancias por acci\'on ($Y$) y gana un retorno promedio constante $r$ sobre su inversi\'on sin financiamiento externo, entonces $g = br$ y $D = (1-b)Y$. Sustituyendo:
+
+\begin{equation}
+P = \frac{(1-b)\,Y}{k - br}
+\end{equation}
+
+\begin{explicacion}
+Esta es la \textbf{f\'ormula de Gordon} (o \textbf{Modelo de Crecimiento de Gordon, Gordon Growth Model}), que vincula el precio de la acci\'on con el dividendo actual, la tasa de retenci\'on $b$, el retorno sobre la inversi\'on $r$, y la tasa de descuento $k$. Es el punto de partida del debate: a partir de ella, tanto Gordon como M-M derivan sus conclusiones, pero discrepan sobre cu\'ales variables son independientes entre s\'i.
+\end{explicacion}
+
+\begin{intuicion}
+La f\'ormula dice: el precio de la acci\'on es el dividendo de hoy dividido por la diferencia entre lo que el mercado exige y lo que la empresa puede crecer. Si la empresa crece m\'as r\'apido (mayor $br$), vale m\'as. Si el mercado exige m\'as retorno (mayor $k$), vale menos.
+\end{intuicion}
+
+\subsection{La condici\'on de irrelevancia dentro del modelo de Gordon}
+
+La ecuaci\'on (2) permite evaluar el efecto de distintas tasas de retenci\'on sobre el precio. Si $k$ y $r$ son independientes de $b$, el efecto de un cambio en $b$ sobre $P$ es:
+
+\begin{equation}
+\frac{\partial P}{\partial b} = \frac{(r - k)\,Y}{(k - br)^2}
+\end{equation}
+
+\begin{explicacion}
+\textbf{Proposici\'on (Gordon)}: La condici\'on para que el precio sea invariante respecto a la fracci\'on de ganancias retenida e invertida es simplemente que $r = k$: el retorno promedio sobre la inversi\'on sea igual a la tasa de descuento. Brennan observa que en ese caso la \textbf{inversi\'on marginal tiene valor presente neto cero}, de modo que Gordon ha demostrado, dentro de su propio modelo, que si se neutralizan los efectos de la pol\'itica de inversi\'on (igualando el VPN marginal a cero), la pol\'itica de dividendos es irrelevante. Esto es an\'alogo al resultado de M-M, que neutraliza los efectos de la pol\'itica de inversi\'on manteniendo constante el \textit{monto} invertido bajo distintas pol\'iticas de dividendos. Ambos enfoques logran el mismo resultado por v\'ias distintas de neutralizaci\'on.
+\end{explicacion}
+
+\begin{intuicion}
+Si la empresa gana exactamente lo que el mercado exige ($r = k$), invertir m\'as o menos da igual: cada peso adicional invertido crea exactamente un peso de valor, sin ganancia ni p\'erdida neta. En ese caso, repartir o retener las ganancias tampoco importa.
+\end{intuicion}
+
+%% ============================================================
+\section{El Argumento de Gordon a Favor de la Relevancia del Dividendo}
+%% ============================================================
+
+\subsection{Tasas de descuento variables en el tiempo}
+
+Gordon va m\'as all\'a y argumenta que, en general, la tasa de descuento $k$ \textit{no} es independiente de la tasa de retenci\'on $b$. Su raz\'on es que los dividendos esperados en distintas fechas futuras est\'an sujetos a distintos riesgos, y por tanto cada dividendo futuro esperado debe descontarse a una tasa diferente que refleje ese riesgo diferencial. La f\'ormula de valuaci\'on general es entonces:
+
+\[
+P = \frac{D(1)}{(1+k_1)} + \frac{D(2)}{(1+k_2)^2} + \cdots + \frac{D(t)}{(1+k_t)^t} + \cdots
+\]
+
+donde $D(t)$ es el dividendo esperado $t$ per\'iodos en el futuro y $k_t$ es la tasa de descuento apropiada al riesgo de ese dividendo.
+
+\begin{explicacion}
+Esta generalizaci\'on es crucial: si cada pago futuro se descuenta a su propia tasa $k_t$, entonces la $k$ que aparece en la f\'ormula simplificada (1) es un \textbf{promedio ponderado} de las $k_t$ individuales, cuyos pesos dependen de la trayectoria temporal de los dividendos esperados. En el caso espec\'ifico de crecimiento exponencial, $k$ resulta ser funci\'on de la tasa de crecimiento $g = br$. Gordon admite que no es posible determinar \textit{a priori} si $k_t$ es creciente o decreciente en $t$, pero subraya que nada garantiza que sea constante.
+\end{explicacion}
+
+\begin{intuicion}
+Imagina que la empresa retiene m\'as ganancias: paga menos dividendos ahora y m\'as en el futuro lejano. Esos pagos lejanos son m\'as inciertos. Si la incertidumbre crece con el tiempo, el mercado les exige una tasa mayor. El resultado es que la tasa de descuento promedio que el mercado aplica a la acci\'on sube cuando la empresa retiene m\'as.
+\end{intuicion}
+
+\subsection{La dependencia de $k$ respecto a $b$ y sus consecuencias}
+
+Dado que $g = br$ y $r$ es independiente de $b$ (por supuesto de Gordon), la derivada de $k$ respecto a $b$ es:
+
+\[
+\frac{\partial k}{\partial b} = \frac{\partial k}{\partial g} \cdot r \neq 0
+\]
+
+Incorporando esta dependencia, el efecto total de un cambio en $b$ sobre el precio es:
+
+\[
+\frac{dP}{db} = \frac{Y\!\left[r - k - (1-b)\,\dfrac{\partial k}{\partial b}\right]}{(k-br)^2}
+\]
+
+Incluso cuando $r = k$ (la condici\'on que antes hac\'ia irrelevante el dividendo), esta expresi\'on se reduce a:
+
+\[
+\frac{dP}{db} = \frac{-Y(1-b)\,\dfrac{\partial k}{\partial b}}{(k-br)^2} \neq 0
+\]
+
+\begin{explicacion}
+\textbf{Conclusi\'on de Gordon}: Incluso fijando el retorno sobre la inversi\'on $r$ igual a la tasa de descuento $k$, el precio de la acci\'on \textbf{no} es independiente de la tasa de retenci\'on $b$, a menos que $\partial k/\partial b = 0$. Por tanto, en general, el precio y el costo de capital dependen de la pol\'itica de dividendos. Gordon concluye que la relevancia del dividendo es el caso general, no la excepci\'on.
+\end{explicacion}
+
+\begin{intuicion}
+Gordon dice: aunque el VPN marginal de la inversi\'on sea cero ($r = k$), la tasa de descuento cambia cuando cambia la pol\'itica de dividendos, porque retener m\'as implica pagos m\'as lejanos e inciertos. Y si la tasa de descuento cambia, el precio cambia. Por tanto, la pol\'itica de dividendos importa.
+\end{intuicion}
+
+%% ============================================================
+\section{La Cr\'itica de Brennan: Confusi\'on entre Pol\'itica de Dividendos e Inversi\'on}
+%% ============================================================
+
+\subsection{La acusaci\'on de M-M y la respuesta de Gordon}
+
+M-M han argumentado que el razonamiento de Gordon descansa sobre una \textbf{confusi\'on entre los efectos de la pol\'itica de dividendos y la pol\'itica de inversi\'on (confounding of dividend and investment policy)}. Gordon rechaz\'o esta acusaci\'on, sosteniendo que neutraliz\'o la rentabilidad de la inversi\'on igualando $r = k$, y que lo que cambi\'o fue la tasa de descuento, no la pol\'itica de inversi\'on.
+
+Brennan examina rigurosamente a qui\'en le asiste la raz\'on.
+
+\begin{intuicion}
+La acusaci\'on de M-M es sutil: dicen que Gordon, al cambiar la tasa de retenci\'on $b$, no solo cambia la pol\'itica de dividendos sino tambi\'en la pol\'itica de inversi\'on (cu\'anto invierte la empresa), y que el cambio en el precio que Gordon atribuye al dividendo es en realidad causado por el cambio en la inversi\'on.
+\end{intuicion}
+
+\subsection{El VPN del cambio en pol\'itica de inversi\'on}
+
+Brennan observa un punto clave: cambiar la tasa de retenci\'on de $b_1$ a $b_2$ no implica un cambio \'unico en el monto invertido, sino un cambio en las ganancias e inversiones de \textit{todos los per\'iodos subsiguientes}, es decir, un cambio en la pol\'itica de inversi\'on completa. Es el \textbf{valor presente neto (VPN)} de ese cambio en pol\'itica de inversi\'on el que debe evaluarse.
+
+Si $\Delta I_t$ es el cambio en la inversi\'on del per\'iodo $t$ implicado por el cambio de $b_1$ a $b_2$, y la inversi\'on marginal genera un retorno perpetuo $r$ con flujos descontados a la tasa $k_t$, el VPN del cambio en pol\'itica de inversi\'on es:
+
+\[
+\text{VPN} = \sum_{t=1}^{\infty} \frac{\Delta I_t}{(1+k_t)^t}\left(-1 + r\sum_{\tau=1}^{\infty} \frac{1}{(1+k_{t+\tau})^{\tau}}\right)
+\]
+
+\begin{explicacion}
+\textbf{Proposici\'on central de Brennan}: En general, fijar $r = k$ \textbf{no} iguala esta expresi\'on a cero, a menos que todas las $k_t$ sean iguales entre s\'i e iguales a $k$. Y esa es exactamente la \'unica circunstancia en la que Gordon encuentra que la pol\'itica de dividendos es irrelevante. Por tanto, Gordon fue inducido en error por el caso especial: cuando todas las $k_t$ son iguales, fijar $r = k$ s\'i neutraliza la rentabilidad de la inversi\'on; pero Gordon extrapoló incorrectamente que este procedimiento tambi\'en neutraliza la rentabilidad cuando las $k_t$ son desiguales. El argumento de M-M queda confirmado: la prueba de Gordon de la relevancia del dividendo s\'i descansa sobre una confusi\'on entre los efectos de la inversi\'on y del dividendo.
+\end{explicacion}
+
+\begin{intuicion}
+Gordon dijo: ``igualé $r$ con $k$, luego la inversi\'on no afecta el precio, luego lo que queda es el efecto puro del dividendo.'' Pero Brennan muestra que eso solo funciona cuando hay una sola tasa de descuento. Con tasas variables por per\'iodo, igualar $r = k$ no neutraliza el efecto de la inversi\'on, y el cambio en precio que Gordon observa es en realidad causado por el cambio en inversi\'on disfrazado de cambio en dividendo.
+\end{intuicion}
+
+\subsection{Consecuencia: $k$ en la f\'ormula de Gordon es un artefacto algebraico}
+
+Una vez establecido que las $k_t$ son desiguales, la empresa \textbf{no tiene un costo de capital \'unico}: la tasa de descuento promedio aplicable a un proyecto de inversi\'on depende de la trayectoria temporal exacta de sus retornos. Por tanto, la $k$ que aparece en la f\'ormula de Gordon (1) lejos de ser el costo de capital de la corporaci\'on, es un \textbf{artefacto algebraico (algebraic artefact)} y, como tal, es irrelevante para la toma de decisiones.
+
+\begin{explicacion}
+Esta es una consecuencia importante: si las tasas de descuento var\'ian con el tiempo (como Gordon mismo asume), entonces la empresa no puede hablar de un solo ``costo de capital''. Cada proyecto tiene su propia tasa de descuento efectiva seg\'un cu\'ando genera sus flujos. Esto hace que el enfoque del valor presente neto sea preferible al enfoque de la tasa de descuento \'unica para las decisiones de inversi\'on.
+\end{explicacion}
+
+\begin{intuicion}
+Si el riesgo de un flujo depende de cu\'ando ocurre, no tiene sentido usar una sola tasa para descontar todo. El ``costo de capital'' que aparece en la f\'ormula simple de Gordon es un promedio que cambia seg\'un la pol\'itica de dividendos, y por eso no sirve como gu\'ia estable para decisiones.
+\end{intuicion}
+
+%% ============================================================
+\section{La Prueba de M-M de Irrelevancia del Dividendo}
+%% ============================================================
+
+\subsection{El argumento de arbitraje con pol\'itica de inversi\'on fija}
+
+M-M prueban la irrelevancia del dividendo bajo incertidumbre mediante el \textbf{argumento de arbitraje (arbitrage argument)}. Manteniendo fija la pol\'itica de inversi\'on, la \textbf{restricci\'on presupuestaria (budget constraint)} de la empresa implica que el retorno total a los accionistas de la empresa $i$ por mantener las acciones durante un per\'iodo es:
+
+\[
+\tilde{R}_i(0) = \tilde{X}_i(0) - I_i(0) + \tilde{V}_i(1)
+\]
+
+donde $X_i(0)$ es el ingreso operativo de la empresa, $I_i(0)$ su presupuesto de inversi\'on, y $V_i(1)$ su valor al final del per\'iodo.
+
+M-M postulan dos empresas ($i = 1, 2$) id\'enticas en todo excepto en su pol\'itica de dividendos del primer per\'iodo, y argumentan que: (1) $\tilde{R}_1(0) = \tilde{R}_2(0)$ y, por tanto, (2) los valores iniciales de las empresas son id\'enticos.
+
+\begin{explicacion}
+El n\'ucleo del argumento es que, dado que las dos empresas son id\'enticas excepto en el primer dividendo, y dado que la pol\'itica de inversi\'on es la misma ($X_1(0) = X_2(0)$, $I_1(0) = I_2(0)$), el \'unico t\'ermino que podr\'ia diferir es $V_i(1)$, el valor al final del per\'iodo. Si todos los inversores esperan que $V_1(1) = V_2(1)$, entonces $R_1(0) = R_2(0)$ y los valores iniciales son iguales. La pregunta es: ?`bajo qu\'e supuesto puede afirmarse que todos los inversores esperar\'an $V_1(1) = V_2(1)$?
+\end{explicacion}
+
+\begin{intuicion}
+Si dos empresas son absolutamente id\'enticas excepto en cu\'anto pagan de dividendo este a\~no, y eso no cambia cu\'anto invierten ni sus perspectivas futuras, ?`por qu\'e valdr\'ian distinto? La pol\'itica de dividendos no a\~nade ni quita valor real: solo redistribuye entre efectivo hoy y precio de la acci\'on.
+\end{intuicion}
+
+\subsection{El supuesto de racionalidad sim\'etrica del mercado}
+
+M-M derivan la conclusi\'on $V_1(1) = V_2(1)$ del supuesto de \textbf{racionalidad sim\'etrica del mercado (symmetric market rationality)}, que requiere:
+\begin{enumerate}
+  \item Cada participante del mercado se comporta racionalmente (prefiere m\'as riqueza a menos e es indiferente a la \textit{forma} en que recibe su incremento de riqueza).
+  \item En la formaci\'on de sus expectativas, cada participante cree que todos los dem\'as tambi\'en se comportan racionalmente y que todos los dem\'as tambi\'en tienen esa creencia.
+\end{enumerate}
+
+Bajo este supuesto, todos los participantes esperan que las dos empresas ser\'an valuadas racionalmente al final del per\'iodo, por lo que $V_1(1)$ y $V_2(1)$ depender\'an \'unicamente de las perspectivas futuras de cada empresa desde el per\'iodo 1 en adelante. Como esas perspectivas son id\'enticas por supuesto, todos los inversores esperar\'an $V_1(1) = V_2(1)$.
+
+\begin{explicacion}
+La racionalidad sim\'etrica es un supuesto fuerte: no basta con que \textit{yo} sea racional; necesito creer que todos los dem\'as lo son, y creer que todos los dem\'as creen que todos los dem\'as lo son, y as\'i en cascada. Es una condici\'on de \textbf{conocimiento com\'un (common knowledge)} de la racionalidad. M-M lo reconocen: su prueba bajo incertidumbre opera en un marco m\'as general que no requiere supuestos sobre c\'omo los inversores eval\'uan los dividendos futuros.
+\end{explicacion}
+
+\begin{intuicion}
+El supuesto de M-M es que todos saben que todos son racionales. Si eso se cumple, todos saben que el precio futuro de la acci\'on depende solo de los fundamentos, no del dividendo de hoy. Por tanto, el precio de hoy tampoco depende del dividendo de hoy.
+\end{intuicion}
+
+\subsection{Supuesto alternativo m\'as d\'ebil: independencia de informaci\'on irrelevante}
+
+Brennan muestra que la irrelevancia del dividendo puede derivarse de un \textbf{supuesto m\'as d\'ebil} que la racionalidad sim\'etrica, al que llama \textbf{independencia de informaci\'on irrelevante (independence of irrelevant information)}. Este supuesto requiere solo tres condiciones:
+
+\begin{enumerate}[(a)]
+  \item Los inversores son racionales (prefieren m\'as riqueza a menos e son indiferentes a su forma).
+  \item Las acciones son valuadas \'unicamente sobre la base de sus perspectivas futuras.
+  \item Al menos algunos inversores saben por experiencia que esto es as\'i.
+\end{enumerate}
+
+\begin{explicacion}
+Bajo este supuesto m\'as d\'ebil, no se requiere que \textit{todos} los inversores sean racionales ni que todos crean que todos lo son. Basta con que \textit{algunos} inversores entiendan que el dividendo corriente es informaci\'on irrelevante para el valor futuro de la empresa y act\'uen en consecuencia. Esos inversores arbitrar\'an cualquier diferencia de precio entre las dos empresas id\'enticas. La condici\'on (b) es un supuesto impl\'icito de todos los modelos de valuaci\'on de acciones, incluido el de Gordon. La condici\'on (c) parece emp\'iricamente v\'alida. Este resultado es te\'oricamente relevante porque debilita las bases necesarias para sostener la irrelevancia del dividendo: no se necesita una creencia universal en la racionalidad universal.
+\end{explicacion}
+
+\begin{intuicion}
+No hace falta que todos sean perfectamente racionales. Basta con que algunos inversores astutos reconozcan que dos empresas id\'enticas en sus fundamentos valen lo mismo, independientemente de cu\'anto dividen hoy, y hagan arbitraje hasta igualar los precios.
+\end{intuicion}
+
+\subsection{Extensi\'on por inducci\'on y condiciones para rechazar la irrelevancia}
+
+Habiendo mostrado que la pol\'itica de dividendos del primer per\'iodo es irrelevante, M-M proceden por inducci\'on: $V_i(2)$ es independiente de la pol\'itica de dividendos del segundo per\'iodo, y por tanto $V_i(1)$ y $V_i(0)$ tambi\'en. Por inducci\'on, el valor de la empresa es independiente de su pol\'itica de dividendos en todos los per\'iodos futuros, una vez fijada la pol\'itica de inversi\'on.
+
+\begin{explicacion}
+\textbf{Proposici\'on final de Brennan}: Cualquier negaci\'on de la irrelevancia del dividendo debe apoyarse en el rechazo del principio de racionalidad sim\'etrica y del supuesto de independencia de informaci\'on irrelevante. Rechazar este \'ultimo requiere al menos una de las siguientes tres afirmaciones:
+\begin{enumerate}[(a)]
+  \item Los inversores \textbf{no son racionales}, o
+  \item Los precios de las acciones dependen de eventos \textbf{pasados} adem\'as de sus perspectivas futuras esperadas (es decir, hay dependencia del camino), o
+  \item \textbf{No existen} inversores que entiendan el proceso de valuaci\'on de valores.
+\end{enumerate}
+Ninguna de estas condiciones parece plausible en mercados financieros desarrollados.
+\end{explicacion}
+
+\begin{intuicion}
+Para que el dividendo importe en mercados perfectos, tendr\'ias que creer que los inversores son irracionales, o que los precios dependen de la historia y no solo del futuro, o que nadie entiende c\'omo funciona el mercado. Ninguna de las tres es una posici\'on razonable, lo que hace que la irrelevancia del dividendo en mercados perfectos sea una proposici\'on te\'oricamente s\'olida.
+\end{intuicion}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+El art\'iculo de Brennan realiza una contribuci\'on clarificadora al debate sobre la pol\'itica de dividendos, resolviendo una controversia que los libros de texto de la \'epoca dejaban irresuelta. Sus puntos centrales son:
+
+\begin{enumerate}
+  \item \textbf{El modelo de Gordon contiene la irrelevancia como caso especial}: Cuando $r = k$ \textit{y} todas las tasas de descuento $k_t$ son iguales, el modelo de Gordon implica que la pol\'itica de dividendos es irrelevante. Esto es an\'alogo al resultado de M-M.
+
+  \item \textbf{El argumento de Gordon para la relevancia confunde inversi\'on con dividendo}: Al permitir que $k$ dependa de $b$ a trav\'es de las tasas de descuento variables $k_t$, Gordon cree neutralizar el efecto de la inversi\'on fijando $r = k$. Pero Brennan demuestra que eso solo funciona cuando todas las $k_t$ son iguales. Con $k_t$ desiguales, fijar $r = k$ \textit{no} neutraliza el VPN del cambio en pol\'itica de inversi\'on, y el cambio en precio que Gordon atribuye al dividendo es en realidad un efecto de inversi\'on.
+
+  \item \textbf{La $k$ del modelo de Gordon es un artefacto algebraico}: Si las tasas de descuento var\'ian con el tiempo, la empresa no tiene un costo de capital \'unico, y la $k$ promedio de la f\'ormula de Gordon cambia con la pol\'itica de dividendos sin representar nada econ\'omicamente estable.
+
+  \item \textbf{La irrelevancia de M-M puede derivarse de un supuesto m\'as d\'ebil}: El principio de independencia de informaci\'on irrelevante (racionalidad de algunos inversores m\'as valuaci\'on basada en perspectivas futuras) es suficiente para derivar la irrelevancia del dividendo, sin requerir racionalidad sim\'etrica universal.
+\end{enumerate}
+
+\bigskip
+\noindent\textbf{Relaciones l\'ogicas clave entre los conceptos:}
+
+\begin{itemize}
+  \item La \textbf{pol\'itica de dividendos} y la \textbf{pol\'itica de inversi\'on} son \textit{conceptualmente distintas} pero \textit{mec\'anicamente vinculadas} en el modelo de financiamiento interno de Gordon: cambiar $b$ cambia simult\'aneamente cu\'anto se distribuye y cu\'anto se invierte. Esta vinculaci\'on es la fuente de la confusi\'on.
+  \item La condici\'on $r = k$ \textit{neutraliza} el efecto de la inversi\'on \textbf{si y solo si} todas las $k_t$ son iguales $\rightarrow$ con $k_t$ desiguales, esa condici\'on es \textit{insuficiente} para aislar el efecto puro del dividendo.
+  \item El \textbf{supuesto de racionalidad sim\'etrica} \textit{implica} la irrelevancia del dividendo $\rightarrow$ el \textbf{supuesto de independencia de informaci\'on irrelevante} tambi\'en la \textit{implica}, pero es \textit{m\'as d\'ebil} (requiere solo que algunos inversores sean racionales y astutos).
+  \item Rechazar la irrelevancia del dividendo \textit{requiere} rechazar la independencia de informaci\'on irrelevante $\rightarrow$ lo que a su vez \textit{requiere} al menos una de tres condiciones implausibles: irracionalidad generalizada, dependencia del camino en los precios, o ignorancia universal del proceso de valuaci\'on.
+  \item El \textbf{enfoque VPN} \textit{contrasta con} el enfoque de tasa de descuento \'unica: el primero es preferible cuando los $k_t$ son desiguales, porque no requiere especificar un solo costo de capital.
+\end{itemize}
+
+\end{document}

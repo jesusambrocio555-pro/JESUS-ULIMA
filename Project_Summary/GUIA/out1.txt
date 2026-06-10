@@ -1,0 +1,63 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(Resumen_Enders_Cap02.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-03-20>
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/es\babel
+-spanish.tex)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/babel-spanish\spanish.l
+df))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty))
+ (C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+ (C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/breqn\breqn.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+))) (C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/breqn\flexisym.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/breqn\cmbase.sym)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/breqn\mathstyle.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty))
+(Resumen_Enders_Cap02.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(Resumen_Enders_Cap02.toc) [1{C:/Users/51950/AppData/Local/MiKTeX/fonts/map/pdf
+tex/pdftex.map}] [2]

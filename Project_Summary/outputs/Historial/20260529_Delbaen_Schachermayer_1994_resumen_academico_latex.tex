@@ -1,0 +1,524 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Una Versi\'on General del Teorema Fundamental de Valoraci\'on de Activos}\\
+\large A General Version of the Fundamental Theorem of Asset Pricing\\
+\normalsize Freddy Delbaen \& Walter Schachermayer, \textit{Mathematische Annalen}, 300, 463--520 (1994)}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on y Contexto}
+%% ============================================================
+
+El \textbf{teorema fundamental de valoraci\'on de activos (fundamental theorem of asset pricing, FTAP)} es un resultado central en finanzas matem\'aticas. En su formulaci\'on cl\'asica establece que, para un proceso estoc\'astico $(S_t)_{t \in \mathbb{R}_+}$ que describe la evoluci\'on del precio descontado de uno o varios activos financieros, la existencia de una \textbf{medida martingala equivalente (equivalent martingale measure)} es \emph{esencialmente} equivalente a la ausencia de oportunidades de arbitraje.
+
+La equivalencia entre \textbf{sin arbitraje (no-arbitrage)} y la existencia de una medida de probabilidad equivalente $Q$ bajo la cual $S$ es una martingala constituye la base de toda la teor\'ia de \textbf{valoraci\'on por arbitraje (pricing by arbitrage)}. Una vez establecida tal medida, el precio justo de un \textbf{activo contingente (contingent claim)} se reduce al c\'alculo de una esperanza bajo $Q$.
+
+\subsection{El problema central del art\'iculo}
+
+El art\'iculo responde a la pregunta: \emph{``?`Cu\'al es el significado preciso de la palabra esencialmente?''} La ambig\"uedad radica en que:
+
+\begin{enumerate}
+    \item La literatura previa hab\'ia caracterizado la existencia de medidas martingala en t\'erminos de \textbf{integrales estoc\'asticas simples (simple stochastic integrals)}, suficientes para tiempo discreto o procesos continuos, pero insuficientes en el caso general.
+    \item En el caso general (tiempo continuo con posibles saltos en instantes arbitrarios), se necesita una \textbf{teor\'ia de integraci\'on estoc\'astica general (general stochastic integration theory)}.
+    \item La condici\'on de no arbitraje precisa debe formularse como \textbf{sin almuerzo gratis con riesgo desvaneciente (no free lunch with vanishing risk, NFLVR)}.
+\end{enumerate}
+
+\begin{intuicion}
+El art\'iculo pregunta: ``?`cu\'ando podemos decir que un mercado financiero no tiene oportunidades de ganancia garantizada?'' La respuesta intuitiva es: cuando no existe ninguna estrategia de inversi\'on que, sin arriesgar dinero propio, pueda generar una ganancia segura. El art\'iculo precisa exactamente qu\'e significa eso en el lenguaje matem\'atico m\'as general posible.
+\end{intuicion}
+
+\subsection{Contribuciones principales}
+
+El art\'iculo demuestra que para una \textbf{semimartingala acotada (bounded semi-martingale)} $S$:
+\begin{equation}
+    \exists \text{ medida martingala equivalente } Q \iff S \text{ satisface (NFLVR)}
+\end{equation}
+
+\begin{intuicionmat}
+Esta equivalencia es el coraz\'on del art\'iculo: encontrar una medida $Q$ bajo la cual los precios descontados sean martingalas (es decir, ``justos'' en promedio) es exactamente lo mismo que exigir que el mercado no tenga almuerzos gratis con riesgo desvaneciente. Es la traducci\'on matem\'atica del principio econ\'omico de que los mercados bien formados no permiten ganancias sin riesgo.
+\end{intuicionmat}
+
+La prueba es t\'ecnicamente exigente, combinando teor\'ia de procesos estoc\'asticos, an\'alisis funcional y estimaciones muy detalladas. El resultado corrige la insuficiencia de trabajos anteriores y proporciona el marco general definitivo.
+
+\begin{intuicion}
+La contribuci\'on principal puede resumirse en una frase: Delbaen y Schachermayer cierran definitivamente la brecha entre la condici\'on econ\'omica intuitiva (``no hay dinero gratis'') y la condici\'on matem\'atica precisa (``existe una medida martingala equivalente''), para la clase m\'as amplia posible de modelos financieros en tiempo continuo.
+\end{intuicion}
+
+%% ============================================================
+\section{Definiciones y Resultados Preliminares}
+%% ============================================================
+
+\subsection{Espacio de probabilidad y notaci\'on}
+
+Se trabaja sobre un \textbf{espacio de probabilidad fijo (fixed probability space)} $(\Omega, \mathscr{F}, P)$. Los procesos se indexan por $\mathbb{R}_+$, lo que cubre tanto horizonte infinito como acotado.
+
+\begin{itemize}
+    \item $L^0(\Omega, \mathscr{F}, P)$: espacio de clases de equivalencia de funciones medibles, equipado con la topolog\'ia de convergencia en probabilidad. Es un \textbf{espacio de Fr\'echet (Fr\'echet space)}, completo y metrizable, pero no localmente convexo.
+    \item $L^\infty(\Omega, \mathscr{F}, P)$: funciones medibles acotadas. Su dual es $L^1$.
+    \item La \textbf{topolog\'ia d\'ebil-$*$ (weak*-topology)} en $L^\infty$ es $\sigma(L^\infty, L^1)$.
+\end{itemize}
+
+\begin{intuicion}
+El espacio $L^0$ contiene todas las variables aleatorias posibles (sin restricci\'on de integrabilidad); su topolog\'ia captura la noci\'on de ``converger en probabilidad'', que es m\'as laxa que converger en media o casi seguramente. El espacio $L^\infty$ son las variables aleatorias con valor acotado, que son el terreno donde operan las estrategias financieras con riesgo controlado.
+\end{intuicion}
+
+\subsection{Filtraci\'on y procesos}
+
+La \textbf{filtraci\'on (filtration)} $(\mathscr{F}_t)_{t \in \mathbb{R}_+}$ satisface las \textbf{condiciones habituales (usual conditions)}: es continua por la derecha y contiene todos los conjuntos negligibles.
+
+Un proceso $X : \mathbb{R}_+ \times \Omega \to \mathbb{R}$ es \textbf{adaptado (adapted)} si para cada $t$, $\omega \mapsto X_t(\omega)$ es $\mathscr{F}_t$-medible. Un proceso \textbf{c\`adl\`ag} admite l\'imites por la izquierda y es continuo por la derecha.
+
+Los \textbf{intervalos estoc\'asticos (stochastic intervals)} se denotan $\llbracket T, S \rrbracket = \{(t,\omega) \mid T(\omega) \leq t \leq S(\omega)\}$.
+
+\begin{intuicion}
+La filtraci\'on modela el flujo de informaci\'on en el mercado: $\mathscr{F}_t$ es todo lo que sabe el agente hasta el instante $t$. Un proceso adaptado es uno cuyo valor en $t$ solo depende de la informaci\'on disponible hasta $t$, es decir, no ``adivina el futuro''. Los procesos c\`adl\`ag son la clase natural de trayectorias para precios financieros: pueden tener saltos (como aperturas de mercado o noticias) pero son regulares por la derecha.
+\end{intuicion}
+
+\subsection{Semimartingalas}
+
+Una \textbf{semimartingala (semi-martingale)} $X$ define un operador continuo sobre los procesos predecibles acotados de soporte acotado con valores en $L^0$. La topolog\'ia de semimartingalas est\'a inducida por la m\'etrica:
+\begin{equation}
+    \mathbf{D}(X) = \sup\left\{ \sum_{n \geq 1} 2^{-n} \mathbf{E}[\min(|(H \cdot X)_n|, 1)] \;\middle|\; H \text{ predecible}, |H| \leq 1 \right\}
+\end{equation}
+
+\begin{intuicionmat}
+Esta m\'etrica mide cu\'an ``integrable'' es el proceso $X$ en el sentido de las ganancias que puede generar. Un valor peque\~no de $\mathbf{D}(X)$ significa que ning\'un estrategia acotada genera ganancias significativas; la m\'etrica permite comparar y hacer converger procesos en este sentido. Es la herramienta que reemplaza a la norma cl\'asica cuando trabajamos en $L^0$ en lugar de $L^p$.
+\end{intuicionmat}
+
+Una semimartingala $X$ es \textbf{especial (special)} si admite descomposici\'on can\'onica $X = M + A$ donde $M$ es una martingala local y $A$ es un proceso predecible de variaci\'on finita.
+
+\textbf{Teorema 2.2} (Descomposici\'on de integrales sobre semimartingalas especiales): Si $X = M + A$ es especial y $H$ es $X$-integrable, entonces $H \cdot X$ es especial si y solo si $H$ es $M$-integrable y $H$ es $A$-integrable. En tal caso:
+\begin{equation}
+    H \cdot X = H \cdot M + H \cdot A
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula dice que la ganancia total de una estrategia $H$ sobre el proceso $X$ se puede descomponer en la ganancia proveniente de la parte aleatoria pura ($M$, la martingala) m\'as la ganancia proveniente de la tendencia sistem\'atica ($A$, la variaci\'on finita). Es la separaci\'on entre ``ruido'' y ``deriva'' en las ganancias del trader.
+\end{intuicionmat}
+
+\textbf{Teorema 2.3} (Control de saltos): Si $X$ es semimartingala con $\|(\Delta X)^*\|_p < \infty$ para $1 < p \leq \infty$, entonces $X$ es especial con descomposici\'on $X = M + A$ y:
+\begin{align}
+    \|(\Delta A)^*\|_p &\leq \frac{p}{p-1} \|(\Delta X)^*\|_p \\
+    \|(\Delta M)^*\|_p &\leq \frac{2p-1}{p-1} \|(\Delta X)^*\|_p
+\end{align}
+
+\begin{intuicionmat}
+Estas desigualdades controlan el tama\~no de los saltos en las partes $A$ y $M$ de la descomposici\'on en t\'erminos del tama\~no de los saltos del proceso original $X$. En la pr\'actica dicen: si los saltos del precio son moderados (acotados en $L^p$), entonces tambi\'en lo son los saltos de su tendencia y de su componente martingala, cada uno con una constante que depende de $p$.
+\end{intuicionmat}
+
+\begin{intuicion}
+Las semimartingalas son la clase m\'as general de procesos para los cuales tiene sentido definir una integral estoc\'astica. En finanzas, esto significa que son exactamente los procesos de precios con los que un agente puede ``comerciar'' de forma matem\'aticamente bien definida. La descomposici\'on en martingala local m\'as variaci\'on finita es la versi\'on continua de separar tendencia y ruido.
+\end{intuicion}
+
+\subsection{Integrales admisibles}
+
+\textbf{Definici\'on 2.7} (\textbf{Integrando $a$-admisible ($a$-admissible integrand)}): Un proceso predecible $H$ es $a$-admisible si $H_0 = 0$ y $(H \cdot S)_t \geq -a$ para todo $t \geq 0$ casi seguramente. $H$ es \textbf{admisible} si es $a$-admisible para alg\'un $a \in \mathbb{R}_+$.
+
+\begin{intuicion}
+La admisibilidad formaliza una restricci\'on pr\'actica: el broker exige garant\'ias. Un integrando admisible es una estrategia de trading que nunca puede perder m\'as de $a$ unidades en ning\'un momento. Sin esta restricci\'on, existir\'ian estrategias matem\'aticamente v\'alidas pero econ\'omicamente absurdas (como ``apostar infinito'' a una eventualidad).
+\end{intuicion}
+
+\subsection{Conos de ganancias}
+
+Sea $K_0$ el cono convexo en $L^0$ dado por:
+\begin{equation}
+    K_0 = \left\{ (H \cdot S)_\infty \;\middle|\; H \text{ admisible y } (H \cdot S)_\infty = \lim_{t \to \infty} (H \cdot S)_t \text{ existe c.s.} \right\}
+\end{equation}
+
+\begin{intuicionmat}
+$K_0$ es el conjunto de todas las ganancias terminales que puede lograr cualquier estrategia admisible. Es el ``universo de lo alcanzable'' mediante trading. Que sea un cono convexo refleja que combinar estrategias sigue siendo una estrategia, y escalar una estrategia tambi\'en.
+\end{intuicionmat}
+
+Se define $C_0 = K_0 - L^0_+$ (funciones dominadas por elementos de $K_0$), y $C = C_0 \cap L^\infty$, $K = K_0 \cap L^\infty$.
+
+\textbf{Definici\'on 2.8:}
+\begin{itemize}
+    \item \textbf{Sin arbitraje (no arbitrage, NA)}: $C \cap L^\infty_+ = \{0\}$
+    \item \textbf{Sin almuerzo gratis con riesgo desvaneciente (NFLVR)}: $\bar{C} \cap L^\infty_+ = \{0\}$, donde $\bar{C}$ es la clausura de $C$ en $L^\infty$.
+\end{itemize}
+
+\begin{intuicion}
+(NA) dice que no existe ninguna estrategia admisible que produzca una ganancia positiva partiendo de cero. (NFLVR) es ligeramente m\'as fuerte: tampoco existen \emph{secuencias} de estrategias cuyas p\'erdidas potenciales se hagan arbitrariamente peque\~nas mientras sus ganancias potenciales permanecen positivas. La diferencia entre ambas condiciones es sutil pero crucial para el resultado principal.
+\end{intuicion}
+
+%% ============================================================
+\section{Sin Almuerzo Gratis con Riesgo Desvaneciente (NFLVR)}
+%% ============================================================
+
+\subsection{Resultado principal de la secci\'on}
+
+El resultado central de la Secci\'on 3 establece que bajo (NFLVR), el l\'imite $(H \cdot S)_\infty$ existe y es finito para todo integrando admisible $H$.
+
+\textbf{Proposici\'on 3.1}: Si $S$ satisface (NFLVR), el conjunto
+\begin{equation}
+    \{(H \cdot S)_\infty \mid H \text{ es 1-admisible y de soporte acotado}\}
+\end{equation}
+est\'a acotado en $L^0$.
+
+\begin{intuicionmat}
+La acotaci\'on en $L^0$ significa que las ganancias terminales de estrategias 1-admisibles no pueden ``escaparse al infinito'' en probabilidad. Es el primer paso para controlar el comportamiento de las estrategias: bajo (NFLVR), el mercado no puede generar ganancias arbitrariamente grandes con riesgo controlado.
+\end{intuicionmat}
+
+\textbf{Proposici\'on 3.2}: Bajo (NFLVR), para cada $H$ admisible, $(H \cdot S)^* = \sup_{0 \leq t} |(H \cdot S)_t|$ es finito c.s. y el conjunto $\{(H \cdot S)^* \mid H \text{ 1-admisible}\}$ est\'a acotado en $L^0$.
+
+\textbf{Teorema 3.3} (Convergencia bajo NFLVR): Si $S$ es semimartingala satisfaciendo (NFLVR), entonces para todo $H$ admisible, el l\'imite
+\begin{equation}
+    (H \cdot S)_\infty = \lim_{t \to \infty} (H \cdot S)_t
+\end{equation}
+existe y es finito casi seguramente. La prueba imita la demostraci\'on del teorema de convergencia de martingalas de Doob, interpretando los cruces ascendentes de $[\beta, \gamma]$ como la estrategia ``comprar barato, vender caro''.
+
+\begin{intuicionmat}
+Este teorema garantiza que cualquier estrategia admisible en un mercado sin almuerzos gratis con riesgo desvaneciente ``termina'' en alg\'un sentido: las ganancias acumuladas convergen a un valor final bien definido. Sin esta propiedad, las estrategias podr\'ian oscilar eternamente sin llegar a un resultado, lo que har\'ia imposible definir su valor final.
+\end{intuicionmat}
+
+\begin{intuicion}
+La secci\'on 3 establece que (NFLVR) es una condici\'on suficientemente fuerte como para garantizar que las estrategias de trading tienen resultados finales bien definidos. Intuitivamente: si el mercado no permite ``almuerzos gratis con riesgo que se desvanece'', entonces cualquier apuesta bien formada eventualmente se resuelve.
+\end{intuicion}
+
+\subsection{Caracterizaci\'on de NFLVR}
+
+\textbf{Corolario 3.7}: $S$ satisface (NFLVR) si y solo si para toda secuencia $(g_n)_{n \geq 1}$ en $K_0$:
+\begin{equation}
+    \|g_n^-\|_\infty \to 0 \implies g_n \to 0 \text{ en probabilidad}
+\end{equation}
+
+\begin{intuicionmat}
+Esta caracterizaci\'on dice: si las ``partes negativas'' (p\'erdidas m\'aximas) de una secuencia de ganancias terminales tienden a cero en valor absoluto, entonces las ganancias mismas deben tender a cero. En otras palabras, no se puede construir una sucesi\'on de estrategias cuyos riesgos desaparezcan pero cuyas ganancias permanezcan positivas.
+\end{intuicionmat}
+
+\textbf{Corolario 3.8}: Bajo (NA), $S$ satisface (NFLVR) si y solo si el conjunto
+\begin{equation}
+    \{(H \cdot S)_\infty \mid H \text{ 1-admisible y de soporte acotado}\}
+\end{equation}
+est\'a acotado en $L^0$.
+
+\begin{intuicionmat}
+Este corolario simplifica la verificaci\'on de (NFLVR): bajo la condici\'on base de no arbitraje, basta comprobar que las ganancias terminales de estrategias simples est\'en acotadas probabilist\'icamente. Esto hace la condici\'on m\'as manejable para aplicaciones concretas.
+\end{intuicionmat}
+
+\begin{intuicion}
+Los Corolarios 3.7 y 3.8 dan herramientas pr\'acticas para verificar (NFLVR): en lugar de revisar toda la clausura del cono $C$, basta analizar propiedades de acotaci\'on de las ganancias terminales. Esto es fundamental para aplicar el teorema principal a modelos concretos.
+\end{intuicion}
+
+%% ============================================================
+\section{Teorema Principal y su Demostraci\'on}
+%% ============================================================
+
+\subsection{Enunciado del teorema}
+
+\textbf{Teorema 1.1 (Teorema principal)}: Sea $S$ una semimartingala real acotada. Existe una \textbf{medida martingala equivalente (equivalent martingale measure)} $Q$ para $S$ si y solo si $S$ satisface (NFLVR).
+
+\textbf{Corolario 1.2}: Sea $S$ una semimartingala real localmente acotada. Existe una \textbf{medida martingala local equivalente (equivalent local martingale measure)} $Q$ para $S$ si y solo si $S$ satisface (NFLVR).
+
+\begin{intuicion}
+El Teorema 1.1 es el resultado m\'as importante del art\'iculo. En lenguaje llano: un mercado bien formado (sin almuerzos gratis con riesgo desvaneciente) admite siempre una forma de ``repreciar'' los activos de modo que su valor esperado descontado no cambia en el tiempo. Esta medida $Q$ es la herramienta fundamental para valorar derivados financieros.
+\end{intuicion}
+
+\subsection{Esquema de la demostraci\'on}
+
+La prueba sigue el siguiente plan:
+\begin{enumerate}
+    \item Demostrar que $C$ es \textbf{d\'ebilmente-$*$ cerrado (weak*-closed)} en $L^\infty$.
+    \item Aplicar el \textbf{teorema de separaci\'on de Kreps-Yan (Kreps-Yan separation theorem)}, consecuencia del teorema de Hahn-Banach.
+\end{enumerate}
+
+La implicaci\'on f\'acil es: si existe medida martingala equivalente $Q$, entonces $H \cdot S$ es una $Q$-supermartingala para todo $H$ admisible (Teorema 2.9), lo que implica $E_Q[(H \cdot S)_\infty] \leq 0$ y por tanto $\bar{C} \cap L^\infty_+ = \{0\}$.
+
+La implicaci\'on no trivial (NFLVR $\Rightarrow$ existencia de medida) requiere demostrar:
+
+\textbf{Teorema 4.2}: Si $S$ es semimartingala acotada satisfaciendo (NFLVR), entonces:
+\begin{enumerate}[(i)]
+    \item $C_0$ es \textbf{Fatou-cerrado (Fatou closed)}: si $(f_n) \subset C_0$, $f_n \geq -1$ y $f_n \to f$ c.s., entonces $f \in C_0$.
+    \item $C = C_0 \cap L^\infty$ es $\sigma(L^\infty, L^1)$-cerrado.
+\end{enumerate}
+
+\begin{intuicion}
+La direcci\'on dif\'icil de la prueba (NFLVR implica existencia de $Q$) requiere mostrar que el cono de ganancias alcanzables es ``cerrado'' en un sentido topol\'ogico apropiado. Una vez establecida esa clausura, un teorema de separaci\'on (versi\'on del teorema de Hahn-Banach) garantiza la existencia de un funcional lineal que separa el cono de las ganancias positivas, y ese funcional es precisamente la medida martingala equivalente.
+\end{intuicion}
+
+\subsection{Estructura de la prueba del Teorema 4.2}
+
+La demostraci\'on introduce un \textbf{elemento maximal (maximal element)} $f_0$:
+
+\textbf{Lema 4.3}: El conjunto $\mathfrak{D} = \{f \mid \exists K^n \text{ 1-admisibles con } (K^n \cdot S)_\infty \to f \text{ c.s. y } f \geq h\}$ contiene un elemento maximal $f_0$.
+
+Los pasos clave son:
+
+\textbf{Lema 4.5}: Las variables $F_{n,m} = ((H^n - H^m) \cdot S)^*$ tienden a cero en probabilidad cuando $n, m \to \infty$.
+
+\textbf{Lema 4.7}: Para $\lambda > 0$, el conjunto $\{(H \cdot M)^* \mid H \in \mathscr{H}_\lambda\}$ est\'a acotado en $L^0(Q)$, donde $\mathscr{H}_\lambda$ es el conjunto de integrales 1-admisibles con $\|(H \cdot S)^*\|_{L^2(Q)} \leq \lambda$.
+
+La idea clave del Lema 4.7: si $(H^n \cdot M)^*$ fuera no acotado, las ganancias de la parte predecible $A$ dominar\'ian las p\'erdidas de la martingala $M$ asint\'oticamente, contradiciendo (NFLVR). Formalmente, las ganancias de $A$ crecen proporcionalmente al tiempo, mientras que las p\'erdidas esperadas de $M$ solo crecen como $\sqrt{\text{tiempo}}$ por la ortogonalidad de las diferencias de martingala.
+
+\textbf{Lemas 4.8 y 4.9}: Para todo $\varepsilon > 0$ existe $c_0 > 0$ tal que para $c \geq c_0$:
+\begin{equation}
+    Q\left[\left(\sum_i \lambda_i K^i_c \cdot M\right)^* > \varepsilon\right] < \varepsilon
+\end{equation}
+
+\begin{intuicionmat}
+Esta desigualdad dice que combinaciones convexas de estrategias truncadas generan fluctuaciones arbitrariamente peque\~nas en la componente martingala, con alta probabilidad. Es el paso t\'ecnico que permite ``promediar'' estrategias para obtener convergencia, imitando c\'omo en probabilidad cl\'asica se usan combinaciones convexas para extraer subsucesiones convergentes.
+\end{intuicionmat}
+
+\textbf{Lema 4.10}: Existe una sucesi\'on de combinaciones convexas $L^n \in \text{conv}(H^k, k \geq n)$ tal que $L^n \cdot M$ converge en la topolog\'ia de semimartingalas.
+
+\textbf{Lema 4.11}: Bajo las mismas condiciones, $L^n \cdot A$ converge en la topolog\'ia de semimartingalas.
+
+La conclusi\'on final usa el \textbf{teorema de Memin (Memin's theorem)}: la convergencia de $L^k \cdot S$ en topolog\'ia de semimartingalas implica la existencia de un proceso predecible $L$ tal que $L^k \cdot S \to L \cdot S$. En particular $L$ es 1-admisible y $(L \cdot S)_\infty = f_0 \in K_0$.
+
+\begin{intuicion}
+La prueba del Teorema 4.2 es un argumento de compacidad sofisticado: se construye una ganancia terminal ``m\'axima'' $f_0$ como l\'imite de estrategias cada vez mejores. La existencia de este m\'aximo, combinada con la condici\'on (NFLVR), garantiza que el cono de ganancias alcanzables est\'a cerrado, lo que a su vez permite separarlo del cono de ganancias positivas mediante un hiperplano. Ese hiperplano separador codifica la medida martingala equivalente buscada.
+\end{intuicion}
+
+%% ============================================================
+\section{El Conjunto de Medidas Representantes}
+%% ============================================================
+
+En esta secci\'on $S$ se supone localmente acotada y martingala local bajo $P$. Se estudian:
+\begin{align}
+    M(P) &= \{Q \mid Q \ll P,\; Q \text{ es } \sigma\text{-aditiva y } S \text{ es } Q\text{-martingala local}\} \\
+    M^e(P) &= \{Q \mid Q \sim P,\; Q \text{ es } \sigma\text{-aditiva y } S \text{ es } Q\text{-martingala local}\}
+\end{align}
+
+\begin{intuicionmat}
+$M(P)$ es el conjunto de todas las medidas martingala absolutamente continuas respecto a $P$ (es decir, que no asignan probabilidad positiva a eventos de probabilidad cero bajo $P$). $M^e(P)$ es el subconjunto de las que adem\'as son equivalentes a $P$ (mismos eventos de probabilidad cero). En valoraci\'on de activos, $M^e(P)$ es el conjunto de todas las ``medidas de valoraci\'on'' v\'alidas.
+\end{intuicionmat}
+
+\textbf{Teorema 5.4} (Criterio de completitud del mercado): Si $P$ es medida martingala local para $S$, entonces:
+\begin{enumerate}[(i)]
+    \item $M(P)$ es un conjunto convexo, acotado y cerrado en $L^1(\Omega, \mathscr{F}, P)$.
+    \item $M(P) = M^e(P) \implies M(P) = \{P\}$.
+\end{enumerate}
+
+\begin{intuicion}
+El Teorema 5.4 conecta la estructura del conjunto de medidas martingala con la completitud del mercado. Un mercado es completo cuando todo activo contingente puede replicarse mediante trading; matem\'aticamente esto equivale a que haya una sola medida de valoraci\'on posible. Si $M(P)$ tiene un \'unico elemento, el precio de cada derivado est\'a un\'ivocamente determinado.
+\end{intuicion}
+
+\textbf{Teorema 5.6} (Caracterizaci\'on de $M(P)$): Definiendo el \textbf{polar (polar cone)} $C^\circ = \{g \in L^1 \mid E[gh] \leq 0 \text{ para todo } h \in C\}$:
+\begin{equation}
+    M(P) = \{Q \in L^1 \mid Q[\Omega] = 1,\; Q \in C^\circ\}
+\end{equation}
+
+\begin{intuicionmat}
+Esta f\'ormula describe el conjunto de medidas martingala como el polar del cono de ganancias alcanzables: una medida $Q$ es medida martingala si y solo si ninguna estrategia admisible puede tener ganancia esperada positiva bajo $Q$. Es la formulaci\'on dual del principio de no arbitraje: lo que desde el lado primal se expresa como ``no hay ganancias gratis'', desde el lado dual se expresa como ``existe una medida que anula todas las ganancias esperadas''.
+\end{intuicionmat}
+
+\textbf{Teorema 5.7} (Dualidad): Para todo $f \in L^\infty$:
+\begin{equation}
+    \sup_{Q \in M^e(P)} E_Q[f] = \sup_{Q \in M(P)} E_Q[f] = \inf\{x \mid \exists h \in C : x + h \geq f\}
+\end{equation}
+
+\begin{intuicionmat}
+Este resultado de dualidad iguala dos cantidades aparentemente distintas: el supremo de las esperanzas de $f$ sobre todas las medidas martingala, y el m\'inimo costo de ``superreplicar'' $f$ mediante estrategias admisibles. En finanzas, esto significa que el precio de un derivado $f$ en un mercado incompleto est\'a acotado por el costo de la estrategia m\'as barata que garantiza pagar $f$ en cualquier escenario.
+\end{intuicionmat}
+
+%% ============================================================
+\section{Sin Almuerzo Gratis con Riesgo Acotado (NFLBR)}
+%% ============================================================
+
+\subsection{Definiciones comparadas}
+
+Se introducen tres variantes de condiciones de no arbitraje, ordenadas de m\'as fuerte a m\'as d\'ebil:
+
+\textbf{Definici\'on 6.1:}
+\begin{itemize}
+    \item \textbf{Sin almuerzo gratis (no free lunch, NFL)}: $\bar{C}^* \cap L^\infty_+ = \{0\}$, donde $\bar{C}^*$ es la clausura d\'ebil-$*$ de $C$ (requiere redes).
+    \item \textbf{Sin almuerzo gratis con riesgo acotado (no free lunch with bounded risk, NFLBR)}: $\tilde{C} \cap L^\infty_+ = \{0\}$, donde $\tilde{C}$ son los l\'imites de sucesiones d\'ebilmente-$*$ convergentes de elementos de $C$.
+    \item \textbf{Sin almuerzo gratis con riesgo desvaneciente (NFLVR)}: $\bar{C} \cap L^\infty_+ = \{0\}$, donde $\bar{C}$ es la clausura en norma de $C$.
+\end{itemize}
+
+La cadena de implicaciones es:
+\begin{equation}
+    (\text{NFL}) \implies (\text{NFLBR}) \implies (\text{NFLVR}) \implies (\text{NA})
+\end{equation}
+
+\begin{intuicionmat}
+Esta jerarqu\'ia ordena las condiciones de no arbitraje por su fuerza: (NFL) es la m\'as restrictiva (proh\'ibe incluso l\'imites de redes de estrategias), mientras que (NA) es la m\'as permisiva (solo proh\'ibe ganancias estrictamente positivas con costo cero). El art\'iculo demuestra que (NFLVR) es la condici\'on exactamente correcta para el teorema fundamental: ni demasiado fuerte ni demasiado d\'ebil.
+\end{intuicionmat}
+
+\begin{intuicion}
+Imagine cuatro niveles de ``orden'' en un mercado: (NA) es el m\'as d\'ebil, solo proh\'ibe ganancias seguras directas. (NFLVR) es m\'as fuerte: tampoco permite aproximar ganancias seguras con estrategias de riesgo decreciente. (NFLBR) y (NFL) son a\'un m\'as estrictos. El art\'iculo muestra que el nivel correcto para garantizar la existencia de medidas martingala equivalentes es exactamente (NFLVR).
+\end{intuicion}
+
+\subsection{Diferencia entre NFLVR y NFLBR}
+
+La diferencia clave:
+\begin{itemize}
+    \item En (NFLVR): se requiere que las partes negativas $f_n^-$ tiendan a cero \emph{uniformemente} ($\|f_n^-\|_\infty \to 0$).
+    \item En (NFLBR): solo se requiere que $f_n^- \to 0$ \emph{en probabilidad}, permaneciendo uniformemente acotadas.
+\end{itemize}
+
+\textbf{Proposici\'on 6.2}: $S$ satisface (NFLBR) si y solo si para toda sucesi\'on de integradores 1-admisibles $H^n$ con valores finales $g_n = (H^n \cdot S)_\infty$:
+\begin{equation}
+    g_n^- \to 0 \text{ en probabilidad} \implies g_n \to 0 \text{ en probabilidad}
+\end{equation}
+
+\begin{intuicionmat}
+(NFLBR) en su forma secuencial: si las p\'erdidas potenciales de una secuencia de estrategias tienden a cero probabilist\'icamente, entonces las ganancias tambi\'en. Es una condici\'on m\'as natural para procesos continuos, donde la convergencia en probabilidad es la noci\'on adecuada, pero resulta insuficiente para el caso general con saltos.
+\end{intuicionmat}
+
+\textbf{Proposici\'on 6.3:}
+\begin{enumerate}
+    \item Si $S$ satisface (NFLBR) para integrales de soporte acotado, entonces satisface (NA) para integrales admisibles generales.
+    \item Si $S$ satisface (NFLVR) para soporte acotado y (NA) general, entonces satisface (NFLVR) general.
+\end{enumerate}
+
+\begin{intuicion}
+La Proposici\'on 6.3 muestra que basta verificar las condiciones de no arbitraje sobre estrategias con horizonte finito para obtener conclusiones globales. Esto simplifica enormemente las verificaciones pr\'acticas, ya que las estrategias de horizonte infinito son dif\'iciles de analizar directamente.
+\end{intuicion}
+
+%% ============================================================
+\section{Integrales Simples (Simple Integrands)}
+%% ============================================================
+
+\subsection{Definici\'on e interpretaci\'on}
+
+\textbf{Definici\'on 7.1}: Un \textbf{integrando simple predecible (simple predictable integrand)} es combinaci\'on lineal de procesos de la forma $H = f \mathbf{1}_{\llbracket T_1, T_2 \rrbracket}$, donde $f$ es $\mathscr{F}_{T_1}$-medible y $T_1 \leq T_2$ son tiempos de parada finitos.
+
+\begin{intuicion}
+Un integrando simple es la formaliz\'acion de la estrategia m\'as b\'asica posible: ``en el instante $T_1$, compro $f(\omega)$ unidades del activo; en el instante $T_2$, las vendo.'' No hay rebalanceo continuo, no hay informaci\'on futura utilizada. Son las estrategias que cualquier trader b\'asico entender\'ia intuitivamente.
+\end{intuicion}
+
+\subsection{NFLVR simple implica semimartingala}
+
+\textbf{Teorema 7.2}: Sea $S : \mathbb{R}_+ \times \Omega \to \mathbb{R}$ un proceso adaptado c\`adl\`ag. Si $S$ es localmente acotado y satisface (NFLVR) para integrales simples, entonces $S$ es una semimartingala.
+
+\begin{intuicion}
+Este resultado justifica retroactivamente el supuesto de semimartingala del Teorema 1.1: no es necesario asumir que $S$ es semimartingala de antemano. La condici\'on econ\'omica de no arbitraje (incluso para estrategias simples) \emph{implica} que el proceso debe ser una semimartingala. Las restricciones de mercado llevan a restricciones matem\'aticas.
+\end{intuicion}
+
+\subsection{Resultados para procesos continuos}
+
+\textbf{Teorema 7.6:}
+\begin{enumerate}[(a)]
+    \item Si $S : [0,1] \times \Omega \to \mathbb{R}$ es continuo adaptado, entonces (NFLVR) para simples implica la existencia de medida martingala local equivalente.
+    \item Si $S : \mathbb{R}_+ \times \Omega \to \mathbb{R}$ es continuo adaptado, entonces (NFLBR) para simples implica la existencia de medida martingala local equivalente.
+\end{enumerate}
+
+\begin{intuicion}
+Para procesos de precios continuos (sin saltos), la teor\'ia es m\'as sencilla: basta con integrales simples para obtener el teorema fundamental completo. Los saltos son la verdadera dificultad del caso general, ya que permiten estrategias que explotan las discontinuidades del precio de formas imposibles de capturar con integrales simples.
+\end{intuicion}
+
+\subsection{Contraejemplos}
+
+Se exhiben en la Secci\'on 7 procesos $S = M + A$ donde $M$ es martingala uniformemente acotada y $A$ predecible de variaci\'on finita, tal que:
+\begin{itemize}
+    \item $S$ no admite medida martingala equivalente.
+    \item $S$ satisface (NFLBR) para integrales simples.
+    \item Si se permiten estrategias de la forma ``vender antes de cada n\'umero racional y comprar despu\'es'', existe un almuerzo gratis con riesgo desvaneciente.
+\end{itemize}
+
+\begin{intuicion}
+Los contraejemplos de la Secci\'on 7 muestran que los integrales simples son insuficientes para el caso con saltos: un proceso puede ``parecer libre de arbitraje'' si solo se miran estrategias simples, pero admitir almuerzos gratis con estrategias m\'as complejas que explotan los saltos. Esto justifica la necesidad de la teor\'ia de integraci\'on general desarrollada en el art\'iculo.
+\end{intuicion}
+
+%% ============================================================
+\section{Ap\'endice: Lemas de Teor\'ia de la Medida}
+%% ============================================================
+
+\textbf{Lema A1.1} (Combinaciones convexas convergentes): Sea $(f_n)_{n \geq 1}$ una sucesi\'on de funciones medibles con valores en $[0, \infty[$. Existe una sucesi\'on $g_n \in \text{conv}(f_n, f_{n+1}, \ldots)$ que converge c.s. a una funci\'on $g : \Omega \to [0, \infty]$.
+\begin{itemize}
+    \item Si $\text{conv}(f_n; n \geq 1)$ est\'a acotado en $L^0$, entonces $g$ es finito c.s.
+    \item Si existe $\alpha > 0$, $\delta > 0$ con $P[f_n > \alpha] > \delta$ para todo $n$, entonces $P[g > 0] > 0$.
+\end{itemize}
+
+\textbf{Lema A1.2} (Estimaci\'on de sumas): Sean $(g_k)_{1 \leq k \leq n}$ funciones no negativas con $P[g_k \geq a_k] \geq \delta > 0$ para todo $k$. Para $g = \sum_{k=1}^n g_k$ y $0 < \eta < 1$:
+\begin{equation}
+    P\left[g \geq \eta \left(\sum_{j=1}^n a_j\right) \delta\right] \geq \frac{\delta(1-\eta)}{1-\delta\eta}
+\end{equation}
+
+\begin{intuicionmat}
+Este lema cuantifica la probabilidad de que una suma de variables aleatorias no negativas supere cierto umbral. Intuitivamente: si cada t\'ermino de la suma tiene probabilidad $\delta$ de ser grande, entonces la suma total es grande con probabilidad al menos comparable. Es una herramienta de conteo probabil\'istico usada en la prueba del Teorema 4.2 para detectar estrategias de arbitraje aproximado.
+\end{intuicionmat}
+
+\textbf{Corolario A1.3}: Si $P[g_j \geq a] \geq b > 0$ para $j = 1, \ldots, n$, entonces para $g = \sum_{j=1}^n g_j$:
+\begin{equation}
+    P\left[g \geq \frac{nab}{2}\right] \geq \frac{b}{2}
+\end{equation}
+
+\begin{intuicionmat}
+Este corolario es la versi\'on simplificada del Lema A1.2 cuando todos los t\'erminos tienen la misma cota inferior $a$ y la misma probabilidad $b$. La suma total supera $nab/2$ con probabilidad al menos $b/2$: a medida que se suman m\'as t\'erminos ($n$ grande), el umbral crece proporcionalmente, manteniendo probabilidad positiva. Es el mecanismo que detecta el arbitraje cuando se concatenan muchas apuestas con riesgo acotado.
+\end{intuicionmat}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+\subsection{Contribuci\'on central}
+
+Delbaen y Schachermayer demuestran el \textbf{teorema fundamental de valoraci\'on de activos (fundamental theorem of asset pricing, FTAP)} en su mayor generalidad posible. El resultado es:
+
+\begin{center}
+\framebox{\parbox{0.85\textwidth}{
+\textbf{Teorema Principal}: Para una semimartingala real acotada $S$, existe una medida de probabilidad equivalente $Q$ bajo la cual $S$ es martingala, si y solo si $S$ satisface la condici\'on de \textbf{sin almuerzo gratis con riesgo desvaneciente (NFLVR)}.
+}}
+\end{center}
+
+Para el caso localmente acotado (Corolario 1.2), la conclusi\'on se debilita a medida martingala \emph{local} equivalente.
+
+\subsection{Jerarqu\'ia de condiciones de no arbitraje}
+
+Las condiciones se ordenan de la siguiente manera:
+
+\begin{equation}
+    (\text{NFL}) \implies (\text{NFLBR}) \implies (\text{NFLVR}) \implies (\text{NA})
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{(NFL)}: Caracterizaci\'on cl\'asica (Kreps 1981) mediante redes, no intuitiva.
+    \item \textbf{(NFLBR)}: Suficiente para procesos continuos o tiempo discreto, usando integrales simples. Para el caso general requiere integrales admisibles generales.
+    \item \textbf{(NFLVR)}: Condici\'on \'optima en el caso general: admite caracterizaci\'on secuencial, tiene interpretaci\'on econ\'omica clara (riesgo desvaneciente) y equivale exactamente a la existencia de medida martingala equivalente.
+    \item \textbf{(NA)}: Demasiado d\'ebil para implicar la existencia de medida martingala equivalente en general.
+\end{itemize}
+
+\subsection{Aportes metodol\'ogicos}
+
+\begin{enumerate}
+    \item \textbf{Necesidad de integraci\'on general}: Para procesos con saltos en tiempos arbitrarios, los integrales simples son insuficientes. Se requiere integrar procesos predecibles no acotados de naturaleza general.
+    \item \textbf{T\'ecnicas novedosas}: La prueba combina clausura de Fatou, elementos maximales (v\'ia inducci\'on transfinita), estimaciones $L^2$ y la topolog\'ia de semimartingalas.
+    \item \textbf{Procesos continuos}: Para $S$ continua, (NFLVR) para simples es suficiente; los integrales generales no aportan potencia adicional.
+    \item \textbf{Completitud del mercado}: $M^e(P) = M(P)$ implica $M(P) = \{P\}$, es decir, unicidad de la medida martingala equivalente.
+    \item \textbf{Dualidad}: Se establece una forma precisa de dualidad entre precios de superreplicaci\'on e integrales martingala, generalizando resultados previos para procesos continuos.
+\end{enumerate}
+
+\subsection{Impacto y limitaciones}
+
+El art\'iculo resuelve definitivamente la cuesti\'on del FTAP en tiempo continuo con saltos. Sus limitaciones son:
+\begin{itemize}
+    \item El Corolario 1.2 solo garantiza medida martingala \emph{local}: incluso con $S_t \in L^p$ uniformemente acotado para $p > 1$, no se puede garantizar que $S$ sea martingala bajo $Q$.
+    \item La hip\'otesis de acotaci\'on local en el Teorema 7.2 no puede eliminarse (como muestra el Ejemplo 7.5).
+    \item Queda abierto si la hip\'otesis de acotaci\'on local es necesaria en el Corolario 1.2.
+\end{itemize}
+
+\end{document}

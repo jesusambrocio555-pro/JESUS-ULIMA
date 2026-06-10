@@ -1,0 +1,570 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Cap\'itulo 3 --- El Comportamiento Aleatorio de los Activos}\\
+\large \textit{(The Random Behavior of Assets)}\\
+\normalsize Paul Wilmott, \textit{Paul Wilmott on Quantitative Finance}, 2nd~ed.}
+\author{}
+\date{Junio 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%%% =========================================================
+\section{Introducci\'on}
+%%% =========================================================
+
+\subsection{Objetivo del cap\'itulo}
+
+El cap\'itulo construye un \textbf{modelo de tiempo continuo (continuous-time model)}
+para el precio de acciones, divisas, materias primas e \'indices.
+El punto de partida es el experimento de lanzar una moneda, que motiva el concepto
+de proceso de Wiener.
+El objetivo final es justificar la \textbf{ecuaci\'on diferencial estoc\'astica
+(stochastic differential equation, SDE)}:
+\[
+  dS = \mu S\,dt + \sigma S\,dX,
+\]
+que es la base de casi toda la teor\'ia moderna de derivados.
+
+\begin{intuicion}
+El cap\'itulo responde a la pregunta: ?`por qu\'e modelamos los precios de activos
+con aleatoriedad? La respuesta corta es que los retornos observados se parecen a
+ruido normal, y ese ruido importa porque los derivados son funciones convexas del
+precio del activo (desigualdad de Jensen).
+\end{intuicion}
+
+%%% =========================================================
+\section{Las Formas Populares de ``An\'alisis'' (Popular Forms of Analysis)}
+%%% =========================================================
+
+\subsection{Tres enfoques de an\'alisis financiero}
+
+En el mundo financiero se distinguen tres formas de an\'alisis:
+
+\begin{itemize}
+  \item \textbf{An\'alisis fundamental (fundamental analysis):} valora una empresa
+        estudiando balances, equipos directivos, patentes y competidores.
+        Conceptualmente correcto pero muy dif\'icil en la pr\'actica, y sujeto a
+        informaci\'on oculta fuera del balance. Adem\'as, incluso con el modelo
+        perfecto, ``el mercado puede permanecer irracional m\'as tiempo del que
+        uno puede permanecer solvente'' (Keynes).
+
+  \item \textbf{An\'alisis t\'ecnico (technical analysis):} utiliza exclusivamente
+        el historial de precios para identificar tendencias y patrones.
+        La evidencia acad\'emica sugiere que en su mayor parte \emph{no funciona}.
+
+  \item \textbf{An\'alisis cuantitativo (quantitative analysis):} trata los precios
+        de activos y tipos de inter\'es como variables aleatorias y elige los mejores
+        modelos para esa aleatoriedad. Es el enfoque de este libro y el que mayor
+        \'exito ha tenido en los \'ultimos 50 a\~nos (teor\'ia de carteras, valoraci\'on
+        de derivados).
+\end{itemize}
+
+\begin{intuicion}
+El an\'alisis cuantitativo no intenta predecir el precio futuro con certeza; acepta
+la aleatoriedad como componente irreducible y la modela con precisi\'on matem\'atica.
+Eso es lo que permite valorar opciones de forma coherente.
+\end{intuicion}
+
+%%% =========================================================
+\section{Por qu\'e Necesitamos un Modelo para la Aleatoriedad: Desigualdad de Jensen}
+%%% =========================================================
+
+\subsection{Motivaci\'on: la opci\'on call}
+
+Sup\'ongase que el precio de una acci\'on hoy es $S = 100$. En un a\~no valdr\'a
+$50$ o $150$ con igual probabilidad $1/2$.
+Se quiere valorar una opci\'on call con precio de ejercicio $K = 100$.
+
+\medskip
+\textbf{M\'etodo~1 (incorrecto):} usar el precio esperado.
+\[
+  E[S] = \tfrac{1}{2}(50) + \tfrac{1}{2}(150) = 100.
+\]
+El pago de la call sobre el precio esperado es $\max(100 - 100, 0) = 0$.
+
+\medskip
+\textbf{M\'etodo~2 (correcto):} calcular el pago esperado.
+\[
+  E[\max(S-100,0)] = \tfrac{1}{2}\max(50-100,0) + \tfrac{1}{2}\max(150-100,0)
+                   = \tfrac{1}{2}(0) + \tfrac{1}{2}(50) = 25.
+\]
+
+La discrepancia entre ambos m\'etodos ilustra la \textbf{desigualdad de Jensen
+(Jensen's inequality)}.
+
+\subsection{Desigualdad de Jensen}
+
+Para cualquier funci\'on \textbf{convexa (convex)} $f(S)$ y variable aleatoria $S$:
+
+\begin{equation}
+  E\bigl[f(S)\bigr] \geq f\bigl(E[S]\bigr).
+  \label{eq:jensen}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:jensen} dice que el valor esperado de una funci\'on convexa
+de una variable aleatoria es \emph{mayor o igual} que la funci\'on evaluada en el
+valor esperado. Para la opci\'on call, cuyo pago $\max(S-K,0)$ es convexo en $S$,
+esto implica que el valor real de la opci\'on es \emph{siempre mayor} que el valor
+calculado usando solamente el precio esperado del activo.
+\end{intuicionmat}
+
+\subsection{Cuantificaci\'on mediante la serie de Taylor}
+
+Escribiendo $S = \overline{S} + \varepsilon$ con $\overline{S} = E[S]$ y
+$E[\varepsilon] = 0$, la expansi\'on de Taylor da:
+
+\begin{align}
+  E\bigl[f(S)\bigr] &= E\bigl[f(\overline{S} + \varepsilon)\bigr]
+  \approx f(\overline{S}) + \tfrac{1}{2}f''(\overline{S})\,E[\varepsilon^2] \notag\\
+  &= f(E[S]) + \tfrac{1}{2}f''(E[S])\,E[\varepsilon^2].
+  \label{eq:taylor}
+\end{align}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:taylor} cuantifica cu\'anto supera $E[f(S)]$ a $f(E[S])$:
+la diferencia es aproximadamente $\frac{1}{2}f''(E[S])\,E[\varepsilon^2]$.
+Esto depende de dos factores clave:
+(1)~la \textbf{convexidad (convexity)} $f''(E[S])$, que para una call es positiva;
+(2)~la \textbf{varianza (variance)} $E[\varepsilon^2]$, que mide la aleatoriedad
+del precio del activo. A mayor volatilidad del subyacente, mayor valor de la opci\'on.
+\end{intuicionmat}
+
+\begin{intuicion}
+Este resultado es el argumento m\'as profundo del cap\'itulo: la aleatoriedad del
+precio del activo no solo es inevitable, sino que es la \emph{fuente de valor} de
+las opciones. Sin volatilidad, las opciones valdr\'ian cero o casi nada.
+\end{intuicion}
+
+%%% =========================================================
+\section{Similitudes entre Acciones, Divisas, Materias Primas e \'Indices}
+%%% =========================================================
+
+\subsection{El concepto de retorno}
+
+Cuando se invierte en cualquier activo lo relevante no es el nivel absoluto del precio
+sino el \textbf{retorno (return)}, definido como:
+
+\begin{equation}
+  \text{Retorno} = \frac{\text{Variaci\'on del valor} + \text{flujos de caja acumulados}}
+                        {\text{Valor original del activo}}.
+  \label{eq:retdef}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:retdef} normaliza la ganancia por el tama\~no de la
+inversi\'on. Una ganancia de \$10 en una acci\'on de \$100 (retorno del 10\%)
+es cualitativamente distinta a la misma ganancia en una acci\'on de \$1000
+(retorno del 1\%). El retorno hace comparables activos de distinto precio.
+\end{intuicionmat}
+
+La consecuencia pr\'actica es que acciones, divisas, materias primas e \'indices
+pueden modelarse de manera unificada en t\'erminos de retornos.
+En todos los casos, el retorno diario de un activo de precio $S_i$ en el d\'ia $i$
+hacia el d\'ia $i+1$ es:
+\[
+  R_i = \frac{S_{i+1} - S_i}{S_i}.
+\]
+
+%%% =========================================================
+\section{An\'alisis de los Retornos (Examining Returns)}
+%%% =========================================================
+
+\subsection{Estad\'isticas muestrales}
+
+Dado un historial de $M$ retornos $\{R_i\}_{i=1}^M$, se calculan:
+
+\textbf{Media muestral (sample mean):}
+\begin{equation}
+  \overline{R} = \frac{1}{M}\sum_{i=1}^{M} R_i.
+  \label{eq:mean}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:mean} estima el retorno promedio diario del activo.
+Para Perez Companc (Argentina, feb.~1995--nov.~1996) se obtuvo
+$\overline{R} = 0.002916$ por d\'ia.
+\end{intuicionmat}
+
+\textbf{Desviaci\'on est\'andar muestral (sample standard deviation):}
+\begin{equation}
+  s = \sqrt{\frac{1}{M-1}\sum_{i=1}^{M}(R_i - \overline{R})^2}.
+  \label{eq:std}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:std} mide la dispersi\'on de los retornos alrededor de su
+media. Para Perez Companc se obtuvo $s = 0.024521$. Obs\'ervese que la desviaci\'on
+est\'andar diaria (2.45\%) es \emph{mucho mayor} que la media diaria (0.29\%),
+lo que indica que a corto plazo domina el ruido y no la tendencia.
+\end{intuicionmat}
+
+\subsection{Supuesto de normalidad}
+
+Los retornos diarios observados en datos reales (Perez Companc, Glaxo-Wellcome, etc.)
+presentan una distribuci\'on \textbf{aproximadamente normal (approximately Normal)}.
+El modelo simplificador es:
+
+\begin{equation}
+  R_i = \text{media} + \text{desv.~est\'andar} \times \phi,
+  \label{eq:normret}
+\end{equation}
+
+donde $\phi$ es una variable aleatoria normal est\'andar $\mathcal{N}(0,1)$.
+
+\begin{intuicion}
+La suposici\'on de normalidad es una simplificaci\'on: en la realidad los retornos
+tienen colas m\'as gruesas (\textit{fat tails}) que la normal. Sin embargo, la
+aproximaci\'on normal es suficientemente buena como punto de partida y conduce a
+modelos manejables anal\'iticamente.
+\end{intuicion}
+
+%%% =========================================================
+\section{Escalas de Tiempo (Timescales)}
+%%% =========================================================
+
+\subsection{Escalamiento de la media y la desviaci\'on est\'andar}
+
+Sea $\delta t$ el tama\~no del paso de tiempo entre observaciones.
+Los par\'ametros escalan de la siguiente manera:
+
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Par\'ametro & Escalamiento \\
+  \midrule
+  Media del retorno & $\text{media} = \mu\,\delta t$ \\
+  Desviaci\'on est\'andar del retorno & $\text{desv.~est.} = \sigma\,\delta t^{1/2}$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+donde $\mu$ es la \textbf{tasa de deriva (drift rate)} y $\sigma$ es la
+\textbf{volatilidad (volatility)}, ambos considerados constantes.
+
+\begin{intuicion}
+La media crece linealmente con el tiempo (tendencia acumulada), mientras que la
+desviaci\'on est\'andar crece como $\sqrt{t}$ (difusi\'on). A corto plazo la
+volatilidad domina sobre la deriva; s\'olo en horizontes de largo plazo (d\'ecadas)
+la tendencia se vuelve apreciable.
+\end{intuicion}
+
+\subsection{Modelo determin\'istico y l\'imite continuo}
+
+Ignorando la aleatoriedad, el modelo discreto es:
+\[
+  \frac{S_{i+1} - S_i}{S_i} = \mu\,\delta t
+  \quad\Longrightarrow\quad
+  S_{i+1} = S_i(1 + \mu\,\delta t).
+\]
+
+Tras $M$ pasos con $M\,\delta t = T$:
+\[
+  S_M = S_0(1 + \mu\,\delta t)^M = S_0\,e^{M\log(1+\mu\,\delta t)}
+  \approx S_0\,e^{\mu M\,\delta t} = S_0\,e^{\mu T}.
+\]
+
+En el l\'imite $\delta t \to 0$ con $T$ fijo, la aproximaci\'on es exacta:
+el activo crece exponencialmente a tasa $\mu$.
+
+\begin{intuicion}
+Sin aleatoriedad, el activo funciona como una cuenta bancaria con inter\'es continuo $\mu$.
+Este resultado justifica el escalamiento lineal de la media con $\delta t$.
+\end{intuicion}
+
+\subsection{Modelo estoc\'astico discreto del retorno}
+
+Incorporando la aleatoriedad con el escalamiento correcto:
+
+\begin{equation}
+  R_i = \frac{S_{i+1} - S_i}{S_i} = \mu\,\delta t + \sigma\,\phi\,\delta t^{1/2},
+  \label{eq:ret}
+\end{equation}
+
+que puede reescribirse como la ecuaci\'on de evoluci\'on del precio:
+
+\begin{equation}
+  S_{i+1} - S_i = \mu S_i\,\delta t + \sigma S_i\,\phi\,\delta t^{1/2}.
+  \label{eq:pricewalk}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:ret} descompone el retorno en dos componentes:
+(1)~una parte determin\'istica $\mu\,\delta t$ (tendencia promedio),
+y (2)~una parte aleatoria $\sigma\,\phi\,\delta t^{1/2}$ (ruido).
+El factor $\delta t^{1/2}$ es fundamental: hace que la varianza del retorno sea
+$\sigma^2\,\delta t$, proporcional al paso temporal, lo que garantiza la convergencia
+al proceso de Wiener cuando $\delta t \to 0$.
+\end{intuicionmat}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:pricewalk} es el \textbf{paseo aleatorio del activo
+(random walk of the asset)}: el cambio absoluto de precio es proporcional al nivel
+actual $S_i$. Este rasgo multiplicativo (y no aditivo) garantiza que el precio
+nunca sea negativo, algo que una suma simple no puede asegurar.
+\end{intuicionmat}
+
+%%% =========================================================
+\section{Deriva y Volatilidad}
+%%% =========================================================
+
+\subsection{La deriva (drift)}
+
+El par\'ametro $\mu$ se denomina \textbf{tasa de deriva (drift rate)},
+\textbf{retorno esperado (expected return)} o \textbf{tasa de crecimiento
+(growth rate)}. Se estima como:
+
+\begin{equation}
+  \mu = \frac{1}{M\,\delta t}\sum_{i=1}^{M} R_i.
+  \label{eq:drift}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:drift} es simplemente la media muestral normalizada por
+$\delta t$ para obtener un par\'ametro anualizado. Para Perez Companc con
+$\delta t = 1/252$: $\mu = 252 \times 0.002916 = 0.735 = 73.5\%$ anual.
+\end{intuicionmat}
+
+\textbf{Importante:} en la teor\'ia cl\'asica de opciones, la deriva juega un papel
+casi nulo en la valoraci\'on. Aunque es dif\'icil de medir (pues escala con $\delta t$,
+que es peque\~no), esto no importa mucho en finanzas de derivados.
+
+\subsection{La volatilidad (volatility)}
+
+El par\'ametro $\sigma$ es la \textbf{volatilidad (volatility)} del activo, estimada por:
+
+\begin{equation}
+  \sigma = \sqrt{\frac{1}{(M-1)\,\delta t}\sum_{i=1}^{M}(R_i - \overline{R})^2}.
+  \label{eq:vol}
+\end{equation}
+
+Para $\delta t$ peque\~no (retornos diarios), el t\'ermino $\overline{R}$ es
+despreciable y se puede usar tambi\'en:
+
+\begin{equation}
+  \sigma \approx \sqrt{\frac{1}{(M-1)\,\delta t}\sum_{i=1}^{M}
+  \bigl(\log S(t_i) - \log S(t_{i-1})\bigr)^2}.
+  \label{eq:vollog}
+\end{equation}
+
+\begin{intuicionmat}
+Las ecuaciones~\eqref{eq:vol} y~\eqref{eq:vollog} anualizan la desviaci\'on est\'andar
+de los retornos. Para Perez Companc: $\sigma = \sqrt{252} \times 0.024521 = 0.389 = 38.9\%$
+anual. La volatilidad es la cantidad m\'as importante y m\'as elusiva en la teor\'ia
+de derivados: es la que alimenta el precio de las opciones.
+\end{intuicionmat}
+
+\begin{intuicion}
+A diferencia de la deriva, la volatilidad \emph{s\'i importa} para el precio de las
+opciones. La deriva escala como $\delta t$ (se hace indetectable al acortar el intervalo),
+mientras que la volatilidad escala como $\delta t^{1/2}$ y permanece visible incluso
+con pasos de tiempo muy peque\~nos.
+\end{intuicion}
+
+%%% =========================================================
+\section{Estimaci\'on de la Volatilidad (Estimating Volatility)}
+%%% =========================================================
+
+\subsection{Estimaci\'on con ventana m\'ovil}
+
+La volatilidad no es constante en el tiempo: los cambios econ\'omicos y la
+estacionalidad la hacen variar. El estimador pr\'actico consiste en calcular
+la f\'ormula~\eqref{eq:vol} usando las \'ultimas $n$ observaciones
+($n = 10$, $30$ o $100$ d\'ias).
+
+\textbf{Problema del efecto meseta (plateauing effect):} si ocurre un gran
+movimiento del precio, ese retorno extremo permanece en la ventana de $n$ d\'ias
+y eleva artificialmente el estimador de $\sigma$ durante toda esa ventana, incluso
+cuando el mercado ya se ha calmado. Esto genera un patr\'on falso de volatilidad
+elevada (meseta).
+
+\begin{intuicion}
+El estimador de ventana m\'ovil siempre mira hacia el pasado. Cuando el mercado
+fue vol\'atil hace 25 d\'ias pero hoy es tranquilo, la estimaci\'on de 30 d\'ias
+sigue ``recordando'' aquel shock. Este efecto motiva el uso de estimadores
+alternativos de volatilidad (GARCH, volatilidad impl\'icita, etc.).
+\end{intuicion}
+
+%%% =========================================================
+\section{El Paseo Aleatorio en una Hoja de C\'alculo}
+%%% =========================================================
+
+\subsection{Receta discreta de simulaci\'on}
+
+La ecuaci\'on~\eqref{eq:pricewalk} puede reescribirse como:
+
+\begin{equation}
+  S_{i+1} = S_i\!\left(1 + \mu\,\delta t + \sigma\,\phi\,\delta t^{1/2}\right).
+  \label{eq:rw}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:rw} es la \emph{receta} para simular un precio de activo:
+dado el precio hoy $S_i$, se genera un n\'umero aleatorio $\phi \sim \mathcal{N}(0,1)$,
+se aplica la f\'ormula y se obtiene el precio ma\~nana $S_{i+1}$.
+Repitiendo este proceso se genera una trayectoria del precio.
+\end{intuicionmat}
+
+\textbf{Aproximaci\'on normal en hoja de c\'alculo:}
+la suma de 12 variables uniformes $(0,1)$ menos 6 aproxima bien una $\mathcal{N}(0,1)$:
+\begin{equation}
+  \phi \approx \left(\sum_{i=1}^{12}\mathrm{RAND}()\right) - 6.
+  \label{eq:approxnorm}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:approxnorm} es una aproximaci\'on pr\'actica basada en el
+Teorema Central del L\'imite: la suma de 12 variables uniformes independientes tiene
+media 6 y varianza 1, y se distribuye aproximadamente normal.
+Es r\'apida y suficientemente precisa para la mayor\'ia de las aplicaciones.
+\end{intuicionmat}
+
+%%% =========================================================
+\section{El Proceso de Wiener (The Wiener Process)}
+%%% =========================================================
+
+\subsection{Paso al tiempo continuo}
+
+Para tomar el l\'imite $\delta t \to 0$ se introduce la notaci\'on diferencial.
+El t\'ermino determin\'istico $\mu\,\delta t \to \mu\,dt$ sin problemas.
+El t\'ermino estoc\'astico $\phi\,\delta t^{1/2}$ se reescribe como $dX$,
+donde $dX$ es un incremento de \textbf{proceso de Wiener (Wiener process)},
+con las propiedades:
+
+\begin{equation}
+  E[dX] = 0 \qquad\text{y}\qquad E[dX^2] = dt.
+  \label{eq:wiener}
+\end{equation}
+
+\begin{intuicionmat}
+Las propiedades de la ecuaci\'on~\eqref{eq:wiener} capturan la esencia del proceso
+de Wiener: su incremento tiene media cero (no tiene tendencia propia) y su varianza
+es proporcional al tiempo transcurrido. La relaci\'on $E[dX^2] = dt$ es el
+fundamento del c\'alculo de It\^o, donde $(dX)^2 = dt$ no es despreciable.
+\end{intuicionmat}
+
+\begin{intuicion}
+El proceso de Wiener es la formalizaci\'on del ``ruido blanco'' en tiempo continuo.
+Pensar en $dX$ como ``la cantidad que se mueve el proceso en el instante $dt$''
+es \'util informalmente, aunque matem\'aticamente es una distribuci\'on, no una
+funci\'on.
+\end{intuicion}
+
+%%% =========================================================
+\section{El Modelo Ampliamente Aceptado para Activos Financieros}
+%%% =========================================================
+
+\subsection{La ecuaci\'on diferencial estoc\'astica del activo}
+
+Tomando el l\'imite continuo de la ecuaci\'on~\eqref{eq:pricewalk}:
+
+\begin{equation}
+  \boxed{dS = \mu S\,dt + \sigma S\,dX.}
+  \label{eq:sde}
+\end{equation}
+
+\begin{intuicionmat}
+La ecuaci\'on~\eqref{eq:sde} es la \textbf{ecuaci\'on diferencial estoc\'astica
+(SDE)} del activo. Es el modelo m\'as ampliamente aceptado para acciones, divisas,
+materias primas e \'indices. Se interpreta as\'i:
+\begin{itemize}
+  \item $\mu S\,dt$: componente determin\'istica (tendencia),
+  \item $\sigma S\,dX$: componente estoc\'astica (ruido multiplicativo).
+\end{itemize}
+La forma multiplicativa ($S$ en ambos t\'erminos) asegura que $S > 0$ siempre.
+Esta SDE implica que $\log S$ sigue un movimiento browniano con deriva
+(\textit{lognormal model}), y es la base del modelo de Black-Scholes.
+\end{intuicionmat}
+
+\begin{intuicion}
+La ecuaci\'on~\eqref{eq:sde} es el ``\'atomo'' de las finanzas cuantitativas.
+Todo el edificio de la valoraci\'on de derivados se construye a partir de ella.
+El t\'ermino $\sigma S\,dX$ es el que da valor a las opciones (desigualdad de
+Jensen), y el t\'ermino $\mu S\,dt$ es el que, notablemente, \emph{no aparece}
+en las f\'ormulas de valoraci\'on de opciones en equilibrio.
+\end{intuicion}
+
+%%% =========================================================
+\section{Resumen y Conclusiones}
+%%% =========================================================
+
+El cap\'itulo desarrolla la construcci\'on paso a paso del modelo est\'andar de
+precios de activos en tiempo continuo. Los resultados principales son:
+
+\begin{itemize}
+
+  \item \textbf{Desigualdad de Jensen:} para una funci\'on convexa $f$ y una variable
+        aleatoria $S$, $E[f(S)] \geq f(E[S])$, con la brecha aproximada por
+        $\frac{1}{2}f''(E[S])\,E[\varepsilon^2]$.
+        Esto muestra que el valor de una opci\'on call aumenta con la varianza
+        (volatilidad) del subyacente.
+
+  \item \textbf{Universalidad del retorno:} acciones, divisas, materias primas e
+        \'indices pueden tratarse uniformemente mediante retornos
+        $R_i = (S_{i+1}-S_i)/S_i$. Los retornos diarios observados se aproximan
+        bien por distribuciones normales.
+
+  \item \textbf{Estadísticas muestrales:} la media $\overline{R} = \frac{1}{M}\sum R_i$
+        y la desviaci\'on est\'andar $s = \sqrt{\frac{1}{M-1}\sum(R_i-\overline{R})^2}$
+        son los estimadores b\'asicos de los par\'ametros del modelo.
+
+  \item \textbf{Escalamiento temporal:} la media del retorno escala como $\mu\,\delta t$
+        y la desviaci\'on est\'andar como $\sigma\,\delta t^{1/2}$.
+        La deriva $\mu$ es casi invisible a corto plazo; la volatilidad $\sigma$
+        domina en plazos cortos y es la variable central de la teor\'ia de opciones.
+
+  \item \textbf{Modelo discreto:}
+        $S_{i+1} = S_i\bigl(1 + \mu\,\delta t + \sigma\,\phi\,\delta t^{1/2}\bigr)$,
+        simulable directamente en una hoja de c\'alculo.
+
+  \item \textbf{Proceso de Wiener:} en el l\'imite continuo $\delta t \to 0$,
+        el t\'ermino aleatorio $\phi\,\delta t^{1/2}$ se reemplaza por $dX$ con
+        $E[dX]=0$ y $E[dX^2]=dt$.
+
+  \item \textbf{SDE del activo:}
+        $dS = \mu S\,dt + \sigma S\,dX$,
+        el modelo continuo est\'andar. Es multiplicativo (garantiza $S > 0$),
+        implica distribuciones log-normales para $S$ y es la base del modelo
+        de Black-Scholes.
+
+\end{itemize}
+
+\end{document}

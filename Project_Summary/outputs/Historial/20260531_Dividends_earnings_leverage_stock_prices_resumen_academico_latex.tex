@@ -1,0 +1,461 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Dividends, Earnings, Leverage, Stock Prices and the Supply of Capital to Corporations}\\
+\large Teor\'ia de valoraci\'on, pol\'itica de dividendos y estructura de capital\\
+\normalsize John Lintner, \textit{The Review of Economics and Statistics}, Vol. XLIV, 1962}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on: El Debate Fundamental en Finanzas Corporativas}
+%% ============================================================
+
+El art\'iculo de John Lintner (1962) aborda una de las controversias m\'as importantes de la teor\'ia financiera de su \'epoca: la relaci\'on entre \textbf{dividendos (dividends)}, \textbf{ganancias (earnings)}, \textbf{apalancamiento (leverage)} y \textbf{precios de acciones (stock prices)}. La existencia de reglas de decisi\'on mutuamente inconsistentes en la literatura --- todas avanzadas como formas de maximizar el valor de mercado actual del capital accionario --- motiva el an\'alisis.
+
+El trabajo identifica dos grandes debates en la literatura de su momento:
+
+\subsection{La Valoraci\'on del Patrimonio No Apalancado (Unlevered Equity)}
+
+El primer debate es si el valor de las acciones, \textit{ceteris paribus}, es funci\'on de las \textbf{ganancias corporativas (corporate earnings)} con independencia de los dividendos, o si depende espec\'ificamente de los dividendos.
+
+\begin{itemize}
+  \item \textbf{Grupo de ``ganancias puras'' (pure earnings theorists):} Afirman que el valor de las acciones no apalancadas depende de las ganancias independientemente de los dividendos. Representantes: Durand, Lutzes, Solomon, Roberts, Kuh, Dean, Weston y Modigliani-Miller. Para este \'ultimo grupo, la divisi\'on de las ganancias entre dividendos y ganancias retenidas es ``un mero detalle.''
+
+  \item \textbf{Grupo de ``dividendos'' (dividend theorists):} Afirman que el valor de las acciones depende \textit{ceteris paribus} de los dividendos; la importancia de las ganancias y las inversiones radica en sus implicaciones para el flujo futuro de dividendos. Representantes: Walter, Gordon, Gordon-Shapiro, Bierman-Fouraker-Jaedicke, Preinreich, Tinbergen, J.B. Williams.
+\end{itemize}
+
+\begin{intuicion}
+La pregunta es si lo que importa para el precio de una acci\'on es cu\'anto gana la empresa (ganancias) o cu\'anto efectivo reparte a los accionistas (dividendos). El grupo de ganancias puras dice: si la empresa gana bien, el precio ser\'a alto sin importar si paga dividendos. El grupo de dividendos dice: lo que el inversor valora son los flujos de caja que efectivamente recibe.
+\end{intuicion}
+
+\subsection{El Efecto del Apalancamiento sobre el Valor del Patrimonio}
+
+El segundo debate es c\'omo afecta el endeudamiento al valor de las acciones:
+
+\begin{itemize}
+  \item \textbf{Teor\'ia del valor de entidad (entity value theory) o del ingreso operativo neto (net operating income):} El mercado capitaliza el ingreso operativo neto de la corporaci\'on como un todo; el valor de la entidad (suma de deuda y patrimonio) es \textit{independiente} de la proporci\'on de deuda. Modigliani-Miller son los principales exponentes.
+
+  \item \textbf{Teor\'ia de las ganancias netas (net earnings theory):} El valor del patrimonio se determina capitalizando las \textbf{ganancias netas (net earnings)} despu\'es de depreciaci\'on, impuestos e intereses. El valor de la entidad es la suma del patrimonio as\'i determinado m\'as el valor de mercado de la deuda. La raz\'on deuda-patrimonio s\'i importa. Representantes: Solomon, Kuh, Roberts, Weston, Lutzes.
+\end{itemize}
+
+\begin{intuicion}
+Si una empresa sustituye capital propio por deuda, ?`sube, baja o permanece igual el valor total de la empresa? La teor\'ia del valor de entidad dice que permanece igual (la deuda es ``neutral''). La teor\'ia de las ganancias netas dice que el ratio deuda/patrimonio s\'i importa y puede aumentar o reducir el valor del patrimonio de manera no lineal.
+\end{intuicion}
+
+\subsection{Objetivo y Metodolog\'ia del Art\'iculo}
+
+Lintner determina \textit{rigurosamente} las \textbf{condiciones necesarias y suficientes (necessary and sufficient conditions)} para la validez de las dos proposiciones centrales:
+\begin{enumerate}
+  \item \textit{Ceteris paribus}, la valoraci\'on de acciones no apalancadas est\'a determinada por las ganancias actuales (expectacionales) con independencia de los dividendos.
+  \item La valoraci\'on de mercado de la entidad corporativa es independiente de su estructura de capital, salvo por los diferenciales fiscales derivados de la deducibilidad del inter\'es de la deuda.
+\end{enumerate}
+
+La estrategia es examinar si cada proposici\'on es v\'alida bajo condiciones neocl\'asicas plenamente idealizadas y luego evaluar si se sostiene a medida que se eliminan progresivamente los supuestos m\'as restrictivos.
+
+\begin{explicacion}
+Este enfoque metodol\'ogico es clave: Lintner no acepta ni rechaza ninguna teor\'ia \textit{a priori}. En cambio, identifica exactamente bajo qu\'e condiciones cada teor\'ia es correcta y bajo cu\'ales no lo es. Esto permite resolver la controversia de manera rigurosa: si las condiciones requeridas para la teor\'ia de ganancias puras o la del valor de entidad son demasiado restrictivas o irrealistas, entonces las teor\'ias alternativas --- de dividendos y de ganancias netas --- deben usarse. El art\'iculo demuestra que, en efecto, los supuestos requeridos son extremadamente restrictivos y no se sostienen bajo condiciones de mercado m\'as generales y realistas.
+\end{explicacion}
+
+%% ============================================================
+\section{Especificaci\'on de las Condiciones de Mercado}
+%% ============================================================
+
+Lintner establece un conjunto de condiciones que caracterizan distintos tipos de mercado, en consonancia con la literatura preexistente.
+
+\subsection{Condiciones Neocl\'asicas Generalizadas}
+
+Las tres condiciones b\'asicas (compartidas por todos los autores citados) son:
+
+\begin{itemize}
+  \item \textbf{(a) Mercados puramente competitivos (purely competitive markets):} Todos los valores se negocian en mercados competitivos. Ning\'un inversor es suficientemente grande como para afectar el precio de mercado con sus propias acciones.
+
+  \item \textbf{(b) Comportamiento maximizador (maximizing behavior):} Todas las compras y ventas est\'an motivadas exclusivamente por la b\'usqueda de ganancia personal. Cada inversor compra y vende hasta obtener la combinaci\'on de activos que prefiere sobre cualquier otra disponible, maximizando su riqueza actual.
+
+  \item \textbf{(c) Precios como valor presente (present worth pricing):} Los precios de las acciones son iguales al valor presente de los retornos futuros anticipados. El retorno al accionista es la suma de los dividendos recibidos m\'as (menos) la diferencia entre el precio futuro de venta y el precio actual de compra.
+\end{itemize}
+
+Este conjunto de tres condiciones define los \textbf{mercados neocl\'asicos generalizados (generalized neo-classical markets)}.
+
+\subsection{Condiciones Adicionales para Mercados Completamente Idealizados}
+
+La mayor\'ia de los autores asume tambi\'en:
+
+\begin{itemize}
+  \item \textbf{(d) Sin incertidumbre (no uncertainty):} Todos los participantes poseen previsi\'on perfecta. La informaci\'on es gratuita, certera y completa. Corolario: hay uniformidad y acuerdo precisos en el conocimiento de todos los inversores actuales y potenciales.
+
+  \item \textbf{(e) Sin costos de transacci\'on (no transfer or transaction costs):} Incluye costos de nuevas emisiones.
+
+  \item \textbf{(f) Sin impuestos relevantes (no relevant taxes):} O al menos sin diferenciales fiscales que afecten preferencias o transacciones.
+\end{itemize}
+
+El conjunto completo de condiciones (a)--(f) define los \textbf{mercados neocl\'asicos plenamente idealizados (fully idealized neo-classical markets)}. Las condiciones (a)--(d) definen los \textbf{mercados neocl\'asicos generalizados con certeza (generalized neo-classical markets with certainty)}.
+
+\begin{intuicion}
+Estos supuestos crean un ``laboratorio te\'orico'' donde cualquier efecto del mix de financiamiento sobre el precio de las acciones est\'a estrictamente separado de cambios en los presupuestos de capital o de la forma del vector temporal de tasas de descuento. Al relajarlos progresivamente, Lintner puede identificar cu\'al supuesto espec\'ifico es responsable de cada resultado.
+\end{intuicion}
+
+El marco anal\'itico asume a lo largo de todo el art\'iculo que los \textbf{vectores temporales de ganancias (earnings vectors)} (antes de intereses) y de \textbf{presupuestos de capital (capital budget vectors)} est\'an dados e invariantes a la forma de financiamiento. Todos los cambios en el mix financiero ocurren instant\'anea y simult\'aneamente.
+
+%% ============================================================
+\section{Teor\'ias de Dividendos y ``Ganancias Puras'' bajo Certeza}
+%% ============================================================
+
+\subsection{El Criterio de Equilibrio Neocl\'asico}
+
+El teorema b\'asico sobre precios relativos en la teor\'ia neocl\'asica idealizada establece una \textbf{condici\'on cr\'itica de equilibrio (critical equilibrium condition)}: para todo per\'iodo de tiempo $t$, la suma del rendimiento propio en efectivo como raz\'on al precio de mercado propio al comienzo del per\'iodo, m\'as el cambio porcentual de ese precio dentro del per\'iodo, debe ser igual para todos los valores e igual a la tasa de inter\'es de mercado $k(t)$.
+
+Tomando los dividendos en efectivo como el rendimiento propio, esto requiere:
+
+\begin{equation}
+\frac{D_{it}}{P_{it}} + \frac{P_{i(t+1)} - P_{it}}{P_{it}} = k_t = \frac{D_{jt}}{P_{jt}} + \frac{P_{j(t+1)} - P_{jt}}{P_{jt}}
+\end{equation}
+
+para todos los pares posibles de empresas $i, j$ y para todo $t$, donde $D_t$ son los dividendos por acci\'on al inicio del per\'iodo $t$, $P_t$ el precio de una acci\'on al inicio del per\'iodo $t$, y $k_t$ la tasa de inter\'es de mercado en el per\'iodo $t$.
+
+\begin{explicacion}
+Esta condici\'on de equilibrio dice que, en un mercado eficiente, el retorno total de cualquier valor (dividendo m\'as ganancia o p\'erdida de capital, expresados como proporci\'on del precio inicial) debe ser igual para todos los valores y debe igualarse a la tasa de inter\'es de mercado. Si no fuera as\'i, los inversores comprar\'ian los valores con mayor retorno y vender\'ian los de menor retorno, hasta que los precios se ajusten y la condici\'on se cumpla. Es la base sobre la que se construyen todas las f\'ormulas de valoraci\'on del art\'iculo.
+\end{explicacion}
+
+\subsection{La Teor\'ia de Dividendos bajo Condiciones Neocl\'asicas Idealizadas}
+
+\begin{intuicion}
+La teor\'ia de dividendos afirma que el valor de una acci\'on es el valor presente de todos los dividendos futuros esperados. Esta es la f\'ormula m\'as natural de valoraci\'on: el precio de un activo es lo que su due\~no recibir\'a en el futuro, descontado al presente.
+\end{intuicion}
+
+\textbf{Proposici\'on (Teor\'ia de Dividendos):} El valor de cualquier acci\'on al comienzo de cualquier per\'iodo es igual, bajo condiciones neocl\'asicas, al \textbf{valor presente del flujo de dividendos (present value of dividend stream)} a partir del inicio de ese per\'iodo.
+
+\begin{explicacion}
+Lintner demuestra que la f\'ormula de valoraci\'on por dividendos satisface la condici\'on cr\'itica (1) de manera id\'entica y continua para todas las empresas y todos los per\'iodos. Esto implica un corolario fundamental: \textit{cualquier f\'ormula de valoraci\'on alternativa es v\'alida si y solo si es id\'enticamente equivalente a la f\'ormula de valoraci\'on por dividendos.} En particular, cualquier teor\'ia de ganancias es v\'alida \'unicamente si es id\'entica a la teor\'ia de dividendos.
+\end{explicacion}
+
+\subsection{Teor\'ias de Ganancias tambi\'en V\'alidas bajo Condiciones Idealizadas}
+
+La \textbf{identidad contable (accounting identity)} establece que en cualquier per\'iodo los fondos invertidos $F_t$ deben ser iguales a la suma de ganancias antes de intereses $Y'_t$, m\'as los ingresos netos de nuevas emisiones de acciones $S_t$ y de nuevos endeudamientos $B_t$, menos los dividendos pagados $D_t$ y los intereses $i_t B_t$ sobre la deuda vigente $B_t$:
+
+\begin{equation}
+F_t = Y'_t + S_t + \dot{B}_t - D_t - i_t B_t
+\end{equation}
+
+Definiendo $Y_t = Y'_t - i_t B_t$ como las ganancias despu\'es de intereses, y sustituyendo en la f\'ormula de dividendos, se obtiene el precio por acci\'on al tiempo $t$:
+
+\begin{equation}
+P_{it} = \sum_{m=0}^{\infty} \frac{Y_{t+m} - [F_{t+m} - (S_{t+m} + \dot{B}_{t+m})]}{\prod_{\tau=0}^{m}(1 + k_{t+\tau})}
+\end{equation}
+
+Esta expresi\'on especifica una gran cantidad de ``teor\'ias de ganancias e inversiones'' distintas e individualmente v\'alidas, porque tanto $Y_t$ como $F_t$ entran con signo opuesto.
+
+\begin{explicacion}
+Este resultado tiene consecuencias importantes sobre el debate de qu\'e ganancias capitaliza el mercado. Los modelos que capitalizan \textit{ganancias actuales} no son v\'alidos en general: el m\'ultiplo de capitalizaci\'on queda completamente determinado por factores impl\'icitos no especificados. Los modelos que capitalizan ``ganancias futuras promedio'' son v\'alidos solo si el promedio usa los factores de descuento correctos como ponderaciones; pero incluso as\'i, el mercado no capitaliza ``ganancias promedio'' sino ``ganancias promedio menos inversiones promedio no financiadas externamente'', que es algo conceptualmente muy diferente.
+\end{explicacion}
+
+\subsection{Implicaciones sobre qu\'e Ganancias Capitaliza el Mercado}
+
+De la ecuaci\'on (3) se derivan varias conclusiones sobre el debate entre autores:
+
+\begin{enumerate}
+  \item Los modelos que capitalizan \textbf{ganancias actuales (current earnings)} son v\'alidos solo en condiciones est\'aticas o bajo supuestos impl\'icitos no explorados.
+
+  \item Los modelos que capitalizan \textbf{ganancias futuras promedio (average future earnings)} --- como los de Solomon, Modigliani-Zeman y el primer Modigliani-Miller --- son v\'alidos bajo condiciones no estacionarias \textit{solo si} el promedio usa como ponderaciones los factores de descuento $\prod_{\tau=0}^{m}(1+k_{t+\tau})^{-1}$.
+
+  \item Incluso si se acepta ese promedio como ``ganancias promedio'', el mercado no capitaliza ganancias promedio sino ganancias promedio \textit{menos} inversiones promedio no financiadas externamente.
+
+  \item Una teor\'ia de ganancias es v\'alida bajo condiciones cl\'asicas de certeza \textit{solo cuando} es reducible a: \textbf{el valor de una acci\'on es igual al valor presente del flujo prospectivo de ganancias menos el valor presente del flujo de ganancias retenidas}.
+\end{enumerate}
+
+\begin{intuicion}
+Esta secci\'on resuelve la pol\'emica sobre qu\'e ``ganancias'' capitaliza el mercado: ninguna definici\'on simple y convencional de ganancias es universalmente correcta. El valor de las acciones siempre depende de \textit{diferencias} entre flujos (ganancias menos inversiones no financiadas externamente), no de ganancias en bruto. Y esa diferencia, en el fondo, es exactamente igual al valor presente de los dividendos futuros.
+\end{intuicion}
+
+\subsection{Independencia del Precio de Dividendos bajo Condiciones Neocl\'asicas Idealizadas (Sin Endeudamiento)}
+
+\textbf{Teorema 2e:} \textit{Si los flujos de ganancias e inversiones internas est\'an fijados e invariantes, los precios son independientes de los dividendos particulares bajo condiciones neocl\'asicas estrictamente idealizadas sin endeudamiento.}
+
+La prueba usa el hecho de que el \textbf{valor de la empresa al final del per\'iodo (end-of-period value)} $P^*_{t+1}$ es independiente de la manera en que se financia el presupuesto de capital del per\'iodo actual, ya que ese valor terminal depende solo de las ganancias, inversiones y dividendos de per\'iodos futuros. Al emitir nuevas acciones en lugar de retener utilidades (financiando el mismo presupuesto de capital), el valor agregado de mercado del patrimonio existente permanece inalterado.
+
+\begin{explicacion}
+Este teorema --- que es la versi\'on de Lintner de lo que m\'as tarde se conocer\'ia como la irrelevancia del dividendo --- no significa que los precios sean independientes del valor presente de los dividendos. Simplemente establece que, bajo condiciones completamente idealizadas y con vectores de ganancias e inversiones fijos, todos los inversores son indiferentes a \textit{todas} las sustituciones entre elementos del conjunto eficiente de vectores de dividendos alcanzables, porque todos tienen el mismo valor. Las ganancias y las inversiones son suficientes para determinar los precios \textit{porque bajo estas condiciones} son suficientes para determinar el vector de dividendos salvo un conjunto de indiferencia, cuyos elementos tienen todos el mismo valor.
+\end{explicacion}
+
+\subsection{Observaciones Generales sobre el Teorema de Irrelevancia}
+
+Lintner apunta tres observaciones cruciales:
+
+\begin{enumerate}
+  \item El teorema \textit{no} significa que los precios de mercado no sean iguales al valor presente de los dividendos en efectivo: el propio teorema se deriva del modelo en que s\'i lo son.
+
+  \item Los resultados no significan que la influencia de ganancias e inversiones sobre el precio sea directa en lugar de pasar por su efecto sobre los dividendos.
+
+  \item Cualquier inferencia de que, bajo condiciones m\'as generales, los precios son determinados por ganancias e inversiones con independencia de la trayectoria temporal de los pagos de dividendos ser\'ia prematura a menos que tal generalidad sea establecida rigurosamente.
+\end{enumerate}
+
+\subsection{El Rol de Costos de Emisi\'on e Impuestos bajo Condiciones M\'as Generales}
+
+\textbf{Teorema 3a (Costos de Emisi\'on):} \textit{Bajo condiciones neocl\'asicas idealizadas, excepto que las nuevas emisiones implican costos fijos o variables en efectivo, los precios de mercado no son independientes de los dividendos en efectivo en ning\'un per\'iodo cuando no hay endeudamiento, incluso si los flujos de ganancias e inversiones est\'an fijados para siempre.}
+
+Si $C_t$ son los costos fijos y $c_t$ los costos variables de una nueva emisi\'on, entonces la presencia de estos costos hace que el precio actual $P^*_t$ dependa del monto de nuevas acciones emitidas (y por tanto de los dividendos pagados).
+
+\begin{explicacion}
+En presencia de costos de emisi\'on, los inversores siempre preferir\'an que los presupuestos de capital se financien con ganancias retenidas antes que con nuevas emisiones de acciones, siempre que las ganancias retenidas est\'en disponibles. Las empresas que buscan servir los intereses de los accionistas nunca emitir\'an acciones comunes a menos que las ganancias retenidas se hayan agotado y queden oportunidades de inversi\'on con retornos lo suficientemente altos como para justificar la emisi\'on despu\'es de considerar los costos. Esto produce una \textbf{discontinuidad (discontinuity)} en la funci\'on de oferta de capital justo en el punto donde se agotan los fondos internos.
+\end{explicacion}
+
+\textbf{Teorema 3b (Diferenciales Fiscales Personales):} \textit{Los diferenciales en la estructura del impuesto personal a la renta tambi\'en hacen que los precios de mercado sean funci\'on del mix financiero, bajo condiciones de otro modo neocl\'asicas idealizadas.}
+
+Si $h_p$ es la tasa del impuesto sobre dividendos y $h_g$ la tasa sobre ganancias de capital (con $h_p > h_g$), cualquier sustituci\'on de ganancias retenidas por nuevas emisiones en el financiamiento de un presupuesto de inversi\'on fijo \textit{reducir\'a} el precio de la acci\'on, incluso si no hay costos de emisi\'on. Bajo estas condiciones, los administradores que maximizan el bienestar de los accionistas financiar\'an exclusivamente con fondos retenidos hasta que se agote esta fuente interna.
+
+\begin{intuicion}
+Si el gobierno grava los dividendos m\'as que las ganancias de capital, a los inversores les conviene que la empresa retenga utilidades en lugar de pagar dividendos y emitir nuevas acciones. Por eso, tanto los costos de emisi\'on como los diferenciales fiscales producen el mismo resultado: hacen que los dividendos s\'i importen, y que la empresa prefiera financiarse internamente (con ganancias retenidas) antes de recurrir al mercado de capitales externo.
+\end{intuicion}
+
+%% ============================================================
+\section{Teor\'ias de Dividendos y ``Ganancias Puras'' bajo Incertidumbre}
+%% ============================================================
+
+\subsection{Clases de Incertidumbre}
+
+Lintner distingue cuatro tipos de condiciones de incertidumbre, de menor a mayor generalidad:
+
+\begin{enumerate}
+  \item \textbf{Riesgo (risk):} Se asume que las distribuciones de probabilidad de los eventos son conocidas objetivamente, aunque los resultados particulares no son predecibles.
+
+  \item \textbf{Incertidumbre con informaci\'on uniforme y juicio subjetivo (uncertainty with uniform information and subjective judgment)}, o \textbf{incertidumbre completamente idealizada (fully idealized uncertainty):} Los participantes tienen distribuciones de probabilidad subjetivas (no objetivas) sobre los eventos, pero (a) la informaci\'on relevante est\'a distribuida uniformemente entre todos los tomadores de decisiones, y (b) todas las distribuciones subjetivas son id\'enticas.
+
+  \item \textbf{Incertidumbre con informaci\'on uniforme y distribuciones diversas (uncertainty with uniform information and diverse judgmental distributions):} La informaci\'on es uniforme, pero las distribuciones subjetivas formadas sobre esa base difieren entre inversores (lo que ocurrir\'a casi siempre en la pr\'actica).
+
+  \item \textbf{Incertidumbre generalizada (generalized uncertainty):} Tanto la calidad como la cantidad de informaci\'on disponible para los tomadores de decisiones var\'ia entre ellos.
+\end{enumerate}
+
+\begin{intuicion}
+Esta clasificaci\'on es importante porque los resultados de la teor\'ia de dividendos dependen crucialmente del tipo de incertidumbre. Lintner demuestra que la irrelevancia del dividendo se sostiene solo bajo el caso m\'as restrictivo (incertidumbre completamente idealizada), y se rompe en cuanto se permite cualquier forma de heterogeneidad en la informaci\'on o en las distribuciones de probabilidad subjetivas.
+\end{intuicion}
+
+\subsection{An\'alisis bajo Incertidumbre Completamente Idealizada}
+
+Bajo incertidumbre completamente idealizada y sin costos ni impuestos, Lintner demuestra que la conclusi\'on del teorema 2e se mantiene: con vectores fijados de inversiones y expectativas de ganancias, los inversores son indiferentes a las sustituciones entre ganancias retenidas y nuevas emisiones de patrimonio en cualquier per\'iodo, y el precio de la acci\'on es independiente del monto de dividendos pagado.
+
+La prueba requiere que se satisfagan dos condiciones necesarias y suficientes para que el precio actual sea invariante al dividendo:
+
+\begin{enumerate}
+  \item La esperanza del retorno total no cambia con el dividendo: $\Delta E[\tilde{D}_t + N_t \tilde{P}_{t+1}] / \Delta D^*_t = 0$
+  \item La tasa de descuento no cambia con el dividendo: $\Delta \tilde{k}_t / \Delta D^*_t = 0$
+\end{enumerate}
+
+El argumento engañoso --- que aumentar dividendos a expensas de las ganancias de capital (mediante nuevas emisiones) reduce la varianza del retorno y por tanto aumenta el precio --- es incorrecto: bajo incertidumbre completamente idealizada, no solo la varianza sino todos los momentos de $\tilde{P}^*_{t+1}/(1+n_t)$ son invariantes para cualquier $S^*_t$ dado.
+
+\begin{explicacion}
+Este resultado es notable porque refuta un argumento intuitivo aparentemente s\'olido (``los dividendos son m\'as seguros que las ganancias de capital''). Bajo incertidumbre completamente idealizada, el argumento es err\'oneo porque la distribuci\'on del valor al final del per\'iodo ajustado por las nuevas acciones emitidas no cambia: aumentar dividendos y emitir acciones para financiarlos es equivalente a un dividendo en acciones que no cambia la riqueza de ning\'un accionista. El propio Lintner admite que fue enga\~nado por este argumento por un tiempo.
+\end{explicacion}
+
+\subsection{El Efecto de las Distribuciones de Juicio Diversas}
+
+Cuando se relaja el supuesto de distribuciones subjetivas id\'enticas, la irrelevancia del dividendo se quiebra. Lintner modela la demanda agregada de acciones mediante una \textbf{funci\'on de valor agregado de Wicksteed (Wicksteedian aggregate value function)}: una curva de demanda con pendiente negativa que relaciona el valor de mercado agregado de la empresa con la proporci\'on del capital que cada inversor est\'a dispuesto a mantener.
+
+Bajo distribuciones de juicio diversas, cualquier $\Delta D^*_t > 0$ significa que los accionistas actuales (cuya valoraci\'on del valor futuro de la acci\'on es relativamente alta) retiran fondos de la empresa, y esta salida es financiada emitiendo acciones a aquellos que no sosten\'ian el valor (cuya valoraci\'on es relativamente baja). Lintner demuestra:
+
+\begin{equation}
+\Delta E_m[\tilde{D}^*_t + N_{jt}\tilde{P}_{j(t+1)}] = -b \cdot S^*_t = -b \cdot \Delta D^*_t < 0 \quad \text{para todo } \Delta D^*_t = S^*_t > 0
+\end{equation}
+
+donde $b > 0$ es el par\'ametro de la pendiente negativa de la funci\'on de Wicksteed.
+
+\begin{explicacion}
+Este resultado es fundamental. Aun en un mundo sin costos de emisi\'on ni impuestos, el simple hecho de que los inversores tengan \textit{expectativas diversas} hace que los dividendos importen. Cuando una empresa paga m\'as dividendos y emite acciones para financiarlos, est\'a transfiriendo la propiedad de parte de su capital a inversores cuya valoraci\'on es m\'as baja, reduciendo el valor esperado agregado del patrimonio. Por eso los accionistas actuales prefieren que no se haga esa sustituci\'on. La diversidad de opiniones es suficiente para destruir la indiferencia de los inversores respecto al mix de ganancias retenidas y nuevas emisiones.
+\end{explicacion}
+
+\subsection{Conclusiones Generales sobre Incertidumbre}
+
+Bajo condiciones de otro modo neocl\'asicas idealizadas, la incertidumbre por s\'i sola invalida la conclusi\'on de que el precio actual es invariante al mix de financiamiento de patrimonio, \textit{a menos que} la incertidumbre est\'e completamente idealizada en el sentido de que:
+\begin{enumerate}
+  \item todos los accionistas actuales y potenciales tengan distribuciones subjetivas id\'enticas sobre
+  \item todos los aspectos relevantes del futuro, tanto respecto a
+  \item la acci\'on en cuesti\'on como respecto a
+  \item todas las dem\'as inversiones disponibles en el mercado.
+\end{enumerate}
+
+La relajaci\'on de \textit{cualquiera} de estas cuatro condiciones hace que el precio de mercado sea una funci\'on directa del vector temporal de dividendos elegido por la gerencia.
+
+Adem\'as, en un mundo de incertidumbre generalizada, los inversores siempre preferir\'an que las nuevas emisiones de acciones \textit{no} sustituyan a las ganancias retenidas para financiar presupuestos de capital dados, porque dicha sustituci\'on reducir\'a el precio actual de la acci\'on incluso si aumenta los dividendos en efectivo d\'olar por d\'olar.
+
+\subsection{Efectos de la Incertidumbre General con Costos e Impuestos}
+
+La incertidumbre no uniforme es tambi\'en la principal raz\'on de los elevados costos de emisi\'on en el mundo real (estimados entre 3\% y 37\% de los ingresos netos de nuevas emisiones sin derechos preferentes de suscripci\'on). Estos costos son en gran medida atribuibles a la incertidumbre generalizada y a la falta de informaci\'on uniforme.
+
+\begin{intuicion}
+En el mundo real, la informaci\'on es un bien econ\'omico escaso con costos de producci\'on, adquisici\'on y difusi\'on. Los modelos que asumen certeza neocl\'asica pueden ser internamente consistentes sin costos de emisi\'on; pero si se admite incertidumbre sin supuestos expl\'icitos e irrealistas de informaci\'on uniforme, los costos de emisi\'on son inevitables. Los efectos de los costos de emisi\'on y los ``costos de incertidumbre'' de las sustituciones entre patrimonio externo y ganancias retenidas son esencialmente los mismos y aditivos.
+\end{intuicion}
+
+%% ============================================================
+\section{Preferencias de Inversores sobre Dividendos, Ganancias Retenidas y Deuda}
+%% ============================================================
+
+\subsection{Condiciones Neocl\'asicas Idealizadas: Independencia del Mix Ganancias Retenidas--Deuda}
+
+\textbf{Teorema IV.1:} \textit{Con los flujos de ganancias e inversiones fijados bajo condiciones neocl\'asicas plenamente idealizadas de certeza, los precios de mercado son independientes del mix entre ganancias retenidas y endeudamiento.}
+
+Bajo estas condiciones, los inversores invertir\'an en bonos o acciones con indiferencia si los retornos son los mismos, y mover\'an fondos de unos a otros mientras exista alguna diferencia en los retornos ofrecidos. Esto implica la relaci\'on cr\'itica: $i_{t+m} \equiv k_{t+\tau}$ para todo $\tau = m$, es decir, las tasas de inter\'es sobre la deuda son iguales a las tasas de descuento de mercado.
+
+Como consecuencia, el cambio inducido en el precio terminal de la acci\'on es igual y de signo opuesto al endeudamiento actual:
+\begin{equation}
+\Delta P_{i(t+1)} = -\Delta \dot{B}_t
+\end{equation}
+
+lo que implica que $\Delta P_{it} = 0$ cuando el dividendo cambia por el mismo monto que la nueva deuda. Adem\'as, esta igualdad en d\'olares valida inmediatamente la proposici\'on b\'asica de la \textbf{teor\'ia del valor de entidad}: la suma del valor de mercado del patrimonio y la deuda es invariante al monto de financiamiento con deuda.
+
+\begin{explicacion}
+Este resultado se obtiene sin recurrir al argumento de Modigliani-Miller de que los accionistas ``deshacen el apalancamiento'' vendiendo acciones apalancadas para comprar bonos de la misma empresa. Lintner lo demuestra directamente desde un modelo en que el valor de la acci\'on se determina por el valor presente de sus propios flujos de caja. Sin embargo, la validez de este teorema depende cr\'iticamente de los supuestos de certeza perfecta y ausencia de costos, como se muestra a continuaci\'on.
+\end{explicacion}
+
+\subsection{Costos de Endeudamiento (Distintos del Inter\'es)}
+
+\textbf{Teorema IV.2:} \textit{Con costos (distintos del inter\'es) de endeudamiento bajo condiciones de otro modo neocl\'asicas idealizadas, los precios de mercado no son independientes de los dividendos en efectivo en ning\'un per\'iodo, cuando no hay emisi\'on de acciones, incluso si los flujos de ganancias e inversiones est\'an predeterminados.}
+
+La existencia de costos de adquisici\'on o de suscripci\'on en el endeudamiento hace que el monto de dividendo adicional $\Delta D_t$ posibilitado por cualquier monto de endeudamiento sea \textit{menor} que la reducci\'on en el precio terminal $\Delta P_{i(t+1)}$ por el monto del costo fijo y variable del acto de endeudarse. Estos costos tambi\'en invalidan la teor\'ia del valor de entidad.
+
+\begin{intuicion}
+Si endeudarse tiene costos (honorarios bancarios, costos de elaboraci\'on de contratos, etc.), entonces sustituir ganancias retenidas por deuda para pagar dividendos es costoso para los accionistas. Estos costos producen una discontinuidad en la funci\'on de oferta de capital, al igual que los costos de emisi\'on de acciones.
+\end{intuicion}
+
+\subsection{Diferenciales en el Impuesto Personal a la Renta}
+
+\textbf{Teorema IV.3:} \textit{Los diferenciales en la estructura del impuesto personal a la renta hacen que los precios de mercado sean funci\'on de los dividendos y del mix entre ganancias retenidas y deuda, bajo condiciones de otro modo neocl\'asicas.}
+
+Con tasas de impuesto $h_p$ sobre dividendos y $h_g$ sobre ganancias de capital ($h_p > h_g$), cualquier diferencial fiscal personal asegura que:
+\begin{equation}
+\Delta P_{it}\bigg|_{\Delta D_t = \Delta \dot{B}_t > 0} = -(h_p - h_g)\Delta D_t = -(h_p - h_g)\Delta \dot{B}_t < 0
+\end{equation}
+
+Esto significa que cualquier diferencial impositivo personal garantiza que los precios actuales de mercado son afectados por variaciones en los dividendos financiados con deuda, y que los inversores tendr\'an preferencias definidas respecto a las sustituciones entre ganancias retenidas y deuda.
+
+\subsection{Diferenciales en el Impuesto Corporativo a la Renta}
+
+\textbf{Teorema IV.4:} \textit{Los diferenciales en el impuesto corporativo a la renta tambi\'en hacen que los precios de mercado sean funci\'on \'unica de los dividendos, y destruyen cualquier indiferencia del inversor al mix entre ganancias retenidas y deuda.}
+
+El impuesto corporativo sobre ganancias netas (despu\'es de deducir intereses) a una tasa $h_c$ hace que el endeudamiento para financiar dividendos adicionales \textit{aumente} el precio de la acci\'on:
+\begin{equation}
+\Delta P_{it}\bigg|_{\Delta D_t = \Delta \dot{B}_t > 0} = h_c \cdot \Delta D_t > 0
+\end{equation}
+
+Esto ocurre porque el inter\'es es deducible del impuesto corporativo, lo que efectivamente subsidia el endeudamiento. El impuesto corporativo hace que el precio sea una funci\'on directa y \textit{creciente} del dividendo, y tambi\'en aumenta tanto la deuda como el valor de mercado del patrimonio, de modo que el \textbf{valor de entidad (entity value)} --- lejos de ser indiferente al mix financiero --- se incrementa doblemente.
+
+\begin{explicacion}
+Este resultado es el germen de lo que hoy se conoce como el ``beneficio fiscal de la deuda'' en la teor\'ia de la estructura de capital. Si el impuesto corporativo hace que el precio de la acci\'on aumente con cada unidad adicional de dividendo financiada con deuda, y si el endeudamiento es ilimitado, existir\'ia la posibilidad te\'orica de precios de acciones arbitrariamente altos. Los l\'imites pr\'acticos los ponen los costos de emisi\'on de deuda, los impuestos personales y --- fundamentalmente --- la incertidumbre y el riesgo de quiebra, que Lintner analiza a continuaci\'on.
+\end{explicacion}
+
+\subsection{Incertidumbre e Impacto en la Teor\'ia del Valor de Entidad}
+
+Bajo condiciones de otro modo plenamente idealizadas pero con distribuciones de probabilidad subjetivas id\'enticas entre todos los inversores, el teorema IV.1 tampoco se sostiene con incertidumbre. La raz\'on es doble:
+
+\begin{enumerate}
+  \item \textbf{Asimetr\'ia del riesgo (risk asymmetry):} El argumento de Modigliani-Miller de que los inversores pueden ``recrear'' el apalancamiento corporativo mediante endeudamiento personal falla porque la posici\'on de riesgo del inversor que lleva su propia deuda es \textit{inherentemente menos favorable} que si la empresa se endeuda, dado que la varianza de las fluctuaciones del precio lo expone al riesgo de perder tanto su inversi\'on original como el monto tomado prestado en garant\'ia de las acciones. La \textbf{responsabilidad limitada (limited liability)} es un atributo de lo que se negocia en el mercado, no una imperfeccion del mercado.
+
+  \item \textbf{No linealidad del conjunto de oportunidades (non-linearity of opportunity set):} El argumento de Modigliani-Miller de que los inversores racionales comprar\'ian los bonos para impedir que el valor de entidad se reduzca depende de la linealidad del conjunto de oportunidades de mercado del inversor, que a su vez depende del supuesto de que los bonos son activos libres de riesgo. Cuando los bonos corporativos se reconocen como activos con riesgo --- como debe ser para cualquier generalidad --- el conjunto de oportunidades relevante es \textit{hiperb\'olico o parab\'olico}, no lineal. Con conjuntos de oportunidades no lineales, las diferencias en las funciones de utilidad de los inversores se vuelven relevantes, las carteras \'optimas difieren entre inversores, y no todas las carteras eficientes son igualmente deseables para todos los inversores en el margen.
+\end{enumerate}
+
+\begin{intuicion}
+La idea intuitiva de Modigliani-Miller de que un inversor puede ``deshacer'' el apalancamiento corporativo endeud\'andose personalmente en el mismo monto no funciona en general porque: (a) la quiebra personal tiene consecuencias m\'as graves que las de la empresa, dada la responsabilidad limitada; y (b) los bonos corporativos no son libres de riesgo, lo que hace que el conjunto de opciones de inversi\'on sea curvo y no lineal, y por tanto las preferencias individuales s\'i importan.
+\end{intuicion}
+
+Adem\'as, la probabilidad de \textbf{quiebra (bankruptcy)} y de incumplimiento aumenta de forma no lineal con el nivel de endeudamiento. El riesgo del flujo de ganancias antes de intereses \textit{no} es independiente del nivel de deuda: nuevos contratos de venta pueden no obtenerse (y los existentes pueden cancelarse) si la posici\'on financiera se debilita, y los instrumentos reales de deuda contienen ``cl\'ausulas de aceleraci\'on'' que hacen exigible la totalidad del saldo ante cualquier incumplimiento de las condiciones.
+
+\subsection{Incertidumbre M\'as General}
+
+Cuando se relaja el supuesto de distribuciones de probabilidad id\'enticas, las conclusiones se refuerzan a\'un m\'as:
+
+\begin{enumerate}
+  \item Las tasas de inter\'es a los deudores corporativos (con apalancamiento moderado) ser\'an probablemente menores que las de los deudores individuales, dada la econom\'ia de escala en la investigaci\'on y el procesamiento de grandes pr\'estamos.
+
+  \item Las diferencias en informaci\'on y funciones de preferencia refuerzan la probabilidad de que, en el rango inferior de apalancamiento, la suma de las valoraciones de inversores del patrimonio y la deuda sea una funci\'on \textit{creciente} del apalancamiento corporativo (``primas'' en el valor de entidad).
+
+  \item Sin embargo, a medida que se sustituyen m\'as ganancias retenidas por deuda en circunstancias donde las distribuciones subjetivas de los inversores potenciales var\'ian, los valores adicionales deben colocarse con nuevos compradores cuya valoraci\'on es progresivamente menor, lo que produce \textit{descuentos} crecientes en el valor de entidad.
+\end{enumerate}
+
+Dado que los inversores tendr\'an preferencias bien definidas sobre el mix dividendos--ganancias retenidas--deuda tanto en el rango de ``primas'' como en el de ``descuentos'', y dado que lo m\'as razonable es que un rango se desdibuje gradualmente en el otro, se concluye que \textit{los inversores tienen preferencias bien definidas sobre todo el rango bajo incertidumbre generalizada}.
+
+El impuesto corporativo aumenta el monto de endeudamiento corporativo que de otro modo ser\'ia \'optimo, mientras que los diferenciales en el impuesto personal reducen el monto \'optimo de deuda corporativa para el financiamiento de presupuestos de capital de tama\~no dado.
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+El art\'iculo de Lintner (1962) establece rigurosamente las condiciones necesarias y suficientes para la validez de las dos proposiciones centrales debatidas en la literatura de finanzas corporativas de su \'epoca. Los resultados principales son:
+
+\subsection*{1. Valoraci\'on del Patrimonio No Apalancado}
+
+Los valores del patrimonio no apalancado son independientes del vector particular de dividendos \textit{si, y solo si} se satisfacen simult\'aneamente las tres condiciones siguientes:
+\begin{itemize}
+  \item[(1)] cualquier incertidumbre est\'a completamente idealizada o est\'a ausente,
+  \item[(2)] no hay costos de emisi\'on, y
+  \item[(3)] no hay diferenciales fiscales personales.
+\end{itemize}
+
+Bajo estas restricciones, el resultado se sostiene \'unicamente porque las condiciones, junto con los vectores invariantes de presupuestos de capital y ganancias, reducen todos los vectores de dividendos eficientes a un conjunto cuyos elementos tienen el mismo valor presente. Cualquier supuesto m\'as general y realista resulta en un vector de dividendos \'optimo bien definido.
+
+La \textbf{teor\'ia de dividendos (dividend theory)} --- que los precios son iguales al valor presente de los flujos de caja al inversor, es decir, los dividendos en efectivo --- permanece v\'alida incluso bajo condiciones plenamente generalizadas y debe ser la base para el trabajo te\'orico adicional. La llamada teor\'ia de ganancias es v\'alida \textit{si y solo si} se formula en formas id\'enticamente reducibles a la valoraci\'on del flujo de dividendos en efectivo al inversor.
+
+\subsection*{2. Valoraci\'on del Patrimonio Apalancado y Preferencias sobre el Mix Financiero}
+
+Bajo condiciones plenamente idealizadas de certeza, las combinaciones eficientes alternativas de dividendos en efectivo, ganancias retenidas y nueva deuda se reducen igualmente a un conjunto de indiferencia \'unico. Sin embargo, una vez que se permite:
+\begin{itemize}
+  \item incertidumbre (incluso completamente idealizada) con endeudamiento,
+  \item costos de emisi\'on de deuda,
+  \item impuestos personales, o
+  \item impuestos corporativos,
+\end{itemize}
+los inversores tienen una ordenaci\'on de preferencias bien definida sobre los vectores en el conjunto eficiente de vectores de dividendos. El \'optimo sigue definido por el m\'aximo valor presente de los flujos de caja al inversor.
+
+\subsection*{3. Teor\'ia del Valor de Entidad}
+
+La suma de los valores de mercado del patrimonio y la deuda corporativa \textit{no} ser\'a invariante a los cambios en el mix financiero (como afirma la teor\'ia del valor de entidad) excepto bajo condiciones plenamente idealizadas de certeza. Con incertidumbre admitida, el \textbf{rendimiento sobre ganancias (earnings yield)} es una funci\'on continuamente creciente (y no lineal) del apalancamiento corporativo, al menos m\'as all\'a de alg\'un rango inicial, y no una funci\'on decreciente del apalancamiento m\'as all\'a de alg\'un punto como infiere la teor\'ia del valor de entidad.
+
+\subsection*{4. Funci\'on de Oferta de Capital}
+
+Excepto bajo condiciones plenamente idealizadas de certeza, existe un desplazamiento vertical --- o al menos una peque\~na regi\'on de muy pronunciado ascenso --- en la \textbf{funci\'on de oferta de capital (supply-of-capital function)} a la corporaci\'on. Esta discontinuidad ocurre en el punto donde se agotan los fondos internos y se recurre al capital externo (ya sea nueva emisi\'on de acciones o deuda a largo plazo).
+
+\subsection*{5. Independencia de la Estructura Temporal de Tasas de Descuento}
+
+Todas las conclusiones anteriores se derivan de un an\'alisis en que todas las sustituciones en el mix financiero son instant\'aneas e id\'enticas en el tiempo; son por tanto independientes de la forma del vector temporal de las tasas de descuento $k_t$ y, en particular, de si las tasas de descuento usadas en las valoraciones de flujos de ingresos prospectivos son o no una funci\'on creciente de la lejan\'ia temporal para reflejar diferencias en la incertidumbre sobre el futuro.
+
+\subsection*{Implicaci\'on Metodol\'ogica Central}
+
+El art\'iculo demuestra que los desacuerdos en la literatura no son meras diferencias de opini\'on: reflejan la adopci\'on impl\'icita de distintos conjuntos de supuestos sobre las condiciones de mercado. Los modelos que ignoran costos de emisi\'on, impuestos y diferencias en las expectativas, y que sustituyen funciones no lineales por lineales, pueden ser internamente consistentes pero no capturan la realidad pr\'actica. Queda abierta la pregunta emp\'irica de si las diferencias importantes en los modelos m\'as generales realmente ``hacen una diferencia que importa en la pr\'actica'', cuesti\'on que el autor reserva para investigaci\'on futura.
+
+\end{document}

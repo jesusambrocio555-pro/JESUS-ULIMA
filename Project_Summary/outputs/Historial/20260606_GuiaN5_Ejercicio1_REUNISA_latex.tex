@@ -1,0 +1,227 @@
+\documentclass[12pt,a4paper]{article}
+
+% ── Paquetes ──────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[most]{tcolorbox}
+
+% ── Entornos de cajas ─────────────────────────────────────────────────────────
+\tcbuselibrary{breakable}
+
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  fonttitle=\bfseries,
+  title={Intuición},
+  breakable
+}
+
+\newtcolorbox{interpretacion}{
+  colback=green!5!white,
+  colframe=green!50!black,
+  fonttitle=\bfseries,
+  title={Interpretación},
+  breakable
+}
+
+% ── Metadatos ─────────────────────────────────────────────────────────────────
+\title{\textbf{Guía de Práctica N$^\circ$5 — Política de Dividendos}\\[6pt]
+       \large Ejercicio 1: Empresa REUNISA}
+\author{Economía Financiera 1 \\ Universidad de Lima}
+\date{Junio 2026}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+\maketitle
+
+\textbf{Datos del ejercicio:} En 2024, la empresa REUNISA distribuyó un
+\textbf{dividendo trimestral (quarterly dividend)} de \$0.15 por acción.
+
+% ──────────────────────────────────────────────────────────────────────────────
+\subsection*{a) Emparejamiento de fechas}
+
+\begin{intuicion}
+Se pide identificar a qué etapa del proceso de distribución de dividendos
+corresponde cada fecha. En finanzas, el pago de dividendos sigue una
+secuencia cronológica fija: primero se anuncia, luego se define quién
+tiene derecho, y finalmente se paga.
+\end{intuicion}
+
+La secuencia estándar es:
+\[
+\text{Anuncio} \;\longrightarrow\;
+\text{Última fecha con dividendo} \;\longrightarrow\;
+\text{Ex-Dividendo} \;\longrightarrow\;
+\text{Registro/Cierre} \;\longrightarrow\;
+\text{Pago}
+\]
+
+\begin{center}
+\begin{tabular}{cll}
+\toprule
+\textbf{Fecha} & \textbf{Denominación} & \textbf{Rol en el proceso} \\
+\midrule
+31/10/24 & \textbf{Fecha del anuncio} (Declaration Date)
+         & La junta declara el dividendo \\
+24/11/24 & \textbf{Última fecha con dividendo} (Cum-Dividend Date)
+         & Último día para comprar y cobrar \\
+25/11/24 & \textbf{Fecha Ex-Dividendo} (Ex-Dividend Date)
+         & Desde aquí el comprador no cobra \\
+28/11/24 & \textbf{Fecha de cierre} (Record Date)
+         & La empresa registra a los accionistas \\
+12/12/24 & \textbf{Fecha de pago} (Payment Date)
+         & Se acredita el dividendo \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{interpretacion}
+El emparejamiento correcto difiere de la disposición original del enunciado.
+La clave lógica es que el anuncio (31/10) ocurre semanas antes del pago
+(12/12), y la fecha ex-dividendo (25/11) sigue inmediatamente a la última
+fecha con dividendo (24/11), de acuerdo con la liquidación T+2 vigente en la
+mayoría de mercados.
+\end{interpretacion}
+
+% ──────────────────────────────────────────────────────────────────────────────
+\subsection*{b) Fecha en que baja el precio}
+
+\begin{intuicion}
+Se pide identificar en qué fecha el mercado ajusta el precio de la acción
+para reflejar que el derecho al dividendo ya no está incluido. Esto ocurre
+el día en que la acción deja de ``llevar'' el dividendo consigo.
+\end{intuicion}
+
+El precio cae en la \textbf{fecha ex-dividendo (Ex-Dividend Date)},
+correspondiente al \textbf{25/11/24}. A partir de ese día, quien compra
+la acción ya no tiene derecho al dividendo declarado, por lo que el mercado
+descuenta su valor:
+\[
+P_{\text{ex}} \;\approx\; P_{\text{cum}} - D
+\]
+
+\begin{interpretacion}
+La caída esperada es de aproximadamente \$0.15 (el dividendo trimestral).
+Este ajuste no representa una pérdida para el accionista que ya tenía la
+acción: pierde precio pero gana el dividendo en efectivo. La riqueza total
+no cambia en un mercado perfecto (Modigliani--Miller).
+\end{interpretacion}
+
+% ──────────────────────────────────────────────────────────────────────────────
+\subsection*{c) Rentabilidad previsible por dividendo}
+
+\begin{intuicion}
+Se pide calcular el \textbf{rendimiento por dividendo (Dividend Yield)},
+que mide cuánto representa el flujo anual de dividendos en relación al
+precio de la acción. Es una métrica de retorno para el inversor que busca
+ingresos periódicos.
+\end{intuicion}
+
+\textbf{Paso 1:} Calcular el dividendo anual.
+
+Con 4 pagos trimestrales al año:
+\[
+D_{\text{anual}} = D_{\text{trimestral}} \times 4 = \$0.15 \times 4 = \$0.60
+\]
+
+\textbf{Paso 2:} Aplicar la fórmula del rendimiento por dividendo.
+\[
+\text{Dividend Yield} = \frac{D_{\text{anual}}}{P_0}
+= \frac{\$0.60}{\$28.00}
+= 0.02143
+\]
+
+\[
+\textbf{Dividend Yield} \approx \textbf{2.14\%}
+\]
+
+\begin{interpretacion}
+Por cada dólar invertido en REUNISA al precio de \$28, el inversor recibe
+aproximadamente \$0.0214 anuales en dividendos. Este rendimiento modesto
+sugiere que el mercado valora las expectativas de crecimiento de capital
+más que el flujo de dividendos corriente.
+\end{interpretacion}
+
+% ──────────────────────────────────────────────────────────────────────────────
+\subsection*{d) Ratio de distribución de dividendos}
+
+\begin{intuicion}
+El \textbf{ratio de distribución (Payout Ratio)} indica qué fracción de las
+ganancias generadas por la empresa se devuelve a los accionistas como
+dividendo. Un ratio alto implica generosidad con el accionista; uno bajo,
+preferencia por reinvertir.
+\end{intuicion}
+
+\textbf{Datos:}
+\begin{itemize}
+    \item Dividendo anual por acción: $D_{\text{anual}} = \$0.60$
+    \item \textbf{Utilidad por acción} (Earnings Per Share --- EPS)$= \$1.25$
+\end{itemize}
+
+\textbf{Fórmula:}
+\[
+\text{Payout Ratio} = \frac{D_{\text{anual}}}{\text{EPS}}
+= \frac{\$0.60}{\$1.25}
+= 0.48
+\]
+
+\[
+\textbf{Payout Ratio} = \textbf{48\%}
+\]
+
+\begin{interpretacion}
+REUNISA distribuye el 48\% de sus ganancias como dividendo, reteniendo el
+52\% restante. Esta política moderada señala que la empresa equilibra la
+retribución al accionista con la necesidad de autofinanciar su crecimiento.
+Un Payout Ratio cercano al 50\% es típico de empresas maduras con flujos
+de caja estables.
+\end{interpretacion}
+
+% ──────────────────────────────────────────────────────────────────────────────
+\subsection*{e) Caída esperada por dividendo en acciones}
+
+\begin{intuicion}
+El \textbf{dividendo en acciones (Stock Dividend)} no es un pago en efectivo:
+la empresa emite nuevas acciones y las distribuye proporcionalmente. Al haber
+más acciones en circulación pero el mismo valor total de la empresa, el precio
+por acción debe caer para que la riqueza total del accionista no cambie.
+\end{intuicion}
+
+\textbf{Datos:}
+\begin{itemize}
+    \item Precio actual: $P_0 = \$28$
+    \item Tasa de \textbf{dividendo en acciones (Stock Dividend)}: $s = 10\% = 0.10$
+\end{itemize}
+
+\textbf{Paso 1:} Calcular el nuevo precio ajustado.
+
+Tras el stock dividend, hay un 10\% más de acciones. El valor total de la
+empresa no cambia, por lo que:
+\[
+P_{\text{nuevo}} = \frac{P_0}{1 + s} = \frac{\$28}{1.10} \approx \$25.45
+\]
+
+\textbf{Paso 2:} Calcular la caída esperada.
+\[
+\Delta P = P_0 - P_{\text{nuevo}} = \$28.00 - \$25.45 = \$2.55
+\]
+
+\[
+\textbf{Caída esperada en el precio} \approx \textbf{\$2.55 por acción}
+\]
+
+\begin{interpretacion}
+El precio cae de \$28 a \$25.45, una reducción del $9.09\%$. Sin embargo,
+el accionista no pierde riqueza: si tenía 10 acciones a \$28 (\$280 en
+total), ahora tiene 11 acciones a \$25.45 (\$280 en total). El stock
+dividend es esencialmente un \textit{split} parcial: aumenta la liquidez
+de la acción y puede tener efectos de señalización positivos, pero en un
+mercado perfecto no crea ni destruye valor.
+\end{interpretacion}
+
+\end{document}

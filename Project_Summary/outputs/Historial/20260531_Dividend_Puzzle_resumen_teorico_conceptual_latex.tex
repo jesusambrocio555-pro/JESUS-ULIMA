@@ -1,0 +1,344 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{intuicionmat}{
+  colback=green!5!white,
+  colframe=green!40!black,
+  fonttitle=\bfseries,
+  title=\textit{?`Qu\'e dice esta ecuaci\'on?},
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{explicacion}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Explicaci\'on,
+  boxrule=0.6pt,
+  arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: The Dividend Puzzle}\\
+\large El enigma de los dividendos\\
+\normalsize Fischer Black, \textit{The Journal of Portfolio Management}, 1976}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introducci\'on: El Enigma de los Dividendos}
+%% ============================================================
+
+\subsection{Pregunta central y posiciones contrapuestas}
+
+El art\'iculo de Fischer Black plantea una pregunta aparentemente simple: ?`por qu\'e las corporaciones pagan \textbf{dividendos (dividends)}? La respuesta intuitiva es que los dividendos representan el retorno al inversor que puso su capital en riesgo; las corporaciones los pagan para recompensar a los accionistas existentes y atraer nuevos compradores de acciones.
+
+Sin embargo, Black argumenta que esta respuesta no es para nada obvia. Existe una explicaci\'on alternativa y contraintuitiva: una corporaci\'on que no paga dividendos puede estar demostrando \textbf{confianza} en que posee oportunidades de inversi\'on atractivas que se perder\'ian si distribuyera el efectivo. Si realiza esas inversiones, puede aumentar el valor de las acciones en m\'as de lo que hubieran valido los dividendos no pagados. Los accionistas se ver\'ian doblamente beneficiados:
+\begin{itemize}
+  \item Obtienen \textbf{apreciaci\'on de capital (capital appreciation)} mayor que los dividendos perdidos.
+  \item Est\'an sujetos a tasas impositivas efectivas menores sobre ganancias de capital que sobre dividendos.
+\end{itemize}
+
+La tesis central del art\'iculo es que cuanto m\'as se examina el fen\'omeno de los dividendos, m\'as se asemeja a un rompecabezas cuyas piezas no encajan.
+
+\begin{intuicion}
+Black nos dice que la pregunta ``?`por qu\'e se pagan dividendos?'' parece obvia pero no lo es. En realidad, desde varios \'angulos te\'oricos, las empresas \textit{no deber\'ian} pagar dividendos. El art\'iculo examina cada argumento posible a favor de los dividendos y concluye que ninguno es plenamente satisfactorio.
+\end{intuicion}
+
+%% ============================================================
+\section{El Teorema de Miller-Modigliani}
+%% ============================================================
+
+\subsection{Irrelevancia de los dividendos en mercados perfectos}
+
+El n\'ucleo te\'orico del debate se apoya en el \textbf{Teorema de Miller-Modigliani (Miller-Modigliani Theorem)}, que Black presenta mediante una analog\'ia directa. Sup\'ongase que se ofrece al inversor la siguiente elecci\'on:
+\begin{itemize}
+  \item \textbf{Opci\'on A}: \$2 hoy m\'as una probabilidad 50-50 de \$54 o \$50 ma\~nana.
+  \item \textbf{Opci\'on B}: Nada hoy m\'as una probabilidad 50-50 de \$56 o \$52 ma\~nana.
+\end{itemize}
+Ignorando costos de oportunidad e intereses, el inversor es \textbf{indiferente (indifferent)} entre ambas opciones: la riqueza total esperada es id\'entica. La elecci\'on entre una acci\'on que paga dividendos y una que no es an\'aloga. El precio de la acci\'on cae en la \textbf{fecha ex-dividendo (ex-dividend date)} aproximadamente en el monto del dividendo: el dividendo simplemente desplaza hacia abajo el rango completo de posibles precios futuros.
+
+\begin{explicacion}
+El Teorema de Miller-Modigliani establece que, bajo supuestos de mercados perfectos (sin impuestos, sin costos de transacci\'on, sin asimetr\'ias de informaci\'on), la pol\'itica de dividendos de una corporaci\'on \textbf{no afecta} ni el valor de sus acciones ni los retornos a los inversores. El dividendo pagado reduce en igual medida la apreciaci\'on de capital, de modo que la riqueza total del accionista permanece constante en todos los escenarios posibles. Su importancia reside en que establece el punto de referencia del debate: si los dividendos son irrelevantes en condiciones ideales, cualquier raz\'on para pagarlos debe surgir de las fricciones del mundo real (impuestos, costos de transacci\'on, informaci\'on asim\'etrica). Eliminar cada supuesto del teorema genera una nueva dimensi\'on del enigma.
+\end{explicacion}
+
+\begin{intuicion}
+Imagina que tienes una torta. Si te comes un pedazo ahora (el dividendo), la torta que queda vale menos exactamente en ese monto. En teor\'ia, es la misma riqueza total, solo repartida de manera diferente entre efectivo hoy y valor de la acci\'on ma\~nana. El dividendo no crea ni destruye valor por s\'i mismo.
+\end{intuicion}
+
+\subsection{Supuestos que sostienen el teorema}
+
+El teorema supone que el dividendo pagado no influye en las decisiones de negocio de la corporaci\'on. Pagar el dividendo tiene dos efectos posibles y equivalentes:
+\begin{itemize}
+  \item Reduce el monto de efectivo o equivalentes mantenidos por la corporaci\'on, o
+  \item Aumenta el monto que debe captarse emitiendo nuevos valores.
+\end{itemize}
+En ninguno de los dos casos cambia la estructura fundamental de la riqueza de los accionistas.
+
+\begin{intuicion}
+El teorema funciona en un mundo ideal. En el mundo real, los impuestos, los costos de transacci\'on y la informaci\'on asim\'etrica rompen esta perfecta equivalencia. Cada secci\'on siguiente examina una de estas fricciones.
+\end{intuicion}
+
+%% ============================================================
+\section{Si una Empresa No Paga Dividendos}
+%% ============================================================
+
+\subsection{?`Puede valer algo una empresa que nunca pagar\'a dividendos?}
+
+Una implicaci\'on directa del teorema es que una empresa que paga dividendos regulares equivalentes a la mitad de sus ganancias normales vale lo mismo que una empresa similar que no paga ni pagar\'a dividendos jam\'as. Black examina c\'omo puede ser esto posible.
+
+Existen m\'ultiples mecanismos por los cuales los accionistas pueden extraer efectivo sin recibir dividendos:
+
+\begin{itemize}
+  \item \textbf{Recompra de acciones (share buyback)}: La empresa recompra sus propias acciones en el mercado. Ventaja: los inversores generalmente pagan menos impuestos sobre acciones vendidas que sobre dividendos recibidos.
+  \item En empresas de \textbf{control concentrado (closely held)}: el valor puede transferirse mediante salarios inflados a los accionistas-empleados, o mediante contratos a precios inflados con otras empresas de los mismos accionistas.
+  \item V\'ia \textbf{oferta p\'ublica de adquisici\'on (tender offer)}: Un tercero puede adquirir el control de la empresa y luego utilizar los mecanismos anteriores.
+\end{itemize}
+
+\begin{explicacion}
+Este an\'alisis refuerza la irrelevancia de los dividendos: el valor de la empresa no depende de si distribuye o no dividendos formales, porque existen sustitutos funcionales. La recompra de acciones es el sustituto m\'as directo y fiscalmente eficiente. Esta equivalencia implica que la pregunta ``?`c\'omo pueden valer algo las acciones si nunca se pagan dividendos?'' tiene respuesta clara: el valor de las acciones refleja la capacidad de la empresa de generar flujos futuros, independientemente de la forma en que se distribuyan.
+\end{explicacion}
+
+\begin{intuicion}
+Una empresa puede valer mucho sin pagar dividendos porque el accionista siempre puede vender sus acciones a un precio que refleja esa riqueza acumulada. El dividendo no es la \'unica forma de ``sacar'' valor de una empresa.
+\end{intuicion}
+
+%% ============================================================
+\section{Impuestos}
+%% ============================================================
+
+\subsection{Asimetr\'ia fiscal entre dividendos y ganancias de capital}
+
+En el mundo real, los \textbf{dividendos (dividends)} est\'an gravados m\'as pesadamente que las \textbf{ganancias de capital (capital gains)} para la mayor\'ia de los inversores individuales. Adem\'as, las ganancias de capital no se gravan hasta que se realizan (venta efectiva de las acciones), lo que genera un \textbf{diferimiento impositivo (tax deferral)} adicional.
+
+\begin{explicacion}
+La asimetr\'ia fiscal tiene una consecuencia l\'ogica directa: una corporaci\'on que no paga dividendos ser\'a m\'as atractiva para los inversores individuales sujetos a impuestos, pues estos prefieren recibir retornos como apreciaci\'on de capital (gravada a tasa menor y diferida) que como dividendos (gravados de inmediato a tasa ordinaria). Esta preferencia tiende a elevar el precio de las acciones que no pagan dividendos, generando un incentivo para que las corporaciones eliminen sus dividendos. La existencia de este incentivo claro contrasta con la realidad observada de que las empresas s\'i pagan dividendos: esa contradicci\'on es una de las piezas que no encajan en el enigma.
+\end{explicacion}
+
+\begin{intuicion}
+Es como elegir entre pagar impuestos ahora o despu\'es, y a menor tasa. Si te dejan elegir, siempre prefieres pagar despu\'es y menos. Por eso, con impuestos, las empresas deber\'ian preferir no pagar dividendos, y sin embargo lo hacen.
+\end{intuicion}
+
+\subsection{Contrapesos: distintos tipos de inversores}
+
+Black reconoce que el argumento fiscal no es un\'ivoco porque distintos tipos de inversores enfrentan tratamientos impositivos diferentes:
+
+\begin{itemize}
+  \item \textbf{Inversores corporativos (corporate investors)}: Pagan m\'as impuestos sobre ganancias de capital realizadas que sobre dividendos recibidos; por tanto, \textit{prefieren} dividendos.
+  \item \textbf{Inversores exentos de impuestos (tax-exempt investors)}, como fondos de pensiones: No pagan impuestos sobre ninguna de las dos formas de retorno; son indiferentes.
+  \item \textbf{Inversores individuales gravables}: Prefieren ganancias de capital.
+\end{itemize}
+
+Sin embargo, Black considera dif\'icil creer que los dos primeros grupos tengan suficiente peso en el mercado para contrarrestar el efecto de los inversores individuales gravables.
+
+Adicionalmente, el IRS aplica un impuesto especial a empresas que retienen ganancias para evitar la tributaci\'on personal de dividendos, aunque este impuesto es f\'acilmente evitable si la empresa tiene inversiones activas o emite valores. Finalmente, si una corporaci\'on insiste en distribuir efectivo, es fiscalmente m\'as eficiente reemplazar parte de sus acciones comunes con \textbf{bonos (bonds)}: el inter\'es es deducible para la corporaci\'on, mientras que los dividendos no lo son.
+
+La conclusi\'on es que, con impuestos, inversores y corporaciones ya no son indiferentes al nivel de dividendos: \textbf{prefieren dividendos menores o nulos}.
+
+\begin{intuicion}
+Distintos inversores tienen distintos tratamientos fiscales, lo que significa que no hay una \'unica respuesta sobre si el mercado prefiere o no los dividendos. Pero el grupo m\'as numeroso e influyente, los individuos que pagan impuestos, claramente prefiere menos dividendos.
+\end{intuicion}
+
+%% ============================================================
+\section{Costos de Transacci\'on}
+%% ============================================================
+
+\subsection{El argumento y su debilidad}
+
+Un inversor que posee acciones sin dividendos puede necesitar vender parte de ellas para obtener liquidez. Estas ventas pueden ser costosas, especialmente en montos peque\~nos, lo que podr\'ia justificar la preferencia por recibir \textbf{ingresos por dividendos (dividend income)} directamente.
+
+Black considera que este argumento no tiene sustancia suficiente. Si los inversores se preocupan por los costos de transacci\'on, la corporaci\'on que no paga dividendos puede implementar \textbf{planes autom\'aticos de recompra de acciones (automatic share repurchase plans)}, an\'alogos a los planes de reinversi\'on autom\'atica de dividendos ya existentes. El accionista podr\'ia mantener sus acciones en fideicomiso y el fiduciario las vendr\'ia peri\'odicamente a la corporaci\'on, incluyendo fracciones si fuera necesario, con la posibilidad de elegir montos y calendario de pagos. El costo de este sistema ser\'ia comparable al de un sistema de pago de dividendos.
+
+Si el IRS objetara la recompra de acciones propias, el fiduciario podr\'ia simplemente vender bloques en el mercado abierto a costo igualmente bajo.
+
+\begin{explicacion}
+El argumento de los costos de transacci\'on a favor de los dividendos es circular: el problema de liquidez que supuestamente justifica los dividendos puede resolverse mediante recompras autom\'aticas a costo similar. La conclusi\'on es que los costos de transacci\'on no explican por qu\'e las empresas pagan dividendos en lugar de recomprar acciones, que es la alternativa fiscalmente superior. La relaci\'on l\'ogica con los impuestos es clara: los costos de transacci\'on aten\'uan marginalmente la ventaja fiscal de las ganancias de capital, pero no la eliminan.
+\end{explicacion}
+
+\begin{intuicion}
+Si no recibes dividendos pero necesitas dinero, puedes vender acciones. Si eso fuera costoso, la empresa podr\'ia organizar un plan para recomprarte acciones peri\'odicamente, a bajo costo y con mayor eficiencia fiscal. El argumento de los costos de transacci\'on no justifica los dividendos.
+\end{intuicion}
+
+%% ============================================================
+\section{?`Qu\'e nos Dicen los Cambios en los Dividendos?}
+%% ============================================================
+
+\subsection{Dividendos como mecanismo de se\~nalizaci\'on}
+
+Los gerentes de la mayor\'ia de las corporaciones tienden a divulgar buenas noticias r\'apidamente y malas noticias lentamente, lo que genera escepticismo de los inversores ante las declaraciones directas de la gerencia. La \textbf{pol\'itica de dividendos (dividend policy)} puede transmitir informaci\'on que la gerencia no expresa expl\'icitamente.
+
+Los gerentes y directores son reacios a reducir el dividendo. Por ello:
+\begin{itemize}
+  \item Solo aumentan el dividendo si consideran que las perspectivas de la empresa son suficientemente s\'olidas para sostenerlo durante un tiempo prolongado.
+  \item Solo reducen el dividendo si estiman que las perspectivas de una recuperaci\'on r\'apida son pobres.
+\end{itemize}
+
+Esto implica que los cambios en dividendos, o el hecho de que el dividendo no cambie, pueden informar a los inversores sobre lo que los gerentes realmente piensan, m\'as all\'a de lo que comunican formalmente.
+
+\begin{explicacion}
+Esta secci\'on introduce el \textbf{contenido informacional de los dividendos (informational content of dividends)}, concepto que luego se formaliz\'o en la literatura como \textbf{hip\'otesis de se\~nalizaci\'on (signaling hypothesis)}. Los dividendos funcionan como se\~nal cre\'ible porque los gerentes tienen incentivos para no aumentarlos a menos que est\'en seguros de poder sostenerlos: un recorte futuro da\~nar\'ia el precio de la acci\'on y la credibilidad de la gerencia. As\'i, el aumento del dividendo es una se\~nal costosa de confianza en el futuro. Sin embargo, Black distingue claramente: el contenido informacional explica por qu\'e los \textit{cambios} en dividendos mueven los precios, pero \textbf{no} explica por qu\'e las empresas pagan dividendos en primer lugar.
+\end{explicacion}
+
+\begin{intuicion}
+Si el gerente sube el dividendo, est\'a apostando su credibilidad: si la empresa va mal despu\'es, el mercado lo castigar\'a. Por eso subirlo es una se\~nal genuina de confianza. Pero esto no explica por qu\'e existe el dividendo en primer lugar: la se\~nal podr\'ia emitirse de otras formas.
+\end{intuicion}
+
+\subsection{L\'imites del argumento de se\~nalizaci\'on}
+
+Si los cambios en dividendos no obedecen a pron\'osticos sobre el futuro de la empresa, los movimientos del precio de la acci\'on asociados ser\'an temporales. Por ejemplo, si una empresa elimina su dividendo para ahorrar impuestos a sus accionistas, el precio podr\'ia caer inicialmente pero luego volver a su nivel previo o superarlo.
+
+\begin{intuicion}
+La se\~nalizaci\'on explica los movimientos de precio cuando cambia el dividendo, pero no explica por qu\'e existe el dividendo en primer lugar. Es un fen\'omeno derivado del hecho de que los dividendos ya existen, no una justificaci\'on de su existencia.
+\end{intuicion}
+
+%% ============================================================
+\section{C\'omo Perjudicar a los Acreedores}
+%% ============================================================
+
+\subsection{Dividendos como transferencia de riqueza desde los acreedores}
+
+Cuando una empresa tiene \textbf{deuda vigente (outstanding debt)}, el contrato de deuda (\textbf{indenture}) casi siempre limita los dividendos que puede pagar. La raz\'on es directa: no hay forma m\'as f\'acil para una empresa de eludir la carga de su deuda que pagar todos sus activos como dividendo y dejar a los acreedores con una c\'ascara vac\'ia. Cualquier aumento en el dividendo no compensado por un aumento en el financiamiento externo perjudica a los acreedores: cada d\'olar pagado como dividendo es un d\'olar que no estar\'a disponible para ellos si surgen dificultades.
+
+\begin{explicacion}
+Este argumento describe una \textbf{transferencia de riqueza (wealth transfer)} de los acreedores a los accionistas mediante el pago de dividendos. Dado que el valor total de la empresa es fijo, lo que beneficia a los acreedores (m\'as activos en la empresa) perjudica a los accionistas, y viceversa. Esto crea un incentivo para que los accionistas prefieran dividendos elevados cuando la empresa tiene deuda. Sin embargo, Black se\~nala dos limitaciones: (1) el efecto puede ser de magnitud peque\~na e indetectable en muchos casos; (2) puede neutralizarse mediante negociaci\'on: si la empresa se compromete a no pagar dividendos, los acreedores pueden ofrecer mejores t\'erminos crediticios, eliminando el perjuicio a los accionistas. Este argumento, por tanto, no explica por qu\'e las empresas \textit{sin deuda} pagan dividendos.
+\end{explicacion}
+
+\begin{intuicion}
+Si una empresa paga mucho en dividendos cuando tiene deudas, est\'a vaciando la ``alcancia'' que los acreedores esperan poder reclamar en caso de problemas. Por eso los contratos de deuda limitan los dividendos. Pero esto solo aplica cuando hay deuda: no explica los dividendos en general.
+\end{intuicion}
+
+%% ============================================================
+\section{Los Dividendos como Fuente de Capital}
+%% ============================================================
+
+\subsection{El costo de oportunidad del dividendo}
+
+Una empresa que paga dividendos podr\'ia haber invertido ese dinero en sus operaciones. Reducir el dividendo es una de las \textbf{fuentes de fondos de menor costo (lowest cost sources of funds)} disponibles para la empresa: el costo de suscripci\'on (\textbf{underwriting cost}) de una emisi\'on nueva de deuda o capital suele representar varios puntos porcentuales del monto captado, mientras que cortar el dividendo no tiene costos comparables.
+
+\begin{explicacion}
+El argumento revela una contradicci\'on adicional en el comportamiento observado: las empresas que pagan dividendos y simultáneamente emiten nuevos valores en el mercado est\'an incurriendo en un costo innecesario. La \'unica excepci\'on plausible que Black reconoce es la empresa sin proyectos de inversi\'on rentables: en ese caso, retener las ganancias podr\'ia llevar a los gerentes a derrocharlas en proyectos poco sabios, y el dividendo funcionar\'ia como mecanismo disciplinador. Sin embargo, este caso es relativamente raro. La relaci\'on l\'ogica con el argumento de acreedores es inversa: desde la perspectiva del capital, los dividendos son costosos; desde la perspectiva de los acreedores, los dividendos son potencialmente beneficiosos para los accionistas.
+\end{explicacion}
+
+\begin{intuicion}
+Si una empresa necesita dinero para invertir y a la vez paga dividendos, est\'a regalando dinero por un lado y pidi\'endolo prestado por el otro, pagando comisiones en el proceso. Lo eficiente ser\'ia simplemente no repartir el dinero y usarlo directamente.
+\end{intuicion}
+
+%% ============================================================
+\section{?`Los Inversores Demandan Dividendos?}
+%% ============================================================
+
+\subsection{Demanda irracional e institucional}
+
+Es posible que muchos inversores individuales crean que las acciones sin dividendos no deben mantenerse en portafolio, o solo a precios inferiores a los de acciones similares con dividendos. Black califica esta creencia como \textbf{irracional (irrational)}, aunque reconoce que puede existir y tener efectos reales sobre los precios.
+
+A este grupo se suman:
+\begin{itemize}
+  \item \textbf{Fideicomisarios (trustees)} que consideran imprudente mantener acciones sin dividendos, por criterios de prudencia fiduciaria.
+  \item Corporaciones con razones fiscales para preferir acciones que pagan dividendos.
+\end{itemize}
+
+Si estos grupos representan una parte sustancial del mercado, o si tienen una influencia desproporcionada en la formaci\'on de precios, pueden crear una demanda efectiva de dividendos que presione a las empresas a pagarlos.
+
+\begin{explicacion}
+Esta secci\'on introduce la posibilidad de que la demanda de dividendos sea impulsada por \textbf{sesgos conductuales (behavioral biases)} o por restricciones institucionales, m\'as que por c\'alculo racional. El punto clave es que incluso una preferencia irracional, si es suficientemente generalizada o proviene de actores con gran peso en el mercado, puede crear un equilibrio en el que las empresas pagan dividendos aunque no sea \'optimo desde el punto de vista de la maximizaci\'on del valor. La evidencia emp\'irica disponible en 1976 no permite determinar si este grupo domina o no el mercado.
+\end{explicacion}
+
+\begin{intuicion}
+Algunos inversores quieren dividendos simplemente por h\'abito, porque sus reglas de inversi\'on lo exigen, o porque perciben los dividendos como ingresos ``reales'' y el precio de la acci\'on como algo intangible. Si hay suficientes de estos inversores, las empresas tienen incentivos para pagar dividendos aunque no tenga sentido econ\'omico puro.
+\end{intuicion}
+
+\subsection{Evidencia sobre preferencias reveladas}
+
+Black observa que los inversores s\'i parecen conscientes de las consecuencias fiscales:
+\begin{itemize}
+  \item Los inversores en \textbf{altos tramos impositivos (high tax brackets)} tienden a mantener acciones de \textbf{bajo dividendo (low dividend yield)}.
+  \item Los inversores en \textbf{bajos tramos impositivos (low tax brackets)} tienden a mantener acciones de \textbf{alto dividendo (high dividend yield)}.
+\end{itemize}
+Sin embargo, las mejores pruebas emp\'iricas disponibles no pueden determinar qu\'e grupo tiene mayor efecto sobre los precios de los valores: si los inversores que prefieren dividendos o los que los evitan dominan la formaci\'on de precios.
+
+\begin{intuicion}
+La evidencia muestra que los inversores s\'i ajustan su comportamiento seg\'un los impuestos, lo que sugiere racionalidad parcial. Pero el mercado como conjunto es ambiguo: no sabemos qui\'en domina la fijaci\'on de precios.
+\end{intuicion}
+
+%% ============================================================
+\section{Implicaciones de Portafolio}
+%% ============================================================
+
+\subsection{La indeterminaci\'on se traslada al nivel del inversor}
+
+Dado que las corporaciones no pueden determinar qu\'e pol\'itica de dividendos es \'optima, cabe preguntar si al menos el inversor racional puede elegir una \textbf{pol\'itica de portafolio (portfolio policy)} que maximice su retorno esperado despu\'es de impuestos para un nivel de riesgo dado.
+
+La respuesta intuitiva es que un inversor gravable en alto tramo deber\'ia enfatizar acciones de bajo dividendo, y un inversor exento deber\'ia enfatizar acciones de alto dividendo. Sin embargo, esta estrategia enfrenta dos problemas fundamentales:
+
+\begin{enumerate}
+  \item \textbf{P\'erdida de diversificaci\'on (loss of diversification)}: El inversor que concentra su portafolio en cierto tipo de acci\'on termina con un portafolio menos diversificado y, por tanto, con mayor riesgo.
+  \item \textbf{Indeterminaci\'on del retorno}: No est\'a claro si, o cu\'anto, aumentar\'a el retorno esperado con esta estrategia. Si los inversores que demandan dividendos dominan el mercado, las acciones de alto dividendo tendr\'an retornos esperados bajos, y hasta los inversores exentos deber\'ian comprar acciones de bajo dividendo. Existe incluso la posibilidad de que los inversores sobre-ponderen los factores fiscales y eleven el precio de las acciones de bajo dividendo hasta hacer que sean poco atractivas incluso en los tramos impositivos m\'as altos.
+\end{enumerate}
+
+\begin{explicacion}
+Las implicaciones de portafolio son tan ambiguas como las implicaciones para la pol\'itica corporativa. El inversor racional no puede determinar con certeza cu\'anto inclinarse hacia acciones de bajo o alto dividendo porque esa decisi\'on depende de qui\'en domina el mercado, informaci\'on que no est\'a disponible. La incertidumbre se propaga desde el nivel corporativo hasta el nivel del inversor individual. La conclusi\'on de Black es radical en su honestidad: ``We don't know.''
+\end{explicacion}
+
+\begin{intuicion}
+Incluso si en teor\'ia deber\'ias evitar los dividendos para pagar menos impuestos, no sabes cu\'anto apostar en esa direcci\'on sin perder diversificaci\'on, ni sabes si el mercado ya descontó esa ventaja en los precios. La incertidumbre sobre los dividendos no se resuelve ni siquiera desde la perspectiva del inversor individual.
+\end{intuicion}
+
+%% ============================================================
+\section{Resumen y Conclusiones}
+%% ============================================================
+
+El art\'iculo de Fischer Black presenta el \textbf{enigma de los dividendos (dividend puzzle)} como un problema sin respuesta definitiva: las piezas te\'oricas y emp\'iricas no encajan de manera coherente. Los puntos centrales son los siguientes:
+
+\begin{enumerate}
+  \item \textbf{Irrelevancia en mercados perfectos}: El Teorema de Miller-Modigliani establece que la pol\'itica de dividendos es irrelevante para el valor de la empresa cuando no existen fricciones. Es el punto de partida del enigma.
+
+  \item \textbf{Los impuestos favorecen dividendos nulos}: En el mundo real, los dividendos se gravan m\'as que las ganancias de capital para la mayor\'ia de los inversores individuales. Esto genera una presi\'on te\'orica hacia dividendos bajos o nulos, en contradicci\'on con el comportamiento observado.
+
+  \item \textbf{Los costos de transacci\'on no justifican los dividendos}: Pueden replicarse funcionalmente mediante planes de recompra autom\'atica a costo y eficiencia similares.
+
+  \item \textbf{La se\~nalizaci\'on explica los movimientos de precio, no la existencia del dividendo}: El contenido informacional de los cambios en dividendos es real, pero es un fen\'omeno derivado, no una justificaci\'on primaria.
+
+  \item \textbf{La protecci\'on de acreedores es un efecto parcial}: Solo aplica cuando hay deuda y puede neutralizarse mediante negociaci\'on contractual.
+
+  \item \textbf{Cortar el dividendo es una de las fuentes de capital m\'as baratas}: Las empresas que pagan dividendos y emiten valores simult\'aneamente incurren en costos evitables.
+
+  \item \textbf{La demanda irracional o institucional puede explicar la persistencia del fen\'omeno}: Pero es imposible cuantificar su peso relativo en el mercado con la evidencia disponible.
+\end{enumerate}
+
+\bigskip
+\noindent\textbf{Relaciones l\'ogicas clave entre los conceptos:}
+
+\begin{itemize}
+  \item El Teorema de MM \textit{supone} mercados perfectos $\rightarrow$ las fricciones reales (impuestos, costos de transacci\'on, informaci\'on asim\'etrica) \textit{se derivan} de relajar esos supuestos uno por uno.
+  \item Los impuestos \textit{contrastan con} la demanda institucional: para los inversores exentos, los dividendos pueden ser preferibles; para los individuos gravables, son perjudiciales.
+  \item La se\~nalizaci\'on \textit{contrasta con} la irrelevancia del MM: si los dividendos transmiten informaci\'on, no son neutrales, pero esto no los hace deseables.
+  \item El argumento de acreedores \textit{se deriva de} la estructura de capital con deuda y es irrelevante para empresas sin ella.
+  \item El argumento de fuente de capital \textit{refuerza} el argumento fiscal: ambos apuntan en la misma direcci\'on (menos dividendos es mejor), lo que hace a\'un m\'as enigm\'atica la realidad observada.
+\end{itemize}
+
+\bigskip
+La conclusi\'on de Black es radical en su honestidad intelectual: ni las corporaciones saben qu\'e pol\'itica de dividendos elegir, ni los inversores saben c\'omo posicionar sus portafolios respecto a los dividendos. El enigma permanece abierto.
+
+\end{document}

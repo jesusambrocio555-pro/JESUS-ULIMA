@@ -1,0 +1,545 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Resumen: Cap\'itulo 4 --- Modelos con Tendencia\\[4pt]
+\large Enders, \textit{Applied Econometric Time Series}, 4.a~ed.}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%%% =========================================================
+\section{Tendencias Determin\'isticas y Estoc\'asticas}
+%%% =========================================================
+
+Una serie temporal puede exhibir dos tipos distintos de tendencia:
+
+\textbf{Trend stationary (TS) / estacionario en tendencia:} proceso cuya
+tendencia es una funci\'on determin\'istica del tiempo; sustrayendo dicha
+tendencia se obtiene un proceso estacionario:
+
+\begin{equation}
+  y_t = y_0 + a_0\,t + A(L)\varepsilon_t
+\end{equation}
+
+donde $A(L)$ es un polinomio de retardos estacionario e invertible y
+$\{\varepsilon_t\}$ es ruido blanco.
+
+\textbf{Random walk / paseo aleatorio:} proceso con ra\'iz unitaria cuya
+varianza crece linealmente con el tiempo:
+
+\begin{equation}
+  y_t = y_{t-1} + \varepsilon_t, \qquad \mathrm{Var}(y_t) = t\sigma^2
+\end{equation}
+
+La funci\'on de autocorrelaci\'on (ACF) satisface
+$\rho_s \approx [(t-s)/t]^{1/2}$ y decae muy lentamente en muestras
+finitas, pudiendo confundirse con la de un proceso estacionario de
+memoria larga.
+
+\textbf{Random walk plus drift / paseo aleatorio con deriva:}
+
+\begin{equation}
+  y_t = y_0 + a_0\,t + \sum_{i=1}^{t}\varepsilon_i
+\end{equation}
+
+La serie combina una tendencia determin\'istica $a_0 t$ con una tendencia
+estoc\'astica acumulada $\sum \varepsilon_i$; visualmente puede confundirse
+con un proceso TS.
+
+\textbf{Random walk plus noise / paseo aleatorio m\'as ruido:} al a\~nadir
+un componente de ruido $\eta_t$ al proceso integrado, las primeras
+diferencias siguen un proceso ARIMA$(0,1,1)$; la presencia de un t\'ermino
+de media m\'ovil negativo en $\Delta y_t$ es indicio de este tipo de proceso.
+
+La forma general con componentes irregulares de estructura ARMA es:
+
+\begin{equation}
+  y_t = y_0 + a_0\,t + \sum_{i=1}^{t}\varepsilon_i + A(L)\eta_t
+\end{equation}
+
+\textbf{Unobserved components models / modelos de componentes no
+observados:} marco en el que la tendencia, el ciclo y la componente
+irregular son variables latentes. La inferencia sobre estos componentes
+se denomina \textbf{signal extraction / extracci\'on de se\~nal}.
+
+%%% =========================================================
+\section{Eliminaci\'on de la Tendencia}
+%%% =========================================================
+
+El tratamiento correcto depende de la naturaleza de la tendencia:
+
+\begin{itemize}
+  \item \textbf{Differencing / diferenciaci\'on:} aplica el operador
+        $\Delta = 1-L$ para eliminar tendencias estoc\'asticas. Diferenciar
+        un proceso TS lo sobrediferencia e introduce ra\'ices MA no invertibles.
+  \item \textbf{Detrending / eliminaci\'on de tendencia determin\'istica:}
+        regresa la serie sobre funciones del tiempo. Desestacionalizar un
+        proceso DS deja una tendencia estoc\'astica residual.
+\end{itemize}
+
+\textbf{Integrated of order $d$ / integrado de orden $d$, $I(d)$:} la
+serie $\{y_t\}$ es $I(d)$ si su $d$-\'esima diferencia es estacionaria e
+invertible; posee exactamente $d$ ra\'ices unitarias. Un proceso
+ARIMA$(p,d,q)$ es $I(d)$.
+
+\textbf{Difference stationary (DS) / estacionario en diferencias:}
+proceso $I(1)$ que se estacionaliza mediante diferenciaci\'on.
+
+Nelson y Plosser (1982) aplicaron pruebas de ra\'iz unitaria a 14 series
+macroecon\'omicas de Estados Unidos y concluyeron que la mayor\'ia son DS,
+en contraste con la visi\'on tradicional de series TS.
+
+%%% =========================================================
+\section{Ra\'ices Unitarias y Residuos de Regresi\'on}
+%%% =========================================================
+
+Considere la regresi\'on simple de $\{y_t\}$ sobre $\{z_t\}$:
+
+\begin{equation}
+  y_t = a_0 + a_1 z_t + e_t
+\end{equation}
+
+Granger y Newbold (1974) identificaron cuatro casos seg\'un el orden de
+integraci\'on de ambas series:
+
+\begin{enumerate}
+  \item \textbf{Caso 1}: ambas estacionarias $\Rightarrow$ MCO v\'alido;
+        $t$-estad\'isticos asint\'oticamente normales.
+  \item \textbf{Caso 2}: \'ordenes distintos $\Rightarrow$ regresi\'on
+        sin significado econ\'omico.
+  \item \textbf{Caso 3}: mismo orden, residuo $\{e_t\}$ no estacionario
+        $\Rightarrow$ \textbf{spurious regression / regresi\'on espuria}:
+        $R^2$ elevado y $t$-estad\'isticos significativos sin relaci\'on
+        econ\'omica genuina; se recomienda trabajar con primeras diferencias.
+  \item \textbf{Caso 4}: mismo orden, residuo $\{e_t\}$ estacionario
+        $\Rightarrow$ series \textbf{cointegrated / cointegradas}; MCO
+        v\'alido con estimadores superconsistentes.
+\end{enumerate}
+
+%%% =========================================================
+\section{El M\'etodo de Monte Carlo}
+%%% =========================================================
+
+\textbf{Monte Carlo experiment / experimento de Monte Carlo:} t\'ecnica de
+simulaci\'on que genera $N$ muestras artificiales a partir de un
+\textbf{data-generating process (DGP) / proceso generador de datos}
+especificado y calcula el estad\'istico de inter\'es en cada r\'eplica.
+La distribuci\'on emp\'irica resultante sirve como aproximaci\'on de la
+distribuci\'on te\'orica del estad\'istico, cuya derivaci\'on anal\'itica
+suele ser intratable.
+
+La Ley de los Grandes N\'umeros justifica que, para $N$ suficientemente
+grande, la distribuci\'on emp\'irica converge a la poblacional. Dickey y
+Fuller emplearon este m\'etodo para calcular los valores cr\'iticos de sus
+pruebas bajo la hip\'otesis nula de paseo aleatorio.
+
+%%% =========================================================
+\section{Pruebas de Dickey-Fuller}
+%%% =========================================================
+
+Las \textbf{Dickey-Fuller (DF) tests / pruebas de Dickey-Fuller} contrastan
+$H_0\colon \gamma = 0$ (ra\'iz unitaria) frente a $H_1\colon \gamma < 0$
+(estacionariedad). Bajo $H_0$, los estad\'isticos no siguen distribuciones
+$t$ est\'andar; sus distribuciones asint\'oticas, obtenidas por simulaci\'on,
+tienen valores cr\'iticos m\'as negativos que los de la normal.
+
+Se distinguen tres regresiones auxiliares seg\'un los t\'erminos
+determin\'isticos incluidos:
+
+\textbf{Forma 1} --- paseo aleatorio puro (estad\'istico $\tau$):
+\begin{equation}
+  \Delta y_t = \gamma\,y_{t-1} + \varepsilon_t
+\end{equation}
+
+\textbf{Forma 2} --- con intercepto (estad\'istico $\tau_\mu$):
+\begin{equation}
+  \Delta y_t = a_0 + \gamma\,y_{t-1} + \varepsilon_t
+\end{equation}
+
+\textbf{Forma 3} --- con intercepto y tendencia lineal
+(estad\'istico $\tau_\tau$):
+\begin{equation}
+  \Delta y_t = a_0 + \gamma\,y_{t-1} + a_2\,t + \varepsilon_t
+\end{equation}
+
+Se definen tambi\'en estad\'isticos $F$ conjuntos: $\phi_1$ (intercepto y
+ra\'iz unitaria), $\phi_2$ (intercepto, tendencia y ra\'iz unitaria) y
+$\phi_3$ (tendencia y ra\'iz unitaria), que permiten contrastar
+hip\'otesis conjuntas sobre los par\'ametros determin\'isticos.
+
+%%% =========================================================
+\section{Aplicaciones de la Prueba de Dickey-Fuller}
+%%% =========================================================
+
+\subsection{Series de Nelson y Plosser (1982)}
+
+Nelson y Plosser aplicaron las tres formas de la prueba DF a 14 series
+macroecon\'omicas de Estados Unidos. No pudieron rechazar la hip\'otesis
+nula de ra\'iz unitaria en 13 de las 14 series, apoyando la
+caracterizaci\'on de las series macroecon\'omicas como procesos DS.
+
+\subsection{Paridad de Poder de Compra}
+
+La \textbf{Purchasing Power Parity (PPP) / Paridad de Poder de Compra}
+postula que el tipo de cambio nominal refleja los diferenciales de precios
+relativos:
+
+\begin{equation}
+  e_t = p_t - p_t^* + d_t
+\end{equation}
+
+donde $e_t$ es el logaritmo del tipo de cambio nominal, $p_t$ y $p_t^*$
+son los logaritmos del nivel de precios dom\'estico y extranjero, y $d_t$
+captura desviaciones transitorias. El \textbf{real exchange rate / tipo de
+cambio real} se define como:
+
+\begin{equation}
+  r_t \;\equiv\; e_t + p_t^* - p_t
+\end{equation}
+
+La PPP se cumple a largo plazo si y solo si $\{r_t\}$ es estacionario.
+La evidencia DF habitualmente no rechaza la ra\'iz unitaria en $\{r_t\}$,
+aunque esto puede reflejar baja potencia m\'as que ausencia de PPP.
+
+%%% =========================================================
+\section{Extensiones de la Prueba de Dickey-Fuller}
+%%% =========================================================
+
+\subsection{Prueba Aumentada de Dickey-Fuller (ADF)}
+
+La \textbf{Augmented Dickey-Fuller (ADF) test / prueba aumentada de
+Dickey-Fuller} agrega retardos de $\Delta y_t$ para controlar la
+correlaci\'on serial de los residuos:
+
+\begin{equation}
+  \Delta y_t = a_0 + \gamma\,y_{t-1} + a_2\,t
+               + \sum_{i=1}^{p}\beta_i\,\Delta y_{t-i} + \varepsilon_t
+\end{equation}
+
+La selecci\'on de $p$ sigue la \textbf{general-to-specific methodology /
+metodolog\'ia de lo general a lo espec\'ifico}: partir del n\'umero m\'aximo
+de retardos y eliminar los no significativos secuencialmente.
+Ng y Perron (2001) proponen el \textbf{Modified Akaike Information
+Criterion (MAIC)}:
+
+\begin{equation}
+  \mathrm{MAIC} = T\ln\!\bigl(\widehat{\mathrm{SSR}}\bigr)
+                  + 2n + 2\hat{\tau}(n)
+\end{equation}
+
+donde $\hat{\tau}(n)$ penaliza en funci\'on del coeficiente estimado de
+$y_{t-1}$, mitigando la tendencia al sobrerechazo cuando el proceso
+verdadero tiene t\'erminos MA negativos.
+
+Said y Dickey (1984) demuestran que un proceso ARIMA$(p,1,q)$ general
+puede aproximarse mediante un ARIMA$(n,1,0)$ con $n \leq T^{1/3}$,
+validando el uso de la prueba ADF en contextos m\'as generales.
+
+\subsection{Ra\'ices Unitarias M\'ultiples}
+
+Dickey y Pantula (1987) proponen un procedimiento secuencial para detectar
+\textbf{multiple unit roots / ra\'ices unitarias m\'ultiples}: probar
+primero la hip\'otesis con mayor n\'umero de ra\'ices y avanzar hacia
+hip\'otesis con menor n\'umero solo si se rechaza la anterior.
+
+\subsection{Ra\'ices Unitarias Estacionales}
+
+Las series estacionales pueden presentar \textbf{seasonal unit roots /
+ra\'ices unitarias estacionales} a frecuencias distintas de cero.
+Hylleberg, Engle, Granger y Yoo (HEGY, 1990) dise\~naron una prueba que
+detecta ra\'ices unitarias en tres frecuencias: no estacional
+($\gamma_1 = 0$), semestral ($\gamma_2 = 0$) y anual
+($\gamma_5 = \gamma_6 = 0$ conjuntamente).
+
+\subsection{T\'erminos MA Negativos y Sobrerechazo}
+
+Cuando el proceso verdadero contiene t\'erminos MA negativos y se aproxima
+mediante retardos AR, la prueba ADF tiende a sobrerechazar $H_0$. El
+criterio MAIC corrige este sesgo seleccionando un mayor n\'umero de
+retardos en presencia de t\'erminos MA negativos significativos.
+
+%%% =========================================================
+\section{Cambio Estructural}
+%%% =========================================================
+
+Los \textbf{structural breaks / quiebres estructurales} sesgan las pruebas
+DF hacia la no rejecci\'on de la ra\'iz unitaria: un cambio en el nivel o
+la pendiente de la tendencia produce ACF lentamente decrecientes incluso
+en series estacionarias.
+
+\textbf{Level dummy ($D_L$) / variable indicadora de nivel:} toma valor 0
+antes del quiebre y 1 despu\'es; captura un cambio permanente en el nivel
+medio de la serie.
+
+\textbf{Pulse dummy ($D_P$) / variable indicadora de pulso:} toma valor 1
+solo en el per\'iodo del quiebre y 0 en los dem\'as; captura un efecto
+transitorio.
+
+\subsection{Prueba de Perron (1989)}
+
+Perron (1989) propone una extensi\'on formal que incorpora un quiebre
+estructural \emph{conocido} en la regresi\'on auxiliar. El par\'ametro
+$\lambda = \tau/T$ denota la proporci\'on de observaciones anteriores al
+quiebre. Los valores cr\'iticos dependen de $\lambda$ y son m\'as
+negativos que los de la prueba DF est\'andar; para $\lambda = 0.5$, el
+valor cr\'itico al 5\,\% es aproximadamente $-3.76$, frente a $-3.41$
+de la prueba DF sin quiebre.
+
+Aplicando esta prueba a los datos de Nelson y Plosser, Perron concluy\'o
+que la mayor\'ia de las series macroecon\'omicas son en realidad TS con
+quiebres estructurales, revirtiendo la conclusi\'on original.
+
+%%% =========================================================
+\section{Potencia y los Regresores Determin\'isticos}
+%%% =========================================================
+
+\textbf{Power / potencia} de una prueba: probabilidad de rechazar
+correctamente la hip\'otesis nula cuando esta es falsa; igual a
+$1 - P(\text{error de tipo II})$. Las pruebas DF tienen potencia muy baja
+cuando la ra\'iz autorregresiva es pr\'oxima, pero no igual, a la unidad
+(\textbf{near unit root / ra\'iz casi unitaria}).
+
+Campbell y Perron (1991) identifican dos fuentes de p\'erdida de potencia
+vinculadas a los regresores determin\'isticos:
+
+\begin{itemize}
+  \item \textbf{Subincluci\'on:} omitir regresores determin\'isticos
+        presentes en el DGP sesga el estimador de $\gamma$ y reduce la
+        potencia.
+  \item \textbf{Sobreincluci\'on:} incluir regresores determin\'isticos
+        irrelevantes consume grados de libertad y desplaza los valores
+        cr\'iticos, reduciendo tambi\'en la potencia.
+\end{itemize}
+
+El principio operativo es: las pruebas de ra\'iz unitaria se realizan
+\emph{condicionales} a la especificaci\'on de los regresores
+determin\'isticos, y las pruebas sobre dichos regresores se realizan
+\emph{condicionales} a la presencia o ausencia de ra\'iz unitaria.
+
+%%% =========================================================
+\section{Pruebas con Mayor Potencia}
+%%% =========================================================
+
+\subsection{Prueba LM de Schmidt y Phillips (1992)}
+
+Schmidt y Phillips (1992) proponen un procedimiento en dos etapas basado
+en el principio del \textbf{Lagrange Multiplier (LM) / multiplicador de
+Lagrange}. En la primera etapa se estima la tendencia determin\'istica
+mediante la regresi\'on de $\Delta y_t$ sobre una constante, sin incluir
+$y_{t-1}$, lo que evita contaminar la estimaci\'on de la tendencia con
+el componente persistente. En la segunda etapa se realiza la prueba de
+ra\'iz unitaria sobre los datos desestacionalizados. Al separar ambas
+etapas, la prueba gana potencia respecto de la DF cl\'asica.
+
+\subsection{Prueba ERS y DF-GLS (Elliott, Rothenberg y Stock, 1996)}
+
+Elliott, Rothenberg y Stock (1996) proponen la prueba
+\textbf{DF-GLS / Dickey-Fuller con m\'inimos cuadrados generalizados},
+tambi\'en llamada prueba ERS. El procedimiento utiliza una
+\textbf{near-differencing / cuasi-diferenciaci\'on} con par\'ametro
+$\alpha$ pr\'oximo a la unidad:
+
+\begin{itemize}
+  \item Solo intercepto en el DGP: $\alpha = 1 - 7/T$.
+  \item Intercepto y tendencia en el DGP: $\alpha = 1 - 13.5/T$.
+\end{itemize}
+
+La variable cuasi-diferenciada $\tilde{y}_t = y_t - \alpha\,y_{t-1}$ y
+los regresores determin\'isticos cuasi-diferenciados se utilizan para
+estimar de forma m\'as eficiente los par\'ametros de la tendencia. La
+prueba de ra\'iz unitaria se aplica entonces a la serie desestacionalizada
+mediante las mismas regresiones DF.
+
+La prueba ERS tiene una potencia considerablemente mayor que la prueba DF
+est\'andar, especialmente cuando la ra\'iz autorregresiva es pr\'oxima
+a la unidad. Elliott (1999) propone una variante en la que la condici\'on
+inicial se extrae de su distribuci\'on incondicional, lo que modifica
+los valores cr\'iticos.
+
+%%% =========================================================
+\section{Pruebas de Ra\'iz Unitaria en Panel}
+%%% =========================================================
+
+Cuando se dispone de $n$ series similares y la potencia individual es
+baja, es posible combinar la informaci\'on mediante una
+\textbf{panel unit root test / prueba de ra\'iz unitaria en panel}.
+
+\subsection{Prueba Im-Pesaran-Shin (IPS, 2002)}
+
+Im, Pesaran y Shin (2002) proponen realizar una prueba ADF independiente
+para cada serie $i = 1,\ldots,n$:
+
+\begin{equation}
+  \Delta y_{it} = a_{i0} + \gamma_i\,y_{i,t-1} + a_{i2}\,t
+                  + \sum_{j=1}^{p_i}\beta_{ij}\,\Delta y_{it-j}
+                  + \varepsilon_{it}
+\end{equation}
+
+Se obtiene el estad\'istico $t_i$ para $H_0\colon \gamma_i = 0$ en
+cada ecuaci\'on y se forma el promedio:
+
+\begin{equation}
+  \bar{t} = \frac{1}{n}\sum_{i=1}^{n} t_i
+\end{equation}
+
+El estad\'istico estandarizado:
+
+\begin{equation}
+  Z_{\bar{t}} = \frac{\sqrt{n}\bigl[\bar{t} - E(\bar{t})\bigr]}
+                     {\sqrt{\mathrm{Var}(\bar{t})}}
+\end{equation}
+
+converge asint\'oticamente a $\mathcal{N}(0,1)$ para $n$ y $T$ grandes.
+Los valores $E(\bar{t})$ y $\mathrm{Var}(\bar{t})$ corrigen el sesgo a
+la baja del estimador MCO de $\gamma_i$ y se tabulan por simulaci\'on.
+
+La hip\'otesis nula es $\gamma_1 = \cdots = \gamma_n = 0$ (todas las series
+son no estacionarias); el rechazo implica que \emph{al menos una} serie
+es estacionaria, sin identificar cu\'ales.
+
+\subsection{Correcci\'on por Efectos Temporales Comunes}
+
+Si los residuos de las ecuaciones individuales est\'an correlacionados
+contempor\'aneamente ($E\varepsilon_{it}\varepsilon_{jt} \neq 0$), los
+valores cr\'iticos tabulados no son v\'alidos. Una soluci\'on habitual es
+restar el \textbf{common time effect / efecto temporal com\'un}:
+
+\begin{equation}
+  \bar{y}_t = \frac{1}{n}\sum_{i=1}^{n} y_{it}
+\end{equation}
+
+y estimar las regresiones usando $y_{it}^* = y_{it} - \bar{y}_t$.
+
+\subsection{Limitaciones}
+
+\begin{enumerate}
+  \item El rechazo de $H_0$ no identifica cu\'ales series son estacionarias.
+  \item Los valores cr\'iticos son sensibles a c\'omo se toma el l\'imite
+        asint\'otico ($n \to \infty$, $T \to \infty$, o ambos simult\'aneamente).
+  \item La correlaci\'on contempor\'anea de los residuos invalida los
+        valores cr\'iticos est\'andar.
+\end{enumerate}
+
+\subsection{Otras Pruebas de Panel}
+
+La prueba de \textbf{Maddala y Wu (1999)} es similar a la IPS pero requiere
+valores cr\'iticos generados por \textit{bootstrap}. La prueba de
+\textbf{Levin, Lin y Chu (2002)} impone la hip\'otesis alternativa m\'as
+restrictiva $\gamma_1 = \gamma_2 = \cdots = \gamma_n$.
+
+%%% =========================================================
+\section{Tendencias y Descomposiciones Univariadas}
+%%% =========================================================
+
+Los hallazgos de Nelson y Plosser plantean la pregunta de c\'omo descomponer
+una serie DS en sus componentes permanente (tendencia) y transitorio (ciclo).
+
+\subsection{Descomposici\'on de Beveridge-Nelson (BN, 1981)}
+
+Beveridge y Nelson (1981) demuestran que cualquier proceso ARIMA$(p,1,q)$
+puede descomponerse en la suma de un paseo aleatorio con deriva y un
+componente estacionario. La \textbf{tendencia estoc\'astica} $\mu_t$ se
+define como el valor esperado condicional del l\'imite de la funci\'on de
+pron\'ostico de largo plazo:
+
+\begin{equation}
+  \mu_t = \lim_{s\to\infty}\bigl(E_t\,y_{t+s} - a_0\,s\bigr)
+\end{equation}
+
+Para el caso ilustrativo ARIMA$(0,1,2)$, el componente estacionario
+(irregular) es:
+
+\begin{equation}
+  y_t - \mu_t = -(\beta_1+\beta_2)\,\varepsilon_t - \beta_2\,\varepsilon_{t-1}
+\end{equation}
+
+y la tendencia evoluciona como un paseo aleatorio:
+
+\begin{equation}
+  \Delta\mu_t = a_0 + (1+\beta_1+\beta_2)\,\varepsilon_t
+\end{equation}
+
+Una propiedad caracter\'istica de la descomposici\'on BN es que la
+correlaci\'on entre las innovaciones de la tendencia y del componente
+irregular es siempre igual a $-1$.
+
+El procedimiento operativo comprende tres pasos:
+\begin{enumerate}
+  \item Identificar y estimar el modelo ARMA para $\Delta y_t$
+        (metodolog\'ia Box-Jenkins).
+  \item Para cada $t$, calcular los pron\'osticos $s$-pasos adelante y
+        construir la tendencia: $\mu_t = y_t + \sum_{s=1}^{\infty}E_t\,\Delta y_{t+s}$.
+  \item El componente irregular se obtiene como $y_t - \mu_t$.
+\end{enumerate}
+
+\subsection{Descomposici\'on de Hodrick-Prescott (HP, 1997)}
+
+Hodrick y Prescott (1997) extraen la tendencia $\{\mu_t\}$ minimizando
+la suma de cuadrados ponderada:
+
+\begin{equation}
+  \frac{1}{T}\sum_{t=1}^{T}(y_t-\mu_t)^2
+  +\frac{2\lambda}{T}\sum_{t=2}^{T-1}
+   \bigl[(\mu_{t+1}-\mu_t)-(\mu_t-\mu_{t-1})\bigr]^2
+\end{equation}
+
+donde $\lambda$ es el \textbf{smoothing parameter / par\'ametro de
+suavizamiento}:
+
+\begin{itemize}
+  \item $\lambda = 0$: la tendencia coincide con la serie observada
+        ($\mu_t = y_t$).
+  \item $\lambda \to \infty$: la tendencia converge a una funci\'on lineal
+        del tiempo.
+  \item $\lambda = 1600$ es el valor convencional para datos trimestrales.
+\end{itemize}
+
+El filtro HP puede aplicarse simult\'aneamente a m\'ultiples variables,
+garantizando que todas compartan la misma forma de tendencia. Sin embargo,
+se ha demostrado que introduce fluctuaciones espurias en el componente
+c\'iclico; es m\'as apropiado cuando $\{y_t\} \sim I(2)$.
+
+%%% =========================================================
+\section{Conclusiones}
+%%% =========================================================
+
+El cap\'itulo establece la distinci\'on fundamental entre tendencias
+determin\'isticas y estoc\'asticas y sus consecuencias para el an\'alisis
+de series de tiempo:
+
+\begin{itemize}
+  \item La diferenciaci\'on elimina tendencias estoc\'asticas; la
+        desestacionalizaci\'on determin\'istica elimina tendencias
+        determin\'isticas. Aplicar el tratamiento err\'oneo genera
+        problemas adicionales.
+  \item Los estad\'isticos $t$ y $F$ convencionales son inv\'alidos para
+        contrastar ra\'ices unitarias. Las pruebas DF proveen los
+        estad\'isticos apropiados con distribuciones no est\'andar
+        obtenidas por simulaci\'on de Monte Carlo.
+  \item Las pruebas DF tienen potencia muy baja frente a alternativas con
+        ra\'ices casi unitarias. La prueba DF-GLS (ERS) mejora
+        sustancialmente la potencia al estimar la tendencia de forma
+        m\'as eficiente.
+  \item Los quiebres estructurales sesgan las pruebas DF hacia la no
+        rejecci\'on; la prueba de Perron (1989) permite incorporar un
+        quiebre conocido en el an\'alisis.
+  \item Las pruebas de ra\'iz unitaria en panel combinan informaci\'on de
+        $n$ series para aumentar la potencia, aunque el rechazo es menos
+        espec\'ifico que en el caso univariado.
+  \item La descomposici\'on BN impone una correlaci\'on de $-1$ entre
+        innovaciones de tendencia e irregular. El filtro HP produce una
+        tendencia m\'as suave pero puede introducir fluctuaciones espurias
+        en el componente c\'iclico.
+\end{itemize}
+
+\end{document}

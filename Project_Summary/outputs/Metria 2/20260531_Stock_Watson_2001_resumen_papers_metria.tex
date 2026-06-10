@@ -1,0 +1,405 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage[most]{tcolorbox}
+\newtcolorbox{intuicion}{
+  colback=blue!5!white,
+  colframe=blue!40!black,
+  fonttitle=\bfseries,
+  title=Intuici\'on,
+  boxrule=0.6pt, arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+\newtcolorbox{hallazgo}{
+  colback=orange!5!white,
+  colframe=orange!50!black,
+  fonttitle=\bfseries,
+  title=Hallazgo emp\'irico,
+  boxrule=0.6pt, arc=4pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\title{\textbf{Resumen: Vector Autoregressions}\\
+\large Evaluaci\'on de los VARs en las cuatro tareas macroecon\'omicas\\
+\normalsize James H. Stock y Mark W. Watson, \textit{Journal of Economic Perspectives}, Vol.\ 15, N.\textsuperscript{o}~4, 2001, pp.\ 101--115}
+\author{}
+\date{Mayo 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%==============================================================================
+\section{Introducci\'on: Las cuatro tareas de la macroeconometr\'ia}
+%==============================================================================
+
+\subsection{Contexto y motivaci\'on}
+
+Los macroeconom\'etras realizan cuatro tareas: \textbf{descripci\'on de datos (data description)}, \textbf{pron\'ostico (forecasting)}, \textbf{inferencia estructural (structural inference)} y \textbf{an\'alisis de pol\'itica (policy analysis)}. En los a\~nos setenta, estas tareas se ejecutaban con modelos de cientos de ecuaciones, modelos de una sola ecuaci\'on o modelos univariados; ninguno result\'o especialmente confiable tras el caos macroecon\'omico de esa d\'ecada.
+
+En 1980, Christopher Sims propuso una nueva arquitectura: la \textbf{autoregresi\'on vectorial (vector autoregression, VAR)}. Un VAR es un modelo lineal de $n$ ecuaciones y $n$ variables en el que cada variable se explica por sus propios rezagos m\'as los rezagos actuales y pasados de las $n-1$ variables restantes. El kit de herramientas estad\'isticas que vino con los VARs era f\'acil de usar e interpretar.
+
+\begin{intuicion}
+El paper eval\'ua, veinte a\~nos despu\'es, si los VARs cumplieron esa promesa. La respuesta de Stock y Watson es: \textit{depende}. Para describir datos y pronosticar, los VARs son poderosos y confiables. Para inferencia estructural y an\'alisis de pol\'itica, la tarea es m\'as dif\'icil porque requiere distinguir correlaci\'on de causalidad, y eso ning\'un m\'etodo estad\'istico puede resolverlo solo: se necesita teor\'ia econ\'omica o conocimiento institucional.
+\end{intuicion}
+
+%==============================================================================
+\section{La caja de herramientas del VAR}
+%==============================================================================
+
+\subsection{Los tres tipos de VAR}
+
+Stock y Watson presentan los VARs en tres variedades:
+
+\begin{itemize}
+  \item \textbf{VAR en forma reducida (reduced form VAR)}: cada variable se expresa como funci\'on lineal de sus propios rezagos, los rezagos de las dem\'as variables y un error no correlacionado serialmente. Se estima ecuaci\'on por ecuaci\'on con \textbf{m\'inimos cuadrados ordinarios (ordinary least squares, OLS)}. Los errores de diferentes ecuaciones pueden estar correlacionados entre s\'i.
+
+  \item \textbf{VAR recursivo (recursive VAR)}: construye los errores de cada ecuaci\'on para que sean no correlacionados con los errores de las ecuaciones anteriores. Esto se logra incluyendo valores contempor\'aneos de las variables ordenadas previamente como regresores. El orden elegido cambia las ecuaciones, coeficientes y residuos, y existen $n!$ VARs recursivos posibles. En t\'erminos algebraicos, esto equivale a calcular la \textbf{factorizaci\'on de Cholesky (Cholesky factorization)} de la matriz de covarianzas del VAR en forma reducida.
+
+  \item \textbf{VAR estructural (structural VAR)}: usa teor\'ia econ\'omica para organizar los v\'inculos contempor\'aneos entre variables. Requiere \textbf{supuestos de identificaci\'on (identifying assumptions)} que permitan interpretar las correlaciones como relaciones causales. Genera \textbf{variables instrumentales (instrumental variables)} para estimar los v\'inculos contempor\'aneos. El n\'umero de VARs estructurales posibles est\'a limitado solo por la inventiva del investigador.
+\end{itemize}
+
+\begin{intuicion}
+La diferencia clave entre recursivo y estructural es la siguiente: el VAR recursivo impone un orden mec\'anico y arbitrario para ``limpiar'' las correlaciones contempor\'aneas; el VAR estructural impone un orden basado en la teor\'ia econ\'omica. Aunque ambos pueden producir el mismo resultado num\'erico bajo ciertas condiciones, solo el estructural tiene interpretaci\'on causal clara. El paper advierte que en la pr\'actica muchos investigadores disfrazan un VAR recursivo de estructural, lo cual es problem\'atico.
+\end{intuicion}
+
+\subsection{El sistema de tres variables y la Regla de Taylor}
+
+El ejercicio emp\'irico central del paper usa datos trimestrales de EE.UU.\ de 1960:I a 2000:IV sobre tres variables:
+\begin{itemize}
+  \item $\pi_t$: tasa de inflaci\'on de precios (calculada como $\pi_t = 400\ln(P_t/P_{t-1})$, donde $P_t$ es el deflactor del PIB en cadena)
+  \item $u_t$: tasa de desempleo civil
+  \item $R_t$: tasa de inter\'es de los fondos federales (\textit{federal funds rate})
+\end{itemize}
+
+Se usan cuatro rezagos en cada ecuaci\'on. El VAR estructural incorpora como supuesto de identificaci\'on una versi\'on de la \textbf{Regla de Taylor (Taylor rule)}, en la que la Reserva Federal fija la tasa de inter\'es seg\'un:
+
+\begin{equation}
+R_t = r^* + 1.5(\bar{\pi}_t - \pi^*) - 1.25(\bar{u}_t - u^*) + \text{rezagos de } R, \pi, u + \varepsilon_t
+\end{equation}
+
+donde $r^*$ es la tasa de inter\'es real deseada, $\bar{\pi}_t$ y $\bar{u}_t$ son promedios de los \'ultimos cuatro trimestres de inflaci\'on y desempleo, $\pi^*$ y $u^*$ son los valores objetivo, y $\varepsilon_t$ es el \textbf{shock de pol\'itica monetaria (monetary policy shock)}.
+
+\begin{intuicion}
+La ecuaci\'on de la Regla de Taylor es el coraz\'on del VAR estructural: dice que la Fed sube tasas cuando la inflaci\'on supera su objetivo o cuando el desempleo cae demasiado. El t\'ermino de error $\varepsilon_t$ captura los movimientos de tasas que \textit{no} se explican por esta regla, es decir, las sorpresas de pol\'itica monetaria. Estimar estos shocks permite preguntar: ``?`qu\'e le pas\'o a la inflaci\'on y el desempleo despu\'es de que la Fed subi\'o tasas de forma inesperada?''
+\end{intuicion}
+
+Los autores consideran dos versiones de la regla: una \textbf{mirando hacia atr\'as (backward-looking)}, donde la Fed reacciona a promedios pasados de $\pi$ y $u$, y otra \textbf{mirando hacia adelante (forward-looking)}, donde reacciona a pron\'osticos de $\pi$ y $u$ cuatro trimestres en el futuro (calculados del propio VAR reducido).
+
+%==============================================================================
+\section{El VAR de tres variables en acci\'on}
+%==============================================================================
+
+\subsection{Descripci\'on de datos: Causalidad de Granger y descomposici\'on de varianza}
+
+\subsubsection{Tests de causalidad de Granger}
+
+Los \textbf{estad\'isticos de causalidad de Granger (Granger-causality statistics)} examinan si los rezagos de una variable ayudan a predecir a otra. La Tabla~1 (Panel A) reporta los $p$-valores de los tests $F$ correspondientes.
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Regresor} & \multicolumn{3}{c}{\textbf{Variable dependiente}} \\
+\cmidrule(lr){2-4}
+ & $\pi$ & $u$ & $R$ \\
+\midrule
+$\pi$ & 0.00 & 0.31 & 0.00 \\
+$u$   & 0.02 & 0.00 & 0.00 \\
+$R$   & 0.27 & 0.01 & 0.00 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4pt}
+\textit{Nota:} VAR con 4 rezagos y constante, muestra 1960:I--2000:IV. Valores son $p$-valores de tests $F$.
+
+\begin{hallazgo}
+Los resultados revelan una estructura causal asim\'etrica. El desempleo $u$ causa en el sentido de Granger a la inflaci\'on $\pi$ (p = 0.02), pero la tasa de inter\'es $R$ no lo hace (p = 0.27): esto es consistente con la curva de Phillips pero sugiere que la pol\'itica monetaria no predice inflaci\'on con estos rezagos. Por su parte, $R$ s\'i causa en Granger a $u$ (p = 0.01), lo cual es coherente con efectos reales de la pol\'itica monetaria. Ambas variables ($\pi$ y $u$) causan en Granger a $R$ (p = 0.00), lo que refleja que la Fed reacciona a la situaci\'on macroecon\'omica. La diagonal principal (p = 0.00) indica persistencia propia de cada variable.
+\end{hallazgo}
+
+\subsubsection{Descomposici\'on de varianza del VAR recursivo}
+
+La \textbf{descomposici\'on de varianza del error de pron\'ostico (forecast error variance decomposition)} mide qu\'e fracci\'on del error de pron\'ostico de cada variable se atribuye a cada tipo de shock. Se usa el VAR recursivo ordenado como $\pi, u, R$. Los resultados del Panel B de la Tabla~1 se resumen a continuaci\'on:
+
+\medskip
+\textit{Descomposici\'on de $\pi$ (inflaci\'on):}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Horizonte & Error est\'andar & \multicolumn{3}{c}{Descomposici\'on (\%)} \\
+\cmidrule(lr){3-5}
+(trimestres) & del pron\'ostico & $\pi$ & $u$ & $R$ \\
+\midrule
+1  & 0.96 & 100 & 0  & 0  \\
+4  & 1.34 & 88  & 10 & 2  \\
+8  & 1.75 & 82  & 17 & 1  \\
+12 & 1.97 & 82  & 16 & 2  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{hallazgo}
+La inflaci\'on es explicada principalmente por sus propios shocks en todos los horizontes (82--100\%). El desempleo gana importancia gradualmente (17\% a 8 trimestres), consistente con la curva de Phillips de largo plazo. Los shocks de tasa de inter\'es tienen impacto m\'inimo sobre la inflaci\'on en este VAR (m\'aximo 2\%), lo que anticipa el conocido ``\textit{price puzzle}'' discutido m\'as adelante.
+\end{hallazgo}
+
+\textit{Descomposici\'on de $u$ (desempleo):}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Horizonte & Error est\'andar & \multicolumn{3}{c}{Descomposici\'on (\%)} \\
+\cmidrule(lr){3-5}
+(trimestres) & del pron\'ostico & $\pi$ & $u$ & $R$ \\
+\midrule
+1  & 0.23 & 1  & 99 & 0  \\
+4  & 0.64 & 0  & 98 & 2  \\
+8  & 0.79 & 7  & 82 & 11 \\
+12 & 0.92 & 16 & 66 & 18 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{hallazgo}
+El desempleo es altamente aut\'onomo en el corto plazo (99\% en t+1). A horizontes m\'as largos, la tasa de inter\'es empieza a importar: a 12 trimestres explica el 18\% de la varianza del desempleo. La inflaci\'on tambi\'en gana peso (16\%), lo que sugiere retroalimentaciones macroecon\'omicas que solo emergen en horizontes de 3 a\~nos o m\'as.
+\end{hallazgo}
+
+\textit{Descomposici\'on de $R$ (tasa de inter\'es):}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Horizonte & Error est\'andar & \multicolumn{3}{c}{Descomposici\'on (\%)} \\
+\cmidrule(lr){3-5}
+(trimestres) & del pron\'ostico & $\pi$ & $u$ & $R$ \\
+\midrule
+1  & 0.85 & 2  & 19 & 79 \\
+4  & 1.84 & 9  & 50 & 41 \\
+8  & 2.44 & 12 & 60 & 28 \\
+12 & 2.63 & 16 & 59 & 25 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{hallazgo}
+A horizonte de 12 trimestres, el 75\% de la varianza del error de pron\'ostico de la tasa de inter\'es se atribuye a shocks de inflaci\'on y desempleo. Esto indica una interacci\'on significativa: la Fed no solo reacciona a sus propias decisiones pasadas, sino fuertemente a las condiciones del mercado laboral (59\%) y, en menor medida, a la inflaci\'on (16\%). A corto plazo (1 trimestre), el 79\% es explicado por sus propios shocks, lo que refleja la inercia de la pol\'itica monetaria.
+\end{hallazgo}
+
+\subsection{Descripci\'on de datos: Respuestas al impulso del VAR recursivo}
+
+\subsubsection{Figura 1: Respuestas al impulso en el VAR recursivo $(\pi, u, R)$}
+
+La Figura~1 del paper muestra una matriz $3 \times 3$ de respuestas al impulso. Las columnas representan el tipo de shock (inflaci\'on, desempleo, tasa de inter\'es), y las filas la variable que responde. Se incluyen bandas de $\pm 1$ error est\'andar (intervalo de confianza aproximado del 66\%).
+
+\textbf{Patr\'on observado:}
+\begin{itemize}
+  \item Un shock de inflaci\'on de 1 punto porcentual desaparece lentamente a lo largo de 24 trimestres (la inflaci\'on es persistente) y va acompa\~nado de un aumento persistente en desempleo y tasas de inter\'es: la Fed responde al shock subiendo tasas.
+  \item Un shock de desempleo genera una ca\'ida de la inflaci\'on (efecto curva de Phillips) y una reducci\'on de tasas por parte de la Fed.
+  \item Un shock de tasa de inter\'es produce una ca\'ida gradual de la inflaci\'on y un aumento transitorio del desempleo, aunque con lags considerables.
+\end{itemize}
+
+\begin{hallazgo}
+Las respuestas al impulso del VAR recursivo muestran din\'amicas macroecon\'omicas plausibles: persistencia de la inflaci\'on, respuesta endogena de la Fed a los ciclos econ\'omicos, y efectos reales moderados de la pol\'itica monetaria. Sin embargo, los autores advierten que estas respuestas corresponden al VAR \textit{recursivo} (identificaci\'on mec\'anica), no al estructural, por lo que su interpretaci\'on causal es limitada.
+\end{hallazgo}
+
+\subsection{Pron\'ostico: Comparaci\'on fuera de muestra}
+
+Se eval\'ua el desempe\~no de pron\'ostico fuera de muestra en el per\'iodo 1985:I--2000:IV mediante \textbf{pron\'osticos fuera de muestra simulados (pseudo out-of-sample forecasts)}: el VAR se reestima trimestre a trimestre y genera pron\'osticos $h$ pasos adelante. El criterio es la \textbf{ra\'iz del error cuadr\'atico medio (root mean squared forecast error, RMSFE)}.
+
+\begin{center}
+\begin{tabular}{lcccccccccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Inflaci\'on}} & \multicolumn{3}{c}{\textbf{Desempleo}} & \multicolumn{3}{c}{\textbf{Tasa inter\'es}} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+Horizonte & RW & AR & VAR & RW & AR & VAR & RW & AR & VAR \\
+\midrule
+2 trim. & 0.82 & 0.70 & \textbf{0.68} & 0.34 & 0.28 & 0.29 & 0.79 & 0.77 & \textbf{0.68} \\
+4 trim. & 0.73 & 0.65 & \textbf{0.63} & 0.62 & 0.52 & 0.53 & 1.36 & 1.25 & \textbf{1.07} \\
+8 trim. & 0.75 & 0.75 & 0.75 & 1.12 & 0.95 & \textbf{0.78} & 2.18 & 1.92 & \textbf{1.70} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4pt}
+\textit{Nota:} RW = caminata aleatoria; AR = autoregresi\'on univariada (4 rezagos); VAR = autoregresi\'on vectorial (4 rezagos). En negrita: mejor modelo en cada caso.
+
+\begin{hallazgo}
+El VAR iguala o supera a la autoregresi\'on univariada (AR) en practic todos los horizontes y variables. La mejora m\'as notable es para la tasa de inter\'es a 8 trimestres (1.70 vs.\ 1.92 del AR) y para el desempleo a 8 trimestres (0.78 vs.\ 0.95). Ambos modelos, VAR y AR, superan holgadamente a la caminata aleatoria. Para la inflaci\'on a largo plazo (8 trimestres), los tres modelos empatan (RMSFE = 0.75), lo que refleja que la inflaci\'on se vuelve muy dif\'icil de predecir en ese horizonte durante la era de ``Gran Moderaci\'on''.
+\end{hallazgo}
+
+\begin{intuicion}
+El mensaje clave de esta tabla es que el VAR es un buen modelo de pron\'ostico: aprovecha la informaci\'on contenida en las dem\'as variables para mejorar las predicciones. No obstante, la mejora no es dram\'atica, porque los VARs peque\~nos (3 variables) pueden ser inestables y perder precisi\'on cuando los par\'ametros cambian a lo largo del tiempo.
+\end{intuicion}
+
+\subsection{Inferencia estructural: Efectos de la pol\'itica monetaria}
+
+\subsubsection{Figura 2: Respuestas al impulso bajo distintos supuestos de la Regla de Taylor}
+
+La Figura~2 compara las respuestas al impulso de un shock de 1 punto porcentual en la tasa nominal de los fondos federales bajo dos identificaciones:
+
+\begin{itemize}
+  \item \textbf{L\'inea s\'olida}: Regla de Taylor mirando hacia atr\'as (\textit{backward-looking}).
+  \item \textbf{L\'inea punteada}: Regla de Taylor mirando hacia adelante (\textit{forward-looking}).
+\end{itemize}
+
+\textbf{Patr\'on observado bajo la regla retrospectiva:}
+\begin{itemize}
+  \item La tasa de inter\'es real sube m\'as de 50 puntos b\'asicos durante seis trimestres.
+  \item La inflaci\'on cae aproximadamente 0.3 puntos porcentuales, pero el efecto es lento: la mayor parte ocurre en el tercer a\~no.
+  \item El desempleo sube alrededor de 0.2 puntos porcentuales, con la mayor\'{i}a del efecto tambi\'en en el tercer a\~no.
+\end{itemize}
+
+\textbf{Patr\'on observado bajo la regla prospectiva:}
+\begin{itemize}
+  \item El desempleo sube 0.5 puntos porcentuales en el primer a\~no (recesi\'on r\'apida y pronunciada).
+  \item La inflaci\'on cae abruptamente al inicio, fluctu\'a y termina en una ca\'ida neta de 0.5 puntos porcentuales a los seis a\~nos.
+\end{itemize}
+
+\begin{hallazgo}
+Las respuestas al impulso son \textbf{muy sensibles} a la elecci\'on del supuesto de identificaci\'on. Con la regla retrospectiva, la misma suba de 100 puntos b\'asicos produce una desaceleraci\'on econ\'omica leve y una baja moderada de la inflaci\'on varios a\~nos despu\'es; con la regla prospectiva, produce una recesi\'on r\'apida e intensa pero una victoria mayor contra la inflaci\'on. Esto es el resultado central del paper para inferencia estructural: no existe una sola respuesta ``correcta'', sino que el resultado depende cr\'iticamente del conocimiento institucional sobre c\'omo fija tasas la Fed.
+\end{hallazgo}
+
+\subsection{An\'alisis de pol\'itica}
+
+Los VARs estructurales permiten analizar dos tipos de pol\'itica:
+
+\begin{enumerate}
+  \item \textbf{Intervenciones sorpresivas (one-off innovations)}: se mantiene la misma regla de pol\'itica pero hay un movimiento inesperado en la tasa de inter\'es. El efecto estimado se resume en las funciones de respuesta al impulso de la Figura~2.
+
+  \item \textbf{Cambios en la regla de pol\'itica (policy rule changes)}: m\'as complejo. Si las ecuaciones estructurales involucran expectativas (por ejemplo, la curva de Phillips expectacional), los coeficientes del VAR dependen de la regla vigente. Cambiar la regla altera \textit{todos} los coeficientes del VAR. Esto es una versi\'on de la \textbf{cr\'itica de Lucas (Lucas critique, 1976)}.
+\end{enumerate}
+
+\begin{intuicion}
+El an\'alisis de un cambio de regla (por ejemplo, pasar de una regla de Taylor a un r\'egimen de metas de inflaci\'on) requiere reemplazar la ecuaci\'on de pol\'itica en el VAR estructural y comparar las respuestas al impulso bajo ambas reglas. Pero esto solo funciona si el VAR est\'a bien identificado y los dem\'as coeficientes no cambian con la regla (lo cual la cr\'itica de Lucas pone en duda).
+\end{intuicion}
+
+%==============================================================================
+\section{?`Qu\'e tan bien funcionan los VARs en cada tarea?}
+%==============================================================================
+
+\subsection{Descripci\'on de datos: \'exitos y limitaciones}
+
+\textbf{\'Exitos:} Los VARs capturan co-movimientos que modelos univariados o bivariados no pueden detectar. Los estad\'isticos est\'andar (causalidad de Granger, respuestas al impulso, descomposici\'on de varianza) son m\'etodos ampliamente aceptados para describir estas din\'amicas y sirven como blancos para modelos te\'oricos. Por ejemplo, un modelo te\'orico que implique que $R$ deber\'ia causar en Granger a $\pi$ pero $u$ no, ser\'ia rechazado por la evidencia de la Tabla~1.
+
+\textbf{Limitaciones:}
+\begin{itemize}
+  \item Los m\'etodos est\'andar de inferencia (errores est\'andar de las respuestas al impulso) pueden ser enga\~nosos cuando algunas variables son altamente persistentes o cerca de tener una ra\'iz unitaria.
+  \item Los VARs est\'andar no capturan no linealidades, \textbf{heterocedasticidad condicional (conditional heteroskedasticity)} ni quiebres estructurales en los par\'ametros.
+\end{itemize}
+
+\begin{intuicion}
+Los VARs son excelentes ``c\'amaras de video'' de la macroeconom\'ia: registran fielmente lo que ocurre entre las variables. Su debilidad es que no tienen lente para distinguir qu\'e cambia en el patr\'on a lo largo del tiempo ni para capturar relaciones no lineales.
+\end{intuicion}
+
+\subsection{Pron\'ostico: \'exitos y limitaciones}
+
+\textbf{\'Exitos:} Los VARs peque\~nos se han convertido en el \textbf{modelo de referencia (benchmark)} contra el cual se eval\'uan nuevos sistemas de pron\'ostico. Los sistemas de pron\'ostico de vanguardia (m\'as de tres variables, par\'ametros variables en el tiempo como los de Sims (1993)) tienen s\'olidos registros en tiempo real.
+
+\textbf{Limitaciones:} Los VARs peque\~nos (2--3 variables) son a menudo inestables. A medida que se agregan variables, el n\'umero de par\'ametros crece con el cuadrado del n\'umero de variables: un VAR de 9 variables y 4 rezagos tiene 333 coeficientes desconocidos. Los datos macroecon\'omicos no pueden estimar todos esos coeficientes de forma confiable sin restricciones adicionales. La soluci\'on es imponer estructura com\'un a los coeficientes, por ejemplo mediante m\'etodos bayesianos (Litterman, 1986; Sims, 1993).
+
+\begin{hallazgo}
+La evidencia de la Tabla~2 confirma que el VAR domina o iguala al AR univariado en pron\'ostico fuera de muestra, y ambos dominan ampliamente a la caminata aleatoria. La ventaja del VAR es mayor en horizontes m\'as largos y para variables como la tasa de inter\'es, donde la informaci\'on de las otras variables es m\'as relevante.
+\end{hallazgo}
+
+\subsection{Inferencia estructural: Tres cr\'iticas fundamentales}
+
+Esta es el \'area de mayor debate. Stock y Watson identifican tres cr\'iticas centrales al modelado VAR estructural.
+
+\subsubsection{Primera cr\'itica: Sesgo por variables omitidas y el \textit{price puzzle}}
+
+Los shocks del VAR reflejan en gran medida factores omitidos del modelo. Si estos factores est\'an correlacionados con las variables incluidas, los estimadores del VAR contienen \textbf{sesgo por variables omitidas (omitted variable bias)}.
+
+El ejemplo concreto es el \textbf{puzzle de precios (price puzzle)}: los primeros VARs encontraban que la inflaci\'on ten\'ia a \textit{aumentar} despu\'es de un endurecimiento monetario, un resultado claramente contraintuitivo. La explicaci\'on de Sims (1992) es que la Fed miraba hacia adelante y respond\'ia a se\~nales de inflaci\'on futura no incluidas en el VAR. Estas variables omitidas quedaban dentro del error del VAR y eran err\'oneamente etiquetadas como shocks de pol\'itica monetaria. Esto llev\'o a la pr\'actica de incluir precios de materias primas en los VARs para controlar la inflaci\'on futura esperada.
+
+\begin{hallazgo}
+El precio puzzle es una advertencia metodol\'ogica de primer orden: la identificaci\'on estructural de un VAR es tan buena como el conjunto de variables incluidas. Omitir variables relevantes contamina los shocks estimados y sesga las funciones de respuesta al impulso.
+\end{hallazgo}
+
+\subsubsection{Segunda cr\'itica: Inestabilidad de par\'ametros}
+
+Las reglas de pol\'itica cambian a lo largo del tiempo. Tests estad\'isticos formales revelan \textbf{inestabilidad generalizada (widespread instability)} en VARs de baja dimensi\'on (Stock y Watson, 1996). Los VARs con par\'ametros constantes estimados sobre per\'iodos muestrales largos (como el 1960--2000 de este paper) est\'an incorrectamente identificados si la regla de pol\'itica cambi\'o en ese per\'iodo.
+
+Varios investigadores documentaron inestabilidad en las reglas de pol\'itica monetaria de EE.UU.\ (Bernanke y Blinder, 1992; Bernanke y Mihov, 1998; Clarida, Gali y Gertler, 2000), lo que sugiere errores de especificaci\'on en los VARs de par\'ametros constantes.
+
+\begin{hallazgo}
+Si la Regla de Taylor que describe el comportamiento de la Fed cambi\'o entre 1960 y 2000 (por ejemplo, la Fed fue menos agresiva contra la inflaci\'on en los 70 que en los 80 bajo Volcker), entonces un VAR de par\'ametros constantes estimado en toda la muestra mezcla dos reg\'imenes distintos y produce inferencia inv\'alida.
+\end{hallazgo}
+
+\subsubsection{Tercera cr\'itica: Convenciones de temporalidad}
+
+Las convenciones de temporalidad de los VARs no necesariamente reflejan la disponibilidad de datos en tiempo real, lo que socava el m\'etodo com\'un de identificaci\'on basado en supuestos de temporalidad. El supuesto de que variables como el producto o la inflaci\'on son ``pegajosas'' y no responden ``dentro del per\'iodo'' a los shocks de pol\'itica monetaria puede ser plausible en el transcurso de un d\'ia, pero es menos plausible en el de un mes o un trimestre.
+
+\begin{intuicion}
+En la pr\'actica, muchos VARs estructurales asumen que cierta variable no reacciona instant\'aneamente a un shock porque en la ecuaci\'on aparece rezagada. Pero si los agentes tienen informaci\'on en tiempo real y ajustan r\'apidamente, esta restricci\'on es incorrecta, y los shocks identificados no corresponden a los shocks estructurales verdaderos.
+\end{intuicion}
+
+\subsection{Enfoques constructivos para la identificaci\'on}
+
+A pesar de las cr\'iticas, Stock y Watson consideran que es posible tener supuestos de identificaci\'on creibles. Destacan tres enfoques:
+
+\begin{enumerate}
+  \item \textbf{Conocimiento institucional detallado}: Blanchard y Perotti (1999) usan las reglas del c\'odigo tributario y el gasto p\'ublico para identificar cambios ex\'ogenos en impuestos y gasto. Bernanke y Mihov (1998) usan un modelo del mercado de reservas bancarias.
+
+  \item \textbf{Restricciones de largo plazo}: King et al.\ (1991) usan la \textbf{neutralidad de largo plazo del dinero (long-run neutrality of money)} para identificar shocks monetarios. Sin embargo, los supuestos sobre el futuro infinito tienen sus propios problemas (Faust y Leeper, 1997).
+
+  \item \textbf{Restricciones de desigualdad}: Faust (1998) y Uhlig (1999) proponen m\'etodos de inferencia con restricciones de signo sobre las respuestas te\'oricas al impulso (por ejemplo: las contracciones monetarias no generan booms).
+\end{enumerate}
+
+\subsection{An\'alisis de pol\'itica: El alcance y la cr\'itica de Lucas}
+
+Para pol\'iticas de innovaciones sorpresivas (manteniendo la misma regla), los efectos estimados provienen directamente de las respuestas al impulso. Para cambios en la regla de pol\'itica, el problema es m\'as profundo: si las ecuaciones estructurales contienen expectativas (curva de Phillips expectacional), las expectativas dependen de la regla; por tanto, \textit{todos} los coeficientes del VAR cambiar\'an con la regla. Esto es la \textbf{cr\'itica de Lucas (Lucas critique, 1976)}.
+
+\begin{hallazgo}
+La cr\'itica de Lucas implica que usar un VAR estimado bajo una regla de pol\'itica para predecir qu\'e pasar\'ia bajo una regla distinta produce pron\'osticos sesgados. Su relevancia pr\'actica para el an\'alisis VAR sigue siendo debatida en la literatura.
+\end{hallazgo}
+
+%==============================================================================
+\section{Veinte a\~nos de VARs: Balance general}
+%==============================================================================
+
+\subsection{Evaluaci\'on final por tarea}
+
+\begin{intuicion}
+El balance que hacen Stock y Watson es pragm\'atico:
+\begin{itemize}
+  \item \textbf{Descripci\'on de datos}: \'exito claro. Los VARs capturan co-movimientos m\'ultiples de forma sistem\'atica y producen estad\'isticos resumidos (Granger, IRF, FEVD) ampliamente usados.
+  \item \textbf{Pron\'ostico}: \'exito claro. Los VARs son el benchmark est\'andar y superan a modelos m\'as simples, especialmente en horizontes medios.
+  \item \textbf{Inferencia estructural}: \'exito parcial y debatido. Las implicaciones estructurales son tan buenas como los supuestos de identificaci\'on. Con demasiada frecuencia, la identificaci\'on se ``ignora'' en lugar de tratarse con rigor.
+  \item \textbf{An\'alisis de pol\'itica}: \'exito limitado. La cr\'itica de Lucas socava el uso de VARs para evaluar cambios de r\'egimen; para intervenciones puntuales, el an\'alisis es posible pero sensible a la identificaci\'on.
+\end{itemize}
+\end{intuicion}
+
+%==============================================================================
+\section{Resumen y Conclusiones}
+%==============================================================================
+
+\subsection{Contribuciones del paper}
+
+Stock y Watson (2001) ofrecen una evaluaci\'on equilibrada de los \textbf{VARs (vector autoregressions)} tras dos d\'ecadas de uso en macroeconometr\'ia. Los hallazgos centrales son:
+
+\begin{enumerate}
+  \item \textbf{Los VARs son herramientas poderosas para descripci\'on de datos y pron\'ostico.} La Tabla~2 confirma que el VAR de tres variables supera o iguala a la autoregresi\'on univariada en todos los horizontes y la domina ampliamente respecto a la caminata aleatoria. Los estad\'isticos de causalidad de Granger y las descomposiciones de varianza (Tabla~1) revelan una estructura din\'amica macroecon\'omica coherente.
+
+  \item \textbf{La inferencia estructural es fundamentalmente un problema de identificaci\'on, no de estad\'istica.} La Figura~2 ilustra dramticamente c\'omo la misma subida de tasas produce efectos radicalmente distintos seg\'un se asuma una Regla de Taylor retrospectiva o prospectiva. Ning\'un algoritmo estad\'istico puede resolver esta ambig\"uedad: se requiere teor\'ia econ\'omica e informaci\'on institucional.
+
+  \item \textbf{Tres cr\'iticas fundamentales limitan los VARs estructurales:} (i) sesgo por variables omitidas (ilustrado por el \textit{price puzzle}), (ii) inestabilidad de par\'ametros a lo largo del tiempo, y (iii) convenciones de temporalidad que pueden no reflejar la disponibilidad real de informaci\'on.
+
+  \item \textbf{Los enfoques constructivos de identificaci\'on son posibles pero requieren esfuerzo.} El conocimiento institucional detallado (c\'odigo tributario, mercado de reservas), las restricciones de largo plazo (neutralidad del dinero) y las restricciones de signo son caminos viables para obtener identificaci\'on creible.
+\end{enumerate}
+
+\subsection{M\'etodo de identificaci\'on}
+
+El paper emplea \textbf{OLS} para el VAR reducido, la \textbf{factorizaci\'on de Cholesky} para el VAR recursivo y \textbf{variables instrumentales (IV)} generadas por la Regla de Taylor para el VAR estructural. La estrategia de identificaci\'on central es la restricci\'on de exclusi\'on impl\'icita en la Regla de Taylor: la Fed fija la tasa en funci\'on de $\pi$ y $u$ pasados (o futuros), pero no directamente en funci\'on de shocks contempor\'aneos de esas variables, lo que permite estimar el shock de pol\'itica $\varepsilon_t$ limpiamente.
+
+\subsection{Limitaciones se\~naladas por los autores}
+
+\begin{itemize}
+  \item La inferencia est\'andar sobre respuestas al impulso puede ser err\'onea con variables altamente persistentes.
+  \item Los VARs peque\~nos son inestables y pobres predictores fuera de muestra en ciertos per\'iodos.
+  \item La proliferaci\'on de par\'ametros al agregar variables limita la dimensionalidad pr\'actica.
+  \item La cr\'itica de Lucas limita el uso de VARs para evaluar cambios de r\'egimen de pol\'itica.
+  \item La distinci\'on entre VARs recursivos y estructurales es frecuentemente ignorada en la literatura emp\'irica, lo que lleva a interpretar como ``estructurales'' resultados que son simplemente mec\'anicos.
+\end{itemize}
+
+\end{document}

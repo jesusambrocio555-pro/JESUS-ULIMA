@@ -1,0 +1,13 @@
+[model]
+name = "claude-sonnet-4-6"
+max_tokens = 2048
+
+[paths]
+inputs = "inputs"
+outputs = "outputs"
+prompts = "prompts"
+templates = "templates"
+
+# Configuración por tipo de resumen
+[tipos.resumen_academico_latex]
+max_tokens = 8192

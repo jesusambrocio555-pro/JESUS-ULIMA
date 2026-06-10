@@ -1,0 +1,55 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(Resumen_Hendry_1980.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-03-20>
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/es\babel
+-spanish.tex)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/babel-spanish\spanish.l
+df))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty))
+ (C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+ (C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty))
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def) (Resumen_Hendry_1980.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\51950\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(Resumen_Hendry_1980.toc [1{C:/Users/51950/AppData/Local/MiKTeX/fonts/map/pdfte
+x/pdftex.map}]) [2] [3] [4] [5] [6] [7] [8] [9] (Resumen_Hendry_1980.aux) )<C:/
+Users/51950/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12
+.pfb><C:/Users/51950/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmbxti10.pfb><C:/Users/51950/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmmi12.pfb><C:/Users/51950/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/amsfonts/cm/cmmi8.pfb><C:/Users/51950/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/51950/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/51950/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/51950/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/51
+950/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on Resumen_Hendry_1980.pdf (9 pages, 137132 bytes).
+Transcript written on Resumen_Hendry_1980.log.
